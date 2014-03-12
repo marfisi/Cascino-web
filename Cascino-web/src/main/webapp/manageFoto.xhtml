@@ -1,0 +1,44 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core">
+
+<ui:composition template="template.xhtml">
+	<ui:define name="content">
+		<h:messages />
+		<h:form id="fotoForm">
+			<h:panelGrid columns="3">
+				<h:outputLabel for="fotoname">inserisci nome foto:</h:outputLabel>
+				<h:inputText id="fotoname" value="#{fotoController.fotoName}" />
+				<h:message for="fotoname" />
+				<h:outputLabel for="fotopath">inserisci directory:</h:outputLabel>
+				<h:inputText id="fotopath" value="#{fotoController.fotoPath}" />
+				<h:message for="fotopath" />
+			</h:panelGrid>
+			<h:commandButton id="addfoto" value="Aggiungi"
+				action="#{fotoController.addFoto}" />
+			<h:commandButton id="getfoto" value="Foto"
+				action="#{fotoController.getFoto}" />
+			<h:commandButton id="listfoto" value="Lista"
+				action="#{fotoController.listFoto}" />
+		</h:form>
+		<h:form id="fotoForm2">
+			<h:panelGrid columns="3">
+				<h:outputLabel for="fotoname">inserisci nome foto:</h:outputLabel>
+				<h:inputText id="fotoname" value="#{foto.originale}" />
+				<h:message for="fotoname" />
+				<h:outputLabel for="fotopath">inserisci directory:</h:outputLabel>
+				<h:inputText id="fotopath" value="#{foto.path}" />
+				<h:message for="fotopath" />
+			</h:panelGrid>
+			<h:commandButton id="addfoto" value="Aggiungi"
+				action="#{fotoController.addFoto}" />
+		</h:form>
+		<h:outputText value="#{fotoController.esito}"
+			rendered="#{not empty fotoController.esito}" />
+		<br />
+		<!--  h:link outcome="/create.xhtml" value="Add a new user" /-->
+	</ui:define>
+</ui:composition>
+</html>
