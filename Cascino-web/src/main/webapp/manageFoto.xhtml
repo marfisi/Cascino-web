@@ -18,8 +18,10 @@
 			</h:panelGrid>
 			<h:commandButton id="addfoto" value="Aggiungi"
 				action="#{fotoController.addFoto}" />
-			<h:commandButton id="getfoto" value="Foto"
-				action="#{fotoController.getFoto}" />
+			<h:commandButton id="getfotoName" value="Foto"
+				action="#{fotoController.getFotoForName}" />
+			<h:commandButton id="getfotoId" value="Foto x ID"
+				action="#{fotoController.getFotoForId}" />
 			<h:commandButton id="listfoto" value="Lista"
 				action="#{fotoController.listFoto}" />
 		</h:form>

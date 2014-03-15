@@ -12,7 +12,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 @Named
-// @RequestScoped
+@RequestScoped
 public class FotoController{
 	
 	@Inject
@@ -31,8 +31,19 @@ public class FotoController{
    // @RequestScoped
     private Foto foto = new Foto();
 	
-	public void getFoto(){
+	public void getFotoForName(){
 		Foto foto = fotoDao.getForName(fotoName);
+		if(foto != null){
+			esito = "Reperita foto: " + foto.getPath() + foto.getOriginale();
+		}else{
+			esito = "non ho trovato la foto!";
+		}
+		String message = esito + " >" + fotoName + "<";
+		facesContext.addMessage(null, new FacesMessage(message));
+	}
+	
+	public void getFotoForId(){
+		Foto foto = fotoDao.getForId(Integer.parseInt(fotoName));
 		if(foto != null){
 			esito = "Reperita foto: " + foto.getPath() + foto.getOriginale();
 		}else{
