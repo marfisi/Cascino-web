@@ -5,6 +5,7 @@ import java.util.List;
 import it.cascino.dao.FotoDao;
 import it.cascino.h8.entity.Foto;
 import javax.enterprise.context.RequestScoped;
+import javax.enterprise.context.SessionScoped;
 import javax.enterprise.inject.Produces;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
@@ -13,6 +14,7 @@ import javax.inject.Named;
 
 @Named
 @RequestScoped
+//@SessionScoped
 public class FotoController{
 	
 	@Inject
@@ -43,6 +45,9 @@ public class FotoController{
 	}
 	
 	public void getFotoForId(){
+		if((fotoName == null)||(fotoName.isEmpty())){
+			fotoName = "0";
+		}
 		Foto foto = fotoDao.getForId(Integer.parseInt(fotoName));
 		if(foto != null){
 			esito = "Reperita foto: " + foto.getPath() + foto.getOriginale();

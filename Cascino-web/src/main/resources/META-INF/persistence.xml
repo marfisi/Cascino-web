@@ -33,10 +33,10 @@
 		<property name="cache.provider_class" value="org.hibernate.cache.internal.NoCacheProvider" />
 
 		<!-- Enable Hibernate's automatic session context management -->
-		<property name="current_session_context_class" value="thread" />
+<!-- 		<property name="current_session_context_class" value="jta"/> -->
 
 		<!-- Echo all executed SQL to stdout -->
-		<property name="show_sql" value="true" />
+<!-- 		<property name="show_sql" value="true" /> -->
 	</properties>
    </persistence-unit>
 </persistence>
