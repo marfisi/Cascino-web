@@ -1,0 +1,185 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core" xmlns:p="http://primefaces.org/ui"
+	xmlns:pc="http://java.sun.com/jsp/jstl/core" xmlns:fn="http://java.sun.com/jsp/jstl/functions">
+<h:head></h:head>
+<h:body>
+	<ui:composition template="template.xhtml">
+		<ui:define name="content">
+			<h:form id="growlForm">
+				<p:growl id="growl" showDetail="true" life="4000" />
+			</h:form>
+
+			<h:form id="tblForm">
+				<p:dataTable id="tbl" var="tipo" value="#{tipiBean.tipiLs}" selection="#{tipiBean.tipoSel}" selectionMode="single" rowKey="#{tipo.id}" update=":updForm:updDisplay"
+					oncomplete="PF('updDialog').show()" paginator="true" rows="7">
+
+					<p:column>
+						<f:facet name="header">
+							<h:outputText value="Nome" />
+						</f:facet>
+						<h:outputText value="#{tipo.nome}" />
+					</p:column>
+					<p:column>
+						<f:facet name="header">
+							<h:outputText value="Descrizione" />
+						</f:facet>
+						<h:outputText value="#{tipo.descrizione}" />
+					</p:column>
+					<p:column>
+						<f:facet name="header">
+							<h:outputText value="ID" />
+						</f:facet>
+						<h:outputText value="#{tipo.id}" />
+					</p:column>
+					<p:column>
+						<f:facet name="header">
+							<h:outputText value="Classe" />
+						</f:facet>
+						<!-- <h:outputText value="#{tipo.tipoPadre.nome} (id: #{tipo.tipoPadre.id})" /> -->
+						<h:outputText value="#{tipo.tipoPadre}" />
+					</p:column>
+					<f:facet name="footer">
+						<h:panelGrid>
+							<h:panelGrid id="buttons" columns="5">
+								<p:commandButton id="viewButton" value="View" update=":viewForm:display" oncomplete="PF('viewDialog').show()" icon="ui-icon-search" />
+								<p:commandButton id="modifButton" value="Modifica" update=":updForm:updDisplay" oncomplete="PF('updDialog').show()" icon="ui-icon-pencil" />
+								<p:commandButton id="newButton" value="Aggiungi" oncomplete="PF('newDialog').show()" icon="ui-icon-circle-plus" />
+							</h:panelGrid>
+
+							<h:outputText value="Qty: ${fn:length(tipiBean.tipiLs)}" />
+
+							<h:panelGrid id="expAll" columns="5" width="200" style="border:none">
+								<h:outputLabel>Esporta tutto:</h:outputLabel>
+								<h:commandLink>
+									<p:graphicImage value="./resources/gfx/varie/excel.png" style="border:none" />
+									<p:dataExporter type="xls" target="tbl" fileName="export" />
+								</h:commandLink>
+								<h:commandLink>
+									<p:graphicImage value="./resources/gfx/varie/pdf.png" style="border:none" />
+									<p:dataExporter type="pdf" target="tbl" fileName="export" />
+								</h:commandLink>
+								<h:commandLink>
+									<p:graphicImage value="./resources/gfx/varie/csv.png" style="border:none" />
+									<p:dataExporter type="csv" target="tbl" fileName="export" />
+								</h:commandLink>
+								<h:commandLink>
+									<p:graphicImage value="./resources/gfx/varie/xml.png" style="border:none" />
+									<p:dataExporter type="xml" target="tbl" fileName="export" />
+								</h:commandLink>
+							</h:panelGrid>
+							<h:panelGrid id="expPage" columns="5" width="200" style="border:none">
+								<h:outputLabel>Esporta pagina:</h:outputLabel>
+								<h:commandLink>
+									<p:graphicImage value="./resources/gfx/varie/excel.png" style="border:none" />
+									<p:dataExporter type="xls" target="tbl" fileName="export" pageOnly="true" />
+								</h:commandLink>
+								<h:commandLink>
+									<p:graphicImage value="./resources/gfx/varie/pdf.png" style="border:none" />
+									<p:dataExporter type="pdf" target="tbl" fileName="export" pageOnly="true" />
+								</h:commandLink>
+								<h:commandLink>
+									<p:graphicImage value="./resources/gfx/varie/csv.png" style="border:none" />
+									<p:dataExporter type="csv" target="tbl" fileName="export" pageOnly="true" />
+								</h:commandLink>
+								<h:commandLink>
+									<p:graphicImage value="./resources/gfx/varie/xml.png" style="border:none" />
+									<p:dataExporter type="xml" target="tbl" fileName="export" pageOnly="true" />
+								</h:commandLink>
+							</h:panelGrid>
+						</h:panelGrid>
+					</f:facet>
+				</p:dataTable>
+			</h:form>
+
+			<h:form id="viewForm">
+				<p:dialog id="dialog" header="Dettagli" widgetVar="viewDialog" resizable="false" showEffect="clip" hideEffect="fold">
+					<h:panelGrid id="display" columns="3" cellpadding="4">
+						<f:facet name="header">
+							<p:graphicImage value="./resources/gfx/tipi/#{tipiBean.tipoSel.id}.jpg" />
+						</f:facet>
+						<h:outputLabel for="id">ID:</h:outputLabel>
+						<h:outputText id="id" value="#{tipiBean.tipoSel.id}" />
+						<h:message for="id" />
+
+						<h:outputLabel for="nome">Nome:</h:outputLabel>
+						<h:outputText id="nome" value="#{tipiBean.tipoSel.nome}" />
+						<h:message for="nome" />
+
+						<h:outputLabel for="descrizione">Descrizione:</h:outputLabel>
+						<h:outputText id="descrizione" value="#{tipiBean.tipoSel.descrizione}" />
+						<h:message for="descrizione" />
+
+						<h:panelGrid id="displayDettPadre" columns="3" cellpadding="4">
+							<h:outputText value="Classe:" />
+<!-- 							<h:outputText id="padreDesc" value="#{tipiBean.tipoSel.tipoPadre.descrizione}" />
+							<h:outputText id="padreId" value="#{tipiBean.tipoSel.tipoPadre.id}" />
+							<p:graphicImage value="./resources/gfx/tipi/#{tipiBean.tipoSel.tipoPadre.id}.jpg" /> -->
+							<h:outputText id="padreDesc" value="#{tipiBean.tipoSel.tipoPadre}" />
+							<h:outputText id="padreId" value="#{tipiBean.tipoSel.tipoPadre}" />
+							<p:graphicImage value="./resources/gfx/tipi/#{tipiBean.tipoSel.tipoPadre}.jpg" />
+						</h:panelGrid>
+					</h:panelGrid>
+				</p:dialog>
+			</h:form>
+
+			<h:form id="newForm">
+				<p:dialog widgetVar="newDialog" header="Inserisci" width="430" height="220" modal="true">
+					<p:outputPanel id="newDisplay">
+						<h:panelGrid columns="2">
+							<h:outputText value="Nome" />
+							<p:inputText value="#{tipiBean.tipoSel.nome}"></p:inputText>
+							<h:outputText value="Descrizione" />
+							<p:inputTextarea value="#{tipiBean.tipoSel.descrizione}" rows="5" cols="23" counter="counter" maxlength="70" counterTemplate="{0} caratteri" autoResize="false" />
+							<h:outputText id="null" />
+							<h:outputText id="counter" />
+							<h:outputText value="Classe" />
+							<!-- <p:inputText value="#{tipiBean.tipoSel.tipoPadre.id}"></p:inputText> -->
+ 							<p:selectOneMenu value="#{tipiBean.tipoSel.tipoPadre}">
+								<f:selectItem itemLabel="Seleziona Classe Padre" itemValue="" />
+								<f:converter converterId="tipiConv" />
+								<f:selectItems value="#{tipiBean.tipiLs}" />
+<!-- 								<f:selectItem value="#{tipiBean.tipoSel}" /> -->
+							</p:selectOneMenu>
+
+							<!-- <h:outputText value="#{tipiBean.tipoSel}" converter="tipiConv" /> -->
+
+						</h:panelGrid>
+						<p:commandButton value="Salva" actionListener="#{tipiBean.salva}" update=":tblForm:tbl,:growlForm:growl" onclick="newDialog.close()" icon="ui-icon-disk" />
+					</p:outputPanel>
+				</p:dialog>
+			</h:form>
+
+			<h:form id="updForm">
+				<h:panelGrid columns="2">
+					<p:commandButton id="viewButton" value="View" update=":viewForm:display" oncomplete="PF('carDialog').show()" icon="ui-icon-search" />
+					<p:commandButton oncomplete="PF('newDialog').show()" value="Nuovo" />
+					<!-- update="newDisplay" -->
+					<p:commandButton value="Aggiorna" update=":updForm:updDisplay" oncomplete="PF('updDialog').show()" icon="ui-icon-refresh" />
+					<p:commandButton value="Aggiorna" actionListener="#{contactsBean.aggiorna}" update=":tblForm:tbl,growl" onclick="updDialog.close()" icon="ui-icon-refresh" />
+				</h:panelGrid>
+				<p:dialog widgetVar="updDialog" header="Contatto" width="430" height="220" modal="true">
+					<p:outputPanel id="updDisplay">
+						<h:inputHidden value="#{contactsBean.contact.id}" />
+						<h:panelGrid columns="2">
+							<h:outputText value="#{contactsBean.contact.id}" />
+							<h:outputLabel value="Nome" />
+							<p:inputText value="#{contactsBean.contact.nome}"></p:inputText>
+							<h:outputLabel value="Cognome" />
+							<p:inputText value="#{contactsBean.contact.cognome}"></p:inputText>
+							<h:outputLabel value="Telefono" />
+							<p:inputText value="#{contactsBean.contact.telefono}"></p:inputText>
+							<h:outputLabel value="Professione" />
+							<p:inputText value="#{contactsBean.contact.professione}"></p:inputText>
+						</h:panelGrid>
+						<p:commandButton value="Aggiorna" actionListener="#{tipiBean.aggiorna}" update=":tblForm:tbl,growl" onclick="updDialog.close()">
+							<!-- update="contact,growl"  -->
+						</p:commandButton>
+						<p:commandButton value="Elimina" actionListener="#{tipiBean.elimina}" update=":tblForm:tbl,growl" onclick="updDialog.close()" icon="ui-icon-trash" />
+						<p:growl id="growl" showDetail="true" />
+					</p:outputPanel>
+				</p:dialog>
+			</h:form>
+		</ui:define>
+	</ui:composition>
+</h:body>
+</html>
