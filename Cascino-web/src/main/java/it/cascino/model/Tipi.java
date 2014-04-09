@@ -1,4 +1,4 @@
-package it.cascino.h8.entity;
+package it.cascino.model;
 
 import java.io.Serializable;
 import javax.persistence.*;
@@ -19,7 +19,7 @@ public class Tipi implements Serializable{
 	 * Logger
 	 */
 	private static Logger log = Logger.getLogger(Tipi.class.getName());
-
+	
 	private Integer id;
 	private String nome;
 	private String descrizione;
@@ -65,9 +65,10 @@ public class Tipi implements Serializable{
 		this.nome = nome;
 	}
 	
-//	 @Column(name = "padre")
+	// @Column(name = "padre")
 	// uni-directional one-to-one association to Tipi
-	@OneToOne(cascade = {CascadeType.MERGE})//.PERSIST})
+	@OneToOne(cascade = {CascadeType.MERGE})
+	// .PERSIST})
 	@JoinColumn(name = "padre")
 	public Tipi getTipoPadre(){
 		return this.tipoPadre;
@@ -88,7 +89,7 @@ public class Tipi implements Serializable{
 	}
 	
 	public String toString(){
-//		log.info("toString: " + id);
+		// log.info("toString: " + id);
 		if(id == null){
 			log.warn("toString: " + "id==null");
 			return "1";
@@ -98,7 +99,7 @@ public class Tipi implements Serializable{
 	
 	@Override
 	public boolean equals(Object obj){
-//		log.info("equals: " + obj);
+		// log.info("equals: " + obj);
 		if(obj instanceof Tipi){
 			if(this.id == ((Tipi)obj).id){
 				return true;
@@ -112,5 +113,15 @@ public class Tipi implements Serializable{
 	public int hashCode(){
 		log.info("hashCode: ");
 		return id != null ? this.getClass().hashCode() + id.hashCode() : super.hashCode();
+	}
+	
+	public int compareTo(Tipi t){
+		log.info("compareTo: " + this.id + "-" + t.id);
+		if(this.id < t.id){
+			return -1;
+		}else if(this.id > t.id){
+			return 1;
+		}
+		return 0;
 	}
 }

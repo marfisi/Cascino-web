@@ -1,13 +1,13 @@
 package it.cascino.converter;
 
-import it.cascino.h8.entity.Tipi;
+import it.cascino.model.Tipi;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
 import org.jboss.logging.Logger;
 
-@FacesConverter(forClass = it.cascino.h8.entity.Tipi.class, value = "tipiConv")
+@FacesConverter(forClass = it.cascino.model.Tipi.class, value = "tipiConv")
 public class TipiConverter implements Converter{
 	/**
 	 * Logger

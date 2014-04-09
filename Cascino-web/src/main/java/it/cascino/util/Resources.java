@@ -16,7 +16,8 @@
  */
 package it.cascino.util;
 
-import java.util.logging.Logger;
+//import java.util.logging.Logger;
+import org.jboss.logging.Logger;
 
 import javax.enterprise.context.RequestScoped;
 import javax.enterprise.inject.Produces;
