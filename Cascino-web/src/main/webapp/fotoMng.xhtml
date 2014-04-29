@@ -1,0 +1,250 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core" xmlns:p="http://primefaces.org/ui"
+	xmlns:pc="http://java.sun.com/jsp/jstl/core" xmlns:fn="http://java.sun.com/jsp/jstl/functions">
+<h:head></h:head>
+<h:body>
+	<ui:composition template="template.xhtml">
+		<ui:define name="content">
+			<h:form id="growlForm">
+				<p:growl id="growl" showDetail="true" life="4000" />
+			</h:form>
+
+			<h:form id="tblForm">
+				<p:toolbar id="tb">
+					<p:toolbarGroup align="left">
+						<p:commandButton id="viewButton" value="View" update=":viewForm:contentGalleria" oncomplete="PF('viewDialog').show()" icon="ui-icon-search" />
+						<p:commandButton id="modifButton" value="Modifica" update=":updForm:updDisplay" oncomplete="PF('updDialog').show()" icon="ui-icon-pencil" />
+						<p:separator />
+						<p:commandButton id="newButton" value="Aggiungi" oncomplete="PF('newDialog').show()" icon="ui-icon-circle-plus" />
+					</p:toolbarGroup>
+				</p:toolbar>
+				<p:sticky target="tb" />
+<p:imageCompare leftImage="./resources/gfx/foto/cascino_hd.jpg" rightImage="./resources/gfx/foto/cascino_ld_wm.jpg" width="551" height="312"/>
+							
+				<p:dataTable id="tbl" var="foto" value="#{fotoController.fotoLs}" selection="#{fotoController.fotoSel}" selectionMode="single" rowKey="#{foto.id}" update=":updForm:updDisplay"
+					oncomplete="PF('updDialog').show()" paginator="true" rows="15" dynamic="true" sortBy="id" emptyMessage="Nessun entry per il criterio definito" widgetVar="fotoTable"
+					filteredValue="#{fotoController.filteredFotoLs}">
+
+					<p:ajax event="rowDblselect" update=":viewForm:contentGalleria" oncomplete="PF('viewDialog').show()" />
+
+					<f:facet name="header">
+						<p:outputPanel>
+							<h:outputText value="Ricerca in tutti i campi: " />
+							<p:inputText id="globalFilter" onkeyup="fotoTable.filter()" style="width:150px" />
+						</p:outputPanel>
+					</f:facet>
+					<p:column sortBy="originale" sortFunction="#{fotoController.sortByStr}" filterBy="#{foto.originale}" filterMatchMode="contains">
+						<f:facet name="header">
+							<h:outputText value="Originale" />
+						</f:facet>
+						<h:panelGrid columns="1" cellpadding="4">
+							<p:graphicImage value="#{fotoController.resolvePath(foto)}#{fotoController.getFotoname(foto, 1)}" height="60" />
+							<h:outputText value="#{fotoController.getFotoname(foto, 1)}" />
+							<h:outputText value="#{fotoController.size(foto, 1)} - #{fotoController.resolution(foto, 1)}" />
+						</h:panelGrid>
+					</p:column>
+					<p:column filterBy="#{foto.grande}" filterMatchMode="contains">
+						<f:facet name="header">
+							<h:outputText value="HD" />
+						</f:facet>
+						<h:panelGrid columns="1" cellpadding="4">
+							<p:graphicImage value="#{fotoController.resolvePath(foto)}#{fotoController.getFotoname(foto, 2)}" height="60" />
+							<h:outputText value="#{fotoController.getFotoname(foto, 2)}" />
+							<h:outputText value="#{fotoController.size(foto, 2)} - #{fotoController.resolution(foto, 2)}" />
+						</h:panelGrid>
+					</p:column>
+					<p:column filterBy="#{foto.grandeWatermark}" filterMatchMode="contains">
+						<f:facet name="header">
+							<h:outputText value="HD wm" />
+						</f:facet>
+						<h:panelGrid columns="1" cellpadding="4">
+							<p:graphicImage value="#{fotoController.resolvePath(foto)}#{fotoController.getFotoname(foto, 3)}" height="60" />
+							<h:outputText value="#{fotoController.getFotoname(foto, 3)}" />
+							<h:outputText value="#{fotoController.size(foto, 3)} - #{fotoController.resolution(foto, 3)}" />
+						</h:panelGrid>
+					</p:column>
+					<p:column filterBy="#{foto.thumbnail}" filterMatchMode="contains">
+						<f:facet name="header">
+							<h:outputText value="LD" />
+						</f:facet>
+						<h:panelGrid columns="1" cellpadding="4">
+							<p:graphicImage value="#{fotoController.resolvePath(foto)}#{fotoController.getFotoname(foto, 4)}" height="60" />
+							<h:outputText value="#{fotoController.getFotoname(foto, 4)}" />
+							<h:outputText value="#{fotoController.size(foto, 4)} - #{fotoController.resolution(foto, 4)}" />
+						</h:panelGrid>
+					</p:column>
+					<p:column filterBy="#{foto.thumbnailWatermark}" filterMatchMode="contains">
+						<f:facet name="header">
+							<h:outputText value="LD wm" />
+						</f:facet>
+						<h:panelGrid columns="1" cellpadding="4">
+							<p:graphicImage value="#{fotoController.resolvePath(foto)}#{fotoController.getFotoname(foto, 5)}" height="60" />
+							<h:outputText value="#{fotoController.getFotoname(foto, 5)}" />
+							<h:outputText value="#{fotoController.size(foto, 5)} - #{fotoController.resolution(foto, 5)}" />
+						</h:panelGrid>
+					</p:column>
+					<p:column sortBy="path" sortFunction="#{fotoController.sortByStrIC}" filterBy="#{foto.path}" filterMatchMode="contains">
+						<f:facet name="header">
+							<h:outputText value="Path" />
+						</f:facet>
+						<h:outputText value="#{foto.path}" />
+					</p:column>
+					<p:column sortBy="id" sortFunction="#{fotoController.sortByNum}" filterBy="#{foto.id}" filterMatchMode="contains">
+						<f:facet name="header">
+							<h:outputText value="ID" />
+						</f:facet>
+						<h:outputText value="#{foto.id}" />
+					</p:column>
+					<f:facet name="footer">
+						<h:panelGrid>
+							<h:outputText value="Qty: ${fn:length(fotoController.fotoLs)}" />
+
+							<h:panelGrid id="expAll" columns="5" width="200" style="border:none">
+								<h:outputText value="Esporta tutto:" />
+								<h:commandLink>
+									<p:graphicImage value="./resources/gfx/varie/excel.png" style="border:none" />
+									<p:dataExporter type="xls" target="tbl" fileName="export" />
+								</h:commandLink>
+								<h:commandLink>
+									<p:graphicImage value="./resources/gfx/varie/pdf.png" style="border:none" />
+									<p:dataExporter type="pdf" target="tbl" fileName="export" />
+								</h:commandLink>
+								<h:commandLink>
+									<p:graphicImage value="./resources/gfx/varie/csv.png" style="border:none" />
+									<p:dataExporter type="csv" target="tbl" fileName="export" />
+								</h:commandLink>
+								<h:commandLink>
+									<p:graphicImage value="./resources/gfx/varie/xml.png" style="border:none" />
+									<p:dataExporter type="xml" target="tbl" fileName="export" />
+								</h:commandLink>
+							</h:panelGrid>
+							<h:panelGrid id="expPage" columns="5" width="200" style="border:none">
+								<h:outputText value="Esporta pagina:" />
+								<h:commandLink>
+									<p:graphicImage value="./resources/gfx/varie/excel.png" style="border:none" />
+									<p:dataExporter type="xls" target="tbl" fileName="export" pageOnly="true" />
+								</h:commandLink>
+								<h:commandLink>
+									<p:graphicImage value="./resources/gfx/varie/pdf.png" style="border:none" />
+									<p:dataExporter type="pdf" target="tbl" fileName="export" pageOnly="true" />
+								</h:commandLink>
+								<h:commandLink>
+									<p:graphicImage value="./resources/gfx/varie/csv.png" style="border:none" />
+									<p:dataExporter type="csv" target="tbl" fileName="export" pageOnly="true" />
+								</h:commandLink>
+								<h:commandLink>
+									<p:graphicImage value="./resources/gfx/varie/xml.png" style="border:none" />
+									<p:dataExporter type="xml" target="tbl" fileName="export" pageOnly="true" />
+								</h:commandLink>
+							</h:panelGrid>
+						</h:panelGrid>
+					</f:facet>
+				</p:dataTable>
+			</h:form>
+
+			<h:form id="viewForm">
+				<p:dialog id="dialog" header="Dettagli" widgetVar="viewDialog" resizable="false" showEffect="clip" hideEffect="fold">
+
+					<p:galleria id="contentGalleria" var="foto" value="#{fotoController.fotoPerSelLs}" panelWidth="650" panelHeight="450" frameWidth="50" frameHeight="50" effect="clip">
+						<p:graphicImage id="fotoImage" value="./resources/gfx/foto/#{foto.originale}" alt="#{foto.originale}" title="#{foto.originale}" />
+						<f:facet name="content">
+							<h:panelGrid columns="1" cellpadding="5">
+								<f:facet name="header">
+									<p:graphicImage value="./resources/gfx/foto/#{foto.originale}" />
+								</f:facet>
+
+								<h:outputText id="name" value="#{foto.originale}" />
+								<h:outputText id="size" value="#{foto.grande}" />
+								<h:outputText id="resolution" value="#{foto.thumbnail}" />
+
+							</h:panelGrid>
+						</f:facet>
+					</p:galleria>
+				</p:dialog>
+			</h:form>
+
+			<h:form id="newForm" enctype="multipart/form-data">
+				<p:dialog widgetVar="newDialog" header="Inserisci" modal="true" closable="false">
+					<p:outputPanel id="newDisplay">
+						<h:panelGrid columns="2">
+							<h:outputText value="Originale (obbligatoria)" />
+							<p:fileUpload fileUploadListener="#{fotoController.fileUploadOrig}" mode="advanced" dragDropSupport="true" update=":growlForm:growl" required="true" label="Seleziona" uploadLabel="Carica"
+								cancelLabel="Annulla" invalidSizeMessage="File troppo grosso (limite 1 MB)" invalidFileMessage="Tipo file non consentito (solo: gif, jpeg, png)"
+								fileLimitMessage="Puoi caricare un file alla volta" fileLimit="1" sizeLimit="1048576" allowTypes="/(\.|\/)(gif|jpe?g|png)$/" />
+							<h:outputText value="HD" />
+							<p:fileUpload fileUploadListener="#{fotoController.fileUploadHD}" mode="advanced" dragDropSupport="true" update=":growlForm:growl" required="false" label="Seleziona" uploadLabel="Carica"
+								cancelLabel="Annulla" invalidSizeMessage="File troppo grosso (limite 1 MB)" invalidFileMessage="Tipo file non consentito (solo: gif, jpeg, png)"
+								fileLimitMessage="Puoi caricare un file alla volta" fileLimit="1" sizeLimit="1048576" allowTypes="/(\.|\/)(gif|jpe?g|png)$/" />
+							<h:outputText value="HD WM" />
+							<p:fileUpload fileUploadListener="#{fotoController.fileUploadHDWM}" mode="advanced" dragDropSupport="true" update=":growlForm:growl" required="false" label="Seleziona" uploadLabel="Carica"
+								cancelLabel="Annulla" invalidSizeMessage="File troppo grosso (limite 1 MB)" invalidFileMessage="Tipo file non consentito (solo: gif, jpeg, png)"
+								fileLimitMessage="Puoi caricare un file alla volta" fileLimit="1" sizeLimit="1048576" allowTypes="/(\.|\/)(gif|jpe?g|png)$/" />
+							<h:outputText value="LD" />
+							<p:fileUpload fileUploadListener="#{fotoController.fileUploadLD}" mode="advanced" dragDropSupport="true" update=":growlForm:growl" required="false" label="Seleziona" uploadLabel="Carica"
+								cancelLabel="Annulla" invalidSizeMessage="File troppo grosso (limite 1 MB)" invalidFileMessage="Tipo file non consentito (solo: gif, jpeg, png)"
+								fileLimitMessage="Puoi caricare un file alla volta" fileLimit="1" sizeLimit="1048576" allowTypes="/(\.|\/)(gif|jpe?g|png)$/" />
+							<h:outputText value="LD WM" />
+							<p:fileUpload fileUploadListener="#{fotoController.fileUploadLDWM}" mode="advanced" dragDropSupport="true" update=":growlForm:growl" required="false" label="Seleziona" uploadLabel="Carica"
+								cancelLabel="Annulla" invalidSizeMessage="File troppo grosso (limite 1 MB)" invalidFileMessage="Tipo file non consentito (solo: gif, jpeg, png)"
+								fileLimitMessage="Puoi caricare un file alla volta" fileLimit="1" sizeLimit="1048576" allowTypes="/(\.|\/)(gif|jpe?g|png)$/" />
+						</h:panelGrid>
+						<p:commandButton value="Salva" action="#{fotoController.salva}" update=":tblForm:tbl,:growlForm:growl" onclick="newDialog.close()" icon="ui-icon-disk" />
+						<p:commandButton value="Annulla" action="#{fotoController.annullaUpload}" update=":tblForm:tbl,:growlForm:growl" onclick="newDialog.close()" icon="ui-icon-cancel" />
+					</p:outputPanel>
+				</p:dialog>
+			</h:form>
+			
+			<h:form id="updForm">
+				<p:dialog widgetVar="updDialog" header="Modifica">
+					<p:outputPanel id="updDisplay">
+						<h:panelGrid columns="2">
+							<h:outputText value="ID:" />
+							<h:outputText value="#{fotoController.fotoSel.id}" />
+							<h:inputHidden id="id" value="#{fotoController.fotoSel.id}" />
+							<h:outputText id="blank2" />
+							<h:outputText value="Nome" />
+							<p:inputText value="#{fotoController.fotoSel.originale}"></p:inputText>
+							<h:outputText value="Originale LD wm" />
+							<h:panelGrid columns="2">
+								<h:outputText value="Prima" />
+								<h:outputText value="Dopo" />
+								<p:imageCompare leftImage="./resources/gfx/foto/cascino_hd.jpg" rightImage="./resources/gfx/foto/cascino_ld_wm.jpg" width="250" height="250"/>
+								<h:outputText id="blank3" />
+								<h:panelGrid columns="2" cellpadding="4">
+									<p:graphicImage value="#{fotoController.resolvePath(fotoSel)}#{fotoController.getFotoname(fotoSel, 1)}" height="60" />
+									<p:graphicImage value="#{fotoController.resolvePath(fotoSel)}#{fotoController.getFotoname(fotoSel, 1)}" height="60" />
+									<h:outputText value="#{fotoController.getFotoname(fotoSel, 1)}" />
+									<h:outputText value="#{fotoController.getFotoname(fotoSel, 1)}" />
+									<h:outputText value="#{fotoController.size(fotoSel, 1)} - #{fotoController.resolution(fotoSel, 1)}" />
+									<h:outputText value="#{fotoController.size(fotoSel, 1)} - #{fotoController.resolution(fotoSel, 1)}" />
+								</h:panelGrid>
+								<h:panelGrid columns="1">
+									<p:commandButton value="Aggiorna" action="#{fotoController.aggiorna}" update=":tblForm:tbl,:growlForm:growl" onclick="updDialog.close()" icon="ui-icon-refresh" />
+									<p:commandButton value="Elimina" action="#{fotoController.elimina}" update=":tblForm:tbl,:growlForm:growl" onclick="updDialog.close()" icon="ui-icon-trash" />
+								</h:panelGrid>	
+							</h:panelGrid>
+							<h:outputText value="Descrizione" />
+							<p:inputTextarea value="#{fotoController.fotoSel.originale}" rows="5" cols="23" counter="counter" maxlength="70" counterTemplate="{0} caratteri" autoResize="false" />
+							<h:outputText id="blank" />
+							<h:outputText id="counter" />
+							<h:outputText value="Classe" />
+							<p:selectOneMenu value="#{fotoController.fotoSel}" converter="fotoConv" var="p">
+								<f:selectItem itemLabel="Seleziona Classe Padre" itemValue="" />
+								<f:selectItems value="#{fotoController.fotoLs}" var="foto" itemLabel="#{foto.originale} (id: #{foto.id})" itemValue="#{foto}" />
+								<p:column>
+									<p:graphicImage value="./resources/gfx/foto/#{p.id}.jpeg" width="40" height="40" />
+								</p:column>
+								<p:column>
+									#{p.originale} - #{p.originale} (id: #{p.id})
+								</p:column>
+							</p:selectOneMenu>
+						</h:panelGrid>
+						<p:commandButton value="Aggiorna" action="#{fotoController.aggiorna}" update=":tblForm:tbl,:growlForm:growl" onclick="updDialog.close()" icon="ui-icon-refresh" />
+						<p:commandButton value="Elimina" action="#{fotoController.elimina}" update=":tblForm:tbl,:growlForm:growl" onclick="updDialog.close()" icon="ui-icon-trash" />
+					</p:outputPanel>
+				</p:dialog>
+			</h:form>
+		</ui:define>
+	</ui:composition>
+</h:body>
+</html>

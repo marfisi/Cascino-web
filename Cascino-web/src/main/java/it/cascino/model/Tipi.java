@@ -1,6 +1,7 @@
 package it.cascino.model;
 
 import java.io.Serializable;
+import javax.inject.Inject;
 import javax.persistence.*;
 import org.jboss.logging.Logger;
 import java.sql.Timestamp;
@@ -18,7 +19,8 @@ public class Tipi implements Serializable{
 	/**
 	 * Logger
 	 */
-	private static Logger log = Logger.getLogger(Tipi.class.getName());
+	@Inject
+	private Logger log;
 	
 	private Integer id;
 	private String nome;
@@ -67,8 +69,7 @@ public class Tipi implements Serializable{
 	
 	// @Column(name = "padre")
 	// uni-directional one-to-one association to Tipi
-	@OneToOne(cascade = {CascadeType.MERGE})
-	// .PERSIST})
+	@OneToOne(cascade = {CascadeType.MERGE})	// .PERSIST})
 	@JoinColumn(name = "padre")
 	public Tipi getTipoPadre(){
 		return this.tipoPadre;
@@ -88,6 +89,7 @@ public class Tipi implements Serializable{
 		this.updtime = updtime;
 	}
 	
+	@Override
 	public String toString(){
 		// log.info("toString: " + id);
 		if(id == null){
@@ -110,6 +112,7 @@ public class Tipi implements Serializable{
 		return false;
 	}
 	
+	@Override
 	public int hashCode(){
 		log.info("hashCode: ");
 		return id != null ? this.getClass().hashCode() + id.hashCode() : super.hashCode();

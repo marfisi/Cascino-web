@@ -1,24 +1,16 @@
 package it.cascino.controller;
 
-//import java.util.Iterator;
 import java.util.Iterator;
 import java.util.List;
-//import javax.enterprise.context.ApplicationScoped;
-//import javax.enterprise.context.RequestScoped;
 import it.cascino.dao.TipiDao;
 import it.cascino.model.Tipi;
 import java.io.Serializable;
 import javax.enterprise.context.SessionScoped;
-//import javax.enterprise.inject.Produces;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
-//import javax.faces.event.ActionEvent;
 import javax.inject.Inject;
 import javax.inject.Named;
-import javax.persistence.EntityManager;
-import javax.persistence.Query;
-//import org.jboss.logging.Logger;
-import java.util.logging.Logger;
+import org.jboss.logging.Logger;
 
 @Named
 @SessionScoped
@@ -31,8 +23,8 @@ public class TipiController implements Serializable{
 	/**
 	 * Logger
 	 */
-//	@Inject
-	private static Logger log = Logger.getLogger(TipiController.class.getName());
+	@Inject
+	private Logger log;
 	
 	@Inject
 	private FacesContext facesContext;
@@ -45,17 +37,7 @@ public class TipiController implements Serializable{
 	private List<Tipi> tipiLs;
 	private List<Tipi> filteredTipiLs;
 	
-	
 	private Tipi tipoSel = new Tipi();
-//	private Tipi tipoSel2 = new Tipi();
-//
-//	public Tipi getTipoSel2(){
-//		return tipoSel2;
-//	}
-//
-//	public void setTipoSel2(Tipi tipoSel2){
-//		this.tipoSel2 = tipoSel2;
-//	}
 
 	public List<Tipi> getTipiLs(){
 		tipiLs = tipiDao.getAll();
@@ -88,16 +70,14 @@ public class TipiController implements Serializable{
 //    private Tipi tipo = new Tipi();
 	
 	public void salva(){
-//		tipoSel.setTipoPadre(getPadreFromId());
-
 		tipiDao.salva(tipoSel);
 		if(tipoSel != null){
 			esito = "Aggiunto tipo: " + tipoSel.getDescrizione();
+			showGrowlInsMessage();
 		}else{
 			esito = "non ho trovato il tipo!";
 			showGrowlErrorMessage();
 		}
-		showGrowlInsMessage();
 	}
 	
 	public void aggiorna(){
@@ -106,22 +86,22 @@ public class TipiController implements Serializable{
 		tipiDao.aggiorna(tipoSel);
 		if(tipoSel != null){
 			esito = "Aggiorno tipo: " + tipoSel.getDescrizione();
+			showGrowlUpdMessage();
 		}else{
 			esito = "non ho trovato il tipo!";
 			showGrowlErrorMessage();
 		}
-		showGrowlUpdMessage();
 	}
 
 	public void elimina(){
 		tipiDao.elimina(tipoSel);
 		if(tipoSel != null){
 			esito = "Elimino tipo: " + tipoSel.getDescrizione();
+			showGrowlDelMessage();
 		}else{
 			esito = "non ho trovato il tipo!";
 			showGrowlErrorMessage();
 		}
-		showGrowlDelMessage();
 	}
 	
 	public String getEsito(){
@@ -129,32 +109,36 @@ public class TipiController implements Serializable{
 	}
 	
 	private void showGrowlUpdMessage(){
-		String message = esito + " >" + tipoSel + "<";
-		facesContext.addMessage(null, new FacesMessage("Successful", "Contatto aggiornato con successo" + message));
+		String message = "Aggiornato con successo - " + esito + " >" + tipoSel + "<";
+		facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Successo", message));
+		log.info(message);
 	}
 	
 	private void showGrowlInsMessage(){
-		String message = esito + " >" + tipoSel + "<";
-		facesContext.addMessage(null, new FacesMessage("Successful", "Contatto inserito con successo" + message));
+		String message = "Inserito con successo - " + esito + " >" + tipoSel + "<";
+		facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Successo", message));
+		log.info(message);
 	}
 	
 	private void showGrowlDelMessage(){
-		String message = esito + " >" + tipoSel + "<";
-		facesContext.addMessage(null, new FacesMessage("Successful", "Contatto eliminato con successo" + message));
+		String message = "Eliminato con successo - " + esito + " >" + tipoSel + "<";
+		facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Successo", message));
+		log.info(message);
 	}
 	
 	private void showGrowlErrorMessage(){
-		String message = esito + " >" + tipoSel + "<";
-		facesContext.addMessage(null, new FacesMessage("Errore", "Operazione fallita" + message));
+		String message = "Operazione fallita - " + esito + " >" + tipoSel + "<";
+		facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Errore", message));
+		log.error(message);
 	}
 	
-	public int sortById(Object o1, Object o2){
-		Integer t1 = (Integer)o1;
-		Integer t2 = (Integer)o2;
-//		log.info("sortById: " + t1 + "-" + t2);
-		if(t1 < t2){
+	public int sortByNum(Object obj1, Object obj2){
+		Integer o1 = (Integer)obj1;
+		Integer o2 = (Integer)obj2;
+		log.info("sortById: " + o1 + "-" + o2);
+		if(o1 < o2){
 			return -1;
-		}else if(t1 > t2){
+		}else if(o1 > o2){
 			return 1;
 		}
 		return 0;
@@ -174,5 +158,4 @@ public class TipiController implements Serializable{
 		}
 		return p;
 	}
-
 }

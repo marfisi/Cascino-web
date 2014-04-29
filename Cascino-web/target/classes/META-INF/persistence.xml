@@ -22,6 +22,7 @@
         http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd">
    <persistence-unit name="primary">
       <jta-data-source>java:jboss/datasources/PostgresqlDS</jta-data-source>
+      <class>it.cascino.model.Foto</class>
       <properties>
          <!-- JDBC connection pool (use the built-in) -->
 		<property name="hibernate.connection.pool_size" value="1" />
@@ -33,8 +34,7 @@
 		<property name="cache.provider_class" value="org.hibernate.cache.internal.NoCacheProvider" />
 
 		<!-- Enable Hibernate's automatic session context management -->
-<!-- 		<property name="current_session_context_class" value="jta"/> -->
-
+<!--  		<property name="current_session_context_class" value="jta"/> -->
 		<!-- Echo all executed SQL to stdout -->
 <!-- 		<property name="show_sql" value="true" /> -->
 	</properties>

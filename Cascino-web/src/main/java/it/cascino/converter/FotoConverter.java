@@ -1,6 +1,6 @@
 package it.cascino.converter;
 
-import it.cascino.model.Tipi;
+import it.cascino.model.Foto;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
@@ -8,8 +8,8 @@ import javax.faces.convert.FacesConverter;
 import javax.inject.Inject;
 import org.jboss.logging.Logger;
 
-@FacesConverter(forClass = it.cascino.model.Tipi.class, value = "tipiConv")
-public class TipiConverter implements Converter{
+@FacesConverter(forClass = it.cascino.model.Tipi.class, value = "fotoConv")
+public class FotoConverter implements Converter{
 	/**
 	 * Logger
 	 */
@@ -24,7 +24,7 @@ public class TipiConverter implements Converter{
 			arg2 = "1";
 		}
 		int num = Integer.parseInt(arg2);
-		Tipi o = new Tipi();
+		Foto o = new Foto();
 		o.setId(num);
 		return o;
 	}

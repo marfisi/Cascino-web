@@ -2,7 +2,6 @@ package it.cascino.dao;
 
 import java.io.Serializable;
 import java.util.List;
-import it.cascino.model.Foto;
 import it.cascino.model.Tipi;
 import javax.faces.bean.SessionScoped;
 import javax.inject.Inject;
@@ -12,9 +11,10 @@ import javax.persistence.Query;
 import javax.transaction.SystemException;
 import javax.transaction.UserTransaction;
 import org.jboss.logging.Logger;
+import org.primefaces.model.TreeNode;
 
 @SessionScoped
-public class ManagedBeanTipiDao implements TipiDao, Serializable{
+public class ManagedBeanTipiTreeDao implements TipiTreeDao, Serializable{
 	/**
 	 * 
 	 */
@@ -33,13 +33,20 @@ public class ManagedBeanTipiDao implements TipiDao, Serializable{
 	private UserTransaction utx;
 	
 	public List<Tipi> getAll(){
+		log.info("getAll: " + 1);
 		try{
 			List<Tipi> tipi;
+			log.info("getAll: " + 2);
 			try{
+				log.info("getAll: " + 3);
 				utx.begin();
+				log.info("getAll: " + 4);
 				String sql = "FROM Tipi t";
+				log.info("getAll: " + 5);
 				Query query = entityManager.createQuery(sql);
+				log.info("getAll: " + 6);
 				tipi = (List<Tipi>)query.getResultList();
+				log.info("getAll: " + 7);
 			}catch(NoResultException e){
 				tipi = null;
 			}
@@ -54,9 +61,10 @@ public class ManagedBeanTipiDao implements TipiDao, Serializable{
 			throw new RuntimeException(e);
 		}
 	}
-
 	
-	public void salva(Tipi tipo){
+	public void salva(TreeNode nodo){
+		Tipi tipo = (Tipi)nodo.getData();
+		
 		try{
 			try{
 				utx.begin();
@@ -92,7 +100,9 @@ public class ManagedBeanTipiDao implements TipiDao, Serializable{
 		}
 	}
 	
-	public void aggiorna(Tipi tipo){
+	public void aggiorna(TreeNode nodo){
+		Tipi tipo = (Tipi)nodo.getData();
+		
 		try{
 			try{
 				utx.begin();
@@ -127,7 +137,9 @@ public class ManagedBeanTipiDao implements TipiDao, Serializable{
 		}
 	}
 	
-	public void elimina(Tipi tipoElimina){
+	public void elimina(TreeNode nodo){
+		Tipi tipoElimina = (Tipi)nodo.getData();
+
 		try{
 			try{
 				utx.begin();

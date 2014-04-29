@@ -8,12 +8,22 @@
 			<h:form id="growlForm">
 				<p:growl id="growl" showDetail="true" life="4000" />
 			</h:form>
-			
+
 			<h:form id="tblForm">
+				<p:toolbar id="tb">
+					<p:toolbarGroup align="left">
+						<p:commandButton id="viewButton" value="View" update=":viewForm:display" oncomplete="PF('viewDialog').show()" icon="ui-icon-search" />
+						<p:commandButton id="modifButton" value="Modifica" update=":updForm:updDisplay" oncomplete="PF('updDialog').show()" icon="ui-icon-pencil" />
+						<p:separator />
+						<p:commandButton id="newButton" value="Aggiungi" oncomplete="PF('newDialog').show()" icon="ui-icon-circle-plus" />
+					</p:toolbarGroup>
+				</p:toolbar>
+				<p:sticky target="tb" />
+
 				<p:dataTable id="tbl" var="tipo" value="#{tipiController.tipiLs}" selection="#{tipiController.tipoSel}" selectionMode="single" rowKey="#{tipo.id}" update=":updForm:updDisplay"
 					oncomplete="PF('updDialog').show()" paginator="true" rows="8" dynamic="true" sortBy="id" emptyMessage="Nessun entry per il criterio definito" widgetVar="tipiTable"
 					filteredValue="#{tipiController.filteredTipiLs}">
-					
+
 					<p:ajax event="rowDblselect" update=":viewForm:display" oncomplete="PF('viewDialog').show()" />
 
 					<f:facet name="header">
@@ -41,7 +51,7 @@
 						<p:graphicImage value="./resources/gfx/tipi/#{tipo.id}.jpeg" height="60" />
 						<!-- width="60" -->
 					</p:column>
-					<p:column sortBy="id" sortFunction="#{tipiController.sortById}" filterBy="#{tipo.id}" filterMatchMode="contains">
+					<p:column sortBy="id" sortFunction="#{tipiController.sortByNum}" filterBy="#{tipo.id}" filterMatchMode="contains">
 						<f:facet name="header">
 							<h:outputText value="ID" />
 						</f:facet>
@@ -69,7 +79,7 @@
 							<h:outputText value="Qty: ${fn:length(tipiController.tipiLs)}" />
 
 							<h:panelGrid id="expAll" columns="5" width="200" style="border:none">
-								<h:outputLabel>Esporta tutto:</h:outputLabel>
+								<h:outputText value="Esporta tutto:" />
 								<h:commandLink>
 									<p:graphicImage value="./resources/gfx/varie/excel.png" style="border:none" />
 									<p:dataExporter type="xls" target="tbl" fileName="export" />
@@ -88,7 +98,7 @@
 								</h:commandLink>
 							</h:panelGrid>
 							<h:panelGrid id="expPage" columns="5" width="200" style="border:none">
-								<h:outputLabel>Esporta pagina:</h:outputLabel>
+								<h:outputText value="Esporta pagina:" />
 								<h:commandLink>
 									<p:graphicImage value="./resources/gfx/varie/excel.png" style="border:none" />
 									<p:dataExporter type="xls" target="tbl" fileName="export" pageOnly="true" />
@@ -198,16 +208,6 @@
 						<p:commandButton value="Elimina" action="#{tipiController.elimina}" update=":tblForm:tbl,:growlForm:growl" onclick="updDialog.close()" icon="ui-icon-trash" />
 					</p:outputPanel>
 				</p:dialog>
-			</h:form>
-			
-			<h:form id="treeForm">
-				<p:tree id="treeSingle" value="#{tipiControllerTree.root}" var="node" selectionMode="single" selection="#{tipiControllerTree.selectedNode}">
-					<p:treeNode>
-						<p:graphicImage value="./resources/gfx/tipi/#{node}.jpeg" height="60" />
-						<h:outputText value="#{node}" />
-					</p:treeNode>
-				</p:tree>
-				<p:commandButton value="Display Selected" update=":growlForm:growl" action="#{tipiControllerTree.displaySelectedSingle}" id="btnDisplay" />
 			</h:form>
 		</ui:define>
 	</ui:composition>
