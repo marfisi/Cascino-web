@@ -22,7 +22,9 @@ SET default_with_oids = false;
 CREATE TABLE articoli (
     id integer NOT NULL,
     codice character varying(15) NOT NULL,
-    nome character varying(35) NOT NULL,
+    produttore integer DEFAULT 1 NOT NULL,
+    modello character varying(50) DEFAULT 'n.d.'::character varying NOT NULL,
+    nome character varying(35) DEFAULT 'n.d.'::character varying NOT NULL,
     tipo integer DEFAULT 1 NOT NULL,
     descrizione character varying(70),
     articolo_fornitore integer,
@@ -116,6 +118,14 @@ CREATE TRIGGER updtime_articoli_trg BEFORE INSERT OR UPDATE ON articoli FOR EACH
 
 ALTER TABLE ONLY articoli
     ADD CONSTRAINT articoli_articolo_fornitore_fonk FOREIGN KEY (articolo_fornitore) REFERENCES articoli_fornitori(id) ON UPDATE RESTRICT ON DELETE RESTRICT;
+
+
+--
+-- Name: articoli_produttore_fonk; Type: FK CONSTRAINT; Schema: cascino_schema; Owner: cascino_user_db
+--
+
+ALTER TABLE ONLY articoli
+    ADD CONSTRAINT articoli_produttore_fonk FOREIGN KEY (produttore) REFERENCES produttori(id) ON UPDATE RESTRICT ON DELETE RESTRICT;
 
 
 --

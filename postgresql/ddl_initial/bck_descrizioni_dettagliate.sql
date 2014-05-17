@@ -30,9 +30,44 @@ CREATE TABLE descrizioni_dettagliate (
 ALTER TABLE cascino_schema.descrizioni_dettagliate OWNER TO cascino_user_db;
 
 --
+-- Name: descrizioni_dettagliate_id_seq; Type: SEQUENCE; Schema: cascino_schema; Owner: cascino_user_db
+--
+
+CREATE SEQUENCE descrizioni_dettagliate_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE cascino_schema.descrizioni_dettagliate_id_seq OWNER TO cascino_user_db;
+
+--
+-- Name: descrizioni_dettagliate_id_seq; Type: SEQUENCE OWNED BY; Schema: cascino_schema; Owner: cascino_user_db
+--
+
+ALTER SEQUENCE descrizioni_dettagliate_id_seq OWNED BY descrizioni_dettagliate.id;
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: cascino_schema; Owner: cascino_user_db
+--
+
+ALTER TABLE ONLY descrizioni_dettagliate ALTER COLUMN id SET DEFAULT nextval('descrizioni_dettagliate_id_seq'::regclass);
+
+
+--
 -- Data for Name: descrizioni_dettagliate; Type: TABLE DATA; Schema: cascino_schema; Owner: cascino_user_db
 --
 
+
+
+--
+-- Name: descrizioni_dettagliate_id_seq; Type: SEQUENCE SET; Schema: cascino_schema; Owner: cascino_user_db
+--
+
+SELECT pg_catalog.setval('descrizioni_dettagliate_id_seq', 1, false);
 
 
 --
@@ -63,7 +98,7 @@ CREATE TRIGGER updtime_descrizioni_dettagliate_trg BEFORE INSERT OR UPDATE ON de
 --
 
 ALTER TABLE ONLY descrizioni_dettagliate
-    ADD CONSTRAINT descrizioni_dettagliate_articolo_fonk FOREIGN KEY (articolo) REFERENCES articoli(id);
+    ADD CONSTRAINT descrizioni_dettagliate_articolo_fonk FOREIGN KEY (articolo) REFERENCES articoli(id) ON UPDATE RESTRICT ON DELETE RESTRICT;
 
 
 --

@@ -3,11 +3,13 @@ package it.cascino.controller;
 import it.cascino.dao.FotoDao;
 import it.cascino.model.Foto;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.io.Serializable;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
+import javax.faces.event.ValueChangeEvent;
 import javax.inject.Inject;
 import javax.inject.Named;
 import org.jboss.logging.Logger;
@@ -49,6 +51,45 @@ public class FotoController implements Serializable{
 	// contiene, per l'elemento selezionato, le foto originale, HD, HD wm, LD, LD wm in lista, per essere utilizzate nella gallery
 	private List<Foto> fotoPerSelLs;
 	
+	private String tipoFoto;
+	private int tipoFotoNum;
+	
+	private boolean modifO = false;
+	private boolean modifHD = false;
+	private boolean modifHDwm = false;
+	private boolean modifLD = false;
+	private boolean modifLDwm = false;
+	
+	public void onChangeTipoFoto(){
+		tipoFotoNum = 1;
+		if(tipoFoto.equals("orig")){
+			tipoFotoNum = 1;
+		}else if(tipoFoto.equals("hd")){
+			tipoFotoNum = 2;
+		}else if(tipoFoto.equals("hdwm")){
+			tipoFotoNum = 3;
+		}else if(tipoFoto.equals("ld")){
+			tipoFotoNum = 4;
+		}else if(tipoFoto.equals("ldwm")){
+			tipoFotoNum = 5;
+		}else{
+			tipoFotoNum = 0;
+		}
+		log.info("onChangeTipoFoto - " + tipoFotoNum);
+	}
+	
+	public String getTipoFoto(){
+		if((tipoFoto == null) || (tipoFoto.isEmpty())){
+			tipoFotoNum = 1;
+			tipoFoto = "orig";
+		}
+		return tipoFoto;
+	}
+	
+	public void setTipoFoto(String tipoFoto){
+		this.tipoFoto = tipoFoto;
+	}
+	
 	public List<Foto> getFotoLs(){
 		fotoLs = fotoDao.getAll();
 		return fotoLs;
@@ -87,33 +128,83 @@ public class FotoController implements Serializable{
 		fileUploadedLs.clear();
 	}
 	
-	public void annullaUpload(){
-		Boolean risp = fotoDao.annullaUpload(fileUploadedLs);
+	public void annullaUpdate(){
+		Boolean risp = fotoDao.annullaUpdate(fileUploadedLs);
 		if(risp){
-			esito = "Annulamento foto eseguito";
+			esito = "Annullamento foto eseguito";
 			showGrowlDelMessage();
 		}else{
-			esito = "non sono state caricate le foto! la foto orignale e' obbligatoria";
+			esito = "non sono state caricate le foto!";
 			showGrowlErrorMessage();
 		}
 		fileUploadedLs.clear();
 	}
 	
-	public void aggiorna(){
-		// fotoSel.setTipoPadre(getPadreFromId());
+	public void annullaUpload(){
+		Boolean risp = fotoDao.annullaUpload(fileUploadedLs);
+		if(risp){
+			esito = "Annullamento foto eseguito";
+			showGrowlDelMessage();
+		}else{
+			esito = "non sono state caricate le foto!";
+			showGrowlErrorMessage();
+		}
+		fileUploadedLs.clear();
+	}
+	
+	public void annullaUploadUndef(){
+		annullaUploadUndef(0, 0);
+	}
+	
+	public void annullaUploadUndef(int t, int u){
+		if(t == 0){
+			t = tipoFotoNum;
+		}
 		
-		fotoDao.aggiorna(fotoSel);
-		if(fotoSel != null){
-			esito = "Aggiorno foto: " + fotoSel.getOriginale();
+		Boolean risp = fotoDao.annullaUploadUndef(t, fileUploadedLs, u);
+		if(risp){
+			esito = "Annullamento foto eseguito";
+			showGrowlDelMessage();
+		}else{
+			esito = "non sono state caricate le foto!";
+			showGrowlErrorMessage();
+		}
+		// fileUploadedLs.clear();
+	}
+	
+	public void aggiorna(){
+		String risp = fotoDao.aggiorna(fotoSel, fileUploadedLs);
+		if(risp.startsWith("OK-")){
+			risp = risp.substring(3);
+			esito = risp;
 			showGrowlUpdMessage();
+		}else{
+			esito = "non sono state aggiornate le foto! " + risp;
+			showGrowlErrorMessage();
+		}
+		fileUploadedLs.clear();
+	}
+	
+	public void elimina(){
+		fotoDao.elimina(fotoSel, fileUploadedLs);
+		if(fotoSel != null){
+			esito = "Elimino foto: " + fotoSel.getOriginale();
+			showGrowlDelMessage();
 		}else{
 			esito = "non ho trovato la foto!";
 			showGrowlErrorMessage();
 		}
 	}
 	
-	public void elimina(){
-		fotoDao.elimina(fotoSel);
+	public void eliminaSingFoto(){
+		eliminaSingFoto(0, 1);
+	}
+
+	public void eliminaSingFoto(int t, int u){
+		if(t == 0){
+			t = tipoFotoNum;
+		}
+		fotoDao.elimina(fotoSel, t, fileUploadedLs, u);
 		if(fotoSel != null){
 			esito = "Elimino foto: " + fotoSel.getOriginale();
 			showGrowlDelMessage();
@@ -136,6 +227,11 @@ public class FotoController implements Serializable{
 		this.fotoPerSelLs = fotoPerSelLs;
 	}
 	
+	private void showGrowlInfoMessage(String message){
+		facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Successo", message));
+		log.info(message);
+	}
+
 	private void showGrowlUpdMessage(){
 		String message = "Aggiornato con successo - " + esito + " >" + fotoSel + "<";
 		facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Successo", message));
@@ -197,27 +293,53 @@ public class FotoController implements Serializable{
 	}
 	
 	public String size(Foto f, int t){
-		String size = fotoDao.getSize(f, t);
+		return size(f, t, 0);
+	}
+
+	public String size(Foto f, int t, int u){
+		if(t == 0){
+			t = tipoFotoNum;
+		}
+		String size = fotoDao.getSize(f, t, fileUploadedLs, u);
 		return size;
 	}
 	
 	public String resolution(Foto f, int t){
-		String resolution = fotoDao.getResolution(f, t);
+		return resolution(f, t, 0);
+	}
+	
+	public String resolution(Foto f, int t, int u){
+		if(t == 0){
+			t = tipoFotoNum;
+		}
+		String resolution = fotoDao.getResolution(f, t, fileUploadedLs, u);
 		return resolution;
 	}
 	
 	public String resolvePath(Foto f){
+//		return resolvePath(f, -1);
+//	}
+//	
+//	public String resolvePath(Foto f, int i){
+//		String path = fotoDao.resolvePath(f, i, fileUploadedLs);
 		String path = fotoDao.resolvePath(f);
 		return path;
 	}
 	
 	public String getFotoname(Foto f, int t){
-		String name = fotoDao.getFotoname(f, t);
+		return getFotoname(f, t, 0);
+	}
+
+	public String getFotoname(Foto f, int t, int u){
+		if(t == 0){
+			t = tipoFotoNum;
+		}
+		String name = fotoDao.getFotoname(f, t, fileUploadedLs, u);
 		return name;
 	}
-	
-	private List<UploadedFile> fileUploadedLs =  new ArrayList<UploadedFile>();;
 
+	private List<UploadedFile> fileUploadedLs = new ArrayList<UploadedFile>();;
+	
 	public void fileUploadOrig(FileUploadEvent event){
 		fileUpload(event, ".orig");
 	}
@@ -225,54 +347,53 @@ public class FotoController implements Serializable{
 	public void fileUploadHD(FileUploadEvent event){
 		fileUpload(event, ".hd");
 	}
-
+	
 	public void fileUploadHDWM(FileUploadEvent event){
-		fileUpload(event, ".hdw");
+		fileUpload(event, ".hdwm");
 	}
 	
 	public void fileUploadLD(FileUploadEvent event){
 		fileUpload(event, ".ld");
 	}
-
+	
 	public void fileUploadLDWM(FileUploadEvent event){
-		fileUpload(event, ".ldw");
+		fileUpload(event, ".ldwm");
+	}
+	
+	public void fileUploadUndef(FileUploadEvent event){
+		String type = "";
+		if(tipoFotoNum == 1){
+			type = ".orig";
+		}else if(tipoFotoNum == 2){
+			type = ".hd";
+		}else if(tipoFotoNum == 3){
+			type = ".hdwm";
+		}else if(tipoFotoNum == 4){
+			type = ".ld";
+		}else if(tipoFotoNum == 5){
+			type = ".ldwm";
+		}else{
+			type = ".err";
+		}
+		log.info("fileUploadUndef - " + type);
+		
+		fileUpload(event, type);
 	}
 	
 	public void fileUpload(FileUploadEvent event, String type){
-		UploadedFile fileOriginale = event.getFile();
-		
-		try{
-			copyFile(fileOriginale.getFileName()+type, fileOriginale.getInputstream());
-		}catch(IOException e){
-			e.printStackTrace();
+		if(type.equals(".err")){
+			return;
 		}
 		
-		fileUploadedLs.add(fileOriginale);
-		
-		facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Successo", event.getFile().getFileName() + " upload terminato"));
+		fotoDao.fileUpload(event, type, fileUploadedLs);
+			
+		showGrowlInfoMessage(event.getFile().getFileName() + " upload terminato");
 	}
 	
-	public void copyFile(String fileName, InputStream in){
-		try{
-			File targetFolder = new File("c:\\dev\\foto\\uploadTmp\\");
-			
-			OutputStream out = new FileOutputStream(new File(targetFolder, fileName));
-			
-			int read = 0;
-			byte[] bytes = new byte[1024];
-			
-			while((read = in.read(bytes)) != -1){
-				out.write(bytes, 0, read);
-			}
-			
-			in.close();
-			out.flush();
-			out.close();
-			
-			log.info("nuovo file copiato/creato!");
-		}catch(IOException e){
-			e.printStackTrace();
+	public Boolean canDelete(){
+		if(tipoFotoNum == 1){
+			return false;
 		}
+		return true;
 	}
-	
 }

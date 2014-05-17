@@ -46,7 +46,7 @@ public class Foto implements Serializable{
 	}
 	
 	@Id
-	@SequenceGenerator(name = "FOTO_ID_GENERATOR", sequenceName = "TIPI_ID_SEQ", allocationSize = 1, initialValue = 1)
+	@SequenceGenerator(name = "FOTO_ID_GENERATOR", sequenceName = "FOTO_ID_SEQ", allocationSize = 1, initialValue = 1)
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "FOTO_ID_GENERATOR")
 	public Integer getId(){
 		return this.id;

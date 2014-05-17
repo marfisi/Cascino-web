@@ -5,27 +5,25 @@
 <h:body>
 	<ui:composition template="template.xhtml">
 		<ui:define name="content">
-			<h:form id="growlForm">
-				<p:growl id="growl" showDetail="true" life="4000" />
-			</h:form>
-
+			
+			<p:growl id="growl" showDetail="true" life="4000" />
+			
 			<h:form id="tblForm">
 				<p:toolbar id="tb">
 					<p:toolbarGroup align="left">
-						<p:commandButton id="viewButton" value="View" update=":viewForm:contentGalleria" oncomplete="PF('viewDialog').show()" icon="ui-icon-search" />
+						<p:commandButton id="viewButton" value="View" update=":contentGalleria" oncomplete="PF('viewDialog').show()" icon="ui-icon-search" />
 						<p:commandButton id="modifButton" value="Modifica" update=":updForm:updDisplay" oncomplete="PF('updDialog').show()" icon="ui-icon-pencil" />
 						<p:separator />
 						<p:commandButton id="newButton" value="Aggiungi" oncomplete="PF('newDialog').show()" icon="ui-icon-circle-plus" />
 					</p:toolbarGroup>
 				</p:toolbar>
 				<p:sticky target="tb" />
-<p:imageCompare leftImage="./resources/gfx/foto/cascino_hd.jpg" rightImage="./resources/gfx/foto/cascino_ld_wm.jpg" width="551" height="312"/>
-							
-				<p:dataTable id="tbl" var="foto" value="#{fotoController.fotoLs}" selection="#{fotoController.fotoSel}" selectionMode="single" rowKey="#{foto.id}" update=":updForm:updDisplay"
+
+				<p:dataTable id="tbl" var="foto" value="#{fotoController.fotoLs}" selection="#{fotoController.fotoSel}" selectionMode="single" rowKey="#{foto.id}" update=":updDisplay"
 					oncomplete="PF('updDialog').show()" paginator="true" rows="15" dynamic="true" sortBy="id" emptyMessage="Nessun entry per il criterio definito" widgetVar="fotoTable"
 					filteredValue="#{fotoController.filteredFotoLs}">
 
-					<p:ajax event="rowDblselect" update=":viewForm:contentGalleria" oncomplete="PF('viewDialog').show()" />
+					<p:ajax event="rowDblselect" update=":contentGalleria" oncomplete="PF('viewDialog').show()" />
 
 					<f:facet name="header">
 						<p:outputPanel>
@@ -142,108 +140,106 @@
 				</p:dataTable>
 			</h:form>
 
-			<h:form id="viewForm">
-				<p:dialog id="dialog" header="Dettagli" widgetVar="viewDialog" resizable="false" showEffect="clip" hideEffect="fold">
+			<p:dialog id="viewDialog" header="Dettagli" widgetVar="viewDialog" resizable="false" showEffect="clip" hideEffect="fold">
+				<p:galleria id="contentGalleria" var="foto" value="#{fotoController.fotoPerSelLs}" panelWidth="650" panelHeight="450" frameWidth="50" frameHeight="50" effect="clip">
+					<p:graphicImage id="fotoImage" value="./resources/gfx/foto/#{foto.originale}" alt="#{foto.originale}" title="#{foto.originale}" />
+					<f:facet name="content">
+						<h:panelGrid columns="1" cellpadding="5">
+							<f:facet name="header">
+								<p:graphicImage value="./resources/gfx/foto/#{foto.originale}" />
+							</f:facet>
 
-					<p:galleria id="contentGalleria" var="foto" value="#{fotoController.fotoPerSelLs}" panelWidth="650" panelHeight="450" frameWidth="50" frameHeight="50" effect="clip">
-						<p:graphicImage id="fotoImage" value="./resources/gfx/foto/#{foto.originale}" alt="#{foto.originale}" title="#{foto.originale}" />
-						<f:facet name="content">
-							<h:panelGrid columns="1" cellpadding="5">
-								<f:facet name="header">
-									<p:graphicImage value="./resources/gfx/foto/#{foto.originale}" />
-								</f:facet>
+							<h:outputText id="name" value="#{foto.originale}" />
+							<h:outputText id="size" value="#{foto.grande}" />
+							<h:outputText id="resolution" value="#{foto.thumbnail}" />
 
-								<h:outputText id="name" value="#{foto.originale}" />
-								<h:outputText id="size" value="#{foto.grande}" />
-								<h:outputText id="resolution" value="#{foto.thumbnail}" />
-
-							</h:panelGrid>
-						</f:facet>
-					</p:galleria>
-				</p:dialog>
-			</h:form>
-
-			<h:form id="newForm" enctype="multipart/form-data">
-				<p:dialog widgetVar="newDialog" header="Inserisci" modal="true" closable="false">
+						</h:panelGrid>
+					</f:facet>
+				</p:galleria>
+			</p:dialog>
+	
+			<p:dialog widgetVar="newDialog" header="Inserisci" modal="true" closable="false">
+				<h:form id="newForm" enctype="multipart/form-data">
 					<p:outputPanel id="newDisplay">
 						<h:panelGrid columns="2">
 							<h:outputText value="Originale (obbligatoria)" />
-							<p:fileUpload fileUploadListener="#{fotoController.fileUploadOrig}" mode="advanced" dragDropSupport="true" update=":growlForm:growl" required="true" label="Seleziona" uploadLabel="Carica"
+							<p:fileUpload fileUploadListener="#{fotoController.fileUploadOrig}" mode="advanced" dragDropSupport="true" update=":growl" required="true" label="Seleziona" uploadLabel="Carica"
 								cancelLabel="Annulla" invalidSizeMessage="File troppo grosso (limite 1 MB)" invalidFileMessage="Tipo file non consentito (solo: gif, jpeg, png)"
 								fileLimitMessage="Puoi caricare un file alla volta" fileLimit="1" sizeLimit="1048576" allowTypes="/(\.|\/)(gif|jpe?g|png)$/" />
 							<h:outputText value="HD" />
-							<p:fileUpload fileUploadListener="#{fotoController.fileUploadHD}" mode="advanced" dragDropSupport="true" update=":growlForm:growl" required="false" label="Seleziona" uploadLabel="Carica"
+							<p:fileUpload fileUploadListener="#{fotoController.fileUploadHD}" mode="advanced" dragDropSupport="true" update=":growl" required="false" label="Seleziona" uploadLabel="Carica"
 								cancelLabel="Annulla" invalidSizeMessage="File troppo grosso (limite 1 MB)" invalidFileMessage="Tipo file non consentito (solo: gif, jpeg, png)"
 								fileLimitMessage="Puoi caricare un file alla volta" fileLimit="1" sizeLimit="1048576" allowTypes="/(\.|\/)(gif|jpe?g|png)$/" />
 							<h:outputText value="HD WM" />
-							<p:fileUpload fileUploadListener="#{fotoController.fileUploadHDWM}" mode="advanced" dragDropSupport="true" update=":growlForm:growl" required="false" label="Seleziona" uploadLabel="Carica"
+							<p:fileUpload fileUploadListener="#{fotoController.fileUploadHDWM}" mode="advanced" dragDropSupport="true" update=":growl" required="false" label="Seleziona" uploadLabel="Carica"
 								cancelLabel="Annulla" invalidSizeMessage="File troppo grosso (limite 1 MB)" invalidFileMessage="Tipo file non consentito (solo: gif, jpeg, png)"
 								fileLimitMessage="Puoi caricare un file alla volta" fileLimit="1" sizeLimit="1048576" allowTypes="/(\.|\/)(gif|jpe?g|png)$/" />
 							<h:outputText value="LD" />
-							<p:fileUpload fileUploadListener="#{fotoController.fileUploadLD}" mode="advanced" dragDropSupport="true" update=":growlForm:growl" required="false" label="Seleziona" uploadLabel="Carica"
+							<p:fileUpload fileUploadListener="#{fotoController.fileUploadLD}" mode="advanced" dragDropSupport="true" update=":growl" required="false" label="Seleziona" uploadLabel="Carica"
 								cancelLabel="Annulla" invalidSizeMessage="File troppo grosso (limite 1 MB)" invalidFileMessage="Tipo file non consentito (solo: gif, jpeg, png)"
 								fileLimitMessage="Puoi caricare un file alla volta" fileLimit="1" sizeLimit="1048576" allowTypes="/(\.|\/)(gif|jpe?g|png)$/" />
 							<h:outputText value="LD WM" />
-							<p:fileUpload fileUploadListener="#{fotoController.fileUploadLDWM}" mode="advanced" dragDropSupport="true" update=":growlForm:growl" required="false" label="Seleziona" uploadLabel="Carica"
+							<p:fileUpload fileUploadListener="#{fotoController.fileUploadLDWM}" mode="advanced" dragDropSupport="true" update=":growl" required="false" label="Seleziona" uploadLabel="Carica"
 								cancelLabel="Annulla" invalidSizeMessage="File troppo grosso (limite 1 MB)" invalidFileMessage="Tipo file non consentito (solo: gif, jpeg, png)"
 								fileLimitMessage="Puoi caricare un file alla volta" fileLimit="1" sizeLimit="1048576" allowTypes="/(\.|\/)(gif|jpe?g|png)$/" />
 						</h:panelGrid>
-						<p:commandButton value="Salva" action="#{fotoController.salva}" update=":tblForm:tbl,:growlForm:growl" onclick="newDialog.close()" icon="ui-icon-disk" />
-						<p:commandButton value="Annulla" action="#{fotoController.annullaUpload}" update=":tblForm:tbl,:growlForm:growl" onclick="newDialog.close()" icon="ui-icon-cancel" />
+						<p:commandButton value="Salva" action="#{fotoController.salva}" update=":tblForm:tbl,:growl" onclick="newDialog.close()" icon="ui-icon-disk" />
+						<p:commandButton value="Annulla" action="#{fotoController.annullaUpload}" update=":tblForm:tbl,:growl" onclick="newDialog.close()" icon="ui-icon-cancel" />
 					</p:outputPanel>
-				</p:dialog>
-			</h:form>
-			
-			<h:form id="updForm">
-				<p:dialog widgetVar="updDialog" header="Modifica">
+				</h:form>
+			</p:dialog>
+
+			<p:dialog widgetVar="updDialog" header="Modifica" closable="false">
+				<h:form id="updForm">
 					<p:outputPanel id="updDisplay">
-						<h:panelGrid columns="2">
-							<h:outputText value="ID:" />
-							<h:outputText value="#{fotoController.fotoSel.id}" />
-							<h:inputHidden id="id" value="#{fotoController.fotoSel.id}" />
-							<h:outputText id="blank2" />
-							<h:outputText value="Nome" />
-							<p:inputText value="#{fotoController.fotoSel.originale}"></p:inputText>
-							<h:outputText value="Originale LD wm" />
-							<h:panelGrid columns="2">
-								<h:outputText value="Prima" />
-								<h:outputText value="Dopo" />
-								<p:imageCompare leftImage="./resources/gfx/foto/cascino_hd.jpg" rightImage="./resources/gfx/foto/cascino_ld_wm.jpg" width="250" height="250"/>
-								<h:outputText id="blank3" />
+						<h:outputText value="Tipo: " />
+						<p:selectOneRadio id="options" value="#{fotoController.tipoFoto}" >
+							<p:ajax event="change" update="tipoFotoGrid" listener="#{fotoController.onChangeTipoFoto}"></p:ajax>
+							<f:selectItem itemLabel="Originale" itemValue="orig" />
+							<f:selectItem itemLabel="HD" itemValue="hd" />
+							<f:selectItem itemLabel="HD wm" itemValue="hdwm" />
+							<f:selectItem itemLabel="LD" itemValue="ld" />
+							<f:selectItem itemLabel="LD wm" itemValue="ldwm" />
+						</p:selectOneRadio>
+	
+						<h:panelGrid columns="2" id="tipoFotoGrid">
+							<h:panelGrid columns="2" >
 								<h:panelGrid columns="2" cellpadding="4">
-									<p:graphicImage value="#{fotoController.resolvePath(fotoSel)}#{fotoController.getFotoname(fotoSel, 1)}" height="60" />
-									<p:graphicImage value="#{fotoController.resolvePath(fotoSel)}#{fotoController.getFotoname(fotoSel, 1)}" height="60" />
-									<h:outputText value="#{fotoController.getFotoname(fotoSel, 1)}" />
-									<h:outputText value="#{fotoController.getFotoname(fotoSel, 1)}" />
-									<h:outputText value="#{fotoController.size(fotoSel, 1)} - #{fotoController.resolution(fotoSel, 1)}" />
-									<h:outputText value="#{fotoController.size(fotoSel, 1)} - #{fotoController.resolution(fotoSel, 1)}" />
+									<h:outputText value="Prima" />
+									<h:outputText value="Dopo" />
+									<p:graphicImage value="#{fotoController.resolvePath(fotoController.fotoSel)}#{fotoController.getFotoname(fotoController.fotoSel, 0)}" height="300" />
+									<p:graphicImage value="#{fotoController.resolvePath(fotoController.fotoSel)}#{fotoController.getFotoname(fotoController.fotoSel, 0, 1)}" height="300" />
+									<h:outputText value="#{fotoController.getFotoname(fotoController.fotoSel, 0)}" />
+									<h:outputText value="#{fotoController.getFotoname(fotoController.fotoSel, 0, 1)}" />
+									<h:outputText value="#{fotoController.size(fotoController.fotoSel, 0)} - #{fotoController.resolution(fotoController.fotoSel, 0)}" />
+									<h:outputText value="#{fotoController.size(fotoController.fotoSel, 0, 1)} - #{fotoController.resolution(fotoController.fotoSel, 0, 1)}" />
+									<p:imageCompare leftImage="#{fotoController.resolvePath(fotoController.fotoSel)}#{fotoController.getFotoname(fotoController.fotoSel, 0)}" rightImage="#{fotoController.resolvePath(fotoController.fotoSel)}#{fotoController.getFotoname(fotoController.fotoSel, 0, 1)}" width="551" height="312" />	
 								</h:panelGrid>
 								<h:panelGrid columns="1">
-									<p:commandButton value="Aggiorna" action="#{fotoController.aggiorna}" update=":tblForm:tbl,:growlForm:growl" onclick="updDialog.close()" icon="ui-icon-refresh" />
-									<p:commandButton value="Elimina" action="#{fotoController.elimina}" update=":tblForm:tbl,:growlForm:growl" onclick="updDialog.close()" icon="ui-icon-trash" />
-								</h:panelGrid>	
+									<p:commandButton value="Modifica" onclick="PF('updDialogUpload').show()" icon="ui-icon-pencil" />
+									<p:commandButton value="Elimina" action="#{fotoController.eliminaSingFoto}" update=":updForm:tipoFotoGrid,:growl" icon="ui-icon-trash" disabled="#{!fotoController.canDelete()}" />
+								</h:panelGrid>
 							</h:panelGrid>
-							<h:outputText value="Descrizione" />
-							<p:inputTextarea value="#{fotoController.fotoSel.originale}" rows="5" cols="23" counter="counter" maxlength="70" counterTemplate="{0} caratteri" autoResize="false" />
-							<h:outputText id="blank" />
-							<h:outputText id="counter" />
-							<h:outputText value="Classe" />
-							<p:selectOneMenu value="#{fotoController.fotoSel}" converter="fotoConv" var="p">
-								<f:selectItem itemLabel="Seleziona Classe Padre" itemValue="" />
-								<f:selectItems value="#{fotoController.fotoLs}" var="foto" itemLabel="#{foto.originale} (id: #{foto.id})" itemValue="#{foto}" />
-								<p:column>
-									<p:graphicImage value="./resources/gfx/foto/#{p.id}.jpeg" width="40" height="40" />
-								</p:column>
-								<p:column>
-									#{p.originale} - #{p.originale} (id: #{p.id})
-								</p:column>
-							</p:selectOneMenu>
 						</h:panelGrid>
-						<p:commandButton value="Aggiorna" action="#{fotoController.aggiorna}" update=":tblForm:tbl,:growlForm:growl" onclick="updDialog.close()" icon="ui-icon-refresh" />
-						<p:commandButton value="Elimina" action="#{fotoController.elimina}" update=":tblForm:tbl,:growlForm:growl" onclick="updDialog.close()" icon="ui-icon-trash" />
+						<p:commandButton value="Aggiorna" action="#{fotoController.aggiorna}" update=":tblForm:tbl,:growl" onclick="updDialog.close()" icon="ui-icon-refresh" />
+						<p:commandButton value="Elimina" action="#{fotoController.elimina}" update=":tblForm:tbl,:growl" onclick="updDialog.close()" icon="ui-icon-trash" />
+						<p:commandButton value="Annulla" action="#{fotoController.annullaUpdate}" update=":tblForm:tbl,:growl" onclick="PF('updDialog').close()" icon="ui-icon-cancel" />
 					</p:outputPanel>
-				</p:dialog>
-			</h:form>
+				</h:form>
+			</p:dialog>
+
+			<p:dialog widgetVar="updDialogUpload" header="Inserisci" modal="true" closable="false">
+				<h:form id="updFormUpload" enctype="multipart/form-data">
+					<p:outputPanel id="newDisplay">
+						<p:fileUpload fileUploadListener="#{fotoController.fileUploadUndef}" mode="advanced" dragDropSupport="true" update=":growl" required="true" label="Seleziona" uploadLabel="Carica"
+							cancelLabel="Annulla" invalidSizeMessage="File troppo grosso (limite 1 MB)" invalidFileMessage="Tipo file non consentito (solo: gif, jpeg, png)"
+							sizeLimit="1048576" allowTypes="/(\.|\/)(gif|jpe?g|png)$/" />
+						<p:commandButton value="Salva" onclick="PF('updDialogUpload').hide()" update=":updForm:tipoFotoGrid" process="@this" icon="ui-icon-disk" />
+						<p:commandButton value="Annulla" action="#{fotoController.annullaUploadUndef}" update=":updForm:tipoFotoGrid,:growl" onclick="PF('updDialogUpload').hide()" process="@this" icon="ui-icon-cancel" />
+					</p:outputPanel>
+				</h:form>
+			</p:dialog>
+			
 		</ui:define>
 	</ui:composition>
 </h:body>

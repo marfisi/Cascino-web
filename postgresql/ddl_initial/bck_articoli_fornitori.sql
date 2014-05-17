@@ -32,9 +32,44 @@ CREATE TABLE articoli_fornitori (
 ALTER TABLE cascino_schema.articoli_fornitori OWNER TO cascino_user_db;
 
 --
+-- Name: articoli_fornitori_id_seq; Type: SEQUENCE; Schema: cascino_schema; Owner: cascino_user_db
+--
+
+CREATE SEQUENCE articoli_fornitori_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE cascino_schema.articoli_fornitori_id_seq OWNER TO cascino_user_db;
+
+--
+-- Name: articoli_fornitori_id_seq; Type: SEQUENCE OWNED BY; Schema: cascino_schema; Owner: cascino_user_db
+--
+
+ALTER SEQUENCE articoli_fornitori_id_seq OWNED BY articoli_fornitori.id;
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: cascino_schema; Owner: cascino_user_db
+--
+
+ALTER TABLE ONLY articoli_fornitori ALTER COLUMN id SET DEFAULT nextval('articoli_fornitori_id_seq'::regclass);
+
+
+--
 -- Data for Name: articoli_fornitori; Type: TABLE DATA; Schema: cascino_schema; Owner: cascino_user_db
 --
 
+
+
+--
+-- Name: articoli_fornitori_id_seq; Type: SEQUENCE SET; Schema: cascino_schema; Owner: cascino_user_db
+--
+
+SELECT pg_catalog.setval('articoli_fornitori_id_seq', 1, false);
 
 
 --
