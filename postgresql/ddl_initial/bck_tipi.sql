@@ -24,8 +24,9 @@ CREATE TABLE tipi (
     nome character varying(30) NOT NULL,
     descrizione character varying(70),
     padre integer DEFAULT 1 NOT NULL,
+    foto integer DEFAULT 1 NOT NULL,
     updtime timestamp with time zone
-);
+ );
 
 
 ALTER TABLE cascino_schema.tipi OWNER TO cascino_user_db;
@@ -62,8 +63,7 @@ ALTER TABLE ONLY tipi ALTER COLUMN id SET DEFAULT nextval('tipi_id_seq'::regclas
 -- Data for Name: tipi; Type: TABLE DATA; Schema: cascino_schema; Owner: cascino_user_db
 --
 
-INSERT INTO tipi VALUES (1, 'n.d.', 'n.d.', 1, '2014-02-22 09:00:00+01');
-
+INSERT INTO tipi VALUES (1, 'nd', 'nd', 1, '2014-04-05 10:12:59.344+02', 1);
 
 --
 -- Name: tipi_id_seq; Type: SEQUENCE SET; Schema: cascino_schema; Owner: cascino_user_db
@@ -92,6 +92,14 @@ CREATE INDEX fki_tipi_padre_fonk ON tipi USING btree (padre);
 --
 
 CREATE TRIGGER updtime_tipi_trg BEFORE INSERT OR UPDATE ON tipi FOR EACH ROW EXECUTE PROCEDURE updtime_column();
+
+
+--
+-- Name: tipi_foto_fonk; Type: FK CONSTRAINT; Schema: cascino_schema; Owner: cascino_user_db
+--
+
+ALTER TABLE ONLY tipi
+    ADD CONSTRAINT tipi_foto_fonk FOREIGN KEY (foto) REFERENCES foto(id) ON UPDATE RESTRICT ON DELETE RESTRICT;
 
 
 --

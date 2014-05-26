@@ -2,8 +2,8 @@ package it.cascino.dao;
 
 import java.io.Serializable;
 import java.util.List;
+import it.cascino.model.Articoli;
 import it.cascino.model.Foto;
-import it.cascino.model.Tipi;
 import javax.faces.bean.SessionScoped;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
@@ -12,10 +12,9 @@ import javax.persistence.Query;
 import javax.transaction.SystemException;
 import javax.transaction.UserTransaction;
 import org.jboss.logging.Logger;
-import org.primefaces.model.TreeNode;
 
 @SessionScoped
-public class ManagedBeanTipiTreeDao implements TipiTreeDao, Serializable{
+public class ManagedBeanArticoliDao implements ArticoliDao, Serializable{
 	/**
 	 * 
 	 */
@@ -33,26 +32,19 @@ public class ManagedBeanTipiTreeDao implements TipiTreeDao, Serializable{
 	@Inject
 	private UserTransaction utx;
 	
-	public List<Tipi> getAll(){
-		log.info("getAll: " + 1);
+	public List<Articoli> getAll(){
 		try{
-			List<Tipi> tipi;
-			log.info("getAll: " + 2);
+			List<Articoli> articoli;
 			try{
-				log.info("getAll: " + 3);
 				utx.begin();
-				log.info("getAll: " + 4);
-				String sql = "FROM Tipi t";
-				log.info("getAll: " + 5);
+				String sql = "FROM Articoli a";
 				Query query = entityManager.createQuery(sql);
-				log.info("getAll: " + 6);
-				tipi = (List<Tipi>)query.getResultList();
-				log.info("getAll: " + 7);
+				articoli = (List<Articoli>)query.getResultList();
 			}catch(NoResultException e){
-				tipi = null;
+				articoli = null;
 			}
 			utx.commit();
-			return tipi;
+			return articoli;
 		}catch(Exception e){
 			try{
 				utx.rollback();
@@ -63,35 +55,26 @@ public class ManagedBeanTipiTreeDao implements TipiTreeDao, Serializable{
 		}
 	}
 	
-	public void salva(TreeNode nodo){
-		Tipi tipo = (Tipi)nodo.getData();
-		
+	public void salva(Articoli articolo){
 		try{
 			try{
 				utx.begin();
-				log.info("1");
 				log.info("transaction:" + " " + utx.getStatus());
-				tipo.setId(null);
-				log.info("salva: " + tipo.getId() + ", " + tipo.getNome() + ", " + tipo.getDescrizione() + ", " + tipo.getTipoPadre());
-				entityManager.persist(tipo);
+				articolo.setId(null);
+				log.info("salva: " + articolo.getId() + ", " + articolo.getCodice() + ", " + articolo.getNome() + ", " + articolo.getDescrizione());
+				entityManager.persist(articolo);
 				log.info("transaction:" + " " + utx.getStatus());
 			}finally{
-				log.info("2");
 				log.info("transaction:" + " " + utx.getStatus());
 				utx.commit();
-//				log.info("5");
 			}
 		}catch(Exception e){
 			try{
-				log.info("3");
 				log.info("transaction:" + " " + utx.getStatus());
-				log.info("4");
 				utx.rollback();
 			}catch(SystemException se){
-				log.info("5");
 				throw new RuntimeException(se);
 			}
-			log.info("6");
 			try{
 				log.info("transaction:" + " " + utx.getStatus());
 			}catch(SystemException e1){
@@ -101,34 +84,25 @@ public class ManagedBeanTipiTreeDao implements TipiTreeDao, Serializable{
 		}
 	}
 	
-	public void aggiorna(TreeNode nodo){
-		Tipi tipo = (Tipi)nodo.getData();
-		
+	public void aggiorna(Articoli articolo){
 		try{
 			try{
 				utx.begin();
-				log.info("1");
 				log.info("transaction:" + " " + utx.getStatus());
-				log.info("aggiorna: " + tipo.getId() + ", " + tipo.getNome() + ", " + tipo.getDescrizione() + ", " + tipo.getTipoPadre());
-				entityManager.merge(tipo);
+				log.info("aggiorna: " + articolo.getId() + ", " + articolo.getCodice() + ", " + articolo.getNome() + ", " + articolo.getDescrizione());
+				entityManager.merge(articolo);
 				log.info("transaction:" + " " + utx.getStatus());
 			}finally{
-				log.info("2");
 				log.info("transaction:" + " " + utx.getStatus());
 				utx.commit();
-//				log.info("5");
 			}
 		}catch(Exception e){
 			try{
-				log.info("3");
 				log.info("transaction:" + " " + utx.getStatus());
-				log.info("4");
 				utx.rollback();
 			}catch(SystemException se){
-				log.info("5");
 				throw new RuntimeException(se);
 			}
-			log.info("6");
 			try{
 				log.info("transaction:" + " " + utx.getStatus());
 			}catch(SystemException e1){
@@ -138,33 +112,25 @@ public class ManagedBeanTipiTreeDao implements TipiTreeDao, Serializable{
 		}
 	}
 	
-	public void elimina(TreeNode nodo){
-		Tipi tipoElimina = (Tipi)nodo.getData();
-
+	public void elimina(Articoli articoloElimina){
 		try{
 			try{
 				utx.begin();
-				Tipi tipo = entityManager.find(Tipi.class, tipoElimina.getId());
-				log.info("elimina: " + tipo.getId() + ", " + tipo.getNome() + ", " + tipo.getDescrizione() + ", " + tipo.getTipoPadre());
-				entityManager.remove(tipo);
+				Articoli articolo = entityManager.find(Articoli.class, articoloElimina.getId());
+				log.info("elimina: " + articolo.getId() + ", " + articolo.getCodice() + ", " + articolo.getNome() + ", " + articolo.getDescrizione());
+				entityManager.remove(articolo);
 				log.info("transaction:" + " " + utx.getStatus());
 			}finally{
-				log.info("2");
 				log.info("transaction:" + " " + utx.getStatus());
 				utx.commit();
-//				log.info("5");
 			}
 		}catch(Exception e){
 			try{
-				log.info("3");
 				log.info("transaction:" + " " + utx.getStatus());
-				log.info("4");
 				utx.rollback();
 			}catch(SystemException se){
-				log.info("5");
 				throw new RuntimeException(se);
 			}
-			log.info("6");
 			try{
 				log.info("transaction:" + " " + utx.getStatus());
 			}catch(SystemException e1){
@@ -179,14 +145,17 @@ public class ManagedBeanTipiTreeDao implements TipiTreeDao, Serializable{
 		try{
 			try{
 				utx.begin();
+//				String sql = "FROM Foto f Where f.id = :id";
 				String sql = "select * from foto " +
-				"where id = ( " +
-				"select foto " +
-				"from tipi t join articoli a on t.id = a.tipo " +
-				"where a.id = :id)";
+				"where id = (select foto " +
+				"from (select row_number() OVER (ORDER BY foto) AS rownum, foto " +
+				"from articoli_foto af join articoli a on af.articolo = a.id " +
+				"where articolo = :id " +
+				"order by ordinamento, af.updtime) as sub " +
+				"where rownum = 1)";
 				Query query = entityManager.createNativeQuery(sql, Foto.class);	// Native
 				query.setParameter("id", idArticolo);
-				foto = (Foto)query.getSingleResult();
+				foto = (Foto)query.getSingleResult();	// .getResultList().get(0);
 			}catch(NoResultException e){
 				foto = null;
 			}
@@ -202,30 +171,4 @@ public class ManagedBeanTipiTreeDao implements TipiTreeDao, Serializable{
 		return foto;
 	}
 	
-	public String getNome(Integer idArticolo){
-		String nome;
-		try{
-			try{
-				utx.begin();
-				String sql = "select t.nome " +
-				"from tipi t join articoli a on t.id = a.tipo " +
-				"where a.id = :id";
-				Query query = entityManager.createNativeQuery(sql);	// Native
-				query.setParameter("id", idArticolo);
-				nome = (String)query.getSingleResult();
-			}catch(NoResultException e){
-				nome = null;
-			}
-			utx.commit();
-		}catch(Exception e){
-			try{
-				utx.rollback();
-			}catch(SystemException se){
-				throw new RuntimeException(se);
-			}
-			throw new RuntimeException(e);
-		}	
-		return nome;
-	}
-
 }

@@ -60,29 +60,22 @@ public class ManagedBeanTipiDao implements TipiDao, Serializable{
 		try{
 			try{
 				utx.begin();
-				log.info("1");
 				log.info("transaction:" + " " + utx.getStatus());
 				tipo.setId(null);
 				log.info("salva: " + tipo.getId() + ", " + tipo.getNome() + ", " + tipo.getDescrizione() + ", " + tipo.getTipoPadre());
 				entityManager.persist(tipo);
 				log.info("transaction:" + " " + utx.getStatus());
 			}finally{
-				log.info("2");
 				log.info("transaction:" + " " + utx.getStatus());
 				utx.commit();
-//				log.info("5");
 			}
 		}catch(Exception e){
 			try{
-				log.info("3");
 				log.info("transaction:" + " " + utx.getStatus());
-				log.info("4");
 				utx.rollback();
 			}catch(SystemException se){
-				log.info("5");
 				throw new RuntimeException(se);
 			}
-			log.info("6");
 			try{
 				log.info("transaction:" + " " + utx.getStatus());
 			}catch(SystemException e1){
@@ -96,28 +89,21 @@ public class ManagedBeanTipiDao implements TipiDao, Serializable{
 		try{
 			try{
 				utx.begin();
-				log.info("1");
 				log.info("transaction:" + " " + utx.getStatus());
 				log.info("aggiorna: " + tipo.getId() + ", " + tipo.getNome() + ", " + tipo.getDescrizione() + ", " + tipo.getTipoPadre());
 				entityManager.merge(tipo);
 				log.info("transaction:" + " " + utx.getStatus());
 			}finally{
-				log.info("2");
 				log.info("transaction:" + " " + utx.getStatus());
 				utx.commit();
-//				log.info("5");
 			}
 		}catch(Exception e){
 			try{
-				log.info("3");
 				log.info("transaction:" + " " + utx.getStatus());
-				log.info("4");
 				utx.rollback();
 			}catch(SystemException se){
-				log.info("5");
 				throw new RuntimeException(se);
 			}
-			log.info("6");
 			try{
 				log.info("transaction:" + " " + utx.getStatus());
 			}catch(SystemException e1){
@@ -136,22 +122,16 @@ public class ManagedBeanTipiDao implements TipiDao, Serializable{
 				entityManager.remove(tipo);
 				log.info("transaction:" + " " + utx.getStatus());
 			}finally{
-				log.info("2");
 				log.info("transaction:" + " " + utx.getStatus());
 				utx.commit();
-//				log.info("5");
 			}
 		}catch(Exception e){
 			try{
-				log.info("3");
 				log.info("transaction:" + " " + utx.getStatus());
-				log.info("4");
 				utx.rollback();
 			}catch(SystemException se){
-				log.info("5");
 				throw new RuntimeException(se);
 			}
-			log.info("6");
 			try{
 				log.info("transaction:" + " " + utx.getStatus());
 			}catch(SystemException e1){

@@ -1,6 +1,7 @@
 package it.cascino.controller;
 
 import it.cascino.dao.TipiTreeDao;
+import it.cascino.model.Foto;
 import it.cascino.model.Tipi;
 import java.io.Serializable;
 import java.util.Iterator;
@@ -179,6 +180,11 @@ public class TipiTreeController implements Serializable{
 		return esito;
 	}
 	
+	private void showGrowlInfoMessage(String message){
+		facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Successo", message));
+		log.info(message);
+	}
+
 	private void showGrowlUpdMessage(){
 		String message = "Aggiornato con successo - " + esito + " >" + nodoSel + "<";
 		facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Successo", message));
@@ -250,4 +256,30 @@ public class TipiTreeController implements Serializable{
 		return p;
 	}
 	
+	public Foto getFoto(Integer idArticolo){
+		Foto fotoTipo = new Foto();
+		fotoTipo = tipiTreeDao.getFoto(idArticolo);
+		if(fotoTipo != null){
+			esito = "selezionata foto " + fotoTipo.getId() + " per articolo: " + idArticolo;
+			showGrowlInfoMessage(esito);
+		}else{
+			esito = "non e' stata trovata la foto!";
+			showGrowlErrorMessage();
+		}
+		return fotoTipo;
+	}
+	
+	public String getNome(Integer idArticolo){
+		String nomeTipo = "";
+		nomeTipo = tipiTreeDao.getNome(idArticolo);
+		if(nomeTipo != null){
+			esito = "tipo " + nomeTipo + " per articolo: " + idArticolo;;
+			showGrowlInfoMessage(esito);
+		}else{
+			esito = "non e' stato trovato il tipo!";
+			showGrowlErrorMessage();
+		}
+		return nomeTipo;
+	}
+
 }

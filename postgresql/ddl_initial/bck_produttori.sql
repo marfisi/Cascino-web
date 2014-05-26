@@ -23,6 +23,7 @@ CREATE TABLE produttori (
     id integer NOT NULL,
     nome character varying(80) NOT NULL,
     dati character varying(50),
+    foto integer DEFAULT 1 NOT NULL,
     updtime timestamp with time zone
 );
 
@@ -61,8 +62,7 @@ ALTER TABLE ONLY produttori ALTER COLUMN id SET DEFAULT nextval('produttori_id_s
 -- Data for Name: produttori; Type: TABLE DATA; Schema: cascino_schema; Owner: cascino_user_db
 --
 
-INSERT INTO produttori VALUES (1, 'n.d.', 'n.d.', '2014-04-04 13:26:42.731+02');
-
+INSERT INTO produttori VALUES (1, 'n.d.', 'n.d.', '2014-04-04 13:26:42.731+02', 1);
 
 --
 -- Name: produttori_id_seq; Type: SEQUENCE SET; Schema: cascino_schema; Owner: cascino_user_db
@@ -92,6 +92,14 @@ ALTER TABLE ONLY produttori
 --
 
 CREATE TRIGGER updtime_produttori_trg BEFORE INSERT OR UPDATE ON produttori FOR EACH ROW EXECUTE PROCEDURE updtime_column();
+
+
+--
+-- Name: produttori_marchio_fkey; Type: FK CONSTRAINT; Schema: cascino_schema; Owner: cascino_user_db
+--
+
+ALTER TABLE ONLY produttori
+    ADD CONSTRAINT produttori_foto_fonk FOREIGN KEY (foto) REFERENCES foto(id) ON UPDATE RESTRICT ON DELETE RESTRICT;
 
 
 --
