@@ -65,13 +65,14 @@ ALTER TABLE ONLY foto ALTER COLUMN id SET DEFAULT nextval('foto_id_seq'::regclas
 -- Data for Name: foto; Type: TABLE DATA; Schema: cascino_schema; Owner: cascino_user_db
 --
 
+INSERT INTO foto VALUES (1, 'c:\dev\foto', 'n.d..jpeg', 'n.d..jpeg', 'n.d..jpeg', 'n.d..jpeg', 'n.d..jpeg', '2014-05-21 11:43:59.038+02');
 
 
 --
 -- Name: foto_id_seq; Type: SEQUENCE SET; Schema: cascino_schema; Owner: cascino_user_db
 --
 
-SELECT pg_catalog.setval('foto_id_seq', 1, false);
+SELECT pg_catalog.setval('foto_id_seq', 1, true);
 
 
 --

@@ -1,2 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<pageflow:Pageflow xmlns:pageflow="http://www.sybase.com/suade/pageflow" id="pf13953035730560" configfile="/Cascino-web/src/main/webapp/WEB-INF/faces-config.xml"/>
+<pageflow:Pageflow xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:pageflow="http://www.sybase.com/suade/pageflow" id="pf13953035730560" configfile="/Cascino-web/src/main/webapp/WEB-INF/faces-config.xml">
+  <nodes xsi:type="pageflow:PFPage" name="mng2others" x="504" y="168" id="pf14017863954141" referenceLink="//@navigationRule.1/@fromViewId|" outlinks="pf14018706581890 pf14019523426666 pf14019524837728 pf14019567324819 pf140195676966311" inlinks="pf14018780108403" path="/homeManage.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="foto2tipi" x="720" y="72" id="pf14017863954143" referenceLink="//@navigationRule.3/@fromViewId|" outlinks="pf140213223136214" inlinks="pf14018706581890 pf140213118071413" path="/foto.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="all2HomeManage" x="348" y="48" id="pf14018780108404" referenceLink="//@navigationRule.0/@fromViewId|" outlinks="pf14018780108403" path="/*"/>
+  <nodes xsi:type="pageflow:PFPage" name="tipi2foto" x="769" y="252" id="pf14019523426667" referenceLink="//@navigationRule.3/@navigationCase.0/@toViewId|" outlinks="pf140213118071413" inlinks="pf14019523426666 pf14019524837728 pf140213223136214" path="/tipi.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="articoli.xhtml" x="108" y="105" id="pf140195673248110" referenceLink="//@navigationRule.1/@navigationCase.3/@toViewId|" inlinks="pf14019567324819" path="/articoli.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="produttori.xhtml" x="324" y="276" id="pf140195676966312" referenceLink="//@navigationRule.1/@navigationCase.4/@toViewId|" inlinks="pf140195676966311" path="/produttori.xhtml"/>
+  <links id="pf14018706581890" target="pf14017863954143" source="pf14017863954141" outcome="mngToFoto" redirect="true"/>
+  <links id="pf14018780108403" target="pf14017863954141" source="pf14018780108404" outcome="homeMng" redirect="true"/>
+  <links id="pf14019523426666" target="pf14019523426667" source="pf14017863954141" outcome="mngToRisorse" redirect="true"/>
+  <links id="pf14019524837728" target="pf14019523426667" source="pf14017863954141" outcome="mngToTipi" redirect="true"/>
+  <links id="pf14019567324819" target="pf140195673248110" source="pf14017863954141" outcome="mngToArticoli" redirect="true"/>
+  <links id="pf140195676966311" target="pf140195676966312" source="pf14017863954141" outcome="mngToProduttori" redirect="true"/>
+  <links id="pf140213118071413" target="pf14017863954143" source="pf14019523426667" outcome="tipiToFoto" redirect="true"/>
+  <links id="pf140213223136214" target="pf14019523426667" source="pf14017863954143" outcome="fotoToTipi" redirect="true">
+    <bendPoints d1Width="113" d1Height="80" d2Width="64" d2Height="-100"/>
+  </links>
+</pageflow:Pageflow>

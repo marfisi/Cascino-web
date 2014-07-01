@@ -14,7 +14,7 @@ import javax.transaction.UserTransaction;
 import org.jboss.logging.Logger;
 
 @SessionScoped
-public class ManagedBeanArticoliDao implements ArticoliDao, Serializable{
+public class ManBeanArticoliDao implements ArticoliDao, Serializable{
 	/**
 	 * 
 	 */
@@ -140,7 +140,7 @@ public class ManagedBeanArticoliDao implements ArticoliDao, Serializable{
 		}		
 	}
 	
-	public Foto getFoto(Integer idArticolo){
+	public Foto getFotoDaArticolo(Integer idArticolo){
 		Foto foto;
 		try{
 			try{

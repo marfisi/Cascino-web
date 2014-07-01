@@ -123,7 +123,7 @@ public class Foto implements Serializable{
 //			log.warn("toString: " + "id==null");
 			return "nd";
 		}
-		return path + originale;
+		return path + "\\" + originale;
 	}
 	
 	@Override
@@ -131,6 +131,12 @@ public class Foto implements Serializable{
 		// log.info("equals: " + obj);
 		if(obj instanceof Foto){
 			if(this.id == ((Foto)obj).id){
+				return true;
+			}else{
+				return false;
+			}
+		}else if(obj instanceof Integer){
+			if(this.id == obj){
 				return true;
 			}else{
 				return false;

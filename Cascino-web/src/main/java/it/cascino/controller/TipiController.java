@@ -1,16 +1,19 @@
 package it.cascino.controller;
 
-import java.util.Iterator;
-import java.util.List;
 import it.cascino.dao.TipiDao;
+import it.cascino.model.Foto;
 import it.cascino.model.Tipi;
 import java.io.Serializable;
+import java.util.Iterator;
+import java.util.List;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 import org.jboss.logging.Logger;
+import org.primefaces.model.DefaultTreeNode;
+import org.primefaces.model.TreeNode;
 
 @Named
 @SessionScoped
@@ -34,45 +37,52 @@ public class TipiController implements Serializable{
 	
 	private String esito;
 	
-	private List<Tipi> tipiLs;
-	private List<Tipi> filteredTipiLs;
+	private TreeNode albero;
 	
-	private Tipi tipoSel = new Tipi();
-
+	private TreeNode nodoSel;
+	
+	private List<Tipi> tipiLs;
+	
 	public List<Tipi> getTipiLs(){
-		tipiLs = tipiDao.getAll();
 		return tipiLs;
 	}
-
+	
 	public void setTipiLs(List<Tipi> tipiLs){
 		this.tipiLs = tipiLs;
 	}
 	
-	public Tipi getTipoSel(){
-		return tipoSel;
-	}
-
-	public void setTipoSel(Tipi tipoSel){
-		this.tipoSel = tipoSel;
-	}
-	
-	public List<Tipi> getFilteredTipiLs(){
-		return filteredTipiLs;
-	}
-
-	public void setFilteredTipiLs(List<Tipi> filteredTipiLs){
-		this.filteredTipiLs = filteredTipiLs;
+	public TreeNode getAlbero(){
+		// if((tipiLs == null) || (tipiLs.isEmpty())){
+		tipiLs = tipiDao.getAll();
+		
+		albero = new DefaultTreeNode("root", null);
+		
+		popolaConFigli(1, albero);
+		// }
+		return albero;
 	}
 	
-//	@Named
-//    @Produces
-//   // @RequestScoped
-//    private Tipi tipo = new Tipi();
+	public void setAlbero(TreeNode albero){
+		this.albero = albero;
+	}
+	
+	public TreeNode getNodoSel(){
+		return nodoSel;
+	}
+	
+	public void setNodoSel(TreeNode nodoSel){
+		this.nodoSel = nodoSel;
+	}
+	
+	public void salva(Integer idFoto){
+		((Tipi)nodoSel.getData()).setIdFoto(idFoto);
+		salva();
+	}
 	
 	public void salva(){
-		tipiDao.salva(tipoSel);
-		if(tipoSel != null){
-			esito = "Aggiunto tipo: " + tipoSel.getDescrizione();
+		tipiDao.salva(nodoSel);
+		if(nodoSel != null){
+			esito = "Aggiunto tipo: " + ((Tipi)nodoSel.getData()).getDescrizione();
 			showGrowlInsMessage();
 		}else{
 			esito = "non ho trovato il tipo!";
@@ -81,22 +91,22 @@ public class TipiController implements Serializable{
 	}
 	
 	public void aggiorna(){
-		tipoSel.setTipoPadre(getPadreFromId());
+		((Tipi)nodoSel.getData()).setTipoPadre(getPadreFromId());
 		
-		tipiDao.aggiorna(tipoSel);
-		if(tipoSel != null){
-			esito = "Aggiorno tipo: " + tipoSel.getDescrizione();
+		tipiDao.aggiorna(nodoSel);
+		if(nodoSel != null){
+			esito = "Aggiorno tipo: " + ((Tipi)nodoSel.getData()).getDescrizione();
 			showGrowlUpdMessage();
 		}else{
 			esito = "non ho trovato il tipo!";
 			showGrowlErrorMessage();
 		}
 	}
-
+	
 	public void elimina(){
-		tipiDao.elimina(tipoSel);
-		if(tipoSel != null){
-			esito = "Elimino tipo: " + tipoSel.getDescrizione();
+		tipiDao.elimina(nodoSel);
+		if(nodoSel != null){
+			esito = "Elimino tipo: " + ((Tipi)nodoSel.getData()).getDescrizione();
 			showGrowlDelMessage();
 		}else{
 			esito = "non ho trovato il tipo!";
@@ -108,40 +118,65 @@ public class TipiController implements Serializable{
 		return esito;
 	}
 	
+	private void showGrowlInfoMessage(String message){
+		facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Successo", message));
+		log.info(message);
+	}
+	
 	private void showGrowlUpdMessage(){
-		String message = "Aggiornato con successo - " + esito + " >" + tipoSel + "<";
+		String message = "Aggiornato con successo - " + esito + " >" + nodoSel + "<";
 		facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Successo", message));
 		log.info(message);
 	}
 	
 	private void showGrowlInsMessage(){
-		String message = "Inserito con successo - " + esito + " >" + tipoSel + "<";
+		String message = "Inserito con successo - " + esito + " >" + nodoSel + "<";
 		facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Successo", message));
 		log.info(message);
 	}
 	
 	private void showGrowlDelMessage(){
-		String message = "Eliminato con successo - " + esito + " >" + tipoSel + "<";
+		String message = "Eliminato con successo - " + esito + " >" + nodoSel + "<";
 		facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Successo", message));
 		log.info(message);
 	}
 	
 	private void showGrowlErrorMessage(){
-		String message = "Operazione fallita - " + esito + " >" + tipoSel + "<";
+		String message = "Operazione fallita - " + esito + " >" + nodoSel + "<";
 		facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Errore", message));
 		log.error(message);
 	}
 	
-	public int sortByNum(Object obj1, Object obj2){
-		Integer o1 = (Integer)obj1;
-		Integer o2 = (Integer)obj2;
-		log.info("sortById: " + o1 + "-" + o2);
-		if(o1 < o2){
-			return -1;
-		}else if(o1 > o2){
-			return 1;
+	public void displaySelectedSingle(){
+		if(nodoSel != null){
+			String message = "Selezione " + nodoSel.getData().toString();
+			facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Successo", message));
+			log.info(message);
 		}
-		return 0;
+	}
+	
+	// private, solo di servizio, ricorsiva
+	private TreeNode popolaConFigli(int idPadre, TreeNode root){
+		log.info("popolaConFigli con id " + idPadre);
+		
+		TreeNode leaf = null;
+		
+		Tipi p = null;
+		Iterator<Tipi> iterator = tipiLs.iterator();
+		
+		while(iterator.hasNext()){
+			p = iterator.next();
+			
+			if(p.getTipoPadre().getId() == idPadre){
+				leaf = new DefaultTreeNode(p, root);
+				// sono nella riga nd, che ha tipo e tipoPadre = 1, avrei un loop infinito, quindi gestisco il caso senza chiamare la ricorsione
+				if(p.getId() == 1){
+					continue;
+				}
+				popolaConFigli(p.getId(), leaf);
+			}
+		}
+		return leaf;
 	}
 	
 	// private, solo di servizio
@@ -151,11 +186,63 @@ public class TipiController implements Serializable{
 		Iterator<Tipi> iterator = tipiLs.iterator();
 		while(iterator.hasNext()){
 			p = iterator.next();
-			if(p.getId() == tipoSel.getTipoPadre().getId()){
+			if(p.getId() == ((Tipi)nodoSel.getData()).getTipoPadre().getId()){
 				break;
 			}
 			p = null;
 		}
 		return p;
+	}
+	
+	public Foto getFoto(Integer id){
+		Foto fotoTipo = new Foto();
+		fotoTipo = tipiDao.getFoto(id); // nodoSel);
+		if(fotoTipo != null){
+			esito = "selezionata foto " + fotoTipo.getId() + " per tipo: " + id; // ((Tipi)nodoSel.getData()).getId();
+			showGrowlInfoMessage(esito);
+		}else{
+			esito = "non e' stata trovata la foto!";
+			showGrowlErrorMessage();
+		}
+		return fotoTipo;
+	}
+	
+	// public Foto getFotoPadre(Integer id){
+	// Foto fotoTipo = new Foto();
+	// fotoTipo = tipiDao.getFotoPadre(id); // nodoSel);
+	// if(fotoTipo != null){
+	// esito = "selezionata foto " + fotoTipo.getId() + " per tipo: " + ((Tipi)nodoSel.getData()).getTipoPadre();
+	// showGrowlInfoMessage(esito);
+	// }else{
+	// esito = "non e' stata trovata la foto!";
+	// showGrowlErrorMessage();
+	// }
+	// return fotoTipo;
+	// }
+	
+	public Foto getFotoDaArticolo(Integer idArticolo){
+		Foto fotoTipo = new Foto();
+		fotoTipo = tipiDao.getFotoDaArticolo(idArticolo);
+		if(fotoTipo != null){
+			esito = "selezionata foto " + fotoTipo.getId() + " per articolo: " + idArticolo;
+			showGrowlInfoMessage(esito);
+		}else{
+			esito = "non e' stata trovata la foto!";
+			showGrowlErrorMessage();
+		}
+		return fotoTipo;
+	}
+	
+	public String getNomeDaArticolo(Integer idArticolo){
+		String nomeTipo = "";
+		nomeTipo = tipiDao.getNomeDaArticolo(idArticolo);
+		if(nomeTipo != null){
+			esito = "tipo " + nomeTipo + " per articolo: " + idArticolo;;
+			showGrowlInfoMessage(esito);
+		}else{
+			esito = "non e' stato trovato il tipo!";
+			showGrowlErrorMessage();
+		}
+		return nomeTipo;
 	}
 }
