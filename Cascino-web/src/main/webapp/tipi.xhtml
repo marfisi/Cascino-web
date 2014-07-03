@@ -83,7 +83,7 @@
 				</p:treeTable>
 			</h:form>
 
-			<p:dialog id="dialog" header="Dettagli" widgetVar="viewDialog" resizable="false" showEffect="clip" hideEffect="fold">
+			<p:dialog id="dialog" header="Dettagli" widgetVar="viewDialog" resizable="false" showEffect="clip" hideEffect="fold" modal="true">
 				<h:form id="viewForm">
 					<h:panelGrid id="display" columns="3" cellpadding="4">
 						<f:facet name="header">
@@ -112,7 +112,7 @@
 				</h:form>
 			</p:dialog>
 
-			<p:dialog widgetVar="newDialog" header="Inserisci" modal="true">
+			<p:dialog widgetVar="newDialog" header="Inserisci" modal="true" closable="false">
 				<h:form id="newForm">
 					<p:outputPanel id="newDisplay">
 						<h:panelGrid columns="2">
@@ -150,12 +150,14 @@
 								</p:column>
 							</p:selectOneMenu>
 						</h:panelGrid>
-						<p:commandButton value="Salva" action="#{tipiController.salva(fotoController.fotoSel.id)}" update=":tblTreeTableForm:tbl,:growlForm:growl" onclick="newDialog.close()" icon="ui-icon-disk" />
+						<p:commandButton value="Salva" action="#{tipiController.salva(fotoController.fotoSel.id)}" update=":tblTreeTableForm:tbl,:growlForm:growl" onclick="PF('newDialog').hide()" icon="ui-icon-disk" />
+						<p:separator />
+						<p:commandButton value="Annulla" update=":tblTreeTableForm:tbl" onclick="PF('newDialog').hide()" icon="ui-icon-cancel" />
 					</p:outputPanel>
 				</h:form>
 			</p:dialog>
 
-			<p:dialog widgetVar="updDialog" header="Modifica">
+			<p:dialog widgetVar="updDialog" header="Modifica" modal="true" closable="false">
 				<h:form id="updForm">
 					<p:outputPanel id="updDisplay">
 						<h:panelGrid columns="2">
@@ -177,12 +179,14 @@
 									<p:graphicImage value="./resources/gfx/tipi/#{p.id}.jpeg" width="40" height="40" />
 								</p:column>
 								<p:column>
-									#{p.nome} - #{p.descrizione} (id: #{p.id})
+									<h:outputText value="#{p.nome} - #{p.descrizione} (id: #{p.id})" />
 								</p:column>
 							</p:selectOneMenu>
 						</h:panelGrid>
-						<p:commandButton value="Aggiorna" action="#{tipiController.aggiorna}" update=":tblTreeTableForm:tbl,:growlForm:growl" onclick="updDialog.close()" icon="ui-icon-refresh" />
-						<p:commandButton value="Elimina" action="#{tipiController.elimina}" update=":tblTreeTableForm:tbl,:growlForm:growl" onclick="updDialog.close()" icon="ui-icon-trash" />
+						<p:commandButton value="Aggiorna" action="#{tipiController.aggiorna}" update=":tblTreeTableForm:tbl,:growlForm:growl" onclick="PF('updDialog').hide()" icon="ui-icon-refresh" />
+						<p:commandButton value="Elimina" action="#{tipiController.elimina}" update=":tblTreeTableForm:tbl,:growlForm:growl" onclick="PF('updDialog').hide()" icon="ui-icon-trash" />
+						<p:separator />
+						<p:commandButton value="Annulla" update=":tblTreeTableForm:tbl" onclick="PF('updDialog').hide()" icon="ui-icon-cancel" />
 					</p:outputPanel>
 				</h:form>
 			</p:dialog>

@@ -9,7 +9,6 @@
 		</ui:define>
 
 		<ui:define name="content">
-			
 			<h:form id="growlForm">
 				<p:growl id="growl" showDetail="true" life="4000" />
 			</h:form>
@@ -165,7 +164,6 @@
 							<h:outputText id="name" value="#{foto.originale}" />
 							<h:outputText id="size" value="#{foto.grande}" />
 							<h:outputText id="resolution" value="#{foto.thumbnail}" />
-
 						</h:panelGrid>
 					</f:facet>
 				</p:galleria>
@@ -196,13 +194,14 @@
 								cancelLabel="Annulla" invalidSizeMessage="File troppo grosso (limite 1 MB)" invalidFileMessage="Tipo file non consentito (solo: gif, jpeg, png)"
 								fileLimitMessage="Puoi caricare un file alla volta" fileLimit="1" sizeLimit="1048576" allowTypes="/(\.|\/)(gif|jpe?g|png)$/" />
 						</h:panelGrid>
-						<p:commandButton value="Salva" action="#{fotoController.salva}" update=":tblForm:tbl,:growlForm:growl" onclick="newDialog.close()" icon="ui-icon-disk" />
-						<p:commandButton value="Annulla" action="#{fotoController.annullaUpload}" update=":tblForm:tbl,:growlForm:growl" onclick="newDialog.close()" icon="ui-icon-cancel" />
+						<p:commandButton value="Salva" action="#{fotoController.salva}" update=":tblForm:tbl,:growlForm:growl" onclick="PF('newDialog').hide()" icon="ui-icon-disk" />
+						<p:separator />
+						<p:commandButton value="Annulla" action="#{fotoController.annullaUpload}" update=":tblForm:tbl,:growlForm:growl" onclick="PF('newDialog').hide()" icon="ui-icon-cancel" />
 					</p:outputPanel>
 				</h:form>
 			</p:dialog>
 
-			<p:dialog widgetVar="updDialog" header="Modifica" closable="false">
+			<p:dialog widgetVar="updDialog" header="Modifica" modal="true" closable="false">
 				<h:form id="updForm">
 					<p:outputPanel id="updDisplay">
 						<h:outputText value="Tipo: " />
@@ -234,9 +233,10 @@
 								</h:panelGrid>
 							</h:panelGrid>
 						</h:panelGrid>
-						<p:commandButton value="Aggiorna" action="#{fotoController.aggiorna}" update=":tblForm:tbl,:growlForm:growl" onclick="updDialog.close()" icon="ui-icon-refresh" />
-						<p:commandButton value="Elimina" action="#{fotoController.elimina}" update=":tblForm:tbl,:growlForm:growl" onclick="updDialog.close()" icon="ui-icon-trash" />
-						<p:commandButton value="Annulla" action="#{fotoController.annullaUpdate}" update=":tblForm:tbl,:growlForm:growl" onclick="PF('updDialog').close()" icon="ui-icon-cancel" />
+						<p:commandButton value="Aggiorna" action="#{fotoController.aggiorna}" update=":tblForm:tbl,:growlForm:growl" onclick="PF('updDialog').hide()" icon="ui-icon-refresh" />
+						<p:commandButton value="Elimina" action="#{fotoController.elimina}" update=":tblForm:tbl,:growlForm:growl" onclick="PF('updDialog').hide()" icon="ui-icon-trash" />
+						<p:separator />
+						<p:commandButton value="Annulla" action="#{fotoController.annullaUpdate}" update=":tblForm:tbl,:growlForm:growl" onclick="PF('updDialog').hide()" icon="ui-icon-cancel" />
 					</p:outputPanel>
 				</h:form>
 			</p:dialog>
@@ -248,6 +248,7 @@
 							cancelLabel="Annulla" invalidSizeMessage="File troppo grosso (limite 1 MB)" invalidFileMessage="Tipo file non consentito (solo: gif, jpeg, png)"
 							sizeLimit="1048576" allowTypes="/(\.|\/)(gif|jpe?g|png)$/" />
 						<p:commandButton value="Salva" onclick="PF('updDialogUpload').hide()" update=":updForm:tipoFotoGrid" process="@this" icon="ui-icon-disk" />
+						<p:separator />
 						<p:commandButton value="Annulla" action="#{fotoController.annullaUploadUndef}" update=":updForm:tipoFotoGrid,:growlForm:growl" onclick="PF('updDialogUpload').hide()" process="@this" icon="ui-icon-cancel" />
 					</p:outputPanel>
 				</h:form>

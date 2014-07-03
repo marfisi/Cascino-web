@@ -9,8 +9,9 @@
 		</ui:define>
 
 		<ui:define name="content">
-
-			<p:growl id="growl" showDetail="true" life="4000" />
+			<h:form id="growlForm">
+				<p:growl id="growl" showDetail="true" life="4000" />
+			</h:form>
 
 			<h:form id="tblForm">
 				<p:toolbar id="tb">
@@ -23,12 +24,17 @@
 					</p:toolbarGroup>
 				</p:toolbar>
 				<p:sticky target="tb" />
+				<p:toolbar id="tbNavigation">
+					<p:toolbarGroup align="right" rendered="true">
+						<p:commandButton id="fotoToTipiButton" value="Torna a Tipi" action="#{navigationController.fotoToTipi()}" icon="ui-icon-arrowreturnthick-1-w" rendered="#{navigationController.showFotoToTipi}" />
+					</p:toolbarGroup>
+				</p:toolbar>
+				<p:sticky target="tbNavigation" />
 
 				<p:dataTable id="tbl" var="articolo" value="#{articoliController.articoliLs}" selection="#{articoliController.articoloSel}" selectionMode="single" rowKey="#{articolo.id}" update=":updDisplay"
 					oncomplete="PF('updDialog').show()" paginator="true" rows="15" dynamic="true" sortBy="id" emptyMessage="Nessun entry per il criterio definito" widgetVar="articoliTable"
 					filteredValue="#{articoliController.filteredArticoliLs}">
 
-					<!--  p:ajax event="rowDblselect" update=":contentGalleria" oncomplete="PF('viewDialog').show()" / -->
 					<p:ajax event="rowDblselect" update=":display" oncomplete="PF('viewDialog').show()" />
 
 					<f:facet name="header">
@@ -151,14 +157,55 @@
 					<h:outputText value="#{articoliController.articoloSel.id}" />
 					<h:outputText value="Codice:" />
 					<h:outputText value="#{articoliController.articoloSel.codice}" />
-
 				</h:panelGrid>
 			</p:dialog>
 
-			<p:dialog widgetVar="newDialog" header="Inserisci" closable="false">
+			<p:dialog widgetVar="newDialog" header="Inserisci" modal="true" closable="false">
+				<h:form id="newForm">
+					<p:outputPanel id="newDisplay">
+						<h:panelGrid columns="2">
+							<h:outputText value="Nome" />
+							<p:inputText value="#{tipiController.nodoSel.data.nome}"></p:inputText>
+							<h:outputText value="Descrizione" />
+							<p:inputTextarea value="#{tipiController.nodoSel.data.descrizione}" rows="5" cols="23" counter="counter" maxlength="70" counterTemplate="{0} caratteri" autoResize="false" />
+							<h:outputText id="blank" />
+							<h:outputText id="counter" />
+							<h:outputText value="Foto" />
+							<p:selectOneMenu id="menuSelFoto" value="#{fotoController.fotoSel}" converter="fotoConv" var="f" filter="true" filterMatchMode="contains">
+								<f:selectItem itemLabel="Seleziona Foto" itemValue="" />
+								<f:selectItems value="#{fotoController.fotoLs}" var="foto" itemLabel="#{foto.originale} (id: #{foto.id})" itemValue="#{foto.id}" />
+								<p:column>
+									<p:graphicImage value="#{fotoController.resolvePath(fotoController.getFotoFromId(f))}#{fotoController.getFotoname(fotoController.getFotoFromId(f), 1)}" height="60" />
+								</p:column>
+								<p:column>
+									<h:outputText value="#{fotoController.getFotoname(fotoController.getFotoFromId(f), 1)} (id: #{fotoController.getFotoFromId(f).id})" />
+								</p:column>
+								<p:column>
+									<h:outputText value="#{fotoController.size(fotoController.getFotoFromId(f), 1)} - #{fotoController.resolution(fotoController.getFotoFromId(f), 1)}" />
+								</p:column>
+							</p:selectOneMenu>
+							<h:outputText id="blank2" />
+							<p:commandButton id="toFotoButton" value="Aggiungi Foto" action="#{navigationController.tipiToFoto()}" icon="ui-icon-circle-plus"  />
+							<h:outputText value="Classe" />
+							<p:selectOneMenu id="menuSelPadre" value="#{tipiController.nodoSel.data.tipoPadre}" converter="tipiConv" var="p" filter="true" filterMatchMode="contains">
+								<f:selectItem itemLabel="Seleziona Classe Padre" itemValue="" />
+								<f:selectItems value="#{tipiController.tipiLs}" var="tipo" itemLabel="#{tipo.nome} (id: #{tipo.id})" itemValue="#{tipo}" />
+								<p:column>
+									<p:graphicImage value="#{fotoController.resolvePath(tipiController.getFoto(p.id))}#{fotoController.getFotoname(tipiController.getFoto(p.id), 1)}" height="40" />									
+								</p:column>
+								<p:column>
+									<h:outputText value="#{p.nome} - #{p.descrizione} (id: #{p.id})" />
+								</p:column>
+							</p:selectOneMenu>
+						</h:panelGrid>
+						<p:commandButton value="Salva" action="#{tipiController.salva(fotoController.fotoSel.id)}" update=":tblForm:tbl,:growlForm:growl" onclick="PF('newDialog').hide()" icon="ui-icon-disk" />
+						<p:separator />
+						<p:commandButton value="Annulla" update=":tblForm:tbl" onclick="PF('newDialog').hide()" icon="ui-icon-cancel" />
+					</p:outputPanel>
+				</h:form>
 			</p:dialog>
 
-			<p:dialog widgetVar="updDialog" header="Modifica" closable="false">
+			<p:dialog widgetVar="updDialog" header="Modifica" modal="true" closable="false">
 			</p:dialog>
 
 		</ui:define>
