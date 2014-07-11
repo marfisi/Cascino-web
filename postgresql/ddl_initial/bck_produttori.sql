@@ -62,7 +62,7 @@ ALTER TABLE ONLY produttori ALTER COLUMN id SET DEFAULT nextval('produttori_id_s
 -- Data for Name: produttori; Type: TABLE DATA; Schema: cascino_schema; Owner: cascino_user_db
 --
 
-INSERT INTO produttori VALUES (1, 'n.d.', 'n.d.', 1, '2014-04-04 13:26:42.731+02');
+INSERT INTO produttori VALUES (1, 'n.d.', 'n.d.', '2014-04-04 13:26:42.731+02', 1);
 
 --
 -- Name: produttori_id_seq; Type: SEQUENCE SET; Schema: cascino_schema; Owner: cascino_user_db

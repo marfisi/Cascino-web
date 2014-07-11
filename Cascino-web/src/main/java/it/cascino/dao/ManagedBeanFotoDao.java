@@ -25,7 +25,7 @@ import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.UploadedFile;
 
 @SessionScoped
-public class ManBeanFotoDao implements FotoDao, Serializable{
+public class ManagedBeanFotoDao implements FotoDao, Serializable{
 	/**
 	 * 
 	 */
@@ -84,11 +84,12 @@ public class ManBeanFotoDao implements FotoDao, Serializable{
 		return dirFotoUri;
 	}
 	
+	
 	public Boolean annullaUpdate(List<UploadedFile> fotoLs){
 		if((fotoLs != null) && (!fotoLs.isEmpty())){
 			// ripristino i .delete
 			File fd = null;
-			if((fotoDeletedLs != null) && (!fotoDeletedLs.isEmpty())){
+			if((fotoDeletedLs != null)&&(!fotoDeletedLs.isEmpty())){
 				Iterator<File> iterFD = fotoDeletedLs.iterator();
 				while(iterFD.hasNext()){
 					fd = iterFD.next();
@@ -444,30 +445,30 @@ public class ManBeanFotoDao implements FotoDao, Serializable{
 		}
 		if(giaEsiste){
 			log.info(nomeFileEsistente.substring(3) + " gia' esistente");
-			// // cancello tutti i file copiati
-			// iterator = fotoLs.iterator();
-			// while(iterator.hasNext()){
-			// o = iterator.next();
-			//
-			// // fileN = new File(sourceFolder, o.getFileName());
-			// fileO = new File(sourceFolder, "upload-" + o.getFileName() + ".orig");
-			// fileH = new File(sourceFolder, "upload-" + o.getFileName() + ".hd");
-			// fileHW = new File(sourceFolder, "upload-" + o.getFileName() + ".hdwm");
-			// fileL = new File(sourceFolder, "upload-" + o.getFileName() + ".ld");
-			// fileLW = new File(sourceFolder, "upload-" + o.getFileName() + ".ldwm");
-			//
-			// if(fileO.exists()){
-			// fileO.delete();
-			// }else if(fileH.exists()){
-			// fileH.delete();
-			// }else if(fileHW.exists()){
-			// fileHW.delete();
-			// }else if(fileL.exists()){
-			// fileL.delete();
-			// }else if(fileLW.exists()){
-			// fileLW.delete();
-			// }
-			// }
+//			// cancello tutti i file copiati
+//			iterator = fotoLs.iterator();
+//			while(iterator.hasNext()){
+//				o = iterator.next();
+//				
+//				// fileN = new File(sourceFolder, o.getFileName());
+//				fileO = new File(sourceFolder, "upload-" + o.getFileName() + ".orig");
+//				fileH = new File(sourceFolder, "upload-" + o.getFileName() + ".hd");
+//				fileHW = new File(sourceFolder, "upload-" + o.getFileName() + ".hdwm");
+//				fileL = new File(sourceFolder, "upload-" + o.getFileName() + ".ld");
+//				fileLW = new File(sourceFolder, "upload-" + o.getFileName() + ".ldwm");
+//				
+//				if(fileO.exists()){
+//					fileO.delete();
+//				}else if(fileH.exists()){
+//					fileH.delete();
+//				}else if(fileHW.exists()){
+//					fileHW.delete();
+//				}else if(fileL.exists()){
+//					fileL.delete();
+//				}else if(fileLW.exists()){
+//					fileLW.delete();
+//				}
+//			}
 			annullaUpload(fotoLs);
 			return "la foto definita " + nomeFileEsistente + " e' gia' esistente";
 		}
@@ -492,7 +493,7 @@ public class ManBeanFotoDao implements FotoDao, Serializable{
 				if(foto.getOriginale() != null){
 					fd = new File(foto.getPath(), foto.getOriginale());
 				}
-				if((fd != null) && (fd.exists())){
+				if((fd != null)&&(fd.exists())){
 					fd.delete();
 					log.info("file " + fd.getName() + " cancellato");
 				}
@@ -503,7 +504,7 @@ public class ManBeanFotoDao implements FotoDao, Serializable{
 				if(foto.getGrande() != null){
 					fd = new File(foto.getPath(), foto.getGrande());
 				}
-				if((fd != null) && (fd.exists())){
+				if((fd != null)&&(fd.exists())){
 					fd.delete();
 					log.info("file " + fd.getName() + " cancellato");
 				}
@@ -514,7 +515,7 @@ public class ManBeanFotoDao implements FotoDao, Serializable{
 				if(foto.getGrandeWatermark() != null){
 					fd = new File(foto.getPath(), foto.getGrandeWatermark());
 				}
-				if((fd != null) && (fd.exists())){
+				if((fd != null)&&(fd.exists())){
 					fd.delete();
 					log.info("file " + fd.getName() + " cancellato");
 				}
@@ -525,7 +526,7 @@ public class ManBeanFotoDao implements FotoDao, Serializable{
 				if(foto.getThumbnail() != null){
 					fd = new File(foto.getPath(), foto.getThumbnail());
 				}
-				if((fd != null) && (fd.exists())){
+				if((fd != null)&&(fd.exists())){
 					fd.delete();
 					log.info("file " + fd.getName() + " cancellato");
 				}
@@ -536,7 +537,7 @@ public class ManBeanFotoDao implements FotoDao, Serializable{
 				if(foto.getThumbnailWatermark() != null){
 					fd = new File(foto.getPath(), foto.getThumbnailWatermark());
 				}
-				if((fd != null) && (fd.exists())){
+				if((fd != null)&&(fd.exists())){
 					fd.delete();
 					log.info("file " + fd.getName() + " cancellato");
 				}
@@ -630,36 +631,36 @@ public class ManBeanFotoDao implements FotoDao, Serializable{
 				
 				// gestione file modificati
 				if((fotoLs != null) && (!fotoLs.isEmpty())){
-					// File sourceFolder = new File(dirFoto);
-					// File fileO = null;
-					// File fileH = null;
-					// File fileHW = null;
-					// File fileL = null;
-					// File fileLW = null;
-					// UploadedFile o = null;
-					// Iterator<UploadedFile> iterator = fotoLs.iterator();
-					// while(iterator.hasNext()){
-					// o = iterator.next();
-					//
-					// fileO = new File(sourceFolder, "upload-" + o.getFileName() + ".orig");
-					// fileH = new File(sourceFolder, "upload-" + o.getFileName() + ".hd");
-					// fileHW = new File(sourceFolder, "upload-" + o.getFileName() + ".hdwm");
-					// fileL = new File(sourceFolder, "upload-" + o.getFileName() + ".ld");
-					// fileLW = new File(sourceFolder, "upload-" + o.getFileName() + ".ldwm");
-					//
-					// if(fileO.exists()){
-					// fileO.delete();
-					// }else if(fileH.exists()){
-					// fileH.delete();
-					// }else if(fileHW.exists()){
-					// fileHW.delete();
-					// }else if(fileL.exists()){
-					// fileL.delete();
-					// }else if(fileLW.exists()){
-					// fileLW.delete();
-					// }
-					// log.info("file " + o.getFileName() + " cancellato");
-					// }
+//					File sourceFolder = new File(dirFoto);
+//					File fileO = null;
+//					File fileH = null;
+//					File fileHW = null;
+//					File fileL = null;
+//					File fileLW = null;
+//					UploadedFile o = null;
+//					Iterator<UploadedFile> iterator = fotoLs.iterator();
+//					while(iterator.hasNext()){
+//						o = iterator.next();
+//						
+//						fileO = new File(sourceFolder, "upload-" + o.getFileName() + ".orig");
+//						fileH = new File(sourceFolder, "upload-" + o.getFileName() + ".hd");
+//						fileHW = new File(sourceFolder, "upload-" + o.getFileName() + ".hdwm");
+//						fileL = new File(sourceFolder, "upload-" + o.getFileName() + ".ld");
+//						fileLW = new File(sourceFolder, "upload-" + o.getFileName() + ".ldwm");
+//						
+//						if(fileO.exists()){
+//							fileO.delete();
+//						}else if(fileH.exists()){
+//							fileH.delete();
+//						}else if(fileHW.exists()){
+//							fileHW.delete();
+//						}else if(fileL.exists()){
+//							fileL.delete();
+//						}else if(fileLW.exists()){
+//							fileLW.delete();
+//						}
+//						log.info("file " + o.getFileName() + " cancellato");
+//					}
 					annullaUpload(fotoLs);
 					fotoLs.clear();
 				}
@@ -669,7 +670,7 @@ public class ManBeanFotoDao implements FotoDao, Serializable{
 				if(foto.getOriginale() != null){
 					fd = new File(foto.getPath(), foto.getOriginale());
 				}
-				if((fd != null) && (fd.exists())){
+				if((fd != null)&&(fd.exists())){
 					fd.delete();
 					log.info("file " + fd.getName() + " cancellato");
 				}
@@ -677,7 +678,7 @@ public class ManBeanFotoDao implements FotoDao, Serializable{
 				if(foto.getGrande() != null){
 					fd = new File(foto.getPath(), foto.getGrande());
 				}
-				if((fd != null) && (fd.exists())){
+				if((fd != null)&&(fd.exists())){
 					fd.delete();
 					log.info("file " + fd.getName() + " cancellato");
 				}
@@ -685,7 +686,7 @@ public class ManBeanFotoDao implements FotoDao, Serializable{
 				if(foto.getGrandeWatermark() != null){
 					fd = new File(foto.getPath(), foto.getGrandeWatermark());
 				}
-				if((fd != null) && (fd.exists())){
+				if((fd != null)&&(fd.exists())){
 					fd.delete();
 					log.info("file " + fd.getName() + " cancellato");
 				}
@@ -693,7 +694,7 @@ public class ManBeanFotoDao implements FotoDao, Serializable{
 				if(foto.getThumbnail() != null){
 					fd = new File(foto.getPath(), foto.getThumbnail());
 				}
-				if((fd != null) && (fd.exists())){
+				if((fd != null)&&(fd.exists())){
 					fd.delete();
 					log.info("file " + fd.getName() + " cancellato");
 				}
@@ -701,7 +702,7 @@ public class ManBeanFotoDao implements FotoDao, Serializable{
 				if(foto.getThumbnailWatermark() != null){
 					fd = new File(foto.getPath(), foto.getThumbnailWatermark());
 				}
-				if((fd != null) && (fd.exists())){
+				if((fd != null)&&(fd.exists())){
 					fd.delete();
 					log.info("file " + fd.getName() + " cancellato");
 				}
@@ -1020,65 +1021,5 @@ public class ManBeanFotoDao implements FotoDao, Serializable{
 			e.printStackTrace();
 		}
 	}
-	
-	public Foto getFotoFromId(Integer idFoto){
-		Foto foto;
-		try{
-			try{
-				utx.begin();
-				// String sql = "select * from foto " +
-				// "where id = (select foto " +
-				// "from (select row_number() OVER (ORDER BY foto) AS rownum, foto " +
-				// "from articoli_foto af join articoli a on af.articolo = a.id " +
-				// "where articolo = :id " +
-				// "order by ordinamento, af.updtime) as sub " +
-				// "where rownum = 1)";
-				String sql = "FROM Foto f Where f.id = :id";
-				Query query = entityManager.createQuery(sql);
-				// Query query = entityManager.createNativeQuery(sql, Foto.class); // Native
-				query.setParameter("id", idFoto);
-				foto = (Foto)query.getSingleResult();
-			}catch(NoResultException e){
-				foto = null;
-			}
-			utx.commit();
-		}catch(Exception e){
-			try{
-				utx.rollback();
-			}catch(SystemException se){
-				throw new RuntimeException(se);
-			}
-			throw new RuntimeException(e);
-		}
-		return foto;
-	}
-	
-	// public Foto getFotoFromNomeOriginale(String fName){
-	// Foto foto;
-	// if(fName.contains("\\")){
-	// fName = fName.substring(fName.lastIndexOf("\\")+1);
-	// }
-	// try{
-	// try{
-	// utx.begin();
-	// String sql = "FROM Foto f Where f.originale = :nome";
-	// Query query = entityManager.createQuery(sql);
-	// // Query query = entityManager.createNativeQuery(sql, Foto.class); // Native
-	// query.setParameter("nome", fName);
-	// foto = (Foto)query.getSingleResult();
-	// }catch(NoResultException e){
-	// foto = null;
-	// }
-	// utx.commit();
-	// }catch(Exception e){
-	// try{
-	// utx.rollback();
-	// }catch(SystemException se){
-	// throw new RuntimeException(se);
-	// }
-	// throw new RuntimeException(e);
-	// }
-	// return foto;
-	// }
 	
 }

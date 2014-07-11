@@ -115,10 +115,6 @@ public class FotoController implements Serializable{
 		this.filteredFotoLs = filteredFotoLs;
 	}
 	
-	public Foto getFotoFromId(Integer idFoto){
-		return fotoDao.getFotoFromId(idFoto);
-	}
-	
 	public void salva(){
 		String risp = fotoDao.salva(fileUploadedLs);
 		if(risp.startsWith("OK-")){
@@ -400,8 +396,4 @@ public class FotoController implements Serializable{
 		}
 		return true;
 	}
-	
-//	public Foto getFotoFromNomeOriginale(String fName){
-//		return fotoDao.getFotoFromNomeOriginale(fName);
-//	}		
 }

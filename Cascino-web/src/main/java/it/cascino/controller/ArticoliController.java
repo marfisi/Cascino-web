@@ -166,9 +166,9 @@ public class ArticoliController implements Serializable{
 		return 0;
 	}
 
-	public Foto getFotoDaArticolo(Integer idArticoli){
+	public Foto getFoto(Integer idArticoli){
 		Foto fotoArticolo = new Foto();
-		fotoArticolo = articoliDao.getFotoDaArticolo(idArticoli);
+		fotoArticolo = articoliDao.getFoto(idArticoli);
 		if(fotoArticolo != null){
 			esito = "selezionata foto " + fotoArticolo.getId() + " per articolo: " + idArticoli;
 			showGrowlInfoMessage(esito);

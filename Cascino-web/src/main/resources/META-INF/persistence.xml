@@ -23,8 +23,6 @@
    <persistence-unit name="primary">
       <jta-data-source>java:jboss/datasources/PostgresqlDS</jta-data-source>
       <class>it.cascino.model.Foto</class>
-      <class>it.cascino.model.Articoli</class>
-      <class>it.cascino.model.Userloginrole</class>
       <properties>
          <!-- JDBC connection pool (use the built-in) -->
 		<property name="hibernate.connection.pool_size" value="1" />

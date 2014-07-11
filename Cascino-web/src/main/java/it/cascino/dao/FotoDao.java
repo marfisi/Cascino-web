@@ -23,6 +23,4 @@ public interface FotoDao{
 	List<Foto> getFotoListPerSel(Foto f);
 	String getDirFoto();
 	void fileUpload(FileUploadEvent event, String type, List<UploadedFile> uf);
-	Foto getFotoFromId(Integer idFoto);
-//	Foto getFotoFromNomeOriginale(String fName);	
 }

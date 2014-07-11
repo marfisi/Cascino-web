@@ -166,9 +166,9 @@ public class ProduttoriController implements Serializable{
 		return 0;
 	}
 	
-	public Foto getFotoDaArticolo(Integer idArticolo){
+	public Foto getFoto(Integer idArticolo){
 		Foto fotoProduttore = new Foto();
-		fotoProduttore = produttoriDao.getFotoDaArticolo(idArticolo);
+		fotoProduttore = produttoriDao.getFoto(idArticolo);
 		if(fotoProduttore != null){
 			esito = "selezionata foto " + fotoProduttore.getId() + " per produttore: " + idArticolo;
 			showGrowlInfoMessage(esito);
@@ -179,9 +179,9 @@ public class ProduttoriController implements Serializable{
 		return fotoProduttore;
 	}
 	
-	public String getNomeDaArticolo(Integer idArticolo){
+	public String getNome(Integer idArticolo){
 		String nomeProduttore = "";
-		nomeProduttore = produttoriDao.getNomeDaArticolo(idArticolo);
+		nomeProduttore = produttoriDao.getNome(idArticolo);
 		if(nomeProduttore != null){
 			esito = "produttore " + nomeProduttore;
 			showGrowlInfoMessage(esito);

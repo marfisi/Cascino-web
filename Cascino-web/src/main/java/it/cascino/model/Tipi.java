@@ -5,6 +5,7 @@ import javax.inject.Inject;
 import javax.persistence.*;
 import org.jboss.logging.Logger;
 import java.sql.Timestamp;
+import java.util.Date;
 
 /**
  * The persistent class for the tipi database table.
@@ -25,19 +26,17 @@ public class Tipi implements Serializable{
 	private String nome;
 	private String descrizione;
 	private Tipi tipoPadre;
-	private Integer idFoto;
-	private Timestamp updtime;
+	private Date updtime;
 	
 	public Tipi(){
 	}
 	
-	public Tipi(Integer id, String nome, String descrizione, Tipi tipoPadre, Integer idFoto, Timestamp updtime){
+	public Tipi(Integer id, String nome, String descrizione, Tipi tipoPadre, Timestamp updtime){
 		super();
 		this.id = id;
 		this.nome = nome;
 		this.descrizione = descrizione;
 		this.tipoPadre = tipoPadre;
-		this.idFoto = idFoto;
 		this.updtime = updtime;
 	}
 	
@@ -79,23 +78,14 @@ public class Tipi implements Serializable{
 	public void setTipoPadre(Tipi tipi){
 		this.tipoPadre = tipi;
 	}
-
-	@Column(name = "foto")
-	public Integer getIdFoto(){
-		return idFoto;
-	}
-
-	public void setIdFoto(Integer idFoto){
-		this.idFoto = idFoto;
-	}
 	
 	@Transient
 	@Temporal(TemporalType.TIMESTAMP)
-	public Timestamp getUpdtime(){
+	public Date getUpdtime(){
 		return this.updtime;
 	}
 	
-	public void setUpdtime(Timestamp updtime){
+	public void setUpdtime(Date updtime){
 		this.updtime = updtime;
 	}
 	

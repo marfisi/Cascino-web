@@ -2,8 +2,8 @@ package it.cascino.dao;
 
 import java.io.Serializable;
 import java.util.List;
-import it.cascino.model.Produttori;
 import it.cascino.model.Foto;
+import it.cascino.model.Tipi;
 import javax.faces.bean.SessionScoped;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
@@ -12,9 +12,10 @@ import javax.persistence.Query;
 import javax.transaction.SystemException;
 import javax.transaction.UserTransaction;
 import org.jboss.logging.Logger;
+import org.primefaces.model.TreeNode;
 
 @SessionScoped
-public class ManBeanProduttoriDao implements ProduttoriDao, Serializable{
+public class ManagedBeanTipiTreeDao implements TipiTreeDao, Serializable{
 	/**
 	 * 
 	 */
@@ -32,19 +33,26 @@ public class ManBeanProduttoriDao implements ProduttoriDao, Serializable{
 	@Inject
 	private UserTransaction utx;
 	
-	public List<Produttori> getAll(){
+	public List<Tipi> getAll(){
+		log.info("getAll: " + 1);
 		try{
-			List<Produttori> produttori;
+			List<Tipi> tipi;
+			log.info("getAll: " + 2);
 			try{
+				log.info("getAll: " + 3);
 				utx.begin();
-				String sql = "FROM Produttori p";
+				log.info("getAll: " + 4);
+				String sql = "FROM Tipi t";
+				log.info("getAll: " + 5);
 				Query query = entityManager.createQuery(sql);
-				produttori = (List<Produttori>)query.getResultList();
+				log.info("getAll: " + 6);
+				tipi = (List<Tipi>)query.getResultList();
+				log.info("getAll: " + 7);
 			}catch(NoResultException e){
-				produttori = null;
+				tipi = null;
 			}
 			utx.commit();
-			return produttori;
+			return tipi;
 		}catch(Exception e){
 			try{
 				utx.rollback();
@@ -55,26 +63,35 @@ public class ManBeanProduttoriDao implements ProduttoriDao, Serializable{
 		}
 	}
 	
-	public void salva(Produttori produttore){
+	public void salva(TreeNode nodo){
+		Tipi tipo = (Tipi)nodo.getData();
+		
 		try{
 			try{
 				utx.begin();
+				log.info("1");
 				log.info("transaction:" + " " + utx.getStatus());
-				produttore.setId(null);
-				log.info("salva: " + produttore.getId() + ", " + produttore.getNome() + ", " + produttore.getDati() + ", " + produttore.getFoto());
-				entityManager.persist(produttore);
+				tipo.setId(null);
+				log.info("salva: " + tipo.getId() + ", " + tipo.getNome() + ", " + tipo.getDescrizione() + ", " + tipo.getTipoPadre());
+				entityManager.persist(tipo);
 				log.info("transaction:" + " " + utx.getStatus());
 			}finally{
+				log.info("2");
 				log.info("transaction:" + " " + utx.getStatus());
 				utx.commit();
+//				log.info("5");
 			}
 		}catch(Exception e){
 			try{
+				log.info("3");
 				log.info("transaction:" + " " + utx.getStatus());
+				log.info("4");
 				utx.rollback();
 			}catch(SystemException se){
+				log.info("5");
 				throw new RuntimeException(se);
 			}
+			log.info("6");
 			try{
 				log.info("transaction:" + " " + utx.getStatus());
 			}catch(SystemException e1){
@@ -84,25 +101,34 @@ public class ManBeanProduttoriDao implements ProduttoriDao, Serializable{
 		}
 	}
 	
-	public void aggiorna(Produttori produttore){
+	public void aggiorna(TreeNode nodo){
+		Tipi tipo = (Tipi)nodo.getData();
+		
 		try{
 			try{
 				utx.begin();
+				log.info("1");
 				log.info("transaction:" + " " + utx.getStatus());
-				log.info("aggiorna: " + produttore.getId() + ", " + produttore.getNome() + ", " + produttore.getDati() + ", " + produttore.getFoto());
-				entityManager.merge(produttore);
+				log.info("aggiorna: " + tipo.getId() + ", " + tipo.getNome() + ", " + tipo.getDescrizione() + ", " + tipo.getTipoPadre());
+				entityManager.merge(tipo);
 				log.info("transaction:" + " " + utx.getStatus());
 			}finally{
+				log.info("2");
 				log.info("transaction:" + " " + utx.getStatus());
 				utx.commit();
+//				log.info("5");
 			}
 		}catch(Exception e){
 			try{
+				log.info("3");
 				log.info("transaction:" + " " + utx.getStatus());
+				log.info("4");
 				utx.rollback();
 			}catch(SystemException se){
+				log.info("5");
 				throw new RuntimeException(se);
 			}
+			log.info("6");
 			try{
 				log.info("transaction:" + " " + utx.getStatus());
 			}catch(SystemException e1){
@@ -112,25 +138,33 @@ public class ManBeanProduttoriDao implements ProduttoriDao, Serializable{
 		}
 	}
 	
-	public void elimina(Produttori produttoreElimina){
+	public void elimina(TreeNode nodo){
+		Tipi tipoElimina = (Tipi)nodo.getData();
+
 		try{
 			try{
 				utx.begin();
-				Produttori produttore = entityManager.find(Produttori.class, produttoreElimina.getId());
-				log.info("elimina: " + produttore.getId() + ", " + produttore.getNome() + ", " + produttore.getDati() + ", " + produttore.getFoto());
-				entityManager.remove(produttore);
+				Tipi tipo = entityManager.find(Tipi.class, tipoElimina.getId());
+				log.info("elimina: " + tipo.getId() + ", " + tipo.getNome() + ", " + tipo.getDescrizione() + ", " + tipo.getTipoPadre());
+				entityManager.remove(tipo);
 				log.info("transaction:" + " " + utx.getStatus());
 			}finally{
+				log.info("2");
 				log.info("transaction:" + " " + utx.getStatus());
 				utx.commit();
+//				log.info("5");
 			}
 		}catch(Exception e){
 			try{
+				log.info("3");
 				log.info("transaction:" + " " + utx.getStatus());
+				log.info("4");
 				utx.rollback();
 			}catch(SystemException se){
+				log.info("5");
 				throw new RuntimeException(se);
 			}
+			log.info("6");
 			try{
 				log.info("transaction:" + " " + utx.getStatus());
 			}catch(SystemException e1){
@@ -140,7 +174,7 @@ public class ManBeanProduttoriDao implements ProduttoriDao, Serializable{
 		}		
 	}
 	
-	public Foto getFotoDaArticolo(Integer idArticolo){
+	public Foto getFoto(Integer idArticolo){
 		Foto foto;
 		try{
 			try{
@@ -148,7 +182,7 @@ public class ManBeanProduttoriDao implements ProduttoriDao, Serializable{
 				String sql = "select * from foto " +
 				"where id = ( " +
 				"select foto " +
-				"from produttori p join articoli a on p.id = a.produttore " +
+				"from tipi t join articoli a on t.id = a.tipo " +
 				"where a.id = :id)";
 				Query query = entityManager.createNativeQuery(sql, Foto.class);	// Native
 				query.setParameter("id", idArticolo);
@@ -168,15 +202,15 @@ public class ManBeanProduttoriDao implements ProduttoriDao, Serializable{
 		return foto;
 	}
 	
-	public String getNomeDaArticolo(Integer idArticolo){
+	public String getNome(Integer idArticolo){
 		String nome;
 		try{
 			try{
 				utx.begin();
-				String sql = "select p.nome " +
-				"from produttori p join articoli a on p.id = a.produttore " +
+				String sql = "select t.nome " +
+				"from tipi t join articoli a on t.id = a.tipo " +
 				"where a.id = :id";
-				Query query = entityManager.createNativeQuery(sql);	// Native     ??? devo prevedere Produttore.class????? quindi ritornare Produttore e non string
+				Query query = entityManager.createNativeQuery(sql);	// Native
 				query.setParameter("id", idArticolo);
 				nome = (String)query.getSingleResult();
 			}catch(NoResultException e){
@@ -193,4 +227,5 @@ public class ManBeanProduttoriDao implements ProduttoriDao, Serializable{
 		}	
 		return nome;
 	}
+
 }

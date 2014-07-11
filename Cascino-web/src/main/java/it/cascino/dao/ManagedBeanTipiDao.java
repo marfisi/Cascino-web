@@ -12,10 +12,9 @@ import javax.persistence.Query;
 import javax.transaction.SystemException;
 import javax.transaction.UserTransaction;
 import org.jboss.logging.Logger;
-import org.primefaces.model.TreeNode;
 
 @SessionScoped
-public class ManBeanTipiDao implements TipiDao, Serializable{
+public class ManagedBeanTipiDao implements TipiDao, Serializable{
 	/**
 	 * 
 	 */
@@ -34,7 +33,6 @@ public class ManBeanTipiDao implements TipiDao, Serializable{
 	private UserTransaction utx;
 	
 	public List<Tipi> getAll(){
-		log.info("getAll");
 		try{
 			List<Tipi> tipi;
 			try{
@@ -56,10 +54,9 @@ public class ManBeanTipiDao implements TipiDao, Serializable{
 			throw new RuntimeException(e);
 		}
 	}
+
 	
-	public void salva(TreeNode nodo){
-		Tipi tipo = (Tipi)nodo.getData();
-		
+	public void salva(Tipi tipo){
 		try{
 			try{
 				utx.begin();
@@ -88,34 +85,25 @@ public class ManBeanTipiDao implements TipiDao, Serializable{
 		}
 	}
 	
-	public void aggiorna(TreeNode nodo){
-		Tipi tipo = (Tipi)nodo.getData();
-		
+	public void aggiorna(Tipi tipo){
 		try{
 			try{
 				utx.begin();
-				log.info("1");
 				log.info("transaction:" + " " + utx.getStatus());
 				log.info("aggiorna: " + tipo.getId() + ", " + tipo.getNome() + ", " + tipo.getDescrizione() + ", " + tipo.getTipoPadre());
 				entityManager.merge(tipo);
 				log.info("transaction:" + " " + utx.getStatus());
 			}finally{
-				log.info("2");
 				log.info("transaction:" + " " + utx.getStatus());
 				utx.commit();
-//				log.info("5");
 			}
 		}catch(Exception e){
 			try{
-				log.info("3");
 				log.info("transaction:" + " " + utx.getStatus());
-				log.info("4");
 				utx.rollback();
 			}catch(SystemException se){
-				log.info("5");
 				throw new RuntimeException(se);
 			}
-			log.info("6");
 			try{
 				log.info("transaction:" + " " + utx.getStatus());
 			}catch(SystemException e1){
@@ -125,9 +113,7 @@ public class ManBeanTipiDao implements TipiDao, Serializable{
 		}
 	}
 	
-	public void elimina(TreeNode nodo){
-		Tipi tipoElimina = (Tipi)nodo.getData();
-
+	public void elimina(Tipi tipoElimina){
 		try{
 			try{
 				utx.begin();
@@ -136,22 +122,16 @@ public class ManBeanTipiDao implements TipiDao, Serializable{
 				entityManager.remove(tipo);
 				log.info("transaction:" + " " + utx.getStatus());
 			}finally{
-				log.info("2");
 				log.info("transaction:" + " " + utx.getStatus());
 				utx.commit();
-//				log.info("5");
 			}
 		}catch(Exception e){
 			try{
-				log.info("3");
 				log.info("transaction:" + " " + utx.getStatus());
-				log.info("4");
 				utx.rollback();
 			}catch(SystemException se){
-				log.info("5");
 				throw new RuntimeException(se);
 			}
-			log.info("6");
 			try{
 				log.info("transaction:" + " " + utx.getStatus());
 			}catch(SystemException e1){
@@ -160,117 +140,4 @@ public class ManBeanTipiDao implements TipiDao, Serializable{
 			throw new RuntimeException(e);
 		}		
 	}
-	
-	public Foto getFoto(Integer id){	// TreeNode nodo){
-//		Tipi tipo = (Tipi)nodo.getData();
-		Foto foto;
-		try{
-			try{
-				utx.begin();
-				String sql = "select * from foto " +
-				"where id = ( " +
-				"select foto " +
-				"from tipi t " +
-				"where t.id = :id)";
-				Query query = entityManager.createNativeQuery(sql, Foto.class);	// Native
-				query.setParameter("id", id);	// tipo.getId());
-				foto = (Foto)query.getSingleResult();
-			}catch(NoResultException e){
-				foto = null;
-			}
-			utx.commit();
-		}catch(Exception e){
-			try{
-				utx.rollback();
-			}catch(SystemException se){
-				throw new RuntimeException(se);
-			}
-			throw new RuntimeException(e);
-		}	
-		return foto;
-	}
-
-//	public Foto getFotoPadre(TreeNode nodo){
-//		Tipi tipo = (Tipi)nodo.getData();
-//		Foto foto;
-//		try{
-//			try{
-//				utx.begin();
-//				String sql = "select * from foto " +
-//				"where id = ( " +
-//				"select foto " +
-//				"from tipi t " +
-//				"where t.id = :id)";
-//				Query query = entityManager.createNativeQuery(sql, Foto.class);	// Native
-//				query.setParameter("id", tipo.getTipoPadre());
-//				foto = (Foto)query.getSingleResult();
-//			}catch(NoResultException e){
-//				foto = null;
-//			}
-//			utx.commit();
-//		}catch(Exception e){
-//			try{
-//				utx.rollback();
-//			}catch(SystemException se){
-//				throw new RuntimeException(se);
-//			}
-//			throw new RuntimeException(e);
-//		}	
-//		return foto;
-//	}
-
-	public Foto getFotoDaArticolo(Integer idArticolo){
-		Foto foto;
-		try{
-			try{
-				utx.begin();
-				String sql = "select * from foto " +
-				"where id = ( " +
-				"select foto " +
-				"from tipi t join articoli a on t.id = a.tipo " +
-				"where a.id = :id)";
-				Query query = entityManager.createNativeQuery(sql, Foto.class);	// Native
-				query.setParameter("id", idArticolo);
-				foto = (Foto)query.getSingleResult();
-			}catch(NoResultException e){
-				foto = null;
-			}
-			utx.commit();
-		}catch(Exception e){
-			try{
-				utx.rollback();
-			}catch(SystemException se){
-				throw new RuntimeException(se);
-			}
-			throw new RuntimeException(e);
-		}	
-		return foto;
-	}
-	
-	public String getNomeDaArticolo(Integer idArticolo){
-		String nome;
-		try{
-			try{
-				utx.begin();
-				String sql = "select t.nome " +
-				"from tipi t join articoli a on t.id = a.tipo " +
-				"where a.id = :id";
-				Query query = entityManager.createNativeQuery(sql);	// Native
-				query.setParameter("id", idArticolo);
-				nome = (String)query.getSingleResult();
-			}catch(NoResultException e){
-				nome = null;
-			}
-			utx.commit();
-		}catch(Exception e){
-			try{
-				utx.rollback();
-			}catch(SystemException se){
-				throw new RuntimeException(se);
-			}
-			throw new RuntimeException(e);
-		}	
-		return nome;
-	}
-
 }

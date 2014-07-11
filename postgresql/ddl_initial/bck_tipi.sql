@@ -26,7 +26,7 @@ CREATE TABLE tipi (
     padre integer DEFAULT 1 NOT NULL,
     foto integer DEFAULT 1 NOT NULL,
     updtime timestamp with time zone
-);
+ );
 
 
 ALTER TABLE cascino_schema.tipi OWNER TO cascino_user_db;
@@ -63,7 +63,7 @@ ALTER TABLE ONLY tipi ALTER COLUMN id SET DEFAULT nextval('tipi_id_seq'::regclas
 -- Data for Name: tipi; Type: TABLE DATA; Schema: cascino_schema; Owner: cascino_user_db
 --
 
-INSERT INTO tipi VALUES (1, 'nd', 'nd', 1, 1, '2014-04-05 10:12:59.344+02');
+INSERT INTO tipi VALUES (1, 'nd', 'nd', 1, '2014-04-05 10:12:59.344+02', 1);
 
 --
 -- Name: tipi_id_seq; Type: SEQUENCE SET; Schema: cascino_schema; Owner: cascino_user_db

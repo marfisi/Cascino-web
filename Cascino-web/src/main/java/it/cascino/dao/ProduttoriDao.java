@@ -10,6 +10,6 @@ public interface ProduttoriDao{
 	void elimina(Produttori t);
 	List<Produttori> getAll();
 	
-	Foto getFotoDaArticolo(Integer idArticolo);
-	String getNomeDaArticolo(Integer idArticolo);
+	Foto getFoto(Integer idArticolo);
+	String getNome(Integer idArticolo);
 }

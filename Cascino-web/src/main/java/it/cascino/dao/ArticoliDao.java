@@ -10,5 +10,5 @@ public interface ArticoliDao{
 	void elimina(Articoli t);
 	List<Articoli> getAll();
 	
-	Foto getFotoDaArticolo(Integer idArticolo);
+	Foto getFoto(Integer idArticolo);
 }
