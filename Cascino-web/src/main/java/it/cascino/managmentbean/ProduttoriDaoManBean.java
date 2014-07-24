@@ -1,25 +1,26 @@
-package it.cascino.dao;
+package it.cascino.managmentbean;
 
 import java.io.Serializable;
 import java.util.List;
+import it.cascino.dao.ProduttoriDao;
 import it.cascino.model.Produttori;
 import it.cascino.model.Foto;
+import it.cascino.util.Utility;
 import javax.faces.bean.SessionScoped;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.Query;
-import javax.transaction.SystemException;
 import javax.transaction.UserTransaction;
 import org.jboss.logging.Logger;
 
 @SessionScoped
-public class ManagedBeanProduttoriDao implements ProduttoriDao, Serializable{
+public class ProduttoriDaoManBean implements ProduttoriDao, Serializable{
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-
+	
 	/**
 	 * Logger
 	 */
@@ -32,27 +33,24 @@ public class ManagedBeanProduttoriDao implements ProduttoriDao, Serializable{
 	@Inject
 	private UserTransaction utx;
 	
+	@SuppressWarnings("unchecked")
 	public List<Produttori> getAll(){
+		List<Produttori> produttori = null;
 		try{
-			List<Produttori> produttori;
 			try{
 				utx.begin();
-				String sql = "FROM Produttori p";
-				Query query = entityManager.createQuery(sql);
+				// String sql = "FROM Produttori p";
+				// Query query = entityManager.createQuery(sql);
+				Query query = entityManager.createNamedQuery("Produttori.findAll");
 				produttori = (List<Produttori>)query.getResultList();
 			}catch(NoResultException e){
 				produttori = null;
 			}
 			utx.commit();
-			return produttori;
 		}catch(Exception e){
-			try{
-				utx.rollback();
-			}catch(SystemException se){
-				throw new RuntimeException(se);
-			}
-			throw new RuntimeException(e);
+			Utility.manageException(e, utx, log);
 		}
+		return produttori;
 	}
 	
 	public void salva(Produttori produttore){
@@ -69,18 +67,7 @@ public class ManagedBeanProduttoriDao implements ProduttoriDao, Serializable{
 				utx.commit();
 			}
 		}catch(Exception e){
-			try{
-				log.info("transaction:" + " " + utx.getStatus());
-				utx.rollback();
-			}catch(SystemException se){
-				throw new RuntimeException(se);
-			}
-			try{
-				log.info("transaction:" + " " + utx.getStatus());
-			}catch(SystemException e1){
-				e1.printStackTrace();
-			}
-			throw new RuntimeException(e);
+			Utility.manageException(e, utx, log);
 		}
 	}
 	
@@ -97,18 +84,7 @@ public class ManagedBeanProduttoriDao implements ProduttoriDao, Serializable{
 				utx.commit();
 			}
 		}catch(Exception e){
-			try{
-				log.info("transaction:" + " " + utx.getStatus());
-				utx.rollback();
-			}catch(SystemException se){
-				throw new RuntimeException(se);
-			}
-			try{
-				log.info("transaction:" + " " + utx.getStatus());
-			}catch(SystemException e1){
-				e1.printStackTrace();
-			}
-			throw new RuntimeException(e);
+			Utility.manageException(e, utx, log);
 		}
 	}
 	
@@ -125,23 +101,12 @@ public class ManagedBeanProduttoriDao implements ProduttoriDao, Serializable{
 				utx.commit();
 			}
 		}catch(Exception e){
-			try{
-				log.info("transaction:" + " " + utx.getStatus());
-				utx.rollback();
-			}catch(SystemException se){
-				throw new RuntimeException(se);
-			}
-			try{
-				log.info("transaction:" + " " + utx.getStatus());
-			}catch(SystemException e1){
-				e1.printStackTrace();
-			}
-			throw new RuntimeException(e);
-		}		
+			Utility.manageException(e, utx, log);
+		}
 	}
 	
-	public Foto getFoto(Integer idArticolo){
-		Foto foto;
+	public Foto getFotoDaArticolo(Integer idArticolo){
+		Foto foto = null;
 		try{
 			try{
 				utx.begin();
@@ -150,7 +115,7 @@ public class ManagedBeanProduttoriDao implements ProduttoriDao, Serializable{
 				"select foto " +
 				"from produttori p join articoli a on p.id = a.produttore " +
 				"where a.id = :id)";
-				Query query = entityManager.createNativeQuery(sql, Foto.class);	// Native
+				Query query = entityManager.createNativeQuery(sql, Foto.class); // Native
 				query.setParameter("id", idArticolo);
 				foto = (Foto)query.getSingleResult();
 			}catch(NoResultException e){
@@ -158,25 +123,20 @@ public class ManagedBeanProduttoriDao implements ProduttoriDao, Serializable{
 			}
 			utx.commit();
 		}catch(Exception e){
-			try{
-				utx.rollback();
-			}catch(SystemException se){
-				throw new RuntimeException(se);
-			}
-			throw new RuntimeException(e);
-		}	
+			Utility.manageException(e, utx, log);
+		}
 		return foto;
 	}
 	
-	public String getNome(Integer idArticolo){
-		String nome;
+	public String getNomeDaArticolo(Integer idArticolo){
+		String nome = null;
 		try{
 			try{
 				utx.begin();
 				String sql = "select p.nome " +
 				"from produttori p join articoli a on p.id = a.produttore " +
 				"where a.id = :id";
-				Query query = entityManager.createNativeQuery(sql);	// Native     ??? devo prevedere Produttore.class????? quindi ritornare Produttore e non string
+				Query query = entityManager.createNativeQuery(sql); // Native ??? devo prevedere Produttore.class????? quindi ritornare Produttore e non string
 				query.setParameter("id", idArticolo);
 				nome = (String)query.getSingleResult();
 			}catch(NoResultException e){
@@ -184,13 +144,8 @@ public class ManagedBeanProduttoriDao implements ProduttoriDao, Serializable{
 			}
 			utx.commit();
 		}catch(Exception e){
-			try{
-				utx.rollback();
-			}catch(SystemException se){
-				throw new RuntimeException(se);
-			}
-			throw new RuntimeException(e);
-		}	
+			Utility.manageException(e, utx, log);
+		}
 		return nome;
 	}
 }

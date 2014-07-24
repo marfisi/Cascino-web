@@ -5,14 +5,17 @@ import javax.inject.Inject;
 import javax.persistence.*;
 import org.jboss.logging.Logger;
 import java.sql.Timestamp;
-import java.util.Date;
 
 /**
  * The persistent class for the tipi database table.
  * 
  */
 @Entity
-@NamedQuery(name = "Tipi.findAll", query = "SELECT t FROM Tipi t")
+@NamedQueries({
+		@NamedQuery(name = "Tipi.findAll", query = "SELECT t FROM Tipi t"),
+		@NamedQuery(name = "Tipi.findById", query = "SELECT t FROM Tipi t WHERE t.id = :id") //,
+//		@NamedQuery(name = "Tipi.findByIdTipo", query = "SELECT f FROM Foto f WHERE f.id = (SELECT t.foto FROM Tipi t WHERE t.id = :id)")
+})
 public class Tipi implements Serializable{
 	private static final long serialVersionUID = 1L;
 	
@@ -26,17 +29,19 @@ public class Tipi implements Serializable{
 	private String nome;
 	private String descrizione;
 	private Tipi tipoPadre;
-	private Date updtime;
+	private Integer idFoto;
+	private Timestamp updtime;
 	
 	public Tipi(){
 	}
 	
-	public Tipi(Integer id, String nome, String descrizione, Tipi tipoPadre, Timestamp updtime){
+	public Tipi(Integer id, String nome, String descrizione, Tipi tipoPadre, Integer idFoto, Timestamp updtime){
 		super();
 		this.id = id;
 		this.nome = nome;
 		this.descrizione = descrizione;
 		this.tipoPadre = tipoPadre;
+		this.idFoto = idFoto;
 		this.updtime = updtime;
 	}
 	
@@ -78,14 +83,23 @@ public class Tipi implements Serializable{
 	public void setTipoPadre(Tipi tipi){
 		this.tipoPadre = tipi;
 	}
+
+	@Column(name = "foto")
+	public Integer getIdFoto(){
+		return idFoto;
+	}
+
+	public void setIdFoto(Integer idFoto){
+		this.idFoto = idFoto;
+	}
 	
 	@Transient
 	@Temporal(TemporalType.TIMESTAMP)
-	public Date getUpdtime(){
+	public Timestamp getUpdtime(){
 		return this.updtime;
 	}
 	
-	public void setUpdtime(Date updtime){
+	public void setUpdtime(Timestamp updtime){
 		this.updtime = updtime;
 	}
 	

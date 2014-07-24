@@ -11,7 +11,10 @@ import java.sql.Timestamp;
  * 
  */
 @Entity
-@NamedQuery(name = "Articoli.findAll", query = "SELECT a FROM Articoli a")
+@NamedQueries({
+		@NamedQuery(name = "Articoli.findAll", query = "SELECT a FROM Articoli a"),
+		@NamedQuery(name = "Articoli.findById", query = "SELECT a FROM Articoli a WHERE a.id = :id")
+})
 public class Articoli implements Serializable{
 	private static final long serialVersionUID = 1L;
 	

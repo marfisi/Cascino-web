@@ -10,5 +10,7 @@ public interface ArticoliDao{
 	void elimina(Articoli t);
 	List<Articoli> getAll();
 	
-	Foto getFoto(Integer idArticolo);
+	Foto getFotoDaArticolo(Integer idArticolo);
+	List<String> getArticoliAutoCompleteLs(String str);
+	List<String> getProduttoriAutoCompleteLs(String str);
 }

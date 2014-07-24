@@ -11,7 +11,10 @@ import java.sql.Timestamp;
  * 
  */
 @Entity
-@NamedQuery(name = "Produttori.findAll", query = "SELECT p FROM Produttori p")
+@NamedQueries({
+		@NamedQuery(name = "Produttori.findAll", query = "SELECT p FROM Produttori p"),
+		@NamedQuery(name = "Produttori.findById", query = "SELECT p FROM Produttori p WHERE p.id = :id")
+})
 public class Produttori implements Serializable{
 	private static final long serialVersionUID = 1L;
 	
@@ -73,7 +76,7 @@ public class Produttori implements Serializable{
 	public void setFoto(Integer foto){
 		this.foto = foto;
 	}
-
+	
 	@Transient
 	@Temporal(TemporalType.TIMESTAMP)
 	public Timestamp getUpdtime(){

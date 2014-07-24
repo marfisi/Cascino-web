@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PROCESS model-entity="JSFProcess">
+ <PROCESS-ITEM NAME="rules:#login.xhtml" PATH="/login.xhtml"
+  SHAPE="48,17,0,0" model-entity="JSFProcessGroup">
+  <PROCESS-ITEM ID="rules:#login.xhtml:0" NAME="item"
+   PATH="/login.xhtml" model-entity="JSFProcessItem">
+   <PROCESS-ITEM-OUTPUT ID="canAccess::#homeManage.xhtml" NAME="output"
+    PATH="/homeManage.xhtml" TARGET="rules:#homeManage.xhtml"
+    TITLE="canAccess" model-entity="JSFProcessItemOutput"/>
+   <PROCESS-ITEM-OUTPUT ID="login2registration::#registration.xhtml"
+    NAME="output2" PATH="/registration.xhtml"
+    TARGET="rules:#registration.xhtml" TITLE="login2registration" model-entity="JSFProcessItemOutput"/>
+  </PROCESS-ITEM>
+ </PROCESS-ITEM>
+ <PROCESS-ITEM NAME="rules:#registration.xhtml"
+  PATH="/registration.xhtml" SHAPE="288,33,0,0" model-entity="JSFProcessGroup">
+  <PROCESS-ITEM ID="rules:#registration.xhtml:0" NAME="item"
+   PATH="/registration.xhtml" model-entity="JSFProcessItem">
+   <PROCESS-ITEM-OUTPUT ID="confirmRegistration::#login.xhtml"
+    NAME="output" PATH="/login.xhtml" TARGET="rules:#login.xhtml"
+    TITLE="confirmRegistration" model-entity="JSFProcessItemOutput"/>
+   <PROCESS-ITEM-OUTPUT ID="registration2login::#login.xhtml"
+    NAME="output1" PATH="/login.xhtml" TARGET="rules:#login.xhtml"
+    TITLE="registration2login" model-entity="JSFProcessItemOutput"/>
+  </PROCESS-ITEM>
+ </PROCESS-ITEM>
+ <PROCESS-ITEM NAME="rules:#*" PATH="/*" SHAPE="288,273,0,0" model-entity="JSFProcessGroup">
+  <PROCESS-ITEM ID="rules:#*:0" NAME="item" PATH="/*" model-entity="JSFProcessItem">
+   <PROCESS-ITEM-OUTPUT ID="daNessunaParte::#login.xhtml" NAME="output"
+    PATH="/login.xhtml" TARGET="rules:#login.xhtml"
+    TITLE="daNessunaParte" model-entity="JSFProcessItemOutput"/>
+  </PROCESS-ITEM>
+ </PROCESS-ITEM>
+ <PROCESS-ITEM NAME="rules:#homeManage.xhtml" PATH="/homeManage.xhtml"
+  SHAPE="528,17,0,0" model-entity="JSFProcessGroup">
+  <PROCESS-ITEM ID="rules:#homeManage.xhtml:0" NAME="item"
+   PATH="/homeManage.xhtml" model-entity="JSFProcessItem">
+   <PROCESS-ITEM-OUTPUT ID="mngToFoto::#foto.xhtml" NAME="output"
+    PATH="/foto.xhtml" TARGET="rules:#foto.xhtml" TITLE="mngToFoto" model-entity="JSFProcessItemOutput"/>
+   <PROCESS-ITEM-OUTPUT ID="mngToRisorse::#tipi.xhtml" NAME="output1"
+    PATH="/tipi.xhtml" TARGET="rules:#tipi.xhtml" TITLE="mngToRisorse" model-entity="JSFProcessItemOutput"/>
+   <PROCESS-ITEM-OUTPUT ID="mngToTipi::#tipi.xhtml" NAME="output2"
+    PATH="/tipi.xhtml" TARGET="rules:#tipi.xhtml" TITLE="mngToTipi" model-entity="JSFProcessItemOutput"/>
+   <PROCESS-ITEM-OUTPUT ID="mngToArticoli::#articoli.xhtml"
+    NAME="output3" PATH="/articoli.xhtml" TARGET="rules:#articoli.xhtml"
+    TITLE="mngToArticoli" model-entity="JSFProcessItemOutput"/>
+   <PROCESS-ITEM-OUTPUT ID="mngToProduttori::#produttori.xhtml"
+    NAME="output4" PATH="/produttori.xhtml"
+    TARGET="rules:#produttori.xhtml" TITLE="mngToProduttori" model-entity="JSFProcessItemOutput"/>
+  </PROCESS-ITEM>
+ </PROCESS-ITEM>
+ <PROCESS-ITEM NAME="rules:#tipi.xhtml" PATH="/tipi.xhtml"
+  SHAPE="1040,17,0,0" model-entity="JSFProcessGroup">
+  <PROCESS-ITEM ID="rules:#tipi.xhtml:0" NAME="item" PATH="/tipi.xhtml" model-entity="JSFProcessItem">
+   <PROCESS-ITEM-OUTPUT ID="tipiToFoto::#foto.xhtml" NAME="output"
+    PATH="/foto.xhtml" TARGET="rules:#foto.xhtml" TITLE="tipiToFoto" model-entity="JSFProcessItemOutput"/>
+  </PROCESS-ITEM>
+ </PROCESS-ITEM>
+ <PROCESS-ITEM NAME="rules:#foto.xhtml" PATH="/foto.xhtml"
+  SHAPE="800,33,0,0" model-entity="JSFProcessGroup">
+  <PROCESS-ITEM ID="rules:#foto.xhtml:0" NAME="item" PATH="/foto.xhtml" model-entity="JSFProcessItem">
+   <PROCESS-ITEM-OUTPUT ID="fotoToTipi::#tipi.xhtml" NAME="output"
+    PATH="/tipi.xhtml" TARGET="rules:#tipi.xhtml" TITLE="fotoToTipi" model-entity="JSFProcessItemOutput"/>
+  </PROCESS-ITEM>
+ </PROCESS-ITEM>
+ <PROCESS-ITEM NAME="rules:#articoli.xhtml" PATH="/articoli.xhtml"
+  SHAPE="800,273,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM NAME="rules:#produttori.xhtml" PATH="/produttori.xhtml"
+  SHAPE="800,385,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM NAME="rules:#*:1" PATH="/*" SHAPE="304,273,0,0" model-entity="JSFProcessGroup">
+  <PROCESS-ITEM ID="rules:#*:1" NAME="item" PATH="/*" model-entity="JSFProcessItem">
+   <PROCESS-ITEM-OUTPUT ID="homeMng::#homeManage.xhtml" NAME="output"
+    PATH="/homeManage.xhtml" TARGET="rules:#homeManage.xhtml"
+    TITLE="homeMng" model-entity="JSFProcessItemOutput"/>
+  </PROCESS-ITEM>
+ </PROCESS-ITEM>
+</PROCESS>

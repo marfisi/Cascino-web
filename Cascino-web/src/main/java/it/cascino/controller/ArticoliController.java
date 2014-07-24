@@ -1,8 +1,10 @@
 package it.cascino.controller;
 
 import it.cascino.dao.ArticoliDao;
+import it.cascino.dao.FotoDao;
 import it.cascino.model.Articoli;
 import it.cascino.model.Foto;
+import java.util.ArrayList;
 import java.util.List;
 import java.io.Serializable;
 import javax.enterprise.context.SessionScoped;
@@ -11,6 +13,8 @@ import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 import org.jboss.logging.Logger;
+import org.primefaces.event.TransferEvent;
+import org.primefaces.model.DualListModel;
 
 @Named
 @SessionScoped
@@ -32,12 +36,19 @@ public class ArticoliController implements Serializable{
 	@Inject
 	private ArticoliDao articoliDao;
 	
+	@Inject
+	private FotoDao fotoDao;
+	
 	private String esito;
 	
 	private List<Articoli> articoliLs;
 	private List<Articoli> filteredArticoliLs;
 	
+	// private List<Articoli> articoliAutoCompleteLs;
+	
 	private Articoli articoloSel = new Articoli();
+	
+	DualListModel<Foto> fotoPickList;
 	
 	public List<Articoli> getArticoliLs(){
 		articoliLs = articoliDao.getAll();
@@ -62,6 +73,34 @@ public class ArticoliController implements Serializable{
 	
 	public void setFilteredArticoliLs(List<Articoli> filteredArticoliLs){
 		this.filteredArticoliLs = filteredArticoliLs;
+	}
+	
+	public DualListModel<Foto> getFotoPickList(){
+		List<Foto> fotoPLsource = new ArrayList<Foto>();
+		List<Foto> fotoPLtarget = new ArrayList<Foto>();
+		
+		fotoPLsource = fotoDao.getAll();
+		fotoPLtarget = fotoDao.getAll().subList(3, 5);
+		
+		fotoPickList = new DualListModel<Foto>(fotoPLsource, fotoPLtarget);
+		
+		return fotoPickList;
+	}
+	
+	public void setFotoPickList(DualListModel<Foto> fotoPickList){
+		this.fotoPickList = fotoPickList;
+	}
+	
+	public List<String> articoliAutoCompleteLs(String str){
+		List<String> articoliAutoCompleteLs = articoliDao.getArticoliAutoCompleteLs(str.toUpperCase());
+		
+		return articoliAutoCompleteLs;
+	}
+	
+	public List<String> produttoriAutoCompleteLs(String str){
+		List<String> produttoriAutoCompleteLs = articoliDao.getProduttoriAutoCompleteLs(str.toUpperCase());
+		
+		return produttoriAutoCompleteLs;
 	}
 	
 	public void salva(){
@@ -105,7 +144,7 @@ public class ArticoliController implements Serializable{
 		facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Successo", message));
 		log.info(message);
 	}
-
+	
 	private void showGrowlUpdMessage(){
 		String message = "Aggiornato con successo - " + esito + " >" + articoloSel + "<";
 		facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Successo", message));
@@ -165,10 +204,10 @@ public class ArticoliController implements Serializable{
 		}
 		return 0;
 	}
-
-	public Foto getFoto(Integer idArticoli){
+	
+	public Foto getFotoDaArticolo(Integer idArticoli){
 		Foto fotoArticolo = new Foto();
-		fotoArticolo = articoliDao.getFoto(idArticoli);
+		fotoArticolo = articoliDao.getFotoDaArticolo(idArticoli);
 		if(fotoArticolo != null){
 			esito = "selezionata foto " + fotoArticolo.getId() + " per articolo: " + idArticoli;
 			showGrowlInfoMessage(esito);
@@ -178,9 +217,23 @@ public class ArticoliController implements Serializable{
 		}
 		return fotoArticolo;
 	}
-
-//	public void setFotoArticolo(Foto fotoArticolo){
-//		this.fotoArticolo = fotoArticolo;
-//	}
+	
+	// public void setFotoArticolo(Foto fotoArticolo){
+	// this.fotoArticolo = fotoArticolo;
+	// }
+	
+	public void onPickListTransfer(TransferEvent event){
+		StringBuilder builder = new StringBuilder();
+		for(Object item : event.getItems()){
+			builder.append(((Foto)item).getOriginale()).append("<br />");
+		}
+		
+		FacesMessage msg = new FacesMessage();
+		msg.setSeverity(FacesMessage.SEVERITY_INFO);
+		msg.setSummary("Items Transferred");
+		msg.setDetail(builder.toString());
+		
+		FacesContext.getCurrentInstance().addMessage(null, msg);
+	}
 	
 }

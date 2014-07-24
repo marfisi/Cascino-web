@@ -11,8 +11,113 @@
 	language governing permissions and limitations under the License. -->
 <!-- This file is not required if you don't need any extra configuration. -->
 
-<faces-config version="2.2"
-    xmlns="http://xmlns.jcp.org/xml/ns/javaee"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-facesconfig_2_2.xsd">
+<faces-config version="2.2" xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-facesconfig_2_2.xsd">
+
+
+	<navigation-rule>
+		<display-name>all2Login</display-name>
+		<from-view-id>/*</from-view-id>
+		<navigation-case>
+			<from-outcome>daNessunaParte</from-outcome>
+			<to-view-id>/login.xhtml</to-view-id>
+			<redirect></redirect>
+		</navigation-case>
+	</navigation-rule>
+
+	<navigation-rule>
+		<display-name>login2HomeManage</display-name>
+		<from-view-id>/login.xhtml</from-view-id>
+		<navigation-case>
+			<from-outcome>canAccess</from-outcome>
+			<to-view-id>/homeManage.xhtml</to-view-id>
+			<redirect></redirect>
+		</navigation-case>
+		<!-- navigation-case>
+			<from-outcome>denyAccess</from-outcome>
+			<to-view-id>/login.xhtml</to-view-id>
+			<redirect></redirect>
+		</navigation-case -->
+		<navigation-case>
+			<from-outcome>login2registration</from-outcome>
+			<to-view-id>/registration.xhtml</to-view-id>
+			<redirect></redirect>
+		</navigation-case>
+	</navigation-rule>
+
+	<navigation-rule>
+		<display-name>registrationPage</display-name>
+		<from-view-id>/registration.xhtml</from-view-id>
+		<navigation-case>
+			<from-outcome>confirmRegistration</from-outcome>
+			<to-view-id>/login.xhtml</to-view-id>
+			<redirect></redirect>
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>registration2login</from-outcome>
+			<to-view-id>/login.xhtml</to-view-id>
+			<redirect></redirect>
+		</navigation-case>
+	</navigation-rule>
+
+	<navigation-rule>
+		<display-name>all2HomeManage</display-name>
+		<from-view-id>/*</from-view-id>
+		<navigation-case>
+			<from-outcome>homeMng</from-outcome>
+			<to-view-id>/homeManage.xhtml</to-view-id>
+			<redirect></redirect>
+		</navigation-case>
+	</navigation-rule>
+
+	<navigation-rule>
+		<display-name>mng2others</display-name>
+		<from-view-id>/homeManage.xhtml</from-view-id>
+		<navigation-case>
+			<from-outcome>mngToFoto</from-outcome>
+			<to-view-id>/foto.xhtml</to-view-id>
+			<redirect></redirect>
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>mngToRisorse</from-outcome>
+			<to-view-id>/tipi.xhtml</to-view-id>
+			<redirect></redirect>
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>mngToTipi</from-outcome>
+			<to-view-id>/tipi.xhtml</to-view-id>
+			<redirect></redirect>
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>mngToArticoli</from-outcome>
+			<to-view-id>/articoli.xhtml</to-view-id>
+			<redirect></redirect>
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>mngToProduttori</from-outcome>
+			<to-view-id>/produttori.xhtml</to-view-id>
+			<redirect></redirect>
+		</navigation-case>
+	</navigation-rule>
+
+	<navigation-rule>
+		<display-name>tipi2foto</display-name>
+		<from-view-id>/tipi.xhtml</from-view-id>
+		<navigation-case>
+			<from-outcome>tipiToFoto</from-outcome>
+			<to-view-id>/foto.xhtml</to-view-id>
+			<redirect></redirect>
+		</navigation-case>
+	</navigation-rule>
+
+	<navigation-rule>
+		<display-name>foto2tipi</display-name>
+		<from-view-id>/foto.xhtml</from-view-id>
+		<navigation-case>
+			<from-outcome>fotoToTipi</from-outcome>
+			<to-view-id>/tipi.xhtml</to-view-id>
+			<redirect></redirect>
+		</navigation-case>
+	</navigation-rule>
 </faces-config>

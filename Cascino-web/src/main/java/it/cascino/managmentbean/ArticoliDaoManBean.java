@@ -1,25 +1,26 @@
-package it.cascino.dao;
+package it.cascino.managmentbean;
 
 import java.io.Serializable;
 import java.util.List;
+import it.cascino.dao.ArticoliDao;
 import it.cascino.model.Articoli;
 import it.cascino.model.Foto;
+import it.cascino.util.Utility;
 import javax.faces.bean.SessionScoped;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.Query;
-import javax.transaction.SystemException;
 import javax.transaction.UserTransaction;
 import org.jboss.logging.Logger;
 
 @SessionScoped
-public class ManagedBeanArticoliDao implements ArticoliDao, Serializable{
+public class ArticoliDaoManBean implements ArticoliDao, Serializable{
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-
+	
 	/**
 	 * Logger
 	 */
@@ -32,27 +33,24 @@ public class ManagedBeanArticoliDao implements ArticoliDao, Serializable{
 	@Inject
 	private UserTransaction utx;
 	
+	@SuppressWarnings("unchecked")
 	public List<Articoli> getAll(){
+		List<Articoli> articoli = null;
 		try{
-			List<Articoli> articoli;
 			try{
 				utx.begin();
-				String sql = "FROM Articoli a";
-				Query query = entityManager.createQuery(sql);
+				// String sql = "FROM Articoli a";
+				// Query query = entityManager.createQuery(sql);
+				Query query = entityManager.createNamedQuery("Articoli.findAll");
 				articoli = (List<Articoli>)query.getResultList();
 			}catch(NoResultException e){
 				articoli = null;
 			}
 			utx.commit();
-			return articoli;
 		}catch(Exception e){
-			try{
-				utx.rollback();
-			}catch(SystemException se){
-				throw new RuntimeException(se);
-			}
-			throw new RuntimeException(e);
+			Utility.manageException(e, utx, log);
 		}
+		return articoli;
 	}
 	
 	public void salva(Articoli articolo){
@@ -69,18 +67,7 @@ public class ManagedBeanArticoliDao implements ArticoliDao, Serializable{
 				utx.commit();
 			}
 		}catch(Exception e){
-			try{
-				log.info("transaction:" + " " + utx.getStatus());
-				utx.rollback();
-			}catch(SystemException se){
-				throw new RuntimeException(se);
-			}
-			try{
-				log.info("transaction:" + " " + utx.getStatus());
-			}catch(SystemException e1){
-				e1.printStackTrace();
-			}
-			throw new RuntimeException(e);
+			Utility.manageException(e, utx, log);
 		}
 	}
 	
@@ -97,18 +84,7 @@ public class ManagedBeanArticoliDao implements ArticoliDao, Serializable{
 				utx.commit();
 			}
 		}catch(Exception e){
-			try{
-				log.info("transaction:" + " " + utx.getStatus());
-				utx.rollback();
-			}catch(SystemException se){
-				throw new RuntimeException(se);
-			}
-			try{
-				log.info("transaction:" + " " + utx.getStatus());
-			}catch(SystemException e1){
-				e1.printStackTrace();
-			}
-			throw new RuntimeException(e);
+			Utility.manageException(e, utx, log);
 		}
 	}
 	
@@ -125,27 +101,16 @@ public class ManagedBeanArticoliDao implements ArticoliDao, Serializable{
 				utx.commit();
 			}
 		}catch(Exception e){
-			try{
-				log.info("transaction:" + " " + utx.getStatus());
-				utx.rollback();
-			}catch(SystemException se){
-				throw new RuntimeException(se);
-			}
-			try{
-				log.info("transaction:" + " " + utx.getStatus());
-			}catch(SystemException e1){
-				e1.printStackTrace();
-			}
-			throw new RuntimeException(e);
-		}		
+			Utility.manageException(e, utx, log);
+		}
 	}
 	
-	public Foto getFoto(Integer idArticolo){
-		Foto foto;
+	public Foto getFotoDaArticolo(Integer idArticolo){
+		Foto foto = null;
 		try{
 			try{
 				utx.begin();
-//				String sql = "FROM Foto f Where f.id = :id";
+				// String sql = "FROM Foto f Where f.id = :id";
 				String sql = "select * from foto " +
 				"where id = (select foto " +
 				"from (select row_number() OVER (ORDER BY foto) AS rownum, foto " +
@@ -153,22 +118,56 @@ public class ManagedBeanArticoliDao implements ArticoliDao, Serializable{
 				"where articolo = :id " +
 				"order by ordinamento, af.updtime) as sub " +
 				"where rownum = 1)";
-				Query query = entityManager.createNativeQuery(sql, Foto.class);	// Native
+				Query query = entityManager.createNativeQuery(sql, Foto.class); // Native
 				query.setParameter("id", idArticolo);
-				foto = (Foto)query.getSingleResult();	// .getResultList().get(0);
+				foto = (Foto)query.getSingleResult(); // .getResultList().get(0);
 			}catch(NoResultException e){
 				foto = null;
 			}
 			utx.commit();
 		}catch(Exception e){
-			try{
-				utx.rollback();
-			}catch(SystemException se){
-				throw new RuntimeException(se);
-			}
-			throw new RuntimeException(e);
-		}	
+			Utility.manageException(e, utx, log);
+		}
 		return foto;
 	}
 	
+	@SuppressWarnings("unchecked")
+	public List<String> getArticoliAutoCompleteLs(String str){
+		List<String> articoli = null;
+		try{
+			try{
+				utx.begin();
+				String sql = "SELECT upper(a.codice) FROM Articoli a WHERE upper(a.codice) like upper(:str)";
+				Query query = entityManager.createQuery(sql);
+				query.setParameter("str", "%" + str + "%");
+				articoli = (List<String>)query.getResultList();
+			}catch(NoResultException e){
+				articoli = null;
+			}
+			utx.commit();
+		}catch(Exception e){
+			Utility.manageException(e, utx, log);
+		}
+		return articoli;
+	}
+	
+	@SuppressWarnings("unchecked")
+	public List<String> getProduttoriAutoCompleteLs(String str){
+		List<String> articoli = null;
+		try{
+			try{
+				utx.begin();
+				String sql = "SELECT upper(p.nome) FROM Produttori p WHERE upper(p.nome) like upper(:str)";
+				Query query = entityManager.createQuery(sql);
+				query.setParameter("str", "%" + str + "%");
+				articoli = (List<String>)query.getResultList();
+			}catch(NoResultException e){
+				articoli = null;
+			}
+			utx.commit();
+		}catch(Exception e){
+			Utility.manageException(e, utx, log);
+		}
+		return articoli;
+	}
 }

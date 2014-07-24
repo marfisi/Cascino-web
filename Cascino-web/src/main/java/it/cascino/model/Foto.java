@@ -11,7 +11,10 @@ import java.sql.Timestamp;
  * 
  */
 @Entity
-@NamedQuery(name = "Foto.findAll", query = "SELECT f FROM Foto f")
+@NamedQueries({
+		@NamedQuery(name = "Foto.findAll", query = "SELECT f FROM Foto f"),
+		@NamedQuery(name = "Foto.findById", query = "SELECT f FROM Foto f WHERE f.id = :id")
+})
 public class Foto implements Serializable{
 	private static final long serialVersionUID = 1L;
 	
@@ -120,10 +123,10 @@ public class Foto implements Serializable{
 	public String toString(){
 		// log.info("toString: " + id);
 		if(id == null){
-//			log.warn("toString: " + "id==null");
+			// log.warn("toString: " + "id==null");
 			return "nd";
 		}
-		return path + originale;
+		return path + "\\" + originale;
 	}
 	
 	@Override
@@ -131,6 +134,12 @@ public class Foto implements Serializable{
 		// log.info("equals: " + obj);
 		if(obj instanceof Foto){
 			if(this.id == ((Foto)obj).id){
+				return true;
+			}else{
+				return false;
+			}
+		}else if(obj instanceof Integer){
+			if(this.id == obj){
 				return true;
 			}else{
 				return false;

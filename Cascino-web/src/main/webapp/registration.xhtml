@@ -1,0 +1,63 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core" xmlns:p="http://primefaces.org/ui"
+	xmlns:pc="http://java.sun.com/jsp/jstl/core" xmlns:fn="http://java.sun.com/jsp/jstl/functions">
+<h:head></h:head>
+<h:body>
+	<ui:composition template="template.xhtml">
+		<ui:define name="head">
+			<h:outputStylesheet library="css" name="registration.css" />
+		</ui:define>
+
+		<ui:define name="content">
+			<h:form id="growlForm">
+				<p:growl id="growl" showDetail="true" life="4000" />
+			</h:form>
+
+			<h:form id="registrationForm">
+				<p:panelGrid style="margin-top:20px">
+					<f:facet name="header">
+						<p:row>
+							<p:column colspan="2">REGISTRATI</p:column>
+						</p:row>
+					</f:facet>
+					<p:row>
+						<p:column>
+							<h:outputText value="Username *" />
+						</p:column>
+						<p:column>
+							<p:inputText value="#{userLoginController.user}" required="true" requiredMessage="Username obbligatorio"></p:inputText>
+						</p:column>
+					</p:row>
+					<p:row>
+						<p:column>
+							<h:outputText value="Password *" />
+						</p:column>
+						<p:column>
+							<p:password id="psw" value="#{userLoginController.password}" match="pswConfirm" feedback="true" required="true" requiredMessage="passwrord obbligatoria"
+								validatorMessage="lunghezza tra 5 e 30 o password non coincidenti" promptLabel="Inserisci password" weakLabel="debole" goodLabel="buona" strongLabel="ottima">
+								<f:validateLength minimum="5" maximum="30" for="psw" />
+							</p:password>
+						</p:column>
+					</p:row>
+					<p:row>
+						<p:column>
+							<h:outputText value="Conferma Password *" />
+						</p:column>
+						<p:column>
+							<p:password  id="pswConfirm" value="#{userLoginController.password}"></p:password>
+						</p:column>
+					</p:row>
+					<p:row>
+						<p:column/>
+						<p:column>
+							<p:commandButton value="Conferma" action="#{navigationController.registrationToLogin(userLoginController.confirmRegistration)}" update=":growlForm:growl" icon="ui-icon-person" />
+							<p:separator />
+							<p:commandButton value="Annulla" action="#{navigationController.registrationToLogin(false)}" update=":growlForm:growl" process="@this" icon="ui-icon-cancel" />
+						</p:column>
+					</p:row>
+				</p:panelGrid>
+			</h:form>
+		</ui:define>
+	</ui:composition>
+</h:body>
+</html>

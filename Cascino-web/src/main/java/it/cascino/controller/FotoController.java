@@ -3,23 +3,16 @@ package it.cascino.controller;
 import it.cascino.dao.FotoDao;
 import it.cascino.model.Foto;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.io.Serializable;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
-import javax.faces.event.ValueChangeEvent;
 import javax.inject.Inject;
 import javax.inject.Named;
 import org.jboss.logging.Logger;
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.UploadedFile;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 
 @Named
 @SessionScoped
@@ -53,13 +46,7 @@ public class FotoController implements Serializable{
 	
 	private String tipoFoto;
 	private int tipoFotoNum;
-	
-	private boolean modifO = false;
-	private boolean modifHD = false;
-	private boolean modifHDwm = false;
-	private boolean modifLD = false;
-	private boolean modifLDwm = false;
-	
+		
 	public void onChangeTipoFoto(){
 		tipoFotoNum = 1;
 		if(tipoFoto.equals("orig")){
@@ -113,6 +100,10 @@ public class FotoController implements Serializable{
 	
 	public void setFilteredFotoLs(List<Foto> filteredFotoLs){
 		this.filteredFotoLs = filteredFotoLs;
+	}
+	
+	public Foto getFotoFromId(Integer idFoto){
+		return fotoDao.getFotoFromId(idFoto);
 	}
 	
 	public void salva(){
@@ -338,7 +329,7 @@ public class FotoController implements Serializable{
 		return name;
 	}
 
-	private List<UploadedFile> fileUploadedLs = new ArrayList<UploadedFile>();;
+	private List<UploadedFile> fileUploadedLs = new ArrayList<UploadedFile>();
 	
 	public void fileUploadOrig(FileUploadEvent event){
 		fileUpload(event, ".orig");
@@ -396,4 +387,8 @@ public class FotoController implements Serializable{
 		}
 		return true;
 	}
+	
+//	public Foto getFotoFromNomeOriginale(String fName){
+//		return fotoDao.getFotoFromNomeOriginale(fName);
+//	}		
 }

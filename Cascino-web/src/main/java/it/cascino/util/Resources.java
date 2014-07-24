@@ -29,32 +29,32 @@ import org.jboss.logging.Logger;
  * </pre>
  */
 public class Resources{
-
-    // use @SuppressWarnings to tell IDE to ignore warnings about field not being referenced directly
-    @SuppressWarnings("unused")
-    @Produces
-    @PersistenceContext
-    private EntityManager em;
 	
-//	@PersistenceUnit(unitName = "primary")
-//	protected static EntityManagerFactory emf;
-//	
-//	@Produces
-//	@RequestScoped
-//	public EntityManager createEntityManager(){
-//		EntityManager em = emf.createEntityManager();
-//		em.clear();
-//		System.out.println("EntityProducer / createEntityManager - em:" + em);
-//		return em;
-//	}
-//	
-//	public void destroyEntityManager(@Disposes EntityManager em){
-//		// logger.info("Disposing Entity Manager");
-//		System.out.println("EntityProducer / destroyEntityManager - em:" + em);
-//		if(em.isOpen()){
-//			em.close();
-//		}
-//	}
+	// use @SuppressWarnings to tell IDE to ignore warnings about field not being referenced directly
+	@SuppressWarnings("unused")
+	@Produces
+	@PersistenceContext
+	private EntityManager em;
+	
+	// @PersistenceUnit(unitName = "primary")
+	// protected static EntityManagerFactory emf;
+	//
+	// @Produces
+	// @RequestScoped
+	// public EntityManager createEntityManager(){
+	// EntityManager em = emf.createEntityManager();
+	// em.clear();
+	// System.out.println("EntityProducer / createEntityManager - em:" + em);
+	// return em;
+	// }
+	//
+	// public void destroyEntityManager(@Disposes EntityManager em){
+	// // logger.info("Disposing Entity Manager");
+	// System.out.println("EntityProducer / destroyEntityManager - em:" + em);
+	// if(em.isOpen()){
+	// em.close();
+	// }
+	// }
 	
 	@Produces
 	public Logger produceLog(InjectionPoint injectionPoint){
@@ -66,5 +66,4 @@ public class Resources{
 	public FacesContext produceFacesContext(){
 		return FacesContext.getCurrentInstance();
 	}
-	
 }

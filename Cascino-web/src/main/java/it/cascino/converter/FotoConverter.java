@@ -17,26 +17,29 @@ public class FotoConverter implements Converter{
 	private Logger log;
 	
 	@Override
-	public Object getAsObject(FacesContext arg0, UIComponent arg1, String arg2){
-//		log.info("getAsObject: " + arg2);
-		if(arg2.isEmpty()){
-//			log.warn("getAsObject: " + arg2 + " isEmpty");
-			arg2 = "1";
+	public Object getAsObject(FacesContext fc, UIComponent uic, String value){
+		if(value.isEmpty()){
+			value = "1";
 		}
-		int num = Integer.parseInt(arg2);
 		Foto o = new Foto();
-		o.setId(num);
+		int num;
+		try{
+			num = Integer.parseInt(value);
+			o.setId(num);
+		}catch(NumberFormatException e){
+//			if(value.contains("\\")){
+//			o = (new ManagedBeanFotoDao()).getFotoFromNomeOriginale(value);
+//			}
+		}
 		return o;
 	}
-	
+
 	@Override
-	public String getAsString(FacesContext arg0, UIComponent arg1, Object arg2){
-		if(arg2 == null){
-//			log.warn("getAsString: " + arg2 + " == null");
-			arg2 = "1";
+	public String getAsString(FacesContext fc, UIComponent uic, Object obj){
+		if(obj == null){
+			obj = "1";
 		}
-//		log.info("getAsString: " + arg2);
-		return arg2.toString();
+		return obj.toString();
 	}
 	
 }
