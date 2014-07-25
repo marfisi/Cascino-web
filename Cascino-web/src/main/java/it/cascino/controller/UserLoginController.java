@@ -53,7 +53,10 @@ public class UserLoginController implements Serializable{
 	}
 	
 	public void setPassword(String password){
-		this.password = password;
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((password == null) ? 0 : password.hashCode());
+		this.password = Integer.toString(result);
 	}
 	
 	public void salva(){

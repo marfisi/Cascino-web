@@ -13,8 +13,8 @@ import java.sql.Timestamp;
 @Entity
 @NamedQueries({
 		@NamedQuery(name = "Tipi.findAll", query = "SELECT t FROM Tipi t"),
-		@NamedQuery(name = "Tipi.findById", query = "SELECT t FROM Tipi t WHERE t.id = :id") //,
-//		@NamedQuery(name = "Tipi.findByIdTipo", query = "SELECT f FROM Foto f WHERE f.id = (SELECT t.foto FROM Tipi t WHERE t.id = :id)")
+		@NamedQuery(name = "Tipi.findById", query = "SELECT t FROM Tipi t WHERE t.id = :id") // ,
+// @NamedQuery(name = "Tipi.findByIdTipo", query = "SELECT f FROM Foto f WHERE f.id = (SELECT t.foto FROM Tipi t WHERE t.id = :id)")
 })
 public class Tipi implements Serializable{
 	private static final long serialVersionUID = 1L;
@@ -74,7 +74,8 @@ public class Tipi implements Serializable{
 	
 	// @Column(name = "padre")
 	// uni-directional one-to-one association to Tipi
-	@OneToOne(cascade = {CascadeType.MERGE})	// .PERSIST})
+	@OneToOne(cascade = {CascadeType.MERGE})
+	// .PERSIST})
 	@JoinColumn(name = "padre")
 	public Tipi getTipoPadre(){
 		return this.tipoPadre;
@@ -83,12 +84,12 @@ public class Tipi implements Serializable{
 	public void setTipoPadre(Tipi tipi){
 		this.tipoPadre = tipi;
 	}
-
+	
 	@Column(name = "foto")
 	public Integer getIdFoto(){
 		return idFoto;
 	}
-
+	
 	public void setIdFoto(Integer idFoto){
 		this.idFoto = idFoto;
 	}
@@ -128,8 +129,14 @@ public class Tipi implements Serializable{
 	
 	@Override
 	public int hashCode(){
-		log.info("hashCode: ");
-		return id != null ? this.getClass().hashCode() + id.hashCode() : super.hashCode();
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		result = prime * result + ((nome == null) ? 0 : nome.hashCode());
+		result = prime * result + ((descrizione == null) ? 0 : descrizione.hashCode());
+		result = prime * result + ((tipoPadre == null) ? 0 : tipoPadre.hashCode());
+		result = prime * result + ((idFoto == null) ? 0 : idFoto.hashCode());
+		return result;
 	}
 	
 	public int compareTo(Tipi t){

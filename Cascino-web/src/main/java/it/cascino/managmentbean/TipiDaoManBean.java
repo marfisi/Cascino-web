@@ -75,8 +75,7 @@ public class TipiDaoManBean implements TipiDao, Serializable{
 	}
 	
 	public void aggiorna(TreeNode nodo){
-		Tipi tipo = (Tipi)nodo.getData();
-		
+		Tipi tipo = (Tipi)nodo.getData();		
 		try{
 			try{
 				utx.begin();

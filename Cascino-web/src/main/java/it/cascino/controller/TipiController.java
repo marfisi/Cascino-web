@@ -158,7 +158,7 @@ public class TipiController implements Serializable{
 	
 	// private, solo di servizio, ricorsiva
 	private TreeNode popolaConFigli(int idPadre, TreeNode root){
-		log.info("popolaConFigli con id " + idPadre);
+		// log.info("popolaConFigli con id " + idPadre);
 		
 		TreeNode leaf = null;
 		

@@ -150,7 +150,15 @@ public class Foto implements Serializable{
 	
 	@Override
 	public int hashCode(){
-		log.info("hashCode: ");
-		return id != null ? this.getClass().hashCode() + id.hashCode() : super.hashCode();
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		result = prime * result + ((path == null) ? 0 : path.hashCode());
+		result = prime * result + ((originale == null) ? 0 : originale.hashCode());
+		result = prime * result + ((grande == null) ? 0 : grande.hashCode());
+		result = prime * result + ((grandeWatermark == null) ? 0 : grandeWatermark.hashCode());
+		result = prime * result + ((thumbnail == null) ? 0 : thumbnail.hashCode());
+		result = prime * result + ((thumbnailWatermark == null) ? 0 : thumbnailWatermark.hashCode());
+		return result;
 	}
 }

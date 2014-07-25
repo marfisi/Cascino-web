@@ -150,7 +150,16 @@ public class Articoli implements Serializable{
 	
 	@Override
 	public int hashCode(){
-		log.info("hashCode: ");
-		return id != null ? this.getClass().hashCode() + id.hashCode() : super.hashCode();
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		result = prime * result + ((codice == null) ? 0 : codice.hashCode());
+		result = prime * result + ((nome == null) ? 0 : nome.hashCode());
+		result = prime * result + ((descrizione == null) ? 0 : descrizione.hashCode());
+		result = prime * result + ((produttore == null) ? 0 : produttore.hashCode());
+		result = prime * result + ((modello == null) ? 0 : modello.hashCode());
+		result = prime * result + ((articoloFornitore == null) ? 0 : articoloFornitore.hashCode());
+		result = prime * result + ((tipo == null) ? 0 : tipo.hashCode());
+		return result;
 	}
 }

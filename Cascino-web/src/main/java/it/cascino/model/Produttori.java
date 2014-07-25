@@ -109,7 +109,12 @@ public class Produttori implements Serializable{
 	
 	@Override
 	public int hashCode(){
-		log.info("hashCode: ");
-		return id != null ? this.getClass().hashCode() + id.hashCode() : super.hashCode();
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		result = prime * result + ((nome == null) ? 0 : nome.hashCode());
+		result = prime * result + ((dati == null) ? 0 : dati.hashCode());
+		result = prime * result + ((foto == null) ? 0 : foto.hashCode());
+		return result;
 	}
 }

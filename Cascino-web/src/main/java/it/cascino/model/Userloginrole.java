@@ -114,7 +114,12 @@ public class Userloginrole implements Serializable{
 	
 	@Override
 	public int hashCode(){
-		log.info("hashCode: ");
-		return id != null ? this.getClass().hashCode() + id.hashCode() : super.hashCode();
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		result = prime * result + ((login == null) ? 0 : login.hashCode());
+		result = prime * result + ((password == null) ? 0 : password.hashCode());
+		result = prime * result + ((role == null) ? 0 : role.hashCode());
+		return result;
 	}
 }
