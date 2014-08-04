@@ -46,7 +46,7 @@ public class FotoController implements Serializable{
 	
 	private String tipoFoto;
 	private int tipoFotoNum;
-		
+	
 	public void onChangeTipoFoto(){
 		tipoFotoNum = 1;
 		if(tipoFoto.equals("orig")){
@@ -123,7 +123,7 @@ public class FotoController implements Serializable{
 		Boolean risp = fotoDao.annullaUpdate(fileUploadedLs);
 		if(risp){
 			esito = "Annullamento foto eseguito";
-			showGrowlDelMessage();
+			showGrowlAnnullaMessage();
 		}else{
 			esito = "non sono state caricate le foto!";
 			showGrowlErrorMessage();
@@ -135,7 +135,7 @@ public class FotoController implements Serializable{
 		Boolean risp = fotoDao.annullaUpload(fileUploadedLs);
 		if(risp){
 			esito = "Annullamento foto eseguito";
-			showGrowlDelMessage();
+			showGrowlAnnullaMessage();
 		}else{
 			esito = "non sono state caricate le foto!";
 			showGrowlErrorMessage();
@@ -155,7 +155,7 @@ public class FotoController implements Serializable{
 		Boolean risp = fotoDao.annullaUploadUndef(t, fileUploadedLs, u);
 		if(risp){
 			esito = "Annullamento foto eseguito";
-			showGrowlDelMessage();
+			showGrowlAnnullaMessage();
 		}else{
 			esito = "non sono state caricate le foto!";
 			showGrowlErrorMessage();
@@ -190,7 +190,7 @@ public class FotoController implements Serializable{
 	public void eliminaSingFoto(){
 		eliminaSingFoto(0, 1);
 	}
-
+	
 	public void eliminaSingFoto(int t, int u){
 		if(t == 0){
 			t = tipoFotoNum;
@@ -222,7 +222,7 @@ public class FotoController implements Serializable{
 		facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Successo", message));
 		log.info(message);
 	}
-
+	
 	private void showGrowlUpdMessage(){
 		String message = "Aggiornato con successo - " + esito + " >" + fotoSel + "<";
 		facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Successo", message));
@@ -237,6 +237,12 @@ public class FotoController implements Serializable{
 	
 	private void showGrowlDelMessage(){
 		String message = "Eliminato con successo - " + esito + " >" + fotoSel + "<";
+		facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Successo", message));
+		log.info(message);
+	}
+	
+	private void showGrowlAnnullaMessage(){
+		String message = "Annullato con successo - " + esito + " >" + fotoSel + "<";
 		facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Successo", message));
 		log.info(message);
 	}
@@ -286,7 +292,7 @@ public class FotoController implements Serializable{
 	public String size(Foto f, int t){
 		return size(f, t, 0);
 	}
-
+	
 	public String size(Foto f, int t, int u){
 		if(t == 0){
 			t = tipoFotoNum;
@@ -307,20 +313,45 @@ public class FotoController implements Serializable{
 		return resolution;
 	}
 	
+	public int getHeightFromResolution(Foto foto, int t, int h, int l){
+		if(t == 0){
+			t = tipoFotoNum;
+		}
+		return fotoDao.getHeightFromResolution(foto, t, h, l);
+	}
+	
 	public String resolvePath(Foto f){
-//		return resolvePath(f, -1);
-//	}
-//	
-//	public String resolvePath(Foto f, int i){
-//		String path = fotoDao.resolvePath(f, i, fileUploadedLs);
+		// return resolvePath(f, -1);
+		// }
+		//
+		// public String resolvePath(Foto f, int i){
+		// String path = fotoDao.resolvePath(f, i, fileUploadedLs);
 		String path = fotoDao.resolvePath(f);
 		return path;
+	}
+	
+	public String getFotonameUrl(Foto f, int t){
+		String nomePerUrl = "";
+		nomePerUrl = getFotoname(f, t, 0);
+		if(nomePerUrl.contains("°")){
+			nomePerUrl = nomePerUrl.replace("°", "%B0");
+		}
+		return nomePerUrl;
+	}
+	
+	public String getFotonameUrl(Foto f, int t, int u){
+		String nomePerUrl = "";
+		nomePerUrl = getFotoname(f, t, u);
+		if(nomePerUrl.contains("°")){
+			nomePerUrl = nomePerUrl.replace("°", "%B0");
+		}
+		return nomePerUrl;
 	}
 	
 	public String getFotoname(Foto f, int t){
 		return getFotoname(f, t, 0);
 	}
-
+	
 	public String getFotoname(Foto f, int t, int u){
 		if(t == 0){
 			t = tipoFotoNum;
@@ -328,7 +359,7 @@ public class FotoController implements Serializable{
 		String name = fotoDao.getFotoname(f, t, fileUploadedLs, u);
 		return name;
 	}
-
+	
 	private List<UploadedFile> fileUploadedLs = new ArrayList<UploadedFile>();
 	
 	public void fileUploadOrig(FileUploadEvent event){
@@ -377,7 +408,7 @@ public class FotoController implements Serializable{
 		}
 		
 		fotoDao.fileUpload(event, type, fileUploadedLs);
-			
+		
 		showGrowlInfoMessage(event.getFile().getFileName() + " upload terminato");
 	}
 	
@@ -388,7 +419,7 @@ public class FotoController implements Serializable{
 		return true;
 	}
 	
-//	public Foto getFotoFromNomeOriginale(String fName){
-//		return fotoDao.getFotoFromNomeOriginale(fName);
-//	}		
+	// public Foto getFotoFromNomeOriginale(String fName){
+	// return fotoDao.getFotoFromNomeOriginale(fName);
+	// }
 }

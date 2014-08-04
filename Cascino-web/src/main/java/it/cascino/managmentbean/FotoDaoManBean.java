@@ -1,6 +1,7 @@
 package it.cascino.managmentbean;
 
 import java.awt.image.BufferedImage;
+import java.awt.image.Raster;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -16,11 +17,14 @@ import it.cascino.model.Foto;
 import it.cascino.util.Utility;
 import javax.faces.bean.SessionScoped;
 import javax.imageio.ImageIO;
+import javax.imageio.ImageReader;
+import javax.imageio.stream.ImageInputStream;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.Query;
 import javax.transaction.UserTransaction;
+import org.apache.commons.lang3.StringUtils;
 import org.jboss.logging.Logger;
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.UploadedFile;
@@ -670,7 +674,7 @@ public class FotoDaoManBean implements FotoDao, Serializable{
 		}
 		
 		File f = getFileBetweenDefAndUpl(fotoElimina, t, fotoLs, u);
-		if(f.getName().equals(fotoNotDefined)){
+		if(StringUtils.equals(f.getName(), fotoNotDefined)){
 			return;
 		}
 		
@@ -710,7 +714,7 @@ public class FotoDaoManBean implements FotoDao, Serializable{
 			return "n.d.";
 		}
 		File f = getFileBetweenDefAndUpl(foto, t, fotoLs, u);
-		if(f.getName().equals(fotoNotDefined)){
+		if(StringUtils.equals(f.getName(), fotoNotDefined)){
 			return "n.d.";
 		}
 		float size = f.length();
@@ -728,16 +732,82 @@ public class FotoDaoManBean implements FotoDao, Serializable{
 			return "n.d.";
 		}
 		File f = getFileBetweenDefAndUpl(foto, t, fotoLs, u);
-		if(f.getName().equals(fotoNotDefined)){
+		if(StringUtils.equals(f.getName(), fotoNotDefined)){
 			return "n.d.";
 		}
 		BufferedImage fimg = null;
 		try{
-			fimg = ImageIO.read(f);
+			if((StringUtils.containsIgnoreCase(f.getPath(), "jpg")) || (StringUtils.containsIgnoreCase(f.getPath(), "jpeg"))){
+				fimg = manageFileJpegCMYK(f);
+			}else{
+				fimg = ImageIO.read(f);
+			}
+		}catch(IOException e){
+			log.error("file " + f.getName() + " gestito con eccezione");
+			e.printStackTrace();
+		}
+		return (fimg == null) ? "n.d." : fimg.getWidth() + "x" + fimg.getHeight() + "px";
+	}
+	
+	private BufferedImage manageFileJpegCMYK(File f){
+		Iterator<ImageReader> readers = ImageIO.getImageReadersByFormatName("JPEG");
+		ImageReader reader = null;
+		while(readers.hasNext()){
+			reader = (ImageReader)readers.next();
+			if(reader.canReadRaster()){
+				break;
+			}
+		}
+		// Stream the image file (the original CMYK image)
+		ImageInputStream input = null;
+		try{
+			input = ImageIO.createImageInputStream(f);
 		}catch(IOException e){
 			e.printStackTrace();
 		}
-		return fimg.getWidth() + "x" + fimg.getHeight() + "px";
+		reader.setInput(input);
+		
+		// Read the image raster
+		Raster raster = null;
+		try{
+			raster = reader.readRaster(0, null);
+		}catch(IOException e){
+			e.printStackTrace();
+		}
+		
+		// Create a new RGB image
+		BufferedImage bi = new BufferedImage(raster.getWidth(), raster.getHeight(),
+		BufferedImage.TYPE_4BYTE_ABGR);
+		
+		// Fill the new image with the old raster
+		// bi.getRaster().setRect(raster);
+		return bi;
+	}
+	
+	public int getHeightFromResolution(Foto foto, int t, int h, int l){
+		int altezza = 0;
+		float rapportoTarget = 0.0f;
+		float rapportoH = 0.0f;
+		float rapportoL = 0.0f;
+		
+		String resolution = getResolution(foto, t);
+		if(StringUtils.equals(resolution, "n.d.")){
+			return 1000;
+		}
+		int imgH = Integer.parseInt(resolution.substring(resolution.indexOf("x") + 1, resolution.indexOf("px")));
+		int imgL = Integer.parseInt(resolution.substring(0, resolution.indexOf("x")));
+		rapportoH = (float)imgH / h;
+		rapportoL = (float)imgL / l;
+		
+		if(rapportoH > rapportoL){
+			rapportoTarget = rapportoH;
+		}else{
+			rapportoTarget = rapportoL;
+		}
+		
+		altezza = (int)Math.floor(imgH / rapportoTarget);
+		
+		return altezza;
 	}
 	
 	// public String resolvePath(Foto foto, int i, List<UploadedFile> fotoLs){

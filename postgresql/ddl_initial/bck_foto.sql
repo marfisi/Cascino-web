@@ -21,12 +21,12 @@ SET default_with_oids = false;
 
 CREATE TABLE foto (
     id integer NOT NULL,
-    path character varying(80) DEFAULT '.\'::character varying,
-    originale character varying(50) NOT NULL,
-    grande character varying(50),
-    grande_watermark character varying(50),
-    thumbnail character varying(50),
-    thumbnail_watermark character varying(50),
+    path character varying(100) DEFAULT '.\'::character varying,
+    originale character varying(100) NOT NULL,
+    grande character varying(100),
+    grande_watermark character varying(100),
+    thumbnail character varying(100),
+    thumbnail_watermark character varying(100),
     updtime timestamp with time zone
 );
 
@@ -65,13 +65,22 @@ ALTER TABLE ONLY foto ALTER COLUMN id SET DEFAULT nextval('foto_id_seq'::regclas
 -- Data for Name: foto; Type: TABLE DATA; Schema: cascino_schema; Owner: cascino_user_db
 --
 
+INSERT INTO foto VALUES (1, 'c:\dev\foto', 'n.d..jpeg', 'n.d..jpeg', 'n.d..jpeg', 'n.d..jpeg', 'n.d..jpeg', '2014-05-21 11:43:59.038+02');
 
 
 --
 -- Name: foto_id_seq; Type: SEQUENCE SET; Schema: cascino_schema; Owner: cascino_user_db
 --
 
-SELECT pg_catalog.setval('foto_id_seq', 1, false);
+SELECT pg_catalog.setval('foto_id_seq', 1, true);
+
+
+--
+-- Name: foto_path_originale_unqk; Type: CONSTRAINT; Schema: cascino_schema; Owner: cascino_user_db; Tablespace: 
+--
+
+ALTER TABLE ONLY foto
+    ADD CONSTRAINT foto_path_originale_unqk UNIQUE (path, originale);
 
 
 --
