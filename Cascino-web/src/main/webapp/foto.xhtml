@@ -1,6 +1,5 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core" xmlns:p="http://primefaces.org/ui"
-	xmlns:pc="http://java.sun.com/jsp/jstl/core" xmlns:fn="http://java.sun.com/jsp/jstl/functions">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core" xmlns:p="http://primefaces.org/ui" xmlns:pc="http://java.sun.com/jsp/jstl/core" xmlns:fn="http://java.sun.com/jsp/jstl/functions">
 <h:head></h:head>
 <h:body>
 	<ui:composition template="template.xhtml">
@@ -31,9 +30,7 @@
 				</p:toolbar>
 				<p:sticky target="tbNavigation" />
 
-				<p:dataTable id="tbl" var="foto" value="#{fotoController.fotoLs}" selection="#{fotoController.fotoSel}" selectionMode="single" rowKey="#{foto.id}" update=":updDisplay"
-					oncomplete="PF('updDialog').show()" paginator="true" rows="15" dynamic="true" sortBy="id" emptyMessage="Nessun entry per il criterio definito" widgetVar="fotoTable"
-					filteredValue="#{fotoController.filteredFotoLs}">
+				<p:dataTable id="tbl" var="foto" value="#{fotoController.fotoLs}" selection="#{fotoController.fotoSel}" selectionMode="single" rowKey="#{foto.id}" update=":updDisplay" oncomplete="PF('updDialog').show()" paginator="true" rows="15" dynamic="true" sortBy="id" emptyMessage="Nessun entry per il criterio definito" widgetVar="fotoTable" filteredValue="#{fotoController.filteredFotoLs}">
 
 					<p:ajax event="rowDblselect" update=":contentGalleria" oncomplete="PF('viewDialog').show()" />
 
@@ -48,7 +45,7 @@
 							<h:outputText value="Originale" />
 						</f:facet>
 						<h:panelGrid columns="1" cellpadding="4">
-							<p:graphicImage value="#{fotoController.resolvePath(foto)}#{fotoController.getFotonameUrl(foto, 1)}" height="60" />
+							<p:graphicImage value="#{fotoController.resolvePath(foto)}#{fotoController.getFotonameUrl(foto, 1)}" height="#{fotoController.getHeightFromResolution(foto, 1, 60, 300)}" />
 							<h:outputText value="#{fotoController.getFotoname(foto, 1)}" />
 							<h:outputText value="#{fotoController.size(foto, 1)} - #{fotoController.resolution(foto, 1)}" />
 						</h:panelGrid>
@@ -58,7 +55,7 @@
 							<h:outputText value="HD" />
 						</f:facet>
 						<h:panelGrid columns="1" cellpadding="4">
-							<p:graphicImage value="#{fotoController.resolvePath(foto)}#{fotoController.getFotonameUrl(foto, 2)}" height="60" />
+							<p:graphicImage value="#{fotoController.resolvePath(foto)}#{fotoController.getFotonameUrl(foto, 2)}" height="#{fotoController.getHeightFromResolution(foto, 2, 60, 300)}" />
 							<h:outputText value="#{fotoController.getFotoname(foto, 2)}" />
 							<h:outputText value="#{fotoController.size(foto, 2)} - #{fotoController.resolution(foto, 2)}" />
 						</h:panelGrid>
@@ -68,7 +65,7 @@
 							<h:outputText value="HD wm" />
 						</f:facet>
 						<h:panelGrid columns="1" cellpadding="4">
-							<p:graphicImage value="#{fotoController.resolvePath(foto)}#{fotoController.getFotonameUrl(foto, 3)}" height="60" />
+							<p:graphicImage value="#{fotoController.resolvePath(foto)}#{fotoController.getFotonameUrl(foto, 3)}" height="#{fotoController.getHeightFromResolution(foto, 3, 60, 300)}" />
 							<h:outputText value="#{fotoController.getFotoname(foto, 3)}" />
 							<h:outputText value="#{fotoController.size(foto, 3)} - #{fotoController.resolution(foto, 3)}" />
 						</h:panelGrid>
@@ -78,7 +75,7 @@
 							<h:outputText value="LD" />
 						</f:facet>
 						<h:panelGrid columns="1" cellpadding="4">
-							<p:graphicImage value="#{fotoController.resolvePath(foto)}#{fotoController.getFotonameUrl(foto, 4)}" height="60" />
+							<p:graphicImage value="#{fotoController.resolvePath(foto)}#{fotoController.getFotonameUrl(foto, 4)}" height="#{fotoController.getHeightFromResolution(foto, 4, 60, 300)}" />
 							<h:outputText value="#{fotoController.getFotoname(foto, 4)}" />
 							<h:outputText value="#{fotoController.size(foto, 4)} - #{fotoController.resolution(foto, 4)}" />
 						</h:panelGrid>
@@ -88,17 +85,17 @@
 							<h:outputText value="LD wm" />
 						</f:facet>
 						<h:panelGrid columns="1" cellpadding="4">
-							<p:graphicImage value="#{fotoController.resolvePath(foto)}#{fotoController.getFotonameUrl(foto, 5)}" height="60" />
+							<p:graphicImage value="#{fotoController.resolvePath(foto)}#{fotoController.getFotonameUrl(foto, 5)}" height="#{fotoController.getHeightFromResolution(foto, 5, 60, 300)}" />
 							<h:outputText value="#{fotoController.getFotoname(foto, 5)}" />
 							<h:outputText value="#{fotoController.size(foto, 5)} - #{fotoController.resolution(foto, 5)}" />
 						</h:panelGrid>
 					</p:column>
-					<p:column sortBy="path" sortFunction="#{fotoController.sortByStrIC}" filterBy="#{foto.path}" filterMatchMode="contains">
+					<!--  p:column sortBy="path" sortFunction="#{fotoController.sortByStrIC}" filterBy="#{foto.path}" filterMatchMode="contains">
 						<f:facet name="header">
 							<h:outputText value="Path" />
 						</f:facet>
 						<h:outputText value="#{foto.path}" />
-					</p:column>
+					</p:column-->
 					<p:column sortBy="id" sortFunction="#{fotoController.sortByNum}" filterBy="#{foto.id}" filterMatchMode="contains">
 						<f:facet name="header">
 							<h:outputText value="ID" />
@@ -153,21 +150,19 @@
 			</h:form>
 
 			<p:dialog id="viewDialog" header="Dettagli" widgetVar="viewDialog" resizable="false" showEffect="clip" hideEffect="fold" modal="true">
-				<p:galleria id="contentGalleria" var="foto" value="#{fotoController.fotoPerSelLs}" panelWidth="650" panelHeight="450" frameWidth="50" frameHeight="50" effect="clip">
-					<p:graphicImage id="fotoImage" value="#{fotoController.resolvePath(foto)}#{fotoController.getFotonameUrl(foto, 0)}" alt="#{foto.originale}" title="#{foto.originale}"
-						height="#{fotoController.getHeightFromResolution(foto, 0, 450, 650)}" />
-				</p:galleria>
-				<f:facet name="content">
-					<h:panelGrid columns="1" cellpadding="5">
-						<f:facet name="header">
-							<p:graphicImage value="#{fotoController.resolvePath(fotoController.fotoSel)}#{fotoController.getFotonameUrl(fotoController.fotoSel, 0)}" height="30" />
-						</f:facet>
+				<p:galleria id="contentGalleria" var="foto" value="#{fotoController.fotoPerSelLs}" panelWidth="650" panelHeight="450" frameWidth="50" frameHeight="50">
+					<p:graphicImage id="fotoImage" value="#{fotoController.resolvePath(foto)}#{fotoController.getFotonameUrl(foto, 0)}" />
+					<f:facet name="content">
+						<h:panelGrid columns="1" cellpadding="5">
+							<f:facet name="header">
+								<p:graphicImage value="#{fotoController.resolvePath(fotol)}#{fotoController.getFotonameUrl(foto, 0)}" alt="#{foto.originale}" title="#{foto.originale}" height="#{fotoController.getHeightFromResolution(foto, 0, 360, 650)}" />
+							</f:facet>
 
-						<h:outputText id="name" value="#{foto.originale}" />
-						<h:outputText id="size" value="#{foto.grande}" />
-						<h:outputText id="resolution" value="#{foto.thumbnail}" />
-					</h:panelGrid>
-				</f:facet>
+							<h:outputText id="name" value="#{foto.originale}" />
+							<h:outputText id="size-resolution" value="#{foto.grande} - #{foto.thumbnail}" />
+						</h:panelGrid>
+					</f:facet>
+				</p:galleria>
 			</p:dialog>
 
 			<p:dialog widgetVar="newDialog" header="Inserisci" modal="true" closable="false">
@@ -175,25 +170,15 @@
 					<p:outputPanel id="newDisplay">
 						<h:panelGrid columns="2">
 							<h:outputText value="Originale (obbligatoria)" />
-							<p:fileUpload fileUploadListener="#{fotoController.fileUploadOrig}" mode="advanced" dragDropSupport="true" update=":growlForm:growl" required="true" label="Seleziona" uploadLabel="Carica"
-								cancelLabel="Annulla" invalidSizeMessage="File troppo grosso (limite 1 MB)" invalidFileMessage="Tipo file non consentito (solo: gif, jpeg, png)"
-								fileLimitMessage="Puoi caricare un file alla volta" fileLimit="1" sizeLimit="1048576" allowTypes="/(\.|\/)(gif|jpe?g|png)$/" />
+							<p:fileUpload fileUploadListener="#{fotoController.fileUploadOrig}" mode="advanced" dragDropSupport="true" update=":growlForm:growl" required="true" label="Seleziona" uploadLabel="Carica" cancelLabel="Annulla" invalidSizeMessage="File troppo grosso (limite 1 MB)" invalidFileMessage="Tipo file non consentito (solo: gif, jpeg, png)" fileLimitMessage="Puoi caricare un file alla volta" fileLimit="1" sizeLimit="1048576" allowTypes="/(\.|\/)(gif|jpe?g|png)$/" />
 							<h:outputText value="HD" />
-							<p:fileUpload fileUploadListener="#{fotoController.fileUploadHD}" mode="advanced" dragDropSupport="true" update=":growlForm:growl" required="false" label="Seleziona" uploadLabel="Carica"
-								cancelLabel="Annulla" invalidSizeMessage="File troppo grosso (limite 1 MB)" invalidFileMessage="Tipo file non consentito (solo: gif, jpeg, png)"
-								fileLimitMessage="Puoi caricare un file alla volta" fileLimit="1" sizeLimit="1048576" allowTypes="/(\.|\/)(gif|jpe?g|png)$/" />
+							<p:fileUpload fileUploadListener="#{fotoController.fileUploadHD}" mode="advanced" dragDropSupport="true" update=":growlForm:growl" required="false" label="Seleziona" uploadLabel="Carica" cancelLabel="Annulla" invalidSizeMessage="File troppo grosso (limite 1 MB)" invalidFileMessage="Tipo file non consentito (solo: gif, jpeg, png)" fileLimitMessage="Puoi caricare un file alla volta" fileLimit="1" sizeLimit="1048576" allowTypes="/(\.|\/)(gif|jpe?g|png)$/" />
 							<h:outputText value="HD WM" />
-							<p:fileUpload fileUploadListener="#{fotoController.fileUploadHDWM}" mode="advanced" dragDropSupport="true" update=":growlForm:growl" required="false" label="Seleziona" uploadLabel="Carica"
-								cancelLabel="Annulla" invalidSizeMessage="File troppo grosso (limite 1 MB)" invalidFileMessage="Tipo file non consentito (solo: gif, jpeg, png)"
-								fileLimitMessage="Puoi caricare un file alla volta" fileLimit="1" sizeLimit="1048576" allowTypes="/(\.|\/)(gif|jpe?g|png)$/" />
+							<p:fileUpload fileUploadListener="#{fotoController.fileUploadHDWM}" mode="advanced" dragDropSupport="true" update=":growlForm:growl" required="false" label="Seleziona" uploadLabel="Carica" cancelLabel="Annulla" invalidSizeMessage="File troppo grosso (limite 1 MB)" invalidFileMessage="Tipo file non consentito (solo: gif, jpeg, png)" fileLimitMessage="Puoi caricare un file alla volta" fileLimit="1" sizeLimit="1048576" allowTypes="/(\.|\/)(gif|jpe?g|png)$/" />
 							<h:outputText value="LD" />
-							<p:fileUpload fileUploadListener="#{fotoController.fileUploadLD}" mode="advanced" dragDropSupport="true" update=":growlForm:growl" required="false" label="Seleziona" uploadLabel="Carica"
-								cancelLabel="Annulla" invalidSizeMessage="File troppo grosso (limite 1 MB)" invalidFileMessage="Tipo file non consentito (solo: gif, jpeg, png)"
-								fileLimitMessage="Puoi caricare un file alla volta" fileLimit="1" sizeLimit="1048576" allowTypes="/(\.|\/)(gif|jpe?g|png)$/" />
+							<p:fileUpload fileUploadListener="#{fotoController.fileUploadLD}" mode="advanced" dragDropSupport="true" update=":growlForm:growl" required="false" label="Seleziona" uploadLabel="Carica" cancelLabel="Annulla" invalidSizeMessage="File troppo grosso (limite 1 MB)" invalidFileMessage="Tipo file non consentito (solo: gif, jpeg, png)" fileLimitMessage="Puoi caricare un file alla volta" fileLimit="1" sizeLimit="1048576" allowTypes="/(\.|\/)(gif|jpe?g|png)$/" />
 							<h:outputText value="LD WM" />
-							<p:fileUpload fileUploadListener="#{fotoController.fileUploadLDWM}" mode="advanced" dragDropSupport="true" update=":growlForm:growl" required="false" label="Seleziona" uploadLabel="Carica"
-								cancelLabel="Annulla" invalidSizeMessage="File troppo grosso (limite 1 MB)" invalidFileMessage="Tipo file non consentito (solo: gif, jpeg, png)"
-								fileLimitMessage="Puoi caricare un file alla volta" fileLimit="1" sizeLimit="1048576" allowTypes="/(\.|\/)(gif|jpe?g|png)$/" />
+							<p:fileUpload fileUploadListener="#{fotoController.fileUploadLDWM}" mode="advanced" dragDropSupport="true" update=":growlForm:growl" required="false" label="Seleziona" uploadLabel="Carica" cancelLabel="Annulla" invalidSizeMessage="File troppo grosso (limite 1 MB)" invalidFileMessage="Tipo file non consentito (solo: gif, jpeg, png)" fileLimitMessage="Puoi caricare un file alla volta" fileLimit="1" sizeLimit="1048576" allowTypes="/(\.|\/)(gif|jpe?g|png)$/" />
 						</h:panelGrid>
 						<p:commandButton value="Salva" action="#{fotoController.salva}" update=":tblForm:tbl,:growlForm:growl" onclick="PF('newDialog').close()" icon="ui-icon-disk" />
 						<p:separator />
@@ -220,14 +205,13 @@
 								<h:panelGrid columns="2" cellpadding="4">
 									<h:outputText value="Prima" />
 									<h:outputText value="Dopo" />
-									<p:graphicImage value="#{fotoController.resolvePath(fotoController.fotoSel)}#{fotoController.getFotonameUrl(fotoController.fotoSel, 0)}" height="300" />
-									<p:graphicImage value="#{fotoController.resolvePath(fotoController.fotoSel)}#{fotoController.getFotonameUrl(fotoController.fotoSel, 0, 1)}" height="300" />
+									<p:graphicImage value="#{fotoController.resolvePath(fotoController.fotoSel)}#{fotoController.getFotonameUrl(fotoController.fotoSel, 0)}" height="#{fotoController.getHeightFromResolution(fotoController.fotoSel, 0, 250, 250)}" />
+									<p:graphicImage value="#{fotoController.resolvePath(fotoController.fotoSel)}#{fotoController.getFotonameUrl(fotoController.fotoSel, 0, 1)}" height="#{fotoController.getHeightFromResolution(fotoController.fotoSel, 0, 250, 250, 1)}" />
 									<h:outputText value="#{fotoController.getFotoname(fotoController.fotoSel, 0)}" />
 									<h:outputText value="#{fotoController.getFotoname(fotoController.fotoSel, 0, 1)}" />
 									<h:outputText value="#{fotoController.size(fotoController.fotoSel, 0)} - #{fotoController.resolution(fotoController.fotoSel, 0)}" />
 									<h:outputText value="#{fotoController.size(fotoController.fotoSel, 0, 1)} - #{fotoController.resolution(fotoController.fotoSel, 0, 1)}" />
-									<p:imageCompare leftImage="#{fotoController.resolvePath(fotoController.fotoSel)}#{fotoController.getFotonameUrl(fotoController.fotoSel, 0)}"
-										rightImage="#{fotoController.resolvePath(fotoController.fotoSel)}#{fotoController.getFotonameUrl(fotoController.fotoSel, 0, 1)}" width="551" height="312" />
+									<p:imageCompare leftImage="#{fotoController.resolvePath(fotoController.fotoSel)}#{fotoController.getFotonameUrl(fotoController.fotoSel, 0)}" rightImage="#{fotoController.resolvePath(fotoController.fotoSel)}#{fotoController.getFotonameUrl(fotoController.fotoSel, 0, 1)}" width="550" height="330" />
 								</h:panelGrid>
 								<h:panelGrid columns="1">
 									<p:commandButton value="Modifica" onclick="PF('updDialogUpload').show()" icon="ui-icon-pencil" />
@@ -246,13 +230,10 @@
 			<p:dialog widgetVar="updDialogUpload" header="Inserisci" modal="true" closable="false">
 				<h:form id="updFormUpload" enctype="multipart/form-data">
 					<p:outputPanel id="newDisplay">
-						<p:fileUpload fileUploadListener="#{fotoController.fileUploadUndef}" mode="advanced" dragDropSupport="true" update=":growlForm:growl" required="true" label="Seleziona" uploadLabel="Carica"
-							cancelLabel="Annulla" invalidSizeMessage="File troppo grosso (limite 1 MB)" invalidFileMessage="Tipo file non consentito (solo: gif, jpeg, png)" sizeLimit="1048576"
-							allowTypes="/(\.|\/)(gif|jpe?g|png)$/" />
+						<p:fileUpload fileUploadListener="#{fotoController.fileUploadUndef}" mode="advanced" dragDropSupport="true" update=":growlForm:growl" required="true" label="Seleziona" uploadLabel="Carica" cancelLabel="Annulla" invalidSizeMessage="File troppo grosso (limite 1 MB)" invalidFileMessage="Tipo file non consentito (solo: gif, jpeg, png)" sizeLimit="1048576" allowTypes="/(\.|\/)(gif|jpe?g|png)$/" />
 						<p:commandButton value="Salva" onclick="PF('updDialogUpload').hide()" update=":updForm:tipoFotoGrid" process="@this" icon="ui-icon-disk" />
 						<p:separator />
-						<p:commandButton value="Annulla" action="#{fotoController.annullaUploadUndef}" update=":updForm:tipoFotoGrid,:growlForm:growl" onclick="PF('updDialogUpload').hide()" process="@this"
-							icon="ui-icon-cancel" />
+						<p:commandButton value="Annulla" action="#{fotoController.annullaUploadUndef}" update=":updForm:tipoFotoGrid,:growlForm:growl" onclick="PF('updDialogUpload').hide()" process="@this" icon="ui-icon-cancel" />
 					</p:outputPanel>
 				</h:form>
 			</p:dialog>

@@ -1,5 +1,9 @@
 package it.cascino.managmentbean;
 
+import it.cascino.dao.FotoDao;
+import it.cascino.model.Foto;
+import it.cascino.util.CommonsUtility;
+import it.cascino.util.Utility;
 import java.awt.image.BufferedImage;
 import java.awt.image.Raster;
 import java.io.File;
@@ -12,9 +16,6 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import it.cascino.dao.FotoDao;
-import it.cascino.model.Foto;
-import it.cascino.util.Utility;
 import javax.faces.bean.SessionScoped;
 import javax.imageio.ImageIO;
 import javax.imageio.ImageReader;
@@ -48,6 +49,14 @@ public class FotoDaoManBean implements FotoDao, Serializable{
 	@Inject
 	private UserTransaction utx;
 	
+	private final String dirFoto = "c:\\dev\\foto";
+	// private String dirFotoUpload = "c:\\dev\\foto\\uploadTmp";
+	private final String dirFotoUri = ".\\resources\\gfx\\foto\\";
+	
+	private List<File> fotoDeletedLs = new ArrayList<File>();
+	
+	private final String fotoNotDefined = "n.d..jpeg";
+	
 	@SuppressWarnings("unchecked")
 	public List<Foto> getAll(){
 		List<Foto> foto = null;
@@ -67,14 +76,6 @@ public class FotoDaoManBean implements FotoDao, Serializable{
 		}
 		return foto;
 	}
-	
-	private final String dirFoto = "c:\\dev\\foto";
-	// private String dirFotoUpload = "c:\\dev\\foto\\uploadTmp";
-	private final String dirFotoUri = ".\\resources\\gfx\\foto\\";
-	
-	private List<File> fotoDeletedLs = new ArrayList<File>();
-	
-	private final String fotoNotDefined = "n.d..jpeg";
 	
 	public String getDirFoto(){
 		return dirFoto;
@@ -114,44 +115,11 @@ public class FotoDaoManBean implements FotoDao, Serializable{
 	
 	public Boolean annullaUpload(List<UploadedFile> fotoLs){
 		if((fotoLs != null) && (!fotoLs.isEmpty())){
-			File sourceFolder = new File(dirFoto); // File(dirFotoUpload);
+			File sourceFolder = new File(dirFoto);
 			
-			// File fileN = null;
-			File fileO = null;
-			File fileH = null;
-			File fileHW = null;
-			File fileL = null;
-			File fileLW = null;
-			
-			UploadedFile o = null;
 			Iterator<UploadedFile> iterator = fotoLs.iterator();
-			while(iterator.hasNext()){
-				o = iterator.next();
-				
-				// fileN = new File(sourceFolder, o.getFileName());
-				fileO = new File(sourceFolder, "upload-" + o.getFileName() + ".orig");
-				fileH = new File(sourceFolder, "upload-" + o.getFileName() + ".hd");
-				fileHW = new File(sourceFolder, "upload-" + o.getFileName() + ".hdwm");
-				fileL = new File(sourceFolder, "upload-" + o.getFileName() + ".ld");
-				fileLW = new File(sourceFolder, "upload-" + o.getFileName() + ".ldwm");
-				
-				if(fileO.exists()){
-					fileO.delete();
-					log.info("file " + fileO.getName() + " cancellato");
-				}else if(fileH.exists()){
-					fileH.delete();
-					log.info("file " + fileH.getName() + " cancellato");
-				}else if(fileHW.exists()){
-					fileHW.delete();
-					log.info("file " + fileHW.getName() + " cancellato");
-				}else if(fileL.exists()){
-					fileL.delete();
-					log.info("file " + fileL.getName() + " cancellato");
-				}else if(fileLW.exists()){
-					fileLW.delete();
-					log.info("file " + fileLW.getName() + " cancellato");
-				}
-			}
+			
+			Utility.deleteMultiFiles(sourceFolder, iterator, log);
 		}
 		return true;
 	}
@@ -162,29 +130,14 @@ public class FotoDaoManBean implements FotoDao, Serializable{
 			UploadedFile o = null;
 			File f = null;
 			Iterator<UploadedFile> iterator = fotoLs.iterator();
+			
 			while(iterator.hasNext()){
 				o = iterator.next();
 				
-				switch(t){
-					case 1:
-						f = new File(dirFoto, "upload-" + o.getFileName() + ".orig");
-						break;
-					case 2:
-						f = new File(dirFoto, "upload-" + o.getFileName() + ".hd");
-						break;
-					case 3:
-						f = new File(dirFoto, "upload-" + o.getFileName() + ".hdwm");
-						break;
-					case 4:
-						f = new File(dirFoto, "upload-" + o.getFileName() + ".ld");
-						break;
-					case 5:
-						f = new File(dirFoto, "upload-" + o.getFileName() + ".ldwm");
-						break;
-					default:
-						f = new File(dirFoto, fotoNotDefined);
-						break;
-				}
+				String uploadFileName = CommonsUtility.fileTypeFromNumberMap.get(t) != null ? "upload-" + o.getFileName() + CommonsUtility.fileTypeFromNumberMap.get(t) : fotoNotDefined;
+				
+				f = new File(dirFoto, uploadFileName);
+				
 				if(f.exists()){
 					f.delete();
 					fotoLs.remove(o);
@@ -240,28 +193,9 @@ public class FotoDaoManBean implements FotoDao, Serializable{
 		if(!origDef){
 			// cancello tutti i file copiati
 			iterator = fotoLs.iterator();
-			while(iterator.hasNext()){
-				o = iterator.next();
-				
-				// fileN = new File(sourceFolder, o.getFileName());
-				fileO = new File(sourceFolder, "upload-" + o.getFileName() + ".orig");
-				fileH = new File(sourceFolder, "upload-" + o.getFileName() + ".hd");
-				fileHW = new File(sourceFolder, "upload-" + o.getFileName() + ".hdwm");
-				fileL = new File(sourceFolder, "upload-" + o.getFileName() + ".ld");
-				fileLW = new File(sourceFolder, "upload-" + o.getFileName() + ".ldwm");
-				
-				if(fileO.exists()){
-					fileO.delete();
-				}else if(fileH.exists()){
-					fileH.delete();
-				}else if(fileHW.exists()){
-					fileHW.delete();
-				}else if(fileL.exists()){
-					fileL.delete();
-				}else if(fileLW.exists()){
-					fileLW.delete();
-				}
-			}
+			
+			Utility.deleteMultiFiles(sourceFolder, iterator, log);
+			
 			return "la foto orignale e' obbligatoria";
 		}
 		
@@ -283,28 +217,9 @@ public class FotoDaoManBean implements FotoDao, Serializable{
 			log.info(nomeFileEsistente.substring(3) + " gia' esistente");
 			// cancello tutti i file copiati
 			iterator = fotoLs.iterator();
-			while(iterator.hasNext()){
-				o = iterator.next();
-				
-				// fileN = new File(sourceFolder, o.getFileName());
-				fileO = new File(sourceFolder, "upload-" + o.getFileName() + ".orig");
-				fileH = new File(sourceFolder, "upload-" + o.getFileName() + ".hd");
-				fileHW = new File(sourceFolder, "upload-" + o.getFileName() + ".hdwm");
-				fileL = new File(sourceFolder, "upload-" + o.getFileName() + ".ld");
-				fileLW = new File(sourceFolder, "upload-" + o.getFileName() + ".ldwm");
-				
-				if(fileO.exists()){
-					fileO.delete();
-				}else if(fileH.exists()){
-					fileH.delete();
-				}else if(fileHW.exists()){
-					fileHW.delete();
-				}else if(fileL.exists()){
-					fileL.delete();
-				}else if(fileLW.exists()){
-					fileLW.delete();
-				}
-			}
+			
+			Utility.deleteMultiFiles(sourceFolder, iterator, log);
+			
 			return "la foto definita " + nomeFileEsistente + " e' gia' esistente";
 		}
 		
@@ -401,36 +316,9 @@ public class FotoDaoManBean implements FotoDao, Serializable{
 		}
 		if(giaEsiste){
 			log.info(nomeFileEsistente.substring(3) + " gia' esistente");
-			// // cancello tutti i file copiati
-			// iterator = fotoLs.iterator();
-			// while(iterator.hasNext()){
-			// o = iterator.next();
-			//
-			// // fileN = new File(sourceFolder, o.getFileName());
-			// fileO = new File(sourceFolder, "upload-" + o.getFileName() + ".orig");
-			// fileH = new File(sourceFolder, "upload-" + o.getFileName() + ".hd");
-			// fileHW = new File(sourceFolder, "upload-" + o.getFileName() + ".hdwm");
-			// fileL = new File(sourceFolder, "upload-" + o.getFileName() + ".ld");
-			// fileLW = new File(sourceFolder, "upload-" + o.getFileName() + ".ldwm");
-			//
-			// if(fileO.exists()){
-			// fileO.delete();
-			// }else if(fileH.exists()){
-			// fileH.delete();
-			// }else if(fileHW.exists()){
-			// fileHW.delete();
-			// }else if(fileL.exists()){
-			// fileL.delete();
-			// }else if(fileLW.exists()){
-			// fileLW.delete();
-			// }
-			// }
 			annullaUpload(fotoLs);
 			return "la foto definita " + nomeFileEsistente + " e' gia' esistente";
 		}
-		
-		// Foto foto = new Foto();
-		// foto.setPath(dirFoto);
 		
 		iterator = fotoLs.iterator();
 		while(iterator.hasNext()){
@@ -449,10 +337,7 @@ public class FotoDaoManBean implements FotoDao, Serializable{
 				if(foto.getOriginale() != null){
 					fd = new File(foto.getPath(), foto.getOriginale());
 				}
-				if((fd != null) && (fd.exists())){
-					fd.delete();
-					log.info("file " + fd.getName() + " cancellato");
-				}
+				Utility.deleteFile(fd, log);
 				foto.setOriginale(o.getFileName());
 				fileO.renameTo(new File(targetFolder, fileN.getName()));
 			}else if(fileH.exists()){
@@ -460,10 +345,7 @@ public class FotoDaoManBean implements FotoDao, Serializable{
 				if(foto.getGrande() != null){
 					fd = new File(foto.getPath(), foto.getGrande());
 				}
-				if((fd != null) && (fd.exists())){
-					fd.delete();
-					log.info("file " + fd.getName() + " cancellato");
-				}
+				Utility.deleteFile(fd, log);
 				foto.setGrande(o.getFileName());
 				fileH.renameTo(new File(targetFolder, fileN.getName()));
 			}else if(fileHW.exists()){
@@ -471,10 +353,7 @@ public class FotoDaoManBean implements FotoDao, Serializable{
 				if(foto.getGrandeWatermark() != null){
 					fd = new File(foto.getPath(), foto.getGrandeWatermark());
 				}
-				if((fd != null) && (fd.exists())){
-					fd.delete();
-					log.info("file " + fd.getName() + " cancellato");
-				}
+				Utility.deleteFile(fd, log);
 				foto.setGrandeWatermark(o.getFileName());
 				fileHW.renameTo(new File(targetFolder, fileN.getName()));
 			}else if(fileL.exists()){
@@ -482,10 +361,7 @@ public class FotoDaoManBean implements FotoDao, Serializable{
 				if(foto.getThumbnail() != null){
 					fd = new File(foto.getPath(), foto.getThumbnail());
 				}
-				if((fd != null) && (fd.exists())){
-					fd.delete();
-					log.info("file " + fd.getName() + " cancellato");
-				}
+				Utility.deleteFile(fd, log);
 				foto.setThumbnail(o.getFileName());
 				fileL.renameTo(new File(targetFolder, fileN.getName()));
 			}else if(fileLW.exists()){
@@ -493,10 +369,7 @@ public class FotoDaoManBean implements FotoDao, Serializable{
 				if(foto.getThumbnailWatermark() != null){
 					fd = new File(foto.getPath(), foto.getThumbnailWatermark());
 				}
-				if((fd != null) && (fd.exists())){
-					fd.delete();
-					log.info("file " + fd.getName() + " cancellato");
-				}
+				Utility.deleteFile(fd, log);
 				foto.setThumbnailWatermark(o.getFileName());
 				fileLW.renameTo(new File(targetFolder, fileN.getName()));
 			}
@@ -511,15 +384,16 @@ public class FotoDaoManBean implements FotoDao, Serializable{
 				
 				if(fd.exists()){
 					String type = fd.getName().substring(fd.getName().lastIndexOf("."));
-					if(type.equals(".orig")){
+					
+					if(StringUtils.equals(type, ".orig")){
 						foto.setOriginale(null);
-					}else if(type.equals(".hd")){
+					}else if(StringUtils.equals(type, ".hd")){
 						foto.setGrande(null);
-					}else if(type.equals(".hdwm")){
+					}else if(StringUtils.equals(type, ".hdwm")){
 						foto.setGrandeWatermark(null);
-					}else if(type.equals(".ld")){
+					}else if(StringUtils.equals(type, ".ld")){
 						foto.setThumbnail(null);
-					}else if(type.equals(".ldwm")){
+					}else if(StringUtils.equals(type, ".ldwm")){
 						foto.setThumbnailWatermark(null);
 					}else{
 						foto.setOriginale(null);
@@ -581,80 +455,25 @@ public class FotoDaoManBean implements FotoDao, Serializable{
 				
 				// gestione file modificati
 				if((fotoLs != null) && (!fotoLs.isEmpty())){
-					// File sourceFolder = new File(dirFoto);
-					// File fileO = null;
-					// File fileH = null;
-					// File fileHW = null;
-					// File fileL = null;
-					// File fileLW = null;
-					// UploadedFile o = null;
-					// Iterator<UploadedFile> iterator = fotoLs.iterator();
-					// while(iterator.hasNext()){
-					// o = iterator.next();
-					//
-					// fileO = new File(sourceFolder, "upload-" + o.getFileName() + ".orig");
-					// fileH = new File(sourceFolder, "upload-" + o.getFileName() + ".hd");
-					// fileHW = new File(sourceFolder, "upload-" + o.getFileName() + ".hdwm");
-					// fileL = new File(sourceFolder, "upload-" + o.getFileName() + ".ld");
-					// fileLW = new File(sourceFolder, "upload-" + o.getFileName() + ".ldwm");
-					//
-					// if(fileO.exists()){
-					// fileO.delete();
-					// }else if(fileH.exists()){
-					// fileH.delete();
-					// }else if(fileHW.exists()){
-					// fileHW.delete();
-					// }else if(fileL.exists()){
-					// fileL.delete();
-					// }else if(fileLW.exists()){
-					// fileLW.delete();
-					// }
-					// log.info("file " + o.getFileName() + " cancellato");
-					// }
 					annullaUpload(fotoLs);
 					fotoLs.clear();
 				}
 				
 				// gestione foto referenziate nel db
-				fd = null;
 				if(foto.getOriginale() != null){
-					fd = new File(foto.getPath(), foto.getOriginale());
+					Utility.deleteFile(foto.getPath(), foto.getOriginale(), log);
 				}
-				if((fd != null) && (fd.exists())){
-					fd.delete();
-					log.info("file " + fd.getName() + " cancellato");
-				}
-				fd = null;
 				if(foto.getGrande() != null){
-					fd = new File(foto.getPath(), foto.getGrande());
+					Utility.deleteFile(foto.getPath(), foto.getGrande(), log);
 				}
-				if((fd != null) && (fd.exists())){
-					fd.delete();
-					log.info("file " + fd.getName() + " cancellato");
-				}
-				fd = null;
 				if(foto.getGrandeWatermark() != null){
-					fd = new File(foto.getPath(), foto.getGrandeWatermark());
+					Utility.deleteFile(foto.getPath(), foto.getGrandeWatermark(), log);
 				}
-				if((fd != null) && (fd.exists())){
-					fd.delete();
-					log.info("file " + fd.getName() + " cancellato");
-				}
-				fd = null;
 				if(foto.getThumbnail() != null){
-					fd = new File(foto.getPath(), foto.getThumbnail());
+					Utility.deleteFile(foto.getPath(), foto.getThumbnail(), log);
 				}
-				if((fd != null) && (fd.exists())){
-					fd.delete();
-					log.info("file " + fd.getName() + " cancellato");
-				}
-				fd = null;
 				if(foto.getThumbnailWatermark() != null){
-					fd = new File(foto.getPath(), foto.getThumbnailWatermark());
-				}
-				if((fd != null) && (fd.exists())){
-					fd.delete();
-					log.info("file " + fd.getName() + " cancellato");
+					Utility.deleteFile(foto.getPath(), foto.getThumbnailWatermark(), log);
 				}
 				
 				// cancello dal db
@@ -678,27 +497,7 @@ public class FotoDaoManBean implements FotoDao, Serializable{
 			return;
 		}
 		
-		String deleteType = ".err";
-		switch(t){
-			case 1:
-				deleteType = ".orig";
-				break;
-			case 2:
-				deleteType = ".hd";
-				break;
-			case 3:
-				deleteType = ".hdwm";
-				break;
-			case 4:
-				deleteType = ".ld";
-				break;
-			case 5:
-				deleteType = ".ldwm";
-				break;
-			default:
-				deleteType = ".err";
-				break;
-		}
+		String deleteType = CommonsUtility.fileTypeFromNumberMap.get(t) != null ? CommonsUtility.fileTypeFromNumberMap.get(t) : ".err";
 		
 		File fd = new File(dirFoto, f.getName() + ".delete" + deleteType);
 		f.renameTo(fd);
@@ -738,7 +537,8 @@ public class FotoDaoManBean implements FotoDao, Serializable{
 		BufferedImage fimg = null;
 		try{
 			if((StringUtils.containsIgnoreCase(f.getPath(), "jpg")) || (StringUtils.containsIgnoreCase(f.getPath(), "jpeg"))){
-				fimg = manageFileJpegCMYK(f);
+				// gestisce i file jpeg, che se sono in formato CMYK, con ImageIO.read vanno in eccezione
+				fimg = manageFileJpeg(f);
 			}else{
 				fimg = ImageIO.read(f);
 			}
@@ -749,7 +549,7 @@ public class FotoDaoManBean implements FotoDao, Serializable{
 		return (fimg == null) ? "n.d." : fimg.getWidth() + "x" + fimg.getHeight() + "px";
 	}
 	
-	private BufferedImage manageFileJpegCMYK(File f){
+	private BufferedImage manageFileJpeg(File f){
 		Iterator<ImageReader> readers = ImageIO.getImageReadersByFormatName("JPEG");
 		ImageReader reader = null;
 		while(readers.hasNext()){
@@ -784,30 +584,30 @@ public class FotoDaoManBean implements FotoDao, Serializable{
 		return bi;
 	}
 	
-	public int getHeightFromResolution(Foto foto, int t, int h, int l){
-		int altezza = 0;
+	public int getHeightFromResolution(Foto foto, int t, int h, int w, int u){
+		int height = 0;
 		float rapportoTarget = 0.0f;
 		float rapportoH = 0.0f;
-		float rapportoL = 0.0f;
+		float rapportoW = 0.0f;
 		
-		String resolution = getResolution(foto, t);
+		String resolution = getResolution(foto, t, null, u);
 		if(StringUtils.equals(resolution, "n.d.")){
-			return 1000;
+			return h;
 		}
 		int imgH = Integer.parseInt(resolution.substring(resolution.indexOf("x") + 1, resolution.indexOf("px")));
-		int imgL = Integer.parseInt(resolution.substring(0, resolution.indexOf("x")));
+		int imgW = Integer.parseInt(resolution.substring(0, resolution.indexOf("x")));
 		rapportoH = (float)imgH / h;
-		rapportoL = (float)imgL / l;
+		rapportoW = (float)imgW / w;
 		
-		if(rapportoH > rapportoL){
+		if(rapportoH > rapportoW){
 			rapportoTarget = rapportoH;
 		}else{
-			rapportoTarget = rapportoL;
+			rapportoTarget = rapportoW;
 		}
 		
-		altezza = (int)Math.floor(imgH / rapportoTarget);
+		height = (int)Math.floor(imgH / rapportoTarget);
 		
-		return altezza;
+		return height;
 	}
 	
 	// public String resolvePath(Foto foto, int i, List<UploadedFile> fotoLs){
@@ -827,7 +627,7 @@ public class FotoDaoManBean implements FotoDao, Serializable{
 		if((foto == null) || (foto.getOriginale() == null)){
 			return path;
 		}
-		path = foto.getPath().replace(foto.getPath(), path);
+		path = StringUtils.replace(foto.getPath(), foto.getPath(), path); // foto.getPath().replace(foto.getPath(), path);
 		return path;
 	}
 	
@@ -872,26 +672,9 @@ public class FotoDaoManBean implements FotoDao, Serializable{
 			while(iterator.hasNext()){
 				o = iterator.next();
 				
-				switch(t){ // dirFotoUpload -> dirFoto
-					case 1:
-						f2 = new File(dirFoto, "upload-" + o.getFileName() + ".orig");
-						break;
-					case 2:
-						f2 = new File(dirFoto, "upload-" + o.getFileName() + ".hd");
-						break;
-					case 3:
-						f2 = new File(dirFoto, "upload-" + o.getFileName() + ".hdwm");
-						break;
-					case 4:
-						f2 = new File(dirFoto, "upload-" + o.getFileName() + ".ld");
-						break;
-					case 5:
-						f2 = new File(dirFoto, "upload-" + o.getFileName() + ".ldwm");
-						break;
-					default:
-						f2 = new File(foto.getPath(), fotoNotDefined);
-						break;
-				}
+				String uploadFileName = CommonsUtility.fileTypeFromNumberMap.get(t) != null ? "upload-" + o.getFileName() + CommonsUtility.fileTypeFromNumberMap.get(t) : fotoNotDefined;
+				f2 = new File(dirFoto, uploadFileName);
+
 				if((f2.exists()) && (u == 1)){
 					f = f2;
 				}
@@ -976,19 +759,9 @@ public class FotoDaoManBean implements FotoDao, Serializable{
 			while(iterator.hasNext()){
 				o = iterator.next();
 				
-				if(type.equals(".orig")){
-					f = new File(dirFoto, "upload-" + o.getFileName() + ".orig");
-				}else if(type.equals(".hd")){
-					f = new File(dirFoto, "upload-" + o.getFileName() + ".hd");
-				}else if(type.equals(".hdwm")){
-					f = new File(dirFoto, "upload-" + o.getFileName() + ".hdwm");
-				}else if(type.equals(".ld")){
-					f = new File(dirFoto, "upload-" + o.getFileName() + ".ld");
-				}else if(type.equals(".ldwm")){
-					f = new File(dirFoto, "upload-" + o.getFileName() + ".ldwm");
-				}else{
-					f = new File(dirFoto, fotoNotDefined);
-				}
+				String uploadFileName = CommonsUtility.fileTypeFromStringMap.get(type) != null ? "upload-" + o.getFileName() + CommonsUtility.fileTypeFromStringMap.get(type) : fotoNotDefined;
+				f = new File(dirFoto, uploadFileName);
+				
 				if(f.exists()){
 					f.delete();
 					fotoLs.remove(o);

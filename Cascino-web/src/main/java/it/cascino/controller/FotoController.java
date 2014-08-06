@@ -10,6 +10,7 @@ import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
+import org.apache.commons.lang3.StringUtils;
 import org.jboss.logging.Logger;
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.UploadedFile;
@@ -314,10 +315,14 @@ public class FotoController implements Serializable{
 	}
 	
 	public int getHeightFromResolution(Foto foto, int t, int h, int l){
+		return getHeightFromResolution(foto, t, h, l, 0);
+	}
+	
+	public int getHeightFromResolution(Foto foto, int t, int h, int l, int u){
 		if(t == 0){
 			t = tipoFotoNum;
 		}
-		return fotoDao.getHeightFromResolution(foto, t, h, l);
+		return fotoDao.getHeightFromResolution(foto, t, h, l, u);
 	}
 	
 	public String resolvePath(Foto f){
@@ -331,19 +336,15 @@ public class FotoController implements Serializable{
 	}
 	
 	public String getFotonameUrl(Foto f, int t){
-		String nomePerUrl = "";
-		nomePerUrl = getFotoname(f, t, 0);
-		if(nomePerUrl.contains("°")){
-			nomePerUrl = nomePerUrl.replace("°", "%B0");
-		}
-		return nomePerUrl;
+		return getFotonameUrl(f, t, 0);
 	}
 	
 	public String getFotonameUrl(Foto f, int t, int u){
 		String nomePerUrl = "";
 		nomePerUrl = getFotoname(f, t, u);
-		if(nomePerUrl.contains("°")){
-			nomePerUrl = nomePerUrl.replace("°", "%B0");
+		// gestisco tutti i simboli che creano anomalie nei nomi url
+		if(StringUtils.contains(nomePerUrl, "°")){
+			nomePerUrl = StringUtils.replace(nomePerUrl, "°", "%B0");
 		}
 		return nomePerUrl;
 	}

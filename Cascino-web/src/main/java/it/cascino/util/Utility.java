@@ -2,6 +2,7 @@ package it.cascino.util;
 
 import it.cascino.model.Foto;
 import java.io.File;
+import java.io.IOException;
 import java.util.Iterator;
 import javax.transaction.SystemException;
 import javax.transaction.UserTransaction;
@@ -24,55 +25,38 @@ public class Utility{
 		throw new RuntimeException(e);
 	}
 	
-	public static void deleteFromFileSystem(String path, String name){
-		File fd = null;
-		if(name != null){
-			fd = new File(path, name);
+	public static void deleteFile(String path, String name, Logger log){
+		File file = null;
+		if((path != null) && (name != null)){
+			file = new File(path, name);
 		}
-		if(fd != null && fd.exists()){
-			fd.delete();
-		}
+		deleteFile(file, log);
 	}
 	
-	public static void deleteFileSystemMultiFiles(File sourceFolder, Iterator<UploadedFile> iterator)	{
+	public static void deleteFile(File file, Logger log){
+		if((file != null) && (file.exists())){
+			file.delete();
+			log.info("file " + file.getName() + " cancellato");
+		}
+		
+	}
+	
+	public static void deleteMultiFiles(File sourceFolder, Iterator<UploadedFile> iterator, Logger log)	{
 		UploadedFile o = null;
 		while(iterator.hasNext()){
 			o = iterator.next();
 			
-			// fileN = new File(sourceFolder, o.getFileName());
 			File fileO = new File(sourceFolder, "upload-" + o.getFileName() + ".orig");
 			File fileH = new File(sourceFolder, "upload-" + o.getFileName() + ".hd");
 			File fileHW = new File(sourceFolder, "upload-" + o.getFileName() + ".hdwm");
 			File fileL = new File(sourceFolder, "upload-" + o.getFileName() + ".ld");
 			File fileLW = new File(sourceFolder, "upload-" + o.getFileName() + ".ldwm");
 			
-			if(fileO.exists()){
-				fileO.delete();
-			}else if(fileH.exists()){
-				fileH.delete();
-			}else if(fileHW.exists()){
-				fileHW.delete();
-			}else if(fileL.exists()){
-				fileL.delete();
-			}else if(fileLW.exists()){
-				fileLW.delete();
-			}
-		}
-	}
-	
-	public static void verifyFile(File sourceFile, Foto foto, File targetFolder, String fileNameToRename, UploadedFile o){
-		if(sourceFile.exists()){
-			File fd = null;
-			if(foto.getOriginale() != null){
-				fd = new File(foto.getPath(), foto.getOriginale());
-			}
-			
-			if(fd != null && fd.exists()){
-				fd.delete();
-				// log.info("file " + fd.getName() + " cancellato");
-			}
-			foto.setOriginale(o.getFileName());
-			sourceFile.renameTo(new File(targetFolder, fileNameToRename));
+			deleteFile(fileO, log);
+			deleteFile(fileH, log);
+			deleteFile(fileHW, log);	
+			deleteFile(fileL, log);
+			deleteFile(fileLW, log);
 		}
 	}
 }

@@ -21,6 +21,5 @@ public class CommonsUtility{
 		fileTypeFromStringMap.put(".hdwm", ".hdwm");
 		fileTypeFromStringMap.put(".ld", ".ld");
 		fileTypeFromStringMap.put(".ldwm", ".ldwm");
-		// deleteTypeMap.put(6, ".err");
 	}
 }

@@ -44,5 +44,5 @@ public interface FotoDao{
 	
 	// Foto getFotoFromNomeOriginale(String fName);
 	
-	int getHeightFromResolution(Foto foto, int t, int h, int l);
+	int getHeightFromResolution(Foto foto, int t, int h, int l, int u);
 }

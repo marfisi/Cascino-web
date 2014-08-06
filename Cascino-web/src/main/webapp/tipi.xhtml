@@ -1,6 +1,5 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core" xmlns:p="http://primefaces.org/ui"
-	xmlns:pc="http://java.sun.com/jsp/jstl/core" xmlns:fn="http://java.sun.com/jsp/jstl/functions">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core" xmlns:p="http://primefaces.org/ui" xmlns:pc="http://java.sun.com/jsp/jstl/core" xmlns:fn="http://java.sun.com/jsp/jstl/functions">
 <h:head></h:head>
 <h:body>
 	<ui:composition template="template.xhtml">
@@ -137,13 +136,13 @@
 								</p:column>
 							</p:selectOneMenu>
 							<h:outputText id="blank2" />
-							<p:commandButton id="toFotoButton" value="Aggiungi Foto" action="#{navigationController.tipiToFoto()}" icon="ui-icon-circle-plus"  />
+							<p:commandButton id="toFotoButton" value="Aggiungi Foto" action="#{navigationController.tipiToFoto()}" icon="ui-icon-circle-plus" />
 							<h:outputText value="Classe" />
 							<p:selectOneMenu id="menuSelPadre" value="#{tipiController.nodoSel.data.tipoPadre}" converter="tipiConv" var="p" filter="true" filterMatchMode="contains">
 								<f:selectItem itemLabel="Seleziona Classe Padre" itemValue="" />
 								<f:selectItems value="#{tipiController.tipiLs}" var="tipo" itemLabel="#{tipo.nome} (id: #{tipo.id})" itemValue="#{tipo}" />
 								<p:column>
-									<p:graphicImage value="#{fotoController.resolvePath(tipiController.getFoto(p.id))}#{fotoController.getFotoname(tipiController.getFoto(p.id), 1)}" height="40" />									
+									<p:graphicImage value="#{fotoController.resolvePath(tipiController.getFoto(p.id))}#{fotoController.getFotoname(tipiController.getFoto(p.id), 1)}" height="40" />
 								</p:column>
 								<p:column>
 									<h:outputText value="#{p.nome} - #{p.descrizione} (id: #{p.id})" />
