@@ -51,7 +51,9 @@ public class ArticoliController implements Serializable{
 	DualListModel<Foto> fotoPickList;
 	
 	public List<Articoli> getArticoliLs(){
+		log.info("TMP: "+ "i" + " " + "getArticoliLs");
 		articoliLs = articoliDao.getAll();
+		log.info("TMP: " + "f" + " " + "getArticoliLs");
 		return articoliLs;
 	}
 	
@@ -59,13 +61,19 @@ public class ArticoliController implements Serializable{
 		this.articoliLs = articoliLs;
 	}
 	
-	public Articoli getArticoloSel(){
+	public Articoli getArticoloSel(){	
+		log.info("TMP: "+ "i" + " " + "getArticoloSel" + " id: " + articoloSel.getId());
+		log.info("TMP: "+ "f" + " " + "getArticoloSel");		
 		return articoloSel;
-	}
+}
 	
 	public void setArticoloSel(Articoli articoloSel){
+		log.info("TMP: "+ "i" + " " + "setArticoloSel" + " id: " + articoloSel.getId() + " id: " + this.articoloSel.getId());
+
 		this.articoloSel = articoloSel;
-	}
+
+		log.info("TMP: "+ "f" + " " + "setArticoloSel");
+}
 	
 	public List<Articoli> getFilteredArticoliLs(){
 		return filteredArticoliLs;
@@ -76,14 +84,18 @@ public class ArticoliController implements Serializable{
 	}
 	
 	public DualListModel<Foto> getFotoPickList(){
+		log.info("TMP: "+ "i" + " " + "getFotoPickList");
+
 		List<Foto> fotoPLsource = new ArrayList<Foto>();
 		List<Foto> fotoPLtarget = new ArrayList<Foto>();
 		
 		fotoPLsource = fotoDao.getAll();
-		fotoPLtarget = fotoDao.getAll().subList(3, 5);
+		fotoPLtarget = ((articoloSel.getId() != null)&&(articoloSel.getId() > 0)) ? articoliDao.getFotoOrdLsDaArticolo(articoloSel.getId()) : new ArrayList<Foto>();;
 		
 		fotoPickList = new DualListModel<Foto>(fotoPLsource, fotoPLtarget);
 		
+		log.info("TMP: "+ "f" + " " + "getFotoPickList");
+
 		return fotoPickList;
 	}
 	
@@ -97,11 +109,11 @@ public class ArticoliController implements Serializable{
 		return articoliAutoCompleteLs;
 	}
 	
-	public List<String> produttoriAutoCompleteLs(String str){
-		List<String> produttoriAutoCompleteLs = articoliDao.getProduttoriAutoCompleteLs(str.toUpperCase());
-		
-		return produttoriAutoCompleteLs;
-	}
+//	public List<String> produttoriAutoCompleteLs(String str){
+//		List<String> produttoriAutoCompleteLs = articoliDao.getProduttoriAutoCompleteLs(str.toUpperCase());
+//		
+//		return produttoriAutoCompleteLs;
+//	}
 	
 	public void salva(){
 		articoliDao.salva(articoloSel);
@@ -109,7 +121,7 @@ public class ArticoliController implements Serializable{
 			esito = "Aggiunto articolo: " + articoloSel.getCodice();
 			showGrowlInsMessage();
 		}else{
-			esito = "non e' stato caricato l'articolo!";
+			esito = "non e' stato caricato l'articolo!" + " (articolo: " + articoloSel.getId() + ")";
 			showGrowlErrorMessage();
 		}
 	}
@@ -120,7 +132,7 @@ public class ArticoliController implements Serializable{
 			esito = "Aggiornato articolo: " + articoloSel.getCodice();
 			showGrowlUpdMessage();
 		}else{
-			esito = "non e' stato aggiornato l'articolo! ";
+			esito = "non e' stato aggiornato l'articolo!" + " (articolo: " + articoloSel.getId() + ")";
 			showGrowlErrorMessage();
 		}
 	}
@@ -131,7 +143,7 @@ public class ArticoliController implements Serializable{
 			esito = "Elimino articolo: " + articoloSel.getCodice();
 			showGrowlDelMessage();
 		}else{
-			esito = "non ho trovato l'articolo!";
+			esito = "non ho trovato l'articolo!" + " (articolo: " + articoloSel.getId() + ")";
 			showGrowlErrorMessage();
 		}
 	}
@@ -212,15 +224,11 @@ public class ArticoliController implements Serializable{
 			esito = "selezionata foto " + fotoArticolo.getId() + " per articolo: " + idArticoli;
 			showGrowlInfoMessage(esito);
 		}else{
-			esito = "non e' stata trovata la foto per l'articolo!";
+			esito = "non e' stata trovata la foto per l'articolo!" + " (articolo: " + idArticoli + ")";
 			showGrowlErrorMessage();
 		}
 		return fotoArticolo;
 	}
-	
-	// public void setFotoArticolo(Foto fotoArticolo){
-	// this.fotoArticolo = fotoArticolo;
-	// }
 	
 	public void onPickListTransfer(TransferEvent event){
 		StringBuilder builder = new StringBuilder();

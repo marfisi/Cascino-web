@@ -86,7 +86,7 @@
 				<h:form id="viewForm">
 					<h:panelGrid id="display" columns="3" cellpadding="4">
 						<f:facet name="header">
-							<p:graphicImage value="#{fotoController.resolvePath(fotoController.getFotoFromId(tipiController.nodoSel.data.id))}#{fotoController.getFotoname(fotoController.getFotoFromId(tipiController.nodoSel.data.id), 1)}" height="230" />
+							<p:graphicImage value="#{fotoController.resolvePath(fotoController.getFotoFromId(tipiController.nodoSel.data.id))}#{fotoController.getFotonameUrl(fotoController.getFotoFromId(tipiController.nodoSel.data.id), 1)}" height="230" />
 						</f:facet>
 						<h:outputLabel for="id">ID:</h:outputLabel>
 						<h:outputText id="id" value="#{tipiController.nodoSel.data.id}" />
@@ -105,7 +105,7 @@
 							<h:outputText id="padreNome" value="#{tipiController.nodoSel.data.tipoPadre.nome}" />
 							<h:outputText id="padreDesc" value=" - #{tipiController.nodoSel.data.tipoPadre.descrizione} " />
 							<h:outputText id="padreId" value="(id: #{tipiController.nodoSel.data.tipoPadre.id})" />
-							<p:graphicImage value="#{fotoController.resolvePath(fotoController.getFotoFromId(tipiController.nodoSel.data.tipoPadre.id))}#{fotoController.getFotoname(fotoController.getFotoFromId(tipiController.nodoSel.data.tipoPadre.id), 1)}" height="180" />
+							<p:graphicImage value="#{fotoController.resolvePath(fotoController.getFotoFromId(tipiController.nodoSel.data.tipoPadre.id))}#{fotoController.getFotonameUrl(fotoController.getFotoFromId(tipiController.nodoSel.data.tipoPadre.id), 1)}" height="180" />
 						</h:panelGrid>
 					</h:panelGrid>
 				</h:form>

@@ -70,7 +70,7 @@ public class ProduttoriController implements Serializable{
 			esito = "Aggiunto produttore: " + produttoreSel.getNome();
 			showGrowlInsMessage();
 		}else{
-			esito = "non e' stato caricato il produttore!";
+			esito = "non e' stato caricato il produttore!" + " (produttore: " + produttoreSel.getId() + ")";
 			showGrowlErrorMessage();
 		}
 	}
@@ -81,7 +81,7 @@ public class ProduttoriController implements Serializable{
 			esito = "Aggiornato produttore: " + produttoreSel.getNome();
 			showGrowlUpdMessage();
 		}else{
-			esito = "non e' stato aggiornato il produttore! ";
+			esito = "non e' stato aggiornato il produttore!" + " (produttore: " + produttoreSel.getId() + ")";
 			showGrowlErrorMessage();
 		}
 	}
@@ -92,7 +92,7 @@ public class ProduttoriController implements Serializable{
 			esito = "Elimino produttore: " + produttoreSel.getNome();
 			showGrowlDelMessage();
 		}else{
-			esito = "non ho trovato il produttore!";
+			esito = "non ho trovato il produttore!" + " (produttore: " + produttoreSel.getId() + ")";
 			showGrowlErrorMessage();
 		}
 	}
@@ -166,14 +166,27 @@ public class ProduttoriController implements Serializable{
 		return 0;
 	}
 	
+	public Foto getFoto(Integer id){
+		Foto fotoProduttore = new Foto();
+		fotoProduttore = produttoriDao.getFoto(id);
+		if(fotoProduttore != null){
+			esito = "selezionata foto " + fotoProduttore.getId() + " per produttore: " + id;
+			showGrowlInfoMessage(esito);
+		}else{
+			esito = "non e' stata trovata la foto!" + " (produttore: " + id + ")";
+			showGrowlErrorMessage();
+		}
+		return fotoProduttore;
+	}
+	
 	public Foto getFotoDaArticolo(Integer idArticolo){
 		Foto fotoProduttore = new Foto();
 		fotoProduttore = produttoriDao.getFotoDaArticolo(idArticolo);
 		if(fotoProduttore != null){
-			esito = "selezionata foto " + fotoProduttore.getId() + " per produttore: " + idArticolo;
+			esito = "selezionata foto " + fotoProduttore.getId() + " per articolo: " + idArticolo;
 			showGrowlInfoMessage(esito);
 		}else{
-			esito = "non e' stata trovata la foto!";
+			esito = "non e' stata trovata la foto!" + " (articolo: " + idArticolo + ")";
 			showGrowlErrorMessage();
 		}
 		return fotoProduttore;
@@ -186,10 +199,22 @@ public class ProduttoriController implements Serializable{
 			esito = "produttore " + nomeProduttore;
 			showGrowlInfoMessage(esito);
 		}else{
-			esito = "non e' stata trovato il produttore!";
+			esito = "non e' stato trovato il produttore!" + " (articolo: " + idArticolo + ")";
 			showGrowlErrorMessage();
 		}
 		return nomeProduttore;
 	}
 	
+	public Produttori getProduttoreDaId(Integer id){
+		Produttori produttore = new Produttori();
+		produttore = produttoriDao.getProduttoreDaId(id);
+		if(produttore != null){
+			esito = "produttore " + produttore;
+			showGrowlInfoMessage(esito);
+		}else{
+			esito = "non e' stato trovato il produttore!" + " (id: " + id + ")";
+			showGrowlErrorMessage();
+		}
+		return produttore;
+	}
 }

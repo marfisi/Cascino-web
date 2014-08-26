@@ -16,7 +16,7 @@
 				<p:toolbar id="tb">
 					<p:toolbarGroup align="left">
 						<p:commandButton id="viewButton" value="View" update=":display" oncomplete="PF('viewDialog').show()" icon="ui-icon-search" />
-						<p:commandButton id="modifButton" value="Modifica" update="" oncomplete="PF('updDialog').show()" icon="ui-icon-pencil" />
+						<p:commandButton id="modifButton" value="Modifica" update=":updForm:updDisplay" oncomplete="PF('updDialog').show()" icon="ui-icon-pencil" />
 						<p:separator />
 						<p:commandButton id="newButton" value="Aggiungi" oncomplete="PF('newDialog').show()" icon="ui-icon-circle-plus" />
 						<p:commandButton id="homeMngButton" value="Home Gestione" action="homeMng" icon="ui-icon-home" />
@@ -62,7 +62,7 @@
 						<f:facet name="header">
 							<h:outputText value="Foto" />
 						</f:facet>
-						<p:graphicImage value="#{fotoController.resolvePath(articoliController.getFotoDaArticolo(articolo.id))}#{fotoController.getFotoname(articoliController.getFotoDaArticolo(articolo.id), 1)}" height="40" />
+						<p:graphicImage value="#{fotoController.resolvePath(articoliController.getFotoDaArticolo(articolo.id))}#{fotoController.getFotonameUrl(articoliController.getFotoDaArticolo(articolo.id), 1)}" height="#{fotoController.getHeightFromResolution(articoliController.getFotoDaArticolo(articolo.id), 1, 40, 60)}" />
 					</p:column>
 					<p:column>
 						<f:facet name="header">
@@ -72,7 +72,7 @@
 							<h:outputText value="#{produttoriController.getNomeDaArticolo(articolo.id)} (id: #{articolo.produttore})" />
 						</p:column>
 						<p:column>
-							<p:graphicImage value="#{fotoController.resolvePath(articoliController.getFotoDaArticolo(articolo.id))}#{fotoController.getFotoname(produttoriController.getFotoDaArticolo(articolo.id), 1)}" height="40" />
+							<p:graphicImage value="#{fotoController.resolvePath(articoliController.getFotoDaArticolo(articolo.id))}#{fotoController.getFotonameUrl(produttoriController.getFotoDaArticolo(articolo.id), 1)}" height="#{fotoController.getHeightFromResolution(articoliController.getFotoDaArticolo(articolo.id), 1, 40, 60)}" />
 						</p:column>
 					</p:column>
 					<p:column sortBy="id" sortFunction="#{articoliController.sortByStr}" filterBy="#{articolo.modello}" filterMatchMode="contains">
@@ -89,7 +89,7 @@
 							<h:outputText value="#{tipiController.getNomeDaArticolo(articolo.id)} (id: #{articolo.tipo})" />
 						</p:column>
 						<p:column>
-							<p:graphicImage value="#{fotoController.resolvePath(articoliController.getFotoDaArticolo(articolo.id))}#{fotoController.getFotoname(tipiController.getFoto(articolo.id), 1)}" height="40" />
+							<p:graphicImage value="#{fotoController.resolvePath(articoliController.getFotoDaArticolo(articolo.id))}#{fotoController.getFotonameUrl(tipiController.getFotoDaArticolo(articolo.id), 1)}" height="#{fotoController.getHeightFromResolution(tipiController.getFotoDaArticolo(articolo.id), 1, 40, 60)}" />
 						</p:column>
 					</p:column>
 					<p:column sortBy="id" sortFunction="#{articoliController.sortByNum}" filterBy="#{articolo.id}" filterMatchMode="contains">
@@ -148,7 +148,7 @@
 			<p:dialog id="viewDialog" header="Dettagli" widgetVar="viewDialog" resizable="false" showEffect="clip" hideEffect="fold" modal="true">
 				<h:panelGrid id="display" columns="3" cellpadding="4">
 					<f:facet name="header">
-						<p:graphicImage value="#{fotoController.resolvePath(articoliController.getFotoDaArticolo(articoliController.articoloSel.id))}#{fotoController.getFotoname(articoliController.getFotoDaArticolo(articoliController.articoloSel.id), 1)}" height="90" />
+						<p:graphicImage value="#{fotoController.resolvePath(articoliController.getFotoDaArticolo(articoliController.articoloSel.id))}#{fotoController.getFotonameUrl(articoliController.getFotoDaArticolo(articoliController.articoloSel.id), 1)}" height="#{fotoController.getHeightFromResolution(articoliController.getFotoDaArticolo(articoliController.articoloSel.id), 1, 400, 400)}" />
 					</f:facet>
 					<h:outputText value="ID:" />
 					<h:outputText value="#{articoliController.articoloSel.id}" />
@@ -161,23 +161,6 @@
 				<h:form id="newForm">
 					<p:outputPanel id="newDisplay">
 						<p:panelGrid columns="6" styleClass="newPanel">
-							<h:outputText value="Foto (non serve, e' gia dopo)" />
-							<p:column>
-								<p:selectOneMenu id="menuSelFoto" value="#{fotoController.fotoSel}" converter="fotoConv" var="f" filter="true" filterMatchMode="contains">
-									<f:selectItem itemLabel="Seleziona Foto" itemValue="" />
-									<f:selectItems value="#{fotoController.fotoLs}" var="foto" itemLabel="#{foto.originale} (id: #{foto.id})" itemValue="#{foto.id}" />
-									<p:column>
-										<p:graphicImage value="#{fotoController.resolvePath(fotoController.getFotoFromId(f))}#{fotoController.getFotoname(fotoController.getFotoFromId(f), 1)}" height="60" />
-									</p:column>
-									<p:column>
-										<h:outputText value="#{fotoController.getFotoname(fotoController.getFotoFromId(f), 1)} (id: #{fotoController.getFotoFromId(f).id})" />
-									</p:column>
-									<p:column>
-										<h:outputText value="#{fotoController.size(fotoController.getFotoFromId(f), 1)} - #{fotoController.resolution(fotoController.getFotoFromId(f), 1)}" />
-									</p:column>
-								</p:selectOneMenu>
-								<p:commandButton id="toFotoButton222222222222" value="Aggiungi Foto" action="#{navigationController.articoliToFoto()}" icon="ui-icon-circle-plus" />
-							</p:column>
 							<h:outputText value="ID" />
 							<h:outputText value="#{articoliController.articoloSel.id}" />
 							<h:outputText value="Codice" />
@@ -185,7 +168,19 @@
 							<h:outputText value="Nome" />
 							<p:inputText value="#{articoliController.articoloSel.nome}" />
 							<h:outputText value="Marca" />
-							<p:autoComplete id="produttoriAutoCompl" minQueryLength="2" value="#{articoliController.articoloSel.produttore}" completeMethod="#{articoliController.produttoriAutoCompleteLs}" effect="fade" />
+							<p:column>
+								<p:selectOneMenu id="menuSelProd" value="#{articoliController.articoloSel.produttore}" converter="produttoriConv" var="p" filter="true" filterMatchMode="contains">
+									<f:selectItem  itemLabel="Seleziona Marca" itemValue="" />
+									<f:selectItems value="#{produttoriController.produttoriLs}" var="produttore" itemLabel="#{produttore.nome} (id: #{produttore.id})" itemValue="#{produttore}" />
+									<p:column>
+										<p:graphicImage value="#{fotoController.resolvePath(produttoriController.getFoto(p.id))}#{fotoController.getFotonameUrl(produttoriController.getFoto(p.id), 1)}" height="#{fotoController.getHeightFromResolution(produttoriController.getFoto(p.id), 1, 40, 60)}" />
+									</p:column>
+									<p:column>
+										<h:outputText value="#{p.nome} (id: #{p.id})" />
+									</p:column>									
+								</p:selectOneMenu>
+								<p:commandButton id="toProduttoriButton" value="Aggiungi Produttore" action="#{navigationController.articoliToProduttori()}" icon="ui-icon-circle-plus" />
+							</p:column>
 							<h:outputText value="Modello" />
 							<p:inputText value="#{articoliController.articoloSel.modello}" />
 							<h:outputText value="Descrizione" />
@@ -195,21 +190,21 @@
 							</p:column>
 							<h:outputText value="Tipo" />
 							<p:column>
-								<p:selectOneMenu id="menuSelTipo" value="#{articoliController.articoloSel.tipo}" converter="tipiConv" var="p" filter="true" filterMatchMode="contains">
+								<p:selectOneMenu id="menuSelTipo" value="#{articoliController.articoloSel.tipo}" converter="tipiConv" var="t" filter="true" filterMatchMode="contains">
 									<f:selectItem itemLabel="Seleziona Classe" itemValue="" />
 									<f:selectItems value="#{tipiController.tipiLs}" var="tipo" itemLabel="#{tipo.nome} (id: #{tipo.id})" itemValue="#{tipo}" />
 									<p:column>
-										<p:graphicImage value="#{fotoController.resolvePath(tipiController.getFoto(p.id))}#{fotoController.getFotoname(tipiController.getFoto(p.id), 1)}" height="40" />
+										<p:graphicImage value="#{fotoController.resolvePath(tipiController.getFoto(t.id))}#{fotoController.getFotonameUrl(tipiController.getFoto(t.id), 1)}" height="#{fotoController.getHeightFromResolution(tipiController.getFoto(t.id), 1, 40, 60)}" />
 									</p:column>
 									<p:column>
-										<h:outputText value="#{p.nome} - #{p.descrizione} (id: #{p.id})" />
+										<h:outputText value="#{t.nome} - #{t.descrizione} (id: #{t.id})" />
 									</p:column>
 								</p:selectOneMenu>
 								<p:commandButton id="toTipiButton" value="Aggiungi Tipo" action="#{navigationController.articoliToTipi()}" icon="ui-icon-circle-plus" />
 							</p:column>
 							<h:outputText value="Foto" />
 							<p:column>
-								<p:pickList id="fotoPojoPickList" value="#{articoliController.fotoPickList}" var="p" effect="bounce" itemValue="#{foto}" itemLabel="#{foto.id}" showSourceControls="true" showTargetControls="true" showCheckbox="true" showSourceFilter="true" showTargetFilter="true" filterMatchMode="contains" converter="fotoConv">
+								<p:pickList id="fotoPojoPickList" value="#{articoliController.fotoPickList}" var="f" effect="bounce" itemValue="#{foto}" itemLabel="#{foto.id}" showSourceControls="false" showTargetControls="true" showCheckbox="true" showSourceFilter="true" showTargetFilter="true" filterMatchMode="contains" converter="fotoConv">
 
 									<f:facet name="sourceCaption">Disponibili</f:facet>
 									<f:facet name="targetCaption">Selezionate</f:facet>
@@ -217,10 +212,10 @@
 									<p:ajax event="transfer" listener="#{articoliController.onPickListTransfer}" update=":growlForm:growl" />
 
 									<p:column>
-										<p:graphicImage value="#{fotoController.resolvePath(tipiController.getFoto(p.id))}#{fotoController.getFotoname(tipiController.getFoto(p.id), 1)}" height="40" />
+										<p:graphicImage value="#{fotoController.resolvePath(f)}#{fotoController.getFotonameUrl(f, 1)}" height="#{fotoController.getHeightFromResolution(f, 1, 40, 60)}" />
 									</p:column>
 									<p:column>
-										<h:outputText value="#{p.originale} (id: #{p.id})" />
+										<h:outputText value="#{f.originale} (id: #{f.id})" />
 									</p:column>
 								</p:pickList>
 								<p:commandButton id="toFotoButton" value="Aggiungi Foto" action="#{navigationController.articoliToFoto()}" icon="ui-icon-circle-plus" />
@@ -234,8 +229,76 @@
 			</p:dialog>
 
 			<p:dialog widgetVar="updDialog" header="Modifica" modal="true" closable="false">
-			</p:dialog>
+				<h:form id="updForm">
+					<p:outputPanel id="updDisplay">
+						<p:panelGrid columns="6" styleClass="newPanel">
+							<h:outputText value="ID" />
+							<h:outputText value="#{articoliController.articoloSel.id}" />
+							<h:outputText value="Codice" />
+							<p:autoComplete id="codiceAutoCompl" minQueryLength="3" value="#{articoliController.articoloSel.codice}" completeMethod="#{articoliController.articoliAutoCompleteLs}" effect="fade" />
+							<h:outputText value="Nome" />
+							<p:inputText value="#{articoliController.articoloSel.nome}" />
+							<h:outputText value="Marca" />
+							<p:column>
+								<p:selectOneMenu id="menuSelProd" value="#{articoliController.articoloSel.produttore}" converter="produttoriConv" var="p" filter="true" filterMatchMode="contains">
+									<f:selectItem  itemLabel="#{produttoriController.getProduttoreDaId(articoliController.articoloSel.produttore).nome} (id: #{produttoriController.getProduttoreDaId(articoliController.articoloSel.produttore).id})" itemValue="#{produttoriController.getProduttoreDaId(articoliController.articoloSel.produttore)}" />
+									<f:selectItems value="#{produttoriController.produttoriLs}" var="produttore" itemLabel="#{produttore.nome} (id: #{produttore.id})" itemValue="#{produttore}" />
+									<p:column>
+										<p:graphicImage value="#{fotoController.resolvePath(produttoriController.getFoto(p.id))}#{fotoController.getFotonameUrl(produttoriController.getFoto(p.id), 1)}" height="#{fotoController.getHeightFromResolution(produttoriController.getFoto(p.id), 1, 40, 60)}" />
+									</p:column>
+									<p:column>
+										<h:outputText value="#{p.nome} (id: #{p.id})" />
+									</p:column>									
+								</p:selectOneMenu>
+								<p:commandButton id="toProduttoriButton" value="Aggiungi Produttore" action="#{navigationController.articoliToProduttori()}" icon="ui-icon-circle-plus" />
+							</p:column>
+							<h:outputText value="Modello" />
+							<p:inputText value="#{articoliController.articoloSel.modello}" />
+							<h:outputText value="Descrizione" />
+							<p:column>
+								<p:inputTextarea value="#{articoliController.articoloSel.descrizione}" rows="5" cols="23" counter="counter" maxlength="70" counterTemplate="{0} caratteri" autoResize="false" />
+								<h:outputText id="counter" />
+							</p:column>
+							<h:outputText value="Tipo" />
+							<p:column>
+								<p:selectOneMenu id="menuSelTipo" value="#{articoliController.articoloSel.tipo}" converter="tipiConv" var="t" filter="true" filterMatchMode="contains">
+									<f:selectItem  itemLabel="#{tipiController.getTipoDaId(articoliController.articoloSel.tipo).nome} (id: #{tipiController.getTipoDaId(articoliController.articoloSel.tipo).id})" itemValue="#{tipiController.getTipoDaId(articoliController.articoloSel.tipo)}" />
+									<f:selectItems value="#{tipiController.tipiLs}" var="tipo" itemLabel="#{tipo.nome} (id: #{tipo.id})" itemValue="#{tipo}" />
+									<p:column>
+										<p:graphicImage value="#{fotoController.resolvePath(tipiController.getFoto(t.id))}#{fotoController.getFotonameUrl(tipiController.getFoto(t.id), 1)}" height="#{fotoController.getHeightFromResolution(tipiController.getFoto(t.id), 1, 40, 60)}" />
+									</p:column>
+									<p:column>
+										<h:outputText value="#{t.nome} - #{t.descrizione} (id: #{t.id})" />
+									</p:column>
+								</p:selectOneMenu>
+								<p:commandButton id="toTipiButton" value="Aggiungi Tipo" action="#{navigationController.articoliToTipi()}" icon="ui-icon-circle-plus" />
+							</p:column>
+							<h:outputText value="Foto" />
+							<p:column>
+								<p:pickList id="fotoPojoPickList" value="#{articoliController.fotoPickList}" var="f" effect="bounce" itemValue="#{foto}" itemLabel="#{foto.id}" showSourceControls="false" showTargetControls="true" showCheckbox="true" showSourceFilter="true" showTargetFilter="true" filterMatchMode="contains" converter="fotoConv">
 
+									<f:facet name="sourceCaption">Disponibili</f:facet>
+									<f:facet name="targetCaption">Selezionate</f:facet>
+
+									<p:ajax event="transfer" listener="#{articoliController.onPickListTransfer}" update=":growlForm:growl" />
+
+									<p:column>
+										<p:graphicImage value="#{fotoController.resolvePath(f)}#{fotoController.getFotonameUrl(f, 1)}" height="#{fotoController.getHeightFromResolution(f, 1, 40, 60)}" />
+									</p:column>
+									<p:column>
+										<h:outputText value="#{f.originale} (id: #{f.id})" />
+									</p:column>
+								</p:pickList>
+								<p:commandButton id="toFotoButton" value="Aggiungi Foto" action="#{navigationController.articoliToFoto()}" icon="ui-icon-circle-plus" />
+							</p:column>
+						</p:panelGrid>
+						<p:commandButton value="Aggiorna" action="#{articoliController.aggiorna}" update=":tblForm:tbl,:growlForm:growl" onclick="PF('updDialog').hide()" icon="ui-icon-refresh" />
+						<p:commandButton value="Elimina" action="#{articoliController.elimina}" update=":tblForm:tbl,:growlForm:growl" onclick="PF('updDialog').hide()" icon="ui-icon-trash" />
+						<p:separator />
+						<p:commandButton value="Annulla" update=":tblForm:tbl" onclick="PF('updDialog').hide()" icon="ui-icon-cancel" />
+					</p:outputPanel>
+				</h:form>
+			</p:dialog>
 		</ui:define>
 	</ui:composition>
 </h:body>

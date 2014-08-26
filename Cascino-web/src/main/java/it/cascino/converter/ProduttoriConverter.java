@@ -1,6 +1,6 @@
 package it.cascino.converter;
 
-import it.cascino.model.Tipi;
+import it.cascino.model.Produttori;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
@@ -8,8 +8,8 @@ import javax.faces.convert.FacesConverter;
 import javax.inject.Inject;
 import org.jboss.logging.Logger;
 
-@FacesConverter(forClass = it.cascino.model.Tipi.class, value = "tipiConv")
-public class TipiConverter implements Converter{
+@FacesConverter(forClass = it.cascino.model.Tipi.class, value = "produttoriConv")
+public class ProduttoriConverter implements Converter{
 	/**
 	 * Logger
 	 */
@@ -21,7 +21,7 @@ public class TipiConverter implements Converter{
 		if(value.isEmpty()){
 			value = "1";
 		}
-		Tipi o = new Tipi();
+		Produttori o = new Produttori();
 		int num;
 		try{
 			num = Integer.parseInt(value);

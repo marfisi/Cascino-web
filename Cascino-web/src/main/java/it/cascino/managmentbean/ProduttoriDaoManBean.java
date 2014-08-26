@@ -105,6 +105,29 @@ public class ProduttoriDaoManBean implements ProduttoriDao, Serializable{
 		}
 	}
 	
+	public Foto getFoto(Integer id){
+		Foto foto = null;
+		try{
+			try{
+				utx.begin();
+				String sql = "select * from foto " +
+				"where id = ( " +
+				"select foto " +
+				"from produttori p " +
+				"where p.id = :id)";
+				Query query = entityManager.createNativeQuery(sql, Foto.class); // Native
+				query.setParameter("id", id);
+				foto = (Foto)query.getSingleResult();
+			}catch(NoResultException e){
+				foto = null;
+			}
+			utx.commit();
+		}catch(Exception e){
+			Utility.manageException(e, utx, log);
+		}
+		return foto;
+	}
+	
 	public Foto getFotoDaArticolo(Integer idArticolo){
 		Foto foto = null;
 		try{
@@ -148,4 +171,24 @@ public class ProduttoriDaoManBean implements ProduttoriDao, Serializable{
 		}
 		return nome;
 	}
+	
+	public Produttori getProduttoreDaId(Integer id){
+		Produttori produttore = new Produttori();
+		try{
+			try{
+				utx.begin();
+				Query query = entityManager.createNamedQuery("Produttori.findById", Produttori.class);
+				query.setParameter("id", id);
+				produttore = (Produttori)query.getSingleResult();
+			}catch(NoResultException e){
+				produttore = null;
+			}
+			utx.commit();
+		}catch(Exception e){
+			Utility.manageException(e, utx, log);
+		}
+		return produttore;
+	}
+
+	
 }

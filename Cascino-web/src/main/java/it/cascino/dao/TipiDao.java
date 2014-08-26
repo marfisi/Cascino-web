@@ -11,6 +11,7 @@ public interface TipiDao{
 	void elimina(TreeNode n);
 	List<Tipi> getAll();
 	
+	Tipi getTipoDaId(Integer id);
 	Foto getFoto(Integer id);	// TreeNode n);
 //	Foto getFotoPadre(TreeNode n);
 	Foto getFotoDaArticolo(Integer idArticolo);

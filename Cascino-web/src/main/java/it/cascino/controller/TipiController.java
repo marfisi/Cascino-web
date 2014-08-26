@@ -2,6 +2,7 @@ package it.cascino.controller;
 
 import it.cascino.dao.TipiDao;
 import it.cascino.model.Foto;
+import it.cascino.model.Produttori;
 import it.cascino.model.Tipi;
 import java.io.Serializable;
 import java.util.Iterator;
@@ -86,7 +87,7 @@ public class TipiController implements Serializable{
 			esito = "Aggiunto tipo: " + ((Tipi)nodoSel.getData()).getDescrizione();
 			showGrowlInsMessage();
 		}else{
-			esito = "non ho trovato il tipo!";
+			esito = "non ho trovato il tipo!" + " (tipo: " + ((Tipi)nodoSel.getData()).getId() + ")";
 			showGrowlErrorMessage();
 		}
 	}
@@ -99,7 +100,7 @@ public class TipiController implements Serializable{
 			esito = "Aggiorno tipo: " + ((Tipi)nodoSel.getData()).getDescrizione();
 			showGrowlUpdMessage();
 		}else{
-			esito = "non ho trovato il tipo!";
+			esito = "non ho trovato il tipo!" + " (tipo: " + ((Tipi)nodoSel.getData()).getId() + ")";
 			showGrowlErrorMessage();
 		}
 	}
@@ -110,7 +111,7 @@ public class TipiController implements Serializable{
 			esito = "Elimino tipo: " + ((Tipi)nodoSel.getData()).getDescrizione();
 			showGrowlDelMessage();
 		}else{
-			esito = "non ho trovato il tipo!";
+			esito = "non ho trovato il tipo!" + " (tipo: " + ((Tipi)nodoSel.getData()).getId() + ")";
 			showGrowlErrorMessage();
 		}
 	}
@@ -197,29 +198,16 @@ public class TipiController implements Serializable{
 	
 	public Foto getFoto(Integer id){
 		Foto fotoTipo = new Foto();
-		fotoTipo = tipiDao.getFoto(id); // nodoSel);
+		fotoTipo = tipiDao.getFoto(id);
 		if(fotoTipo != null){
-			esito = "selezionata foto " + fotoTipo.getId() + " per tipo: " + id; // ((Tipi)nodoSel.getData()).getId();
+			esito = "selezionata foto " + fotoTipo.getId() + " per tipo: " + id;
 			showGrowlInfoMessage(esito);
 		}else{
-			esito = "non e' stata trovata la foto!";
+			esito = "non e' stata trovata la foto!" + " (tipo: " + id + ")";
 			showGrowlErrorMessage();
 		}
 		return fotoTipo;
 	}
-	
-	// public Foto getFotoPadre(Integer id){
-	// Foto fotoTipo = new Foto();
-	// fotoTipo = tipiDao.getFotoPadre(id); // nodoSel);
-	// if(fotoTipo != null){
-	// esito = "selezionata foto " + fotoTipo.getId() + " per tipo: " + ((Tipi)nodoSel.getData()).getTipoPadre();
-	// showGrowlInfoMessage(esito);
-	// }else{
-	// esito = "non e' stata trovata la foto!";
-	// showGrowlErrorMessage();
-	// }
-	// return fotoTipo;
-	// }
 	
 	public Foto getFotoDaArticolo(Integer idArticolo){
 		Foto fotoTipo = new Foto();
@@ -228,7 +216,7 @@ public class TipiController implements Serializable{
 			esito = "selezionata foto " + fotoTipo.getId() + " per articolo: " + idArticolo;
 			showGrowlInfoMessage(esito);
 		}else{
-			esito = "non e' stata trovata la foto!";
+			esito = "non e' stata trovata la foto!" + " (articolo: " + idArticolo + ")";
 			showGrowlErrorMessage();
 		}
 		return fotoTipo;
@@ -241,9 +229,22 @@ public class TipiController implements Serializable{
 			esito = "tipo " + nomeTipo + " per articolo: " + idArticolo;;
 			showGrowlInfoMessage(esito);
 		}else{
-			esito = "non e' stato trovato il tipo!";
+			esito = "non e' stato trovato il tipo!" + " (articolo: " + idArticolo + ")";
 			showGrowlErrorMessage();
 		}
 		return nomeTipo;
+	}
+	
+	public Tipi getTipoDaId(Integer id){
+		Tipi tipo = new Tipi();
+		tipo = tipiDao.getTipoDaId(id);
+		if(tipo != null){
+			esito = "tipo " + tipo;
+			showGrowlInfoMessage(esito);
+		}else{
+			esito = "non e' stato trovato il tipo!" + " (id: " + id + ")";
+			showGrowlErrorMessage();
+		}
+		return tipo;
 	}
 }

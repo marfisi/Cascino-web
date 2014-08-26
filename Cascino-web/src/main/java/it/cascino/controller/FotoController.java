@@ -79,7 +79,12 @@ public class FotoController implements Serializable{
 	}
 	
 	public List<Foto> getFotoLs(){
+		log.info("TMP: "+ "i" + " " + "getFotoLs");
+
 		fotoLs = fotoDao.getAll();
+		
+		log.info("TMP: "+ "f" + " " + "getFotoLs");
+
 		return fotoLs;
 	}
 	
@@ -322,7 +327,7 @@ public class FotoController implements Serializable{
 		if(t == 0){
 			t = tipoFotoNum;
 		}
-		return fotoDao.getHeightFromResolution(foto, t, h, l, u);
+		return 30; // fotoDao.getHeightFromResolution(foto, t, h, l, u);
 	}
 	
 	public String resolvePath(Foto f){

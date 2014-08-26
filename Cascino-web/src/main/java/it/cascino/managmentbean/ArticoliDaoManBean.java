@@ -39,8 +39,6 @@ public class ArticoliDaoManBean implements ArticoliDao, Serializable{
 		try{
 			try{
 				utx.begin();
-				// String sql = "FROM Articoli a";
-				// Query query = entityManager.createQuery(sql);
 				Query query = entityManager.createNamedQuery("Articoli.findAll");
 				articoli = (List<Articoli>)query.getResultList();
 			}catch(NoResultException e){
@@ -106,21 +104,41 @@ public class ArticoliDaoManBean implements ArticoliDao, Serializable{
 	}
 	
 	public Foto getFotoDaArticolo(Integer idArticolo){
-		Foto foto = null;
+		log.info("TMP: "+ "i" + " " + "getFotoDaArticolo" + " id: " + idArticolo);
+		log.info("TMP: "+ "f" + " " + "getFotoDaArticolo");
+		return (getFotoOrdLsDaArticolo(idArticolo).size() > 0) ? getFotoOrdLsDaArticolo(idArticolo).get(0) : null;
+	}
+	
+	@SuppressWarnings("unchecked")
+	public List<Foto> getFotoOrdLsDaArticolo(Integer idArticolo){
+		log.info("TMP: "+ "i" + " " + "getFotoOrdLsDaArticolo" + " id: " + idArticolo);
+		List<Foto> foto = null;
 		try{
 			try{
 				utx.begin();
-				// String sql = "FROM Foto f Where f.id = :id";
-				String sql = "select * from foto " +
-				"where id = (select foto " +
-				"from (select row_number() OVER (ORDER BY foto) AS rownum, foto " +
-				"from articoli_foto af join articoli a on af.articolo = a.id " +
+//				String sql = "select * " +	// solo la prima
+//									"from foto " +
+//									"where id = ( " +
+//									"select selordrow.foto " +
+//									"from ( " +
+//									"select row_number() OVER () AS rownum, selord.foto  " +
+//									"from (select foto " +
+//									"from articoli_foto af join articoli a on af.articolo = a.id " +
+//									"where articolo = :id " +
+//									"order by ordinamento, af.updtime desc) as selord " +
+//									") as selordrow " +
+//									"where selordrow.rownum = 1 " +
+//									")";
+				String sql = "select f.* " +
+				"from ( " +
+				"select row_number() OVER () AS rownum, selord.foto  " +
+				"from (select foto " +
+				"from articoli_foto af join articoli a on af.articolo = a.id  " +
 				"where articolo = :id " +
-				"order by ordinamento, af.updtime) as sub " +
-				"where rownum = 1)";
+				"order by ordinamento, af.updtime desc) as selord) as selordjoin left join foto f on selordjoin.foto = f.id";
 				Query query = entityManager.createNativeQuery(sql, Foto.class); // Native
 				query.setParameter("id", idArticolo);
-				foto = (Foto)query.getSingleResult(); // .getResultList().get(0);
+				foto = (List<Foto>)query.getResultList();
 			}catch(NoResultException e){
 				foto = null;
 			}
@@ -128,6 +146,7 @@ public class ArticoliDaoManBean implements ArticoliDao, Serializable{
 		}catch(Exception e){
 			Utility.manageException(e, utx, log);
 		}
+		log.info("TMP: "+ "f" + " " + "getFotoOrdLsDaArticolo");
 		return foto;
 	}
 	
@@ -151,23 +170,23 @@ public class ArticoliDaoManBean implements ArticoliDao, Serializable{
 		return articoli;
 	}
 	
-	@SuppressWarnings("unchecked")
-	public List<String> getProduttoriAutoCompleteLs(String str){
-		List<String> articoli = null;
-		try{
-			try{
-				utx.begin();
-				String sql = "SELECT upper(p.nome) FROM Produttori p WHERE upper(p.nome) like upper(:str)";
-				Query query = entityManager.createQuery(sql);
-				query.setParameter("str", "%" + str + "%");
-				articoli = (List<String>)query.getResultList();
-			}catch(NoResultException e){
-				articoli = null;
-			}
-			utx.commit();
-		}catch(Exception e){
-			Utility.manageException(e, utx, log);
-		}
-		return articoli;
-	}
+//	@SuppressWarnings("unchecked")
+//	public List<String> getProduttoriAutoCompleteLs(String str){
+//		List<String> articoli = null;
+//		try{
+//			try{
+//				utx.begin();
+//				String sql = "SELECT upper(p.nome) FROM Produttori p WHERE upper(p.nome) like upper(:str)";
+//				Query query = entityManager.createQuery(sql);
+//				query.setParameter("str", "%" + str + "%");
+//				articoli = (List<String>)query.getResultList();
+//			}catch(NoResultException e){
+//				articoli = null;
+//			}
+//			utx.commit();
+//		}catch(Exception e){
+//			Utility.manageException(e, utx, log);
+//		}
+//		return articoli;
+//	}
 }

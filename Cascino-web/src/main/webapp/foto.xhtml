@@ -155,7 +155,7 @@
 					<f:facet name="content">
 						<h:panelGrid columns="1" cellpadding="5">
 							<f:facet name="header">
-								<p:graphicImage value="#{fotoController.resolvePath(fotol)}#{fotoController.getFotonameUrl(foto, 0)}" alt="#{foto.originale}" title="#{foto.originale}" height="#{fotoController.getHeightFromResolution(foto, 0, 360, 650)}" />
+								<p:graphicImage value="#{fotoController.resolvePath(foto)}#{fotoController.getFotonameUrl(foto, 0)}" alt="#{foto.originale}" title="#{foto.originale}" height="#{fotoController.getHeightFromResolution(foto, 0, 360, 650)}" />
 							</f:facet>
 
 							<h:outputText id="name" value="#{foto.originale}" />

@@ -549,7 +549,7 @@ public class FotoDaoManBean implements FotoDao, Serializable{
 		return (fimg == null) ? "n.d." : fimg.getWidth() + "x" + fimg.getHeight() + "px";
 	}
 	
-	private BufferedImage manageFileJpeg(File f){
+	private BufferedImage manageFileJpeg(File f) throws IOException{
 		Iterator<ImageReader> readers = ImageIO.getImageReadersByFormatName("JPEG");
 		ImageReader reader = null;
 		while(readers.hasNext()){
@@ -560,24 +560,17 @@ public class FotoDaoManBean implements FotoDao, Serializable{
 		}
 		// Stream the image file (the original CMYK image)
 		ImageInputStream input = null;
-		try{
-			input = ImageIO.createImageInputStream(f);
-		}catch(IOException e){
-			e.printStackTrace();
-		}
+		
+		input = ImageIO.createImageInputStream(f);
+		
 		reader.setInput(input);
 		
 		// Read the image raster
 		Raster raster = null;
-		try{
-			raster = reader.readRaster(0, null);
-		}catch(IOException e){
-			e.printStackTrace();
-		}
+		raster = reader.readRaster(0, null);
 		
 		// Create a new RGB image
-		BufferedImage bi = new BufferedImage(raster.getWidth(), raster.getHeight(),
-		BufferedImage.TYPE_4BYTE_ABGR);
+		BufferedImage bi = new BufferedImage(raster.getWidth(), raster.getHeight(), BufferedImage.TYPE_4BYTE_ABGR);
 		
 		// Fill the new image with the old raster
 		// bi.getRaster().setRect(raster);
@@ -674,7 +667,7 @@ public class FotoDaoManBean implements FotoDao, Serializable{
 				
 				String uploadFileName = CommonsUtility.fileTypeFromNumberMap.get(t) != null ? "upload-" + o.getFileName() + CommonsUtility.fileTypeFromNumberMap.get(t) : fotoNotDefined;
 				f2 = new File(dirFoto, uploadFileName);
-
+				
 				if((f2.exists()) && (u == 1)){
 					f = f2;
 				}
