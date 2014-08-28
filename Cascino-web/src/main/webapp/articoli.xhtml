@@ -62,17 +62,17 @@
 						<f:facet name="header">
 							<h:outputText value="Foto" />
 						</f:facet>
-						<p:graphicImage value="#{fotoController.resolvePath(articoliController.getFotoDaArticolo(articolo.id))}#{fotoController.getFotonameUrl(articoliController.getFotoDaArticolo(articolo.id), 1)}" height="#{fotoController.getHeightFromResolution(articoliController.getFotoDaArticolo(articolo.id), 1, 40, 60)}" />
+						<p:graphicImage value="#{fotoController.resolvePath(articoliController.getFotoArticoloDaIdArticolo(articolo.id))}#{fotoController.getFotonameUrl(articoliController.getFotoArticoloDaIdArticolo(articolo.id), 1)}" height="#{fotoController.getHeightFromResolution(articoliController.getFotoArticoloDaIdArticolo(articolo.id), 1, 40, 60)}" />
 					</p:column>
 					<p:column>
 						<f:facet name="header">
 							<h:outputText value="Marca" />
 						</f:facet>
 						<p:column>
-							<h:outputText value="#{produttoriController.getNomeDaArticolo(articolo.id)} (id: #{articolo.produttore})" />
+							<h:outputText value="#{produttoriController.getNomeProduttoreDaIdArticolo(articolo.id)} (id: #{articolo.produttore})" />
 						</p:column>
 						<p:column>
-							<p:graphicImage value="#{fotoController.resolvePath(articoliController.getFotoDaArticolo(articolo.id))}#{fotoController.getFotonameUrl(produttoriController.getFotoDaArticolo(articolo.id), 1)}" height="#{fotoController.getHeightFromResolution(articoliController.getFotoDaArticolo(articolo.id), 1, 40, 60)}" />
+							<p:graphicImage value="#{fotoController.resolvePath(articoliController.getFotoArticoloDaIdArticolo(articolo.id))}#{fotoController.getFotonameUrl(produttoriController.getFotoProduttoreDaIdArticolo(articolo.id), 1)}" height="#{fotoController.getHeightFromResolution(articoliController.getFotoArticoloDaIdArticolo(articolo.id), 1, 40, 60)}" />
 						</p:column>
 					</p:column>
 					<p:column sortBy="id" sortFunction="#{articoliController.sortByStr}" filterBy="#{articolo.modello}" filterMatchMode="contains">
@@ -86,10 +86,10 @@
 							<h:outputText value="Tipo" />
 						</f:facet>
 						<p:column>
-							<h:outputText value="#{tipiController.getNomeDaArticolo(articolo.id)} (id: #{articolo.tipo})" />
+							<h:outputText value="#{tipiController.getNomeTipoDaIdArticolo(articolo.id)} (id: #{articolo.tipo})" />
 						</p:column>
 						<p:column>
-							<p:graphicImage value="#{fotoController.resolvePath(articoliController.getFotoDaArticolo(articolo.id))}#{fotoController.getFotonameUrl(tipiController.getFotoDaArticolo(articolo.id), 1)}" height="#{fotoController.getHeightFromResolution(tipiController.getFotoDaArticolo(articolo.id), 1, 40, 60)}" />
+							<p:graphicImage value="#{fotoController.resolvePath(articoliController.getFotoArticoloDaIdArticolo(articolo.id))}#{fotoController.getFotonameUrl(tipiController.getFotoTipoDaIdArticolo(articolo.id), 1)}" height="#{fotoController.getHeightFromResolution(tipiController.getFotoTipoDaIdArticolo(articolo.id), 1, 40, 60)}" />
 						</p:column>
 					</p:column>
 					<p:column sortBy="id" sortFunction="#{articoliController.sortByNum}" filterBy="#{articolo.id}" filterMatchMode="contains">
@@ -148,7 +148,7 @@
 			<p:dialog id="viewDialog" header="Dettagli" widgetVar="viewDialog" resizable="false" showEffect="clip" hideEffect="fold" modal="true">
 				<h:panelGrid id="display" columns="3" cellpadding="4">
 					<f:facet name="header">
-						<p:graphicImage value="#{fotoController.resolvePath(articoliController.getFotoDaArticolo(articoliController.articoloSel.id))}#{fotoController.getFotonameUrl(articoliController.getFotoDaArticolo(articoliController.articoloSel.id), 1)}" height="#{fotoController.getHeightFromResolution(articoliController.getFotoDaArticolo(articoliController.articoloSel.id), 1, 400, 400)}" />
+						<p:graphicImage value="#{fotoController.resolvePath(articoliController.getFotoArticoloDaIdArticolo(articoliController.articoloSel.id))}#{fotoController.getFotonameUrl(articoliController.getFotoArticoloDaIdArticolo(articoliController.articoloSel.id), 1)}" height="#{fotoController.getHeightFromResolution(articoliController.getFotoArticoloDaIdArticolo(articoliController.articoloSel.id), 1, 400, 400)}" />
 					</f:facet>
 					<h:outputText value="ID:" />
 					<h:outputText value="#{articoliController.articoloSel.id}" />
@@ -173,7 +173,7 @@
 									<f:selectItem  itemLabel="Seleziona Marca" itemValue="" />
 									<f:selectItems value="#{produttoriController.produttoriLs}" var="produttore" itemLabel="#{produttore.nome} (id: #{produttore.id})" itemValue="#{produttore}" />
 									<p:column>
-										<p:graphicImage value="#{fotoController.resolvePath(produttoriController.getFoto(p.id))}#{fotoController.getFotonameUrl(produttoriController.getFoto(p.id), 1)}" height="#{fotoController.getHeightFromResolution(produttoriController.getFoto(p.id), 1, 40, 60)}" />
+										<p:graphicImage value="#{fotoController.resolvePath(produttoriController.getFotoProduttoreDaIdProduttore(p.id))}#{fotoController.getFotonameUrl(produttoriController.getFotoProduttoreDaIdProduttore(p.id), 1)}" height="#{fotoController.getHeightFromResolution(produttoriController.getFotoProduttoreDaIdProduttore(p.id), 1, 40, 60)}" />
 									</p:column>
 									<p:column>
 										<h:outputText value="#{p.nome} (id: #{p.id})" />
@@ -194,7 +194,7 @@
 									<f:selectItem itemLabel="Seleziona Classe" itemValue="" />
 									<f:selectItems value="#{tipiController.tipiLs}" var="tipo" itemLabel="#{tipo.nome} (id: #{tipo.id})" itemValue="#{tipo}" />
 									<p:column>
-										<p:graphicImage value="#{fotoController.resolvePath(tipiController.getFoto(t.id))}#{fotoController.getFotonameUrl(tipiController.getFoto(t.id), 1)}" height="#{fotoController.getHeightFromResolution(tipiController.getFoto(t.id), 1, 40, 60)}" />
+										<p:graphicImage value="#{fotoController.resolvePath(tipiController.getFotoTipoDaIdTipo(t.id))}#{fotoController.getFotonameUrl(tipiController.getFotoTipoDaIdTipo(t.id), 1)}" height="#{fotoController.getHeightFromResolution(tipiController.getFotoTipoDaIdTipo(t.id), 1, 40, 60)}" />
 									</p:column>
 									<p:column>
 										<h:outputText value="#{t.nome} - #{t.descrizione} (id: #{t.id})" />
@@ -241,10 +241,10 @@
 							<h:outputText value="Marca" />
 							<p:column>
 								<p:selectOneMenu id="menuSelProd" value="#{articoliController.articoloSel.produttore}" converter="produttoriConv" var="p" filter="true" filterMatchMode="contains">
-									<f:selectItem  itemLabel="#{produttoriController.getProduttoreDaId(articoliController.articoloSel.produttore).nome} (id: #{produttoriController.getProduttoreDaId(articoliController.articoloSel.produttore).id})" itemValue="#{produttoriController.getProduttoreDaId(articoliController.articoloSel.produttore)}" />
+									<f:selectItem  itemLabel="#{produttoriController.getProduttoreDaIdProduttore(articoliController.articoloSel.produttore).nome} (id: #{produttoriController.getProduttoreDaIdProduttore(articoliController.articoloSel.produttore).id})" itemValue="#{produttoriController.getProduttoreDaIdProduttore(articoliController.articoloSel.produttore)}" />
 									<f:selectItems value="#{produttoriController.produttoriLs}" var="produttore" itemLabel="#{produttore.nome} (id: #{produttore.id})" itemValue="#{produttore}" />
 									<p:column>
-										<p:graphicImage value="#{fotoController.resolvePath(produttoriController.getFoto(p.id))}#{fotoController.getFotonameUrl(produttoriController.getFoto(p.id), 1)}" height="#{fotoController.getHeightFromResolution(produttoriController.getFoto(p.id), 1, 40, 60)}" />
+										<p:graphicImage value="#{fotoController.resolvePath(produttoriController.getFotoProduttoreDaIdProduttore(p.id))}#{fotoController.getFotonameUrl(produttoriController.getFotoProduttoreDaIdProduttore(p.id), 1)}" height="#{fotoController.getHeightFromResolution(produttoriController.getFotoProduttoreDaIdProduttore(p.id), 1, 40, 60)}" />
 									</p:column>
 									<p:column>
 										<h:outputText value="#{p.nome} (id: #{p.id})" />
@@ -262,10 +262,10 @@
 							<h:outputText value="Tipo" />
 							<p:column>
 								<p:selectOneMenu id="menuSelTipo" value="#{articoliController.articoloSel.tipo}" converter="tipiConv" var="t" filter="true" filterMatchMode="contains">
-									<f:selectItem  itemLabel="#{tipiController.getTipoDaId(articoliController.articoloSel.tipo).nome} (id: #{tipiController.getTipoDaId(articoliController.articoloSel.tipo).id})" itemValue="#{tipiController.getTipoDaId(articoliController.articoloSel.tipo)}" />
+									<f:selectItem  itemLabel="#{tipiController.getTipoDaIdTipo(articoliController.articoloSel.tipo).nome} (id: #{tipiController.getTipoDaIdTipo(articoliController.articoloSel.tipo).id})" itemValue="#{tipiController.getTipoDaIdTipo(articoliController.articoloSel.tipo)}" />
 									<f:selectItems value="#{tipiController.tipiLs}" var="tipo" itemLabel="#{tipo.nome} (id: #{tipo.id})" itemValue="#{tipo}" />
 									<p:column>
-										<p:graphicImage value="#{fotoController.resolvePath(tipiController.getFoto(t.id))}#{fotoController.getFotonameUrl(tipiController.getFoto(t.id), 1)}" height="#{fotoController.getHeightFromResolution(tipiController.getFoto(t.id), 1, 40, 60)}" />
+										<p:graphicImage value="#{fotoController.resolvePath(tipiController.getFotoTipoDaIdTipo(t.id))}#{fotoController.getFotonameUrl(tipiController.getFotoTipoDaIdTipo(t.id), 1)}" height="#{fotoController.getHeightFromResolution(tipiController.getFotoTipoDaIdTipo(t.id), 1, 40, 60)}" />
 									</p:column>
 									<p:column>
 										<h:outputText value="#{t.nome} - #{t.descrizione} (id: #{t.id})" />

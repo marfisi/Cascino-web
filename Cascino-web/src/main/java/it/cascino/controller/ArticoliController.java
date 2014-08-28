@@ -51,71 +51,82 @@ public class ArticoliController implements Serializable{
 	DualListModel<Foto> fotoPickList;
 	
 	public List<Articoli> getArticoliLs(){
-		log.info("TMP: "+ "i" + " " + "getArticoliLs");
+		log.info("tmpDEBUGtmp: " + "> " + "getArticoliLs(" + ")");
 		articoliLs = articoliDao.getAll();
-		log.info("TMP: " + "f" + " " + "getArticoliLs");
+		log.info("tmpDEBUGtmp: " + "< " + "getArticoliLs");
 		return articoliLs;
 	}
 	
 	public void setArticoliLs(List<Articoli> articoliLs){
+		log.info("tmpDEBUGtmp: " + "> " + "setArticoliLs(" + articoliLs + ")");
 		this.articoliLs = articoliLs;
+		log.info("tmpDEBUGtmp: " + "< " + "setArticoliLs");
 	}
 	
-	public Articoli getArticoloSel(){	
-		log.info("TMP: "+ "i" + " " + "getArticoloSel" + " id: " + articoloSel.getId());
-		log.info("TMP: "+ "f" + " " + "getArticoloSel");		
+	public Articoli getArticoloSel(){
+		log.info("tmpDEBUGtmp: " + "> " + "getArticoloSel(" + ")");
+		log.info("tmpDEBUGtmp: " + "id: " + articoloSel.getId());
+		log.info("tmpDEBUGtmp: " + "< " + "getArticoloSel");
 		return articoloSel;
-}
+	}
 	
 	public void setArticoloSel(Articoli articoloSel){
-		log.info("TMP: "+ "i" + " " + "setArticoloSel" + " id: " + articoloSel.getId() + " id: " + this.articoloSel.getId());
-
+		log.info("tmpDEBUGtmp: " + "> " + "setArticoloSel(" + articoloSel + ")");
+		log.info("tmpDEBUGtmp: " + "id: " + articoloSel.getId() + " id: " + this.articoloSel.getId());
 		this.articoloSel = articoloSel;
-
-		log.info("TMP: "+ "f" + " " + "setArticoloSel");
-}
+		log.info("tmpDEBUGtmp: " + "< " + "setArticoloSel");
+	}
 	
 	public List<Articoli> getFilteredArticoliLs(){
+		log.info("tmpDEBUGtmp: " + "> " + "getFilteredArticoliLs(" + ")");
+		log.info("tmpDEBUGtmp: " + "id: " + articoloSel.getId());
+		log.info("tmpDEBUGtmp: " + "< " + "getFilteredArticoliLs");
 		return filteredArticoliLs;
 	}
 	
 	public void setFilteredArticoliLs(List<Articoli> filteredArticoliLs){
+		log.info("tmpDEBUGtmp: " + "> " + "setFilteredArticoliLs(" + filteredArticoliLs + ")");
+		log.info("tmpDEBUGtmp: " + "id: " + articoloSel.getId());
 		this.filteredArticoliLs = filteredArticoliLs;
+		log.info("tmpDEBUGtmp: " + "< " + "setFilteredArticoliLs");
 	}
 	
 	public DualListModel<Foto> getFotoPickList(){
-		log.info("TMP: "+ "i" + " " + "getFotoPickList");
-
+		log.info("tmpDEBUGtmp: " + "> " + "getFotoPickList(" + ")");
+		log.info("tmpDEBUGtmp: " + "id: " + articoloSel.getId());
+		
 		List<Foto> fotoPLsource = new ArrayList<Foto>();
 		List<Foto> fotoPLtarget = new ArrayList<Foto>();
 		
 		fotoPLsource = fotoDao.getAll();
-		fotoPLtarget = ((articoloSel.getId() != null)&&(articoloSel.getId() > 0)) ? articoliDao.getFotoOrdLsDaArticolo(articoloSel.getId()) : new ArrayList<Foto>();;
+		fotoPLtarget = ((articoloSel.getId() != null) && (articoloSel.getId() > 0)) ? articoliDao.getFotoArticoloOrdLsDaIdArticolo(articoloSel.getId()) : new ArrayList<Foto>();
 		
 		fotoPickList = new DualListModel<Foto>(fotoPLsource, fotoPLtarget);
 		
-		log.info("TMP: "+ "f" + " " + "getFotoPickList");
-
+		log.info("tmpDEBUGtmp: " + "< " + "getFotoPickList");
 		return fotoPickList;
 	}
 	
 	public void setFotoPickList(DualListModel<Foto> fotoPickList){
+		log.info("tmpDEBUGtmp: " + "> " + "setFotoPickList(" + fotoPickList + ")");
+		log.info("tmpDEBUGtmp: " + "id: " + articoloSel.getId());
 		this.fotoPickList = fotoPickList;
+		log.info("tmpDEBUGtmp: " + "< " + "setFotoPickList");
 	}
 	
 	public List<String> articoliAutoCompleteLs(String str){
+		log.info("tmpDEBUGtmp: " + "> " + "articoliAutoCompleteLs(" + str + ")");
+		log.info("tmpDEBUGtmp: " + "id: " + articoloSel.getId());
 		List<String> articoliAutoCompleteLs = articoliDao.getArticoliAutoCompleteLs(str.toUpperCase());
 		
+		log.info("tmpDEBUGtmp: " + "< " + "articoliAutoCompleteLs");
 		return articoliAutoCompleteLs;
 	}
 	
-//	public List<String> produttoriAutoCompleteLs(String str){
-//		List<String> produttoriAutoCompleteLs = articoliDao.getProduttoriAutoCompleteLs(str.toUpperCase());
-//		
-//		return produttoriAutoCompleteLs;
-//	}
-	
 	public void salva(){
+		log.info("tmpDEBUGtmp: " + "> " + "salva(" + ")");
+		log.info("tmpDEBUGtmp: " + "id: " + articoloSel.getId());
+		
 		articoliDao.salva(articoloSel);
 		if(articoloSel != null){
 			esito = "Aggiunto articolo: " + articoloSel.getCodice();
@@ -124,9 +135,13 @@ public class ArticoliController implements Serializable{
 			esito = "non e' stato caricato l'articolo!" + " (articolo: " + articoloSel.getId() + ")";
 			showGrowlErrorMessage();
 		}
+		log.info("tmpDEBUGtmp: " + "< " + "salva");
 	}
 	
 	public void aggiorna(){
+		log.info("tmpDEBUGtmp: " + "> " + "aggiorna(" + ")");
+		log.info("tmpDEBUGtmp: " + "id: " + articoloSel.getId());
+		
 		articoliDao.aggiorna(articoloSel);
 		if(articoloSel != null){
 			esito = "Aggiornato articolo: " + articoloSel.getCodice();
@@ -135,9 +150,13 @@ public class ArticoliController implements Serializable{
 			esito = "non e' stato aggiornato l'articolo!" + " (articolo: " + articoloSel.getId() + ")";
 			showGrowlErrorMessage();
 		}
+		log.info("tmpDEBUGtmp: " + "< " + "aggiorna");
 	}
 	
 	public void elimina(){
+		log.info("tmpDEBUGtmp: " + "> " + "elimina(" + ")");
+		log.info("tmpDEBUGtmp: " + "id: " + articoloSel.getId());
+		
 		articoliDao.elimina(articoloSel);
 		if(articoloSel != null){
 			esito = "Elimino articolo: " + articoloSel.getCodice();
@@ -146,9 +165,13 @@ public class ArticoliController implements Serializable{
 			esito = "non ho trovato l'articolo!" + " (articolo: " + articoloSel.getId() + ")";
 			showGrowlErrorMessage();
 		}
+		log.info("tmpDEBUGtmp: " + "< " + "elimina");
 	}
 	
 	public String getEsito(){
+		log.info("tmpDEBUGtmp: " + "> " + "getEsito(" + ")");
+		log.info("tmpDEBUGtmp: " + "id: " + articoloSel.getId());
+		log.info("tmpDEBUGtmp: " + "< " + "getEsito");
 		return esito;
 	}
 	
@@ -182,9 +205,12 @@ public class ArticoliController implements Serializable{
 	}
 	
 	public int sortByNum(Object obj1, Object obj2){
+		log.info("tmpDEBUGtmp: " + "> " + "sortByNum(" + obj1 + ", " + obj2 + ")");
+		log.info("tmpDEBUGtmp: " + "id: " + articoloSel.getId());
 		Integer o1 = (Integer)obj1;
 		Integer o2 = (Integer)obj2;
 		log.info("sortById: " + o1 + "-" + o2);
+		log.info("tmpDEBUGtmp: " + "< " + "sortByNum");
 		if(o1 < o2){
 			return -1;
 		}else if(o1 > o2){
@@ -194,9 +220,12 @@ public class ArticoliController implements Serializable{
 	}
 	
 	public int sortByStr(Object obj1, Object obj2){
+		log.info("tmpDEBUGtmp: " + "> " + "sortByStr(" + obj1 + ", " + obj2 + ")");
+		log.info("tmpDEBUGtmp: " + "id: " + articoloSel.getId());
 		String o1 = (String)obj1;
 		String o2 = (String)obj2;
 		log.info("sortByname: " + o1 + "-" + o2);
+		log.info("tmpDEBUGtmp: " + "< " + "sortByStr");
 		if(o1.compareTo(o2) < 0){
 			return -1;
 		}else if(o1.compareTo(o2) > 0){
@@ -206,9 +235,12 @@ public class ArticoliController implements Serializable{
 	}
 	
 	public int sortByStrIC(Object obj1, Object obj2){
+		log.info("tmpDEBUGtmp: " + "> " + "sortByStrIC(" + obj1 + ", " + obj2 + ")");
+		log.info("tmpDEBUGtmp: " + "id: " + articoloSel.getId());
 		String o1 = (String)obj1;
 		String o2 = (String)obj2;
-		log.info("sortByname: " + o1 + "-" + o2);
+		log.info("sortBynameIC: " + o1 + "-" + o2);
+		log.info("tmpDEBUGtmp: " + "< " + "sortByStrIC");
 		if(o1.compareToIgnoreCase(o2) < 0){
 			return -1;
 		}else if(o1.compareToIgnoreCase(o2) > 0){
@@ -217,31 +249,31 @@ public class ArticoliController implements Serializable{
 		return 0;
 	}
 	
-	public Foto getFotoDaArticolo(Integer idArticoli){
+	public Foto getFotoArticoloDaIdArticolo(Integer idArticolo){
+		log.info("tmpDEBUGtmp: " + "> " + "getFotoArticoloDaIdArticolo(" + idArticolo + ")");
+		log.info("tmpDEBUGtmp: " + "id: " + articoloSel.getId());
 		Foto fotoArticolo = new Foto();
-		fotoArticolo = articoliDao.getFotoDaArticolo(idArticoli);
+		fotoArticolo = articoliDao.getFotoArticoloDaIdArticolo(idArticolo);
 		if(fotoArticolo != null){
-			esito = "selezionata foto " + fotoArticolo.getId() + " per articolo: " + idArticoli;
+			esito = "selezionata foto " + fotoArticolo.getId() + " per articolo: " + idArticolo;
 			showGrowlInfoMessage(esito);
 		}else{
-			esito = "non e' stata trovata la foto per l'articolo!" + " (articolo: " + idArticoli + ")";
+			esito = "non e' stata trovata la foto per l'articolo!" + " (articolo: " + idArticolo + ")";
 			showGrowlErrorMessage();
 		}
+		log.info("tmpDEBUGtmp: " + "< " + "getFotoArticoloDaIdArticolo");
 		return fotoArticolo;
 	}
 	
 	public void onPickListTransfer(TransferEvent event){
+		log.info("tmpDEBUGtmp: " + "> " + "onPickListTransfer(" + event + ")");
+		log.info("tmpDEBUGtmp: " + "id: " + articoloSel.getId());
 		StringBuilder builder = new StringBuilder();
 		for(Object item : event.getItems()){
 			builder.append(((Foto)item).getOriginale()).append("<br />");
 		}
-		
-		FacesMessage msg = new FacesMessage();
-		msg.setSeverity(FacesMessage.SEVERITY_INFO);
-		msg.setSummary("Items Transferred");
-		msg.setDetail(builder.toString());
-		
-		FacesContext.getCurrentInstance().addMessage(null, msg);
+		showGrowlInfoMessage(builder.toString());
+		log.info("tmpDEBUGtmp: " + "< " + "onPickListTransfer");
 	}
 	
 }

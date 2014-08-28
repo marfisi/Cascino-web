@@ -4,7 +4,6 @@ import java.io.Serializable;
 import java.util.List;
 import it.cascino.dao.TipiDao;
 import it.cascino.model.Foto;
-import it.cascino.model.Produttori;
 import it.cascino.model.Tipi;
 import it.cascino.util.Utility;
 import javax.faces.bean.SessionScoped;
@@ -37,6 +36,7 @@ public class TipiDaoManBean implements TipiDao, Serializable{
 	
 	@SuppressWarnings("unchecked")
 	public List<Tipi> getAll(){
+		log.info("tmpDEBUGtmp: " + "> " + "getAll(" + ")");
 		List<Tipi> tipi = null;
 		try{
 			try{
@@ -52,12 +52,13 @@ public class TipiDaoManBean implements TipiDao, Serializable{
 		}catch(Exception e){
 			Utility.manageException(e, utx, log);
 		}
+		log.info("tmpDEBUGtmp: " + "< " + "getAll");
 		return tipi;
 	}
 	
 	public void salva(TreeNode nodo){
+		log.info("tmpDEBUGtmp: " + "> " + "salva(" + nodo + ")");
 		Tipi tipo = (Tipi)nodo.getData();
-		
 		try{
 			try{
 				utx.begin();
@@ -73,9 +74,11 @@ public class TipiDaoManBean implements TipiDao, Serializable{
 		}catch(Exception e){
 			Utility.manageException(e, utx, log);
 		}
+		log.info("tmpDEBUGtmp: " + "< " + "salva");
 	}
 	
 	public void aggiorna(TreeNode nodo){
+		log.info("tmpDEBUGtmp: " + "> " + "aggiorna(" + nodo + ")");
 		Tipi tipo = (Tipi)nodo.getData();		
 		try{
 			try{
@@ -89,9 +92,11 @@ public class TipiDaoManBean implements TipiDao, Serializable{
 		}catch(Exception e){
 			Utility.manageException(e, utx, log);
 		}
+		log.info("tmpDEBUGtmp: " + "< " + "aggiorna");
 	}
 	
 	public void elimina(TreeNode nodo){
+		log.info("tmpDEBUGtmp: " + "> " + "elimina(" + nodo + ")");
 		Tipi tipoElimina = (Tipi)nodo.getData();		
 		try{
 			try{
@@ -107,9 +112,11 @@ public class TipiDaoManBean implements TipiDao, Serializable{
 		}catch(Exception e){
 			Utility.manageException(e, utx, log);
 		}
+		log.info("tmpDEBUGtmp: " + "< " + "elimina");
 	}
 	
-	public Foto getFoto(Integer id){
+	public Foto getFotoTipoDaIdTipo(Integer idTipo){
+		log.info("tmpDEBUGtmp: " + "> " + "getFotoTipoDaIdTipo(" + idTipo + ")");
 		// Tipi tipo = (Tipi)nodo.getData();
 		Foto foto = null;
 		try{
@@ -122,7 +129,7 @@ public class TipiDaoManBean implements TipiDao, Serializable{
 				"where t.id = :id)";
 				Query query = entityManager.createNativeQuery(sql, Foto.class); // Native
 				// Query query = entityManager.createNamedQuery("Foto.findByIdTipo", Foto.class);
-				query.setParameter("id", id); // tipo.getId());
+				query.setParameter("id", idTipo); // tipo.getId());
 				foto = (Foto)query.getSingleResult();
 			}catch(NoResultException e){
 				foto = null;
@@ -131,10 +138,12 @@ public class TipiDaoManBean implements TipiDao, Serializable{
 		}catch(Exception e){
 			Utility.manageException(e, utx, log);
 		}
+		log.info("tmpDEBUGtmp: " + "< " + "getFotoTipoDaIdTipo");
 		return foto;
 	}
 	
-	public Foto getFotoDaArticolo(Integer idArticolo){
+	public Foto getFotoTipoDaIdArticolo(Integer idArticolo){
+		log.info("tmpDEBUGtmp: " + "> " + "getFotoTipoDaIdArticolo(" + idArticolo + ")");
 		Foto foto = null;
 		try{
 			try{
@@ -154,10 +163,12 @@ public class TipiDaoManBean implements TipiDao, Serializable{
 		}catch(Exception e){
 			Utility.manageException(e, utx, log);
 		}
+		log.info("tmpDEBUGtmp: " + "< " + "getFotoTipoDaIdArticolo");
 		return foto;
 	}
 	
-	public String getNomeDaArticolo(Integer idArticolo){
+	public String getNomeTipoDaIdArticolo(Integer idArticolo){
+		log.info("tmpDEBUGtmp: " + "> " + "getNomeTipoDaIdArticolo(" + idArticolo + ")");
 		String nome = null;
 		try{
 			try{
@@ -175,16 +186,18 @@ public class TipiDaoManBean implements TipiDao, Serializable{
 		}catch(Exception e){
 			Utility.manageException(e, utx, log);
 		}
+		log.info("tmpDEBUGtmp: " + "< " + "getNomeTipoDaIdArticolo");
 		return nome;
 	}
 	
-	public Tipi getTipoDaId(Integer id){
+	public Tipi getTipoDaIdTipo(Integer idTipo){
+		log.info("tmpDEBUGtmp: " + "> " + "getTipoDaIdTipo(" + idTipo + ")");
 		Tipi tipo = new Tipi();
 		try{
 			try{
 				utx.begin();
 				Query query = entityManager.createNamedQuery("Tipi.findById", Tipi.class);
-				query.setParameter("id", id);
+				query.setParameter("id", idTipo);
 				tipo = (Tipi)query.getSingleResult();
 			}catch(NoResultException e){
 				tipo = null;
@@ -193,6 +206,7 @@ public class TipiDaoManBean implements TipiDao, Serializable{
 		}catch(Exception e){
 			Utility.manageException(e, utx, log);
 		}
+		log.info("tmpDEBUGtmp: " + "< " + "getTipoDaIdTipo");
 		return tipo;
 	}
 }

@@ -41,25 +41,34 @@ public class UserLoginController implements Serializable{
 	private Boolean confirmRegistration = false;
 	
 	public String getUser(){
+		log.info("tmpDEBUGtmp: " + "> " + "getUser(" + ")");
+		log.info("tmpDEBUGtmp: " + "< " + "getUser");
 		return user;
 	}
 	
 	public void setUser(String user){
+		log.info("tmpDEBUGtmp: " + "> " + "setUser(" + user + ")");
 		this.user = user;
+		log.info("tmpDEBUGtmp: " + "< " + "setUser");
 	}
 	
 	public String getPassword(){
+		log.info("tmpDEBUGtmp: " + "> " + "getPassword(" + ")");
+		log.info("tmpDEBUGtmp: " + "< " + "getPassword");
 		return password;
 	}
 	
 	public void setPassword(String password){
+		log.info("tmpDEBUGtmp: " + "> " + "setPassword(" + password + ")");
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((password == null) ? 0 : password.hashCode());
 		this.password = Integer.toString(result);
+		log.info("tmpDEBUGtmp: " + "< " + "setPassword");
 	}
 	
 	public void salva(){
+		log.info("tmpDEBUGtmp: " + "> " + "salva(" + ")");
 		userLoginDao.salva(userLoginoSel);
 		if((userLoginoSel != null) && (userLoginoSel.getId() != null)){
 			esito = "utente " + userLoginoSel.getLogin() + " e' stato registrato";
@@ -68,15 +77,22 @@ public class UserLoginController implements Serializable{
 			esito = "utente " + userLoginoSel.getLogin() + " NON e' stato registrato";
 			showGrowlErrorMessage();
 		}
+		log.info("tmpDEBUGtmp: " + "< " + "salva");
 	}
 	
 	public void aggiorna(){
+		log.info("tmpDEBUGtmp: " + "> " + "aggiorna(" + ")");
+		log.info("tmpDEBUGtmp: " + "< " + "aggiorna");
 	}
 	
 	public void elimina(){
+		log.info("tmpDEBUGtmp: " + "> " + "elimina(" + ")");
+		log.info("tmpDEBUGtmp: " + "< " + "elimina");
 	}
 	
 	public String getEsito(){
+		log.info("tmpDEBUGtmp: " + "> " + "getEsito(" + ")");
+		log.info("tmpDEBUGtmp: " + "< " + "getEsito");
 		return esito;
 	}
 	
@@ -110,6 +126,7 @@ public class UserLoginController implements Serializable{
 	}
 	
 	public Boolean getCanAccess(){
+		log.info("tmpDEBUGtmp: " + "> " + "getCanAccess(" + ")");
 		// if(canAccess == false){
 		canAccess = userLoginDao.canAccess(user, password);
 		// }
@@ -120,15 +137,18 @@ public class UserLoginController implements Serializable{
 			esito = "utente " + user + " NON e' autorizzato (o non e' inserito)";
 			showGrowlErrorMessage();
 		}
+		log.info("tmpDEBUGtmp: " + "< " + "getCanAccess");
 		return canAccess;
 	}
 	
 	public void setCanAccess(Boolean canAccess){
+		log.info("tmpDEBUGtmp: " + "> " + "setCanAccess(" + canAccess + ")");
 		this.canAccess = canAccess;
+		log.info("tmpDEBUGtmp: " + "< " + "setCanAccess");
 	}
 	
 	public Boolean getConfirmRegistration(){
-		log.info("inizio getConfirmRegistration");
+		log.info("tmpDEBUGtmp: " + "> " + "getConfirmRegistration(" + ")");
 		
 		if(confirmRegistration == false){
 			userLoginoSel = new Userloginrole();
@@ -142,10 +162,13 @@ public class UserLoginController implements Serializable{
 				confirmRegistration = true;
 			}
 		}
+		log.info("tmpDEBUGtmp: " + "< " + "getConfirmRegistration");
 		return confirmRegistration;
 	}
 	
 	public void setConfirmRegistration(Boolean confirmRegistration){
+		log.info("tmpDEBUGtmp: " + "> " + "setConfirmRegistration(" + confirmRegistration + ")");
 		this.confirmRegistration = confirmRegistration;
-	}	
+		log.info("tmpDEBUGtmp: " + "< " + "setConfirmRegistration");
+	}
 }

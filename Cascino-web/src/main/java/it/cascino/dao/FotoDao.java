@@ -40,7 +40,7 @@ public interface FotoDao{
 	
 	void fileUpload(FileUploadEvent event, String type, List<UploadedFile> uf);
 	
-	Foto getFotoFromId(Integer idFoto);
+	Foto getFotoDaIdFoto(Integer idFoto);
 	
 	// Foto getFotoFromNomeOriginale(String fName);
 	

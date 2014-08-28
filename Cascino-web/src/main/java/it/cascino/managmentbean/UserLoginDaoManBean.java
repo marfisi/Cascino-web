@@ -33,6 +33,7 @@ public class UserLoginDaoManBean implements UserLoginDao, Serializable{
 	private UserTransaction utx;
 	
 	public void salva(Userloginrole user){
+		log.info("tmpDEBUGtmp: " + "> " + "salva(" + user + ")");
 		try{
 			try{
 				utx.begin();
@@ -48,9 +49,11 @@ public class UserLoginDaoManBean implements UserLoginDao, Serializable{
 		}catch(Exception e){
 			Utility.manageException(e, utx, log);
 		}
+		log.info("tmpDEBUGtmp: " + "< " + "salva");
 	}
 	
 	public void aggiorna(Userloginrole user){
+		log.info("tmpDEBUGtmp: " + "> " + "aggiorna(" + user + ")");
 		try{
 			try{
 				utx.begin();
@@ -65,9 +68,11 @@ public class UserLoginDaoManBean implements UserLoginDao, Serializable{
 		}catch(Exception e){
 			Utility.manageException(e, utx, log);
 		}
+		log.info("tmpDEBUGtmp: " + "< " + "aggiorna");
 	}
 	
 	public void elimina(Userloginrole userElimina){
+		log.info("tmpDEBUGtmp: " + "> " + "Userloginrole(" + userElimina + ")");
 		try{
 			try{
 				utx.begin();
@@ -82,9 +87,11 @@ public class UserLoginDaoManBean implements UserLoginDao, Serializable{
 		}catch(Exception e){
 			Utility.manageException(e, utx, log);
 		}
+		log.info("tmpDEBUGtmp: " + "< " + "Userloginrole");
 	}
 	
 	public Boolean canAccess(String user, String password){
+		log.info("tmpDEBUGtmp: " + "> " + "canAccess(" + user + ", " + password + ")");
 		Boolean canAccess = false;
 		try{
 			try{
@@ -106,8 +113,7 @@ public class UserLoginDaoManBean implements UserLoginDao, Serializable{
 		}catch(Exception e){
 			Utility.manageException(e, utx, log);
 		}
+		log.info("tmpDEBUGtmp: " + "< " + "canAccess");
 		return canAccess;
-	}
-	
-	
+	}	
 }

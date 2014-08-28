@@ -40,31 +40,51 @@ public class ProduttoriController implements Serializable{
 	private Produttori produttoreSel = new Produttori();
 	
 	public List<Produttori> getProduttoriLs(){
+		log.info("tmpDEBUGtmp: " + "> " + "getProduttoriLs(" + ")");
+		log.info("tmpDEBUGtmp: " + "id: " + produttoreSel.getId());
 		produttoriLs = produttoriDao.getAll();
+		log.info("tmpDEBUGtmp: " + "< " + "getProduttoriLs");
 		return produttoriLs;
 	}
 	
-	public void setProduttoriLs(List<Produttori> ProduttoriLs){
-		this.produttoriLs = ProduttoriLs;
+	public void setProduttoriLs(List<Produttori> produttoriLs){
+		log.info("tmpDEBUGtmp: " + "> " + "setProduttoriLs(" + produttoriLs + ")");
+		log.info("tmpDEBUGtmp: " + "id: " + produttoreSel.getId());
+		this.produttoriLs = produttoriLs;
+		log.info("tmpDEBUGtmp: " + "< " + "setProduttoriLs");
 	}
 	
 	public Produttori getProduttoreSel(){
+		log.info("tmpDEBUGtmp: " + "> " + "getProduttoreSel(" + ")");
+		log.info("tmpDEBUGtmp: " + "id: " + produttoreSel.getId());
+		log.info("tmpDEBUGtmp: " + "< " + "getProduttoreSel");
 		return produttoreSel;
 	}
 	
 	public void setProduttoreSel(Produttori produttoreSel){
+		log.info("tmpDEBUGtmp: " + "> " + "setProduttoreSel(" + produttoreSel + ")");
+		log.info("tmpDEBUGtmp: " + "id: " + produttoreSel.getId());
 		this.produttoreSel = produttoreSel;
+		log.info("tmpDEBUGtmp: " + "< " + "setProduttoreSel");
 	}
 	
 	public List<Produttori> getFilteredProduttoriLs(){
+		log.info("tmpDEBUGtmp: " + "> " + "getFilteredProduttoriLs(" + ")");
+		log.info("tmpDEBUGtmp: " + "id: " + produttoreSel.getId());
+		log.info("tmpDEBUGtmp: " + "< " + "getFilteredProduttoriLs");
 		return filteredProduttoriLs;
 	}
 	
 	public void setFilteredProduttoriLs(List<Produttori> filteredProduttoriLs){
+		log.info("tmpDEBUGtmp: " + "> " + "setFilteredProduttoriLs(" + filteredProduttoriLs + ")");
+		log.info("tmpDEBUGtmp: " + "id: " + produttoreSel.getId());
 		this.filteredProduttoriLs = filteredProduttoriLs;
+		log.info("tmpDEBUGtmp: " + "< " + "setFilteredProduttoriLs");
 	}
 	
 	public void salva(){
+		log.info("tmpDEBUGtmp: " + "> " + "salva(" + ")");
+		log.info("tmpDEBUGtmp: " + "id: " + produttoreSel.getId());
 		produttoriDao.salva(produttoreSel);
 		if(produttoreSel != null){
 			esito = "Aggiunto produttore: " + produttoreSel.getNome();
@@ -73,9 +93,12 @@ public class ProduttoriController implements Serializable{
 			esito = "non e' stato caricato il produttore!" + " (produttore: " + produttoreSel.getId() + ")";
 			showGrowlErrorMessage();
 		}
+		log.info("tmpDEBUGtmp: " + "< " + "salva");
 	}
 	
 	public void aggiorna(){
+		log.info("tmpDEBUGtmp: " + "> " + "aggiorna(" + ")");
+		log.info("tmpDEBUGtmp: " + "id: " + produttoreSel.getId());
 		produttoriDao.aggiorna(produttoreSel);
 		if(produttoreSel != null){
 			esito = "Aggiornato produttore: " + produttoreSel.getNome();
@@ -84,9 +107,12 @@ public class ProduttoriController implements Serializable{
 			esito = "non e' stato aggiornato il produttore!" + " (produttore: " + produttoreSel.getId() + ")";
 			showGrowlErrorMessage();
 		}
+		log.info("tmpDEBUGtmp: " + "< " + "aggiorna");
 	}
 	
 	public void elimina(){
+		log.info("tmpDEBUGtmp: " + "> " + "elimina(" + ")");
+		log.info("tmpDEBUGtmp: " + "id: " + produttoreSel.getId());
 		produttoriDao.elimina(produttoreSel);
 		if(produttoreSel != null){
 			esito = "Elimino produttore: " + produttoreSel.getNome();
@@ -95,9 +121,13 @@ public class ProduttoriController implements Serializable{
 			esito = "non ho trovato il produttore!" + " (produttore: " + produttoreSel.getId() + ")";
 			showGrowlErrorMessage();
 		}
+		log.info("tmpDEBUGtmp: " + "< " + "elimina");
 	}
 	
 	public String getEsito(){
+		log.info("tmpDEBUGtmp: " + "> " + "getEsito(" + ")");
+		log.info("tmpDEBUGtmp: " + "id: " + produttoreSel.getId());
+		log.info("tmpDEBUGtmp: " + "< " + "getEsito");
 		return esito;
 	}
 	
@@ -131,9 +161,12 @@ public class ProduttoriController implements Serializable{
 	}
 	
 	public int sortByNum(Object obj1, Object obj2){
+		log.info("tmpDEBUGtmp: " + "> " + "sortByNum(" + obj1 + ", " + obj2 + ")");
+		log.info("tmpDEBUGtmp: " + "id: " + produttoreSel.getId());
 		Integer o1 = (Integer)obj1;
 		Integer o2 = (Integer)obj2;
 		log.info("sortById: " + o1 + "-" + o2);
+		log.info("tmpDEBUGtmp: " + "< " + "sortByNum");
 		if(o1 < o2){
 			return -1;
 		}else if(o1 > o2){
@@ -143,9 +176,12 @@ public class ProduttoriController implements Serializable{
 	}
 	
 	public int sortByStr(Object obj1, Object obj2){
+		log.info("tmpDEBUGtmp: " + "> " + "sortByStr(" + obj1 + ", " + obj2 + ")");
+		log.info("tmpDEBUGtmp: " + "id: " + produttoreSel.getId());
 		String o1 = (String)obj1;
 		String o2 = (String)obj2;
 		log.info("sortByname: " + o1 + "-" + o2);
+		log.info("tmpDEBUGtmp: " + "< " + "sortByStr");
 		if(o1.compareTo(o2) < 0){
 			return -1;
 		}else if(o1.compareTo(o2) > 0){
@@ -155,9 +191,12 @@ public class ProduttoriController implements Serializable{
 	}
 	
 	public int sortByStrIC(Object obj1, Object obj2){
+		log.info("tmpDEBUGtmp: " + "> " + "sortByStrIC(" + obj1 + ", " + obj2 + ")");
+		log.info("tmpDEBUGtmp: " + "id: " + produttoreSel.getId());
 		String o1 = (String)obj1;
 		String o2 = (String)obj2;
-		log.info("sortByname: " + o1 + "-" + o2);
+		log.info("sortBynameIC: " + o1 + "-" + o2);
+		log.info("tmpDEBUGtmp: " + "< " + "sortByStrIC");
 		if(o1.compareToIgnoreCase(o2) < 0){
 			return -1;
 		}else if(o1.compareToIgnoreCase(o2) > 0){
@@ -166,22 +205,28 @@ public class ProduttoriController implements Serializable{
 		return 0;
 	}
 	
-	public Foto getFoto(Integer id){
+	
+	public Foto getFotoProduttoreDaIdProduttore(Integer idProduttore){
+		log.info("tmpDEBUGtmp: " + "> " + "getFotoProduttoreDaIdProduttore(" + idProduttore + ")");
+		log.info("tmpDEBUGtmp: " + "id: " + produttoreSel.getId());
 		Foto fotoProduttore = new Foto();
-		fotoProduttore = produttoriDao.getFoto(id);
+		fotoProduttore = produttoriDao.getFotoProduttoreDaIdProduttore(idProduttore);
 		if(fotoProduttore != null){
-			esito = "selezionata foto " + fotoProduttore.getId() + " per produttore: " + id;
+			esito = "selezionata foto " + fotoProduttore.getId() + " per produttore: " + idProduttore;
 			showGrowlInfoMessage(esito);
 		}else{
-			esito = "non e' stata trovata la foto!" + " (produttore: " + id + ")";
+			esito = "non e' stata trovata la foto!" + " (produttore: " + idProduttore + ")";
 			showGrowlErrorMessage();
 		}
+		log.info("tmpDEBUGtmp: " + "< " + "getFotoProduttoreDaIdProduttore");
 		return fotoProduttore;
 	}
 	
-	public Foto getFotoDaArticolo(Integer idArticolo){
+	public Foto getFotoProduttoreDaIdArticolo(Integer idArticolo){
+		log.info("tmpDEBUGtmp: " + "> " + "getFotoProduttoreDaIdArticolo(" + idArticolo + ")");
+		log.info("tmpDEBUGtmp: " + "id: " + produttoreSel.getId());
 		Foto fotoProduttore = new Foto();
-		fotoProduttore = produttoriDao.getFotoDaArticolo(idArticolo);
+		fotoProduttore = produttoriDao.getFotoProduttoreDaIdArticolo(idArticolo);
 		if(fotoProduttore != null){
 			esito = "selezionata foto " + fotoProduttore.getId() + " per articolo: " + idArticolo;
 			showGrowlInfoMessage(esito);
@@ -189,12 +234,15 @@ public class ProduttoriController implements Serializable{
 			esito = "non e' stata trovata la foto!" + " (articolo: " + idArticolo + ")";
 			showGrowlErrorMessage();
 		}
+		log.info("tmpDEBUGtmp: " + "< " + "getFotoProduttoreDaIdArticolo");
 		return fotoProduttore;
 	}
 	
-	public String getNomeDaArticolo(Integer idArticolo){
+	public String getNomeProduttoreDaIdArticolo(Integer idArticolo){
+		log.info("tmpDEBUGtmp: " + "> " + "getNomeProduttoreDaIdArticolo(" + idArticolo + ")");
+		log.info("tmpDEBUGtmp: " + "id: " + produttoreSel.getId());
 		String nomeProduttore = "";
-		nomeProduttore = produttoriDao.getNomeDaArticolo(idArticolo);
+		nomeProduttore = produttoriDao.getNomeProduttoreDaIdArticolo(idArticolo);
 		if(nomeProduttore != null){
 			esito = "produttore " + nomeProduttore;
 			showGrowlInfoMessage(esito);
@@ -202,19 +250,23 @@ public class ProduttoriController implements Serializable{
 			esito = "non e' stato trovato il produttore!" + " (articolo: " + idArticolo + ")";
 			showGrowlErrorMessage();
 		}
+		log.info("tmpDEBUGtmp: " + "< " + "getNomeProduttoreDaIdArticolo");
 		return nomeProduttore;
 	}
 	
-	public Produttori getProduttoreDaId(Integer id){
+	public Produttori getProduttoreDaIdProduttore(Integer idProduttore){
+		log.info("tmpDEBUGtmp: " + "> " + "getProduttoreDaIdProduttore(" + idProduttore + ")");
+		log.info("tmpDEBUGtmp: " + "id: " + produttoreSel.getId());
 		Produttori produttore = new Produttori();
-		produttore = produttoriDao.getProduttoreDaId(id);
+		produttore = produttoriDao.getProduttoreDaIdProduttore(idProduttore);
 		if(produttore != null){
 			esito = "produttore " + produttore;
 			showGrowlInfoMessage(esito);
 		}else{
-			esito = "non e' stato trovato il produttore!" + " (id: " + id + ")";
+			esito = "non e' stato trovato il produttore!" + " (id: " + idProduttore + ")";
 			showGrowlErrorMessage();
 		}
+		log.info("tmpDEBUGtmp: " + "< " + "getProduttoreDaIdProduttore");
 		return produttore;
 	}
 }

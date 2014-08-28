@@ -13,10 +13,11 @@ public interface ArticoliDao{
 	
 	List<Articoli> getAll();
 	
-	Foto getFotoDaArticolo(Integer idArticolo);
-	List<Foto> getFotoOrdLsDaArticolo(Integer idArticolo);
+	Foto getFotoArticoloDaIdArticolo(Integer idArticolo);
+	
+	List<Foto> getFotoArticoloOrdLsDaIdArticolo(Integer idArticolo);
 	
 	List<String> getArticoliAutoCompleteLs(String str);
 	
-//	List<String> getProduttoriAutoCompleteLs(String str);
+	// List<String> getProduttoriAutoCompleteLs(String str);
 }

@@ -5,13 +5,19 @@ import it.cascino.model.Produttori;
 import it.cascino.model.Foto;
 
 public interface ProduttoriDao{
-	void salva(Produttori t);
-	void aggiorna(Produttori t);
-	void elimina(Produttori t);
+	void salva(Produttori p);
+	
+	void aggiorna(Produttori p);
+	
+	void elimina(Produttori p);
+	
 	List<Produttori> getAll();
 	
-	Produttori getProduttoreDaId(Integer id);
-	Foto getFoto(Integer id);
-	Foto getFotoDaArticolo(Integer idArticolo);
-	String getNomeDaArticolo(Integer idArticolo);
+	Produttori getProduttoreDaIdProduttore(Integer idProduttore);
+	
+	Foto getFotoProduttoreDaIdProduttore(Integer idProduttore);
+	
+	Foto getFotoProduttoreDaIdArticolo(Integer idArticolo);
+	
+	String getNomeProduttoreDaIdArticolo(Integer idArticolo);
 }

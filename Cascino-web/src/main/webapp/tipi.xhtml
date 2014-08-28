@@ -55,7 +55,7 @@
 						<f:facet name="header">
 							<h:outputText value="foto" />
 						</f:facet>
-						<p:graphicImage value="#{fotoController.resolvePath(fotoController.getFotoFromId(tipo.id))}#{fotoController.getFotoname(fotoController.getFotoFromId(tipo.id), 1)}" height="40" />
+						<p:graphicImage value="#{fotoController.resolvePath(tpiController.getFotoTipoDaIdTipo(tipo.id))}#{fotoController.getFotoname(tipiController.getFotoTipoDaIdTipo(tipo.id), 1)}" height="40" />
 					</p:column>
 					<p:column sortBy="id" sortFunction="#{tipiController.sortByNum}" filterBy="#{tipo.id}" filterMatchMode="contains">
 						<f:facet name="header">
@@ -71,7 +71,7 @@
 							<h:outputText value="#{tipo.tipoPadre.nome} (id: #{tipo.tipoPadre.id})" />
 						</p:column>
 						<p:column>
-							<p:graphicImage value="#{fotoController.resolvePath(fotoController.getFotoFromId(tipo.tipoPadre.id))}#{fotoController.getFotoname(fotoController.getFotoFromId(tipo.tipoPadre.id), 1)}" height="40" />
+							<p:graphicImage value="#{fotoController.resolvePath(tipiController.getFotoTipoDaIdTipo(tipo.tipoPadre.id))}#{fotoController.getFotoname(tipiController.getFotoTipoDaIdTipo(tipo.tipoPadre.id), 1)}" height="40" />
 						</p:column>
 					</p:column>
 					<f:facet name="footer">
@@ -86,7 +86,7 @@
 				<h:form id="viewForm">
 					<h:panelGrid id="display" columns="3" cellpadding="4">
 						<f:facet name="header">
-							<p:graphicImage value="#{fotoController.resolvePath(fotoController.getFotoFromId(tipiController.nodoSel.data.id))}#{fotoController.getFotonameUrl(fotoController.getFotoFromId(tipiController.nodoSel.data.id), 1)}" height="230" />
+							<p:graphicImage value="#{fotoController.resolvePath(tipiController.getFotoTipoDaIdTipo(tipiController.nodoSel.data.id))}#{fotoController.getFotonameUrl(tipiController.getFotoTipoDaIdTipo(tipiController.nodoSel.data.id), 1)}" height="230" />
 						</f:facet>
 						<h:outputLabel for="id">ID:</h:outputLabel>
 						<h:outputText id="id" value="#{tipiController.nodoSel.data.id}" />
@@ -105,7 +105,7 @@
 							<h:outputText id="padreNome" value="#{tipiController.nodoSel.data.tipoPadre.nome}" />
 							<h:outputText id="padreDesc" value=" - #{tipiController.nodoSel.data.tipoPadre.descrizione} " />
 							<h:outputText id="padreId" value="(id: #{tipiController.nodoSel.data.tipoPadre.id})" />
-							<p:graphicImage value="#{fotoController.resolvePath(fotoController.getFotoFromId(tipiController.nodoSel.data.tipoPadre.id))}#{fotoController.getFotonameUrl(fotoController.getFotoFromId(tipiController.nodoSel.data.tipoPadre.id), 1)}" height="180" />
+							<p:graphicImage value="#{fotoController.resolvePath(tipiController.getFotoTipoDaIdTipo(tipiController.nodoSel.data.tipoPadre.id))}#{fotoController.getFotonameUrl(tipiController.getFotoTipoDaIdTipo(tipiController.nodoSel.data.tipoPadre.id), 1)}" height="180" />
 						</h:panelGrid>
 					</h:panelGrid>
 				</h:form>
@@ -126,26 +126,26 @@
 								<f:selectItem itemLabel="Seleziona Foto" itemValue="" />
 								<f:selectItems value="#{fotoController.fotoLs}" var="foto" itemLabel="#{foto.originale} (id: #{foto.id})" itemValue="#{foto.id}" />
 								<p:column>
-									<p:graphicImage value="#{fotoController.resolvePath(fotoController.getFotoFromId(f))}#{fotoController.getFotoname(fotoController.getFotoFromId(f), 1)}" height="60" />
+									<p:graphicImage value="#{fotoController.resolvePath(fotoController.getFotoDaIdFoto(f))}#{fotoController.getFotoname(fotoController.getFotoDaIdFoto(f), 1)}" height="60" />
 								</p:column>
 								<p:column>
-									<h:outputText value="#{fotoController.getFotoname(fotoController.getFotoFromId(f), 1)} (id: #{fotoController.getFotoFromId(f).id})" />
+									<h:outputText value="#{fotoController.getFotoname(fotoController.getFotoDaIdFoto(f), 1)} (id: #{fotoController.getFotoDaIdFoto(f).id})" />
 								</p:column>
 								<p:column>
-									<h:outputText value="#{fotoController.size(fotoController.getFotoFromId(f), 1)} - #{fotoController.resolution(fotoController.getFotoFromId(f), 1)}" />
+									<h:outputText value="#{fotoController.size(fotoController.getFotoDaIdFoto(f), 1)} - #{fotoController.resolution(fotoController.getFotoDaIdFoto(f), 1)}" />
 								</p:column>
 							</p:selectOneMenu>
 							<h:outputText id="blank2" />
 							<p:commandButton id="toFotoButton" value="Aggiungi Foto" action="#{navigationController.tipiToFoto()}" icon="ui-icon-circle-plus" />
 							<h:outputText value="Classe" />
-							<p:selectOneMenu id="menuSelPadre" value="#{tipiController.nodoSel.data.tipoPadre}" converter="tipiConv" var="p" filter="true" filterMatchMode="contains">
+							<p:selectOneMenu id="menuSelPadre" value="#{tipiController.nodoSel.data.tipoPadre}" converter="tipiConv" var="t" filter="true" filterMatchMode="contains">
 								<f:selectItem itemLabel="Seleziona Classe Padre" itemValue="" />
 								<f:selectItems value="#{tipiController.tipiLs}" var="tipo" itemLabel="#{tipo.nome} (id: #{tipo.id})" itemValue="#{tipo}" />
 								<p:column>
-									<p:graphicImage value="#{fotoController.resolvePath(tipiController.getFoto(p.id))}#{fotoController.getFotoname(tipiController.getFoto(p.id), 1)}" height="40" />
+									<p:graphicImage value="#{fotoController.resolvePath(tipiController.getFotoTipoDaIdTipo(t.id))}#{fotoController.getFotoname(tipiController.getFotoTipoDaIdTipo(t.id), 1)}" height="40" />
 								</p:column>
 								<p:column>
-									<h:outputText value="#{p.nome} - #{p.descrizione} (id: #{p.id})" />
+									<h:outputText value="#{t.nome} - #{t.descrizione} (id: #{t.id})" />
 								</p:column>
 							</p:selectOneMenu>
 						</h:panelGrid>
@@ -175,7 +175,7 @@
 								<f:selectItem itemLabel="Seleziona Classe Padre" itemValue="" />
 								<f:selectItems value="#{tipiController.tipiLs}" var="tipo" itemLabel="#{tipo.nome} (id: #{tipo.id})" itemValue="#{tipo}" />
 								<p:column>
-									<p:graphicImage value="./resources/gfx/tipi/#{p.id}.jpeg" width="40" height="40" />
+									<p:graphicImage value="#{fotoController.resolvePath(tipiController.getFotoTipoDaIdTipo(p.id))}#{fotoController.getFotonameUrl(tipiController.getFotoTipoDaIdTipo(p.id), 1)}" height="#{fotoController.getHeightFromResolution(tipiController.getFotoTipoDaIdTipo(p.id), 1, 40, 60)}" />
 								</p:column>
 								<p:column>
 									<h:outputText value="#{p.nome} - #{p.descrizione} (id: #{p.id})" />

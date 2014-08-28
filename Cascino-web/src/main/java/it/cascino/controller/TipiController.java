@@ -45,15 +45,23 @@ public class TipiController implements Serializable{
 	private List<Tipi> tipiLs;
 	
 	public List<Tipi> getTipiLs(){
+		log.info("tmpDEBUGtmp: " + "> " + "getTipiLs("  + ")");
+		log.info("tmpDEBUGtmp: " + "id: " + ((nodoSel != null) ? ((Tipi)nodoSel.getData()).getId() : "null"));
 		tipiLs = tipiDao.getAll();
+		log.info("tmpDEBUGtmp: " + "< " + "getTipiLs");
 		return tipiLs;
 	}
 	
 	public void setTipiLs(List<Tipi> tipiLs){
+		log.info("tmpDEBUGtmp: " + "> " + "setTipiLs(" + tipiLs + ")");
+		log.info("tmpDEBUGtmp: " + "id: " + ((nodoSel != null) ? ((Tipi)nodoSel.getData()).getId() : "null"));
 		this.tipiLs = tipiLs;
+		log.info("tmpDEBUGtmp: " + "< " + "setTipiLs");
 	}
 	
 	public TreeNode getAlbero(){
+		log.info("tmpDEBUGtmp: " + "> " + "getAlbero(" + ")");
+		log.info("tmpDEBUGtmp: " + "id: " + ((nodoSel != null) ? ((Tipi)nodoSel.getData()).getId() : "null"));
 		// if((tipiLs == null) || (tipiLs.isEmpty())){
 		tipiLs = tipiDao.getAll();
 		
@@ -61,27 +69,42 @@ public class TipiController implements Serializable{
 		
 		popolaConFigli(1, albero);
 		// }
+		log.info("tmpDEBUGtmp: " + "< " + "getAlbero");
 		return albero;
 	}
 	
 	public void setAlbero(TreeNode albero){
+		log.info("tmpDEBUGtmp: " + "> " + "setAlbero(" + albero + ")");
+		log.info("tmpDEBUGtmp: " + "id: " + ((nodoSel != null) ? ((Tipi)nodoSel.getData()).getId() : "null"));
 		this.albero = albero;
+		log.info("tmpDEBUGtmp: " + "< " + "setAlbero");
 	}
 	
 	public TreeNode getNodoSel(){
+		log.info("tmpDEBUGtmp: " + "> " + "getNodoSel(" + ")");
+		log.info("tmpDEBUGtmp: " + "id: " + ((nodoSel != null) ? ((Tipi)nodoSel.getData()).getId() : "null"));
+		log.info("tmpDEBUGtmp: " + "< " + "getNodoSel");
 		return nodoSel;
 	}
 	
 	public void setNodoSel(TreeNode nodoSel){
+		log.info("tmpDEBUGtmp: " + "> " + "setNodoSel(" + nodoSel + ")");
+		log.info("tmpDEBUGtmp: " + "id: " + ((nodoSel != null) ? ((Tipi)nodoSel.getData()).getId() : "null"));
 		this.nodoSel = nodoSel;
+		log.info("tmpDEBUGtmp: " + "< " + "setNodoSel");
 	}
 	
 	public void salva(Integer idFoto){
+		log.info("tmpDEBUGtmp: " + "> " + "salva(" + idFoto + ")");
+		log.info("tmpDEBUGtmp: " + "id: " + ((nodoSel != null) ? ((Tipi)nodoSel.getData()).getId() : "null"));
 		((Tipi)nodoSel.getData()).setIdFoto(idFoto);
 		salva();
+		log.info("tmpDEBUGtmp: " + "< " + "salva");
 	}
 	
 	public void salva(){
+		log.info("tmpDEBUGtmp: " + "> " + "salva(" + ")");
+		log.info("tmpDEBUGtmp: " + "id: " + ((nodoSel != null) ? ((Tipi)nodoSel.getData()).getId() : "null"));
 		tipiDao.salva(nodoSel);
 		if(nodoSel != null){
 			esito = "Aggiunto tipo: " + ((Tipi)nodoSel.getData()).getDescrizione();
@@ -90,9 +113,12 @@ public class TipiController implements Serializable{
 			esito = "non ho trovato il tipo!" + " (tipo: " + ((Tipi)nodoSel.getData()).getId() + ")";
 			showGrowlErrorMessage();
 		}
+		log.info("tmpDEBUGtmp: " + "< " + "salva");
 	}
 	
 	public void aggiorna(){
+		log.info("tmpDEBUGtmp: " + "> " + "aggiorna("  + ")");
+		log.info("tmpDEBUGtmp: " + "id: " + ((nodoSel != null) ? ((Tipi)nodoSel.getData()).getId() : "null"));
 		((Tipi)nodoSel.getData()).setTipoPadre(getPadreFromId());
 		
 		tipiDao.aggiorna(nodoSel);
@@ -103,9 +129,12 @@ public class TipiController implements Serializable{
 			esito = "non ho trovato il tipo!" + " (tipo: " + ((Tipi)nodoSel.getData()).getId() + ")";
 			showGrowlErrorMessage();
 		}
+		log.info("tmpDEBUGtmp: " + "< " + "aggiorna");
 	}
 	
 	public void elimina(){
+		log.info("tmpDEBUGtmp: " + "> " + "elimina(" + ")");
+		log.info("tmpDEBUGtmp: " + "id: " + ((nodoSel != null) ? ((Tipi)nodoSel.getData()).getId() : "null"));
 		tipiDao.elimina(nodoSel);
 		if(nodoSel != null){
 			esito = "Elimino tipo: " + ((Tipi)nodoSel.getData()).getDescrizione();
@@ -114,9 +143,13 @@ public class TipiController implements Serializable{
 			esito = "non ho trovato il tipo!" + " (tipo: " + ((Tipi)nodoSel.getData()).getId() + ")";
 			showGrowlErrorMessage();
 		}
+		log.info("tmpDEBUGtmp: " + "< " + "elimina");
 	}
 	
 	public String getEsito(){
+		log.info("tmpDEBUGtmp: " + "> " + "getEsito(" + ")");
+		log.info("tmpDEBUGtmp: " + "id: " + ((nodoSel != null) ? ((Tipi)nodoSel.getData()).getId() : "null"));
+		log.info("tmpDEBUGtmp: " + "< " + "getEsito");
 		return esito;
 	}
 	
@@ -150,15 +183,20 @@ public class TipiController implements Serializable{
 	}
 	
 	public void displaySelectedSingle(){
+		log.info("tmpDEBUGtmp: " + "> " + "displaySelectedSingle(" + ")");
+		log.info("tmpDEBUGtmp: " + "id: " + ((nodoSel != null) ? ((Tipi)nodoSel.getData()).getId() : "null"));
 		if(nodoSel != null){
 			String message = "Selezione " + nodoSel.getData().toString();
 			facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Successo", message));
 			log.info(message);
 		}
+		log.info("tmpDEBUGtmp: " + "< " + "displaySelectedSingle");
 	}
 	
 	// private, solo di servizio, ricorsiva
 	private TreeNode popolaConFigli(int idPadre, TreeNode root){
+		log.info("tmpDEBUGtmp: " + "> " + "popolaConFiglli(" + idPadre + ", " + root + ")");
+		log.info("tmpDEBUGtmp: " + "id: " + ((nodoSel != null) ? ((Tipi)nodoSel.getData()).getId() : "null"));
 		// log.info("popolaConFigli con id " + idPadre);
 		
 		TreeNode leaf = null;
@@ -178,11 +216,14 @@ public class TipiController implements Serializable{
 				popolaConFigli(p.getId(), leaf);
 			}
 		}
+		log.info("tmpDEBUGtmp: " + "< " + "popolaConFigli");
 		return leaf;
 	}
 	
 	// private, solo di servizio
 	private Tipi getPadreFromId(){
+		log.info("tmpDEBUGtmp: " + "> " + "getPadreFromId(" + ")");
+		log.info("tmpDEBUGtmp: " + "id: " + ((nodoSel != null) ? ((Tipi)nodoSel.getData()).getId() : "null"));
 		// tipoSel.tipoPadre ha solo l'id definito, e non si riesce a fare il merge, quindi configuro il padre con l'intero oggetto (comprendente quindi tutti i parametri come nome descrizione ecc)
 		Tipi p = null;
 		Iterator<Tipi> iterator = tipiLs.iterator();
@@ -193,25 +234,31 @@ public class TipiController implements Serializable{
 			}
 			p = null;
 		}
+		log.info("tmpDEBUGtmp: " + "< " + "getPadreFromId");
 		return p;
 	}
 	
-	public Foto getFoto(Integer id){
+	public Foto getFotoTipoDaIdTipo(Integer idTipo){
+		log.info("tmpDEBUGtmp: " + "> " + "getFotoTipoDaIdTipo(" + idTipo + ")");
+		log.info("tmpDEBUGtmp: " + "id: " + ((nodoSel != null) ? ((Tipi)nodoSel.getData()).getId() : "null"));
 		Foto fotoTipo = new Foto();
-		fotoTipo = tipiDao.getFoto(id);
+		fotoTipo = tipiDao.getFotoTipoDaIdTipo(idTipo);
 		if(fotoTipo != null){
-			esito = "selezionata foto " + fotoTipo.getId() + " per tipo: " + id;
+			esito = "selezionata foto " + fotoTipo.getId() + " per tipo: " + idTipo;
 			showGrowlInfoMessage(esito);
 		}else{
-			esito = "non e' stata trovata la foto!" + " (tipo: " + id + ")";
+			esito = "non e' stata trovata la foto!" + " (tipo: " + idTipo + ")";
 			showGrowlErrorMessage();
 		}
+		log.info("tmpDEBUGtmp: " + "< " + "getFotoTipoDaIdTipo");
 		return fotoTipo;
 	}
 	
-	public Foto getFotoDaArticolo(Integer idArticolo){
+	public Foto getFotoTipoDaIdArticolo(Integer idArticolo){
+		log.info("tmpDEBUGtmp: " + "> " + "getFotoTipoDaIdArticolo(" + idArticolo + ")");
+		log.info("tmpDEBUGtmp: " + "id: " + ((nodoSel != null) ? ((Tipi)nodoSel.getData()).getId() : "null"));
 		Foto fotoTipo = new Foto();
-		fotoTipo = tipiDao.getFotoDaArticolo(idArticolo);
+		fotoTipo = tipiDao.getFotoTipoDaIdArticolo(idArticolo);
 		if(fotoTipo != null){
 			esito = "selezionata foto " + fotoTipo.getId() + " per articolo: " + idArticolo;
 			showGrowlInfoMessage(esito);
@@ -219,12 +266,15 @@ public class TipiController implements Serializable{
 			esito = "non e' stata trovata la foto!" + " (articolo: " + idArticolo + ")";
 			showGrowlErrorMessage();
 		}
+		log.info("tmpDEBUGtmp: " + "< " + "getFotoTipoDaIdArticolo");
 		return fotoTipo;
 	}
 	
-	public String getNomeDaArticolo(Integer idArticolo){
+	public String getNomeTipoDaIdArticolo(Integer idArticolo){
+		log.info("tmpDEBUGtmp: " + "> " + "getNomeTipoDaIdArticolo(" + idArticolo + ")");
+		log.info("tmpDEBUGtmp: " + "id: " + ((nodoSel != null) ? ((Tipi)nodoSel.getData()).getId() : "null"));
 		String nomeTipo = "";
-		nomeTipo = tipiDao.getNomeDaArticolo(idArticolo);
+		nomeTipo = tipiDao.getNomeTipoDaIdArticolo(idArticolo);
 		if(nomeTipo != null){
 			esito = "tipo " + nomeTipo + " per articolo: " + idArticolo;;
 			showGrowlInfoMessage(esito);
@@ -232,19 +282,69 @@ public class TipiController implements Serializable{
 			esito = "non e' stato trovato il tipo!" + " (articolo: " + idArticolo + ")";
 			showGrowlErrorMessage();
 		}
+		log.info("tmpDEBUGtmp: " + "< " + "getNomeTipoDaIdArticolo");
 		return nomeTipo;
 	}
 	
-	public Tipi getTipoDaId(Integer id){
+	public Tipi getTipoDaIdTipo(Integer idTipo){
+		log.info("tmpDEBUGtmp: " + "> " + "getTipoDaIdTipo(" + idTipo + ")");
+		log.info("tmpDEBUGtmp: " + "id: " + ((nodoSel != null) ? ((Tipi)nodoSel.getData()).getId() : "null"));
 		Tipi tipo = new Tipi();
-		tipo = tipiDao.getTipoDaId(id);
+		tipo = tipiDao.getTipoDaIdTipo(idTipo);
 		if(tipo != null){
 			esito = "tipo " + tipo;
 			showGrowlInfoMessage(esito);
 		}else{
-			esito = "non e' stato trovato il tipo!" + " (id: " + id + ")";
+			esito = "non e' stato trovato il tipo!" + " (id: " + idTipo + ")";
 			showGrowlErrorMessage();
 		}
+		log.info("tmpDEBUGtmp: " + "< " + "getTipoDaIdTipo");
 		return tipo;
 	}
+	
+	public int sortByNum(Object obj1, Object obj2){
+		log.info("tmpDEBUGtmp: " + "> " + "sortByNum(" + obj1 + ", " + obj2 + ")");
+		log.info("tmpDEBUGtmp: " + "id: " + ((nodoSel != null) ? ((Tipi)nodoSel.getData()).getId() : "null"));
+		Integer o1 = (Integer)obj1;
+		Integer o2 = (Integer)obj2;
+		log.info("sortById: " + o1 + "-" + o2);
+		log.info("tmpDEBUGtmp: " + "< " + "sortByNum");
+		if(o1 < o2){
+			return -1;
+		}else if(o1 > o2){
+			return 1;
+		}
+		return 0;
+	}
+	
+	public int sortByStr(Object obj1, Object obj2){
+		log.info("tmpDEBUGtmp: " + "> " + "sortByStr(" + obj1 + ", " + obj2 + ")");
+		log.info("tmpDEBUGtmp: " + "id: " + ((nodoSel != null) ? ((Tipi)nodoSel.getData()).getId() : "null"));
+		String o1 = (String)obj1;
+		String o2 = (String)obj2;
+		log.info("sortByname: " + o1 + "-" + o2);
+		log.info("tmpDEBUGtmp: " + "< " + "sortByStr");
+		if(o1.compareTo(o2) < 0){
+			return -1;
+		}else if(o1.compareTo(o2) > 0){
+			return 1;
+		}
+		return 0;
+	}
+	
+	public int sortByStrIC(Object obj1, Object obj2){
+		log.info("tmpDEBUGtmp: " + "> " + "sortByStrIC(" + obj1 + ", " + obj2 + ")");
+		log.info("tmpDEBUGtmp: " + "id: " + ((nodoSel != null) ? ((Tipi)nodoSel.getData()).getId() : "null"));
+		String o1 = (String)obj1;
+		String o2 = (String)obj2;
+		log.info("sortBynameIC: " + o1 + "-" + o2);
+		log.info("tmpDEBUGtmp: " + "< " + "sortByStrIC");
+		if(o1.compareToIgnoreCase(o2) < 0){
+			return -1;
+		}else if(o1.compareToIgnoreCase(o2) > 0){
+			return 1;
+		}
+		return 0;
+	}
+
 }

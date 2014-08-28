@@ -32,48 +32,65 @@ public class NavigationController implements Serializable{
 	private String navigationRuleAction = "daNessunaParte";
 	
 	public Boolean getShowHome(){
+		log.info("tmpDEBUGtmp: " + "> " + "getShowHome(" + ")");
+		log.info("tmpDEBUGtmp: " + "< " + "getShowHome");
 		return showHome;
 	}
 	
 	public void setShowHome(Boolean showHome){
+		log.info("tmpDEBUGtmp: " + "> " + "setShowHome(" + showHome + ")");
 		this.showHome = showHome;
+		log.info("tmpDEBUGtmp: " + "< " + "setShowHome");
 	}
 	
 	public Boolean getShowTipiToFoto(){
+		log.info("tmpDEBUGtmp: " + "> " + "getShowTipiToFoto(" + ")");
+		log.info("tmpDEBUGtmp: " + "< " + "getShowTipiToFoto");
 		return showTipiToFoto;
 	}
 	
 	public void setShowTipiToFoto(Boolean showTipiToFoto){
+		log.info("tmpDEBUGtmp: " + "> " + "setShowTipiToFoto(" + showTipiToFoto + ")");
 		this.showTipiToFoto = showTipiToFoto;
+		log.info("tmpDEBUGtmp: " + "< " + "setShowTipiToFoto");
 	}
 	
 	public Boolean getShowFotoToTipi(){
+		log.info("tmpDEBUGtmp: " + "> " + "getShowFotoToTipi(" + ")");
+		log.info("tmpDEBUGtmp: " + "< " + "getShowFotoToTipi");
 		return showFotoToTipi;
 	}
 	
 	public void setShowFotoToTipi(Boolean showFotoToTipi){
+		log.info("tmpDEBUGtmp: " + "> " + "setShowFotoToTipi(" + showFotoToTipi + ")");
 		this.showFotoToTipi = showFotoToTipi;
+		log.info("tmpDEBUGtmp: " + "< " + "setShowFotoToTipi");
 	}
 	
 	public String tipiToFoto(){
+		log.info("tmpDEBUGtmp: " + "> " + "tipiToFoto(" + ")");
 		navigationRuleAction = "tipiToFoto";
 		
 		setShowHome(false);
 		setShowFotoToTipi(true);
 		
+		log.info("tmpDEBUGtmp: " + "< " + "tipiToFoto");
 		return navigationRuleAction;
 	}
 	
 	public String fotoToTipi(){
+		log.info("tmpDEBUGtmp: " + "> " + "fotoToTipi(" + ")");
 		navigationRuleAction = "fotoToTipi";
 		
 		setShowHome(true);
 		setShowFotoToTipi(false);
 		
+		log.info("tmpDEBUGtmp: " + "< " + "fotoToTipi");
 		return navigationRuleAction;
 	}
 	
 	public String loginToHome(Boolean canAccess){
+		log.info("tmpDEBUGtmp: " + "> " + "loginToHome(" + canAccess + ")");
 		navigationRuleAction = "denyAccess";
 		
 		setShowHome(true);
@@ -81,20 +98,25 @@ public class NavigationController implements Serializable{
 		if(canAccess){
 			navigationRuleAction = "canAccess";
 		}
+		log.info("tmpDEBUGtmp: " + "< " + "loginToHome");
 		return navigationRuleAction;
 	}
 	
 	public String loginToRegistration(){
+		log.info("tmpDEBUGtmp: " + "> " + "loginToRegistration(" + ")");
 		navigationRuleAction = "login2registration";
+		log.info("tmpDEBUGtmp: " + "< " + "loginToRegistration");
 		return navigationRuleAction;
 	}
 	
 	public String registrationToLogin(Boolean registration){
+		log.info("tmpDEBUGtmp: " + "> " + "registrationToLogin(" + registration + ")");
 		navigationRuleAction = "registration2login";
 		
 		if(registration){
 			navigationRuleAction = "confirmRegistration";
 		}
+		log.info("tmpDEBUGtmp: " + "< " + "registrationToLogin");
 		return navigationRuleAction;
 	}
 }

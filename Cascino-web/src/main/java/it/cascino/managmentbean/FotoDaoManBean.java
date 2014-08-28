@@ -59,6 +59,7 @@ public class FotoDaoManBean implements FotoDao, Serializable{
 	
 	@SuppressWarnings("unchecked")
 	public List<Foto> getAll(){
+		log.info("tmpDEBUGtmp: " + "> " + "getAll(" + ")");
 		List<Foto> foto = null;
 		try{
 			try{
@@ -74,10 +75,13 @@ public class FotoDaoManBean implements FotoDao, Serializable{
 		}catch(Exception e){
 			Utility.manageException(e, utx, log);
 		}
+		log.info("tmpDEBUGtmp: " + "< " + "getAll");
 		return foto;
 	}
 	
 	public String getDirFoto(){
+		log.info("tmpDEBUGtmp: " + "> " + "getDirFoto(" + ")");
+		log.info("tmpDEBUGtmp: " + "< " + "getDirFoto");
 		return dirFoto;
 	}
 	
@@ -86,10 +90,13 @@ public class FotoDaoManBean implements FotoDao, Serializable{
 	// }
 	
 	public String getDirFotoUri(){
+		log.info("tmpDEBUGtmp: " + "> " + "getDirFotoUri(" + ")");
+		log.info("tmpDEBUGtmp: " + "< " + "getDirFotoUri");
 		return dirFotoUri;
 	}
 	
 	public Boolean annullaUpdate(List<UploadedFile> fotoLs){
+		log.info("tmpDEBUGtmp: " + "> " + "annullaUpdate(" + fotoLs + ")");
 		if((fotoLs != null) && (!fotoLs.isEmpty())){
 			// ripristino i .delete
 			File fd = null;
@@ -110,10 +117,13 @@ public class FotoDaoManBean implements FotoDao, Serializable{
 			
 			annullaUpload(fotoLs);
 		}
+		log.info("tmpDEBUGtmp: " + "< " + "annullaUpdate");
 		return true;
 	}
 	
 	public Boolean annullaUpload(List<UploadedFile> fotoLs){
+		log.info("tmpDEBUGtmp: " + "> " + "annullaUpload(" + fotoLs + ")");
+		log.info("tmpDEBUGtmp: " + "< " + "annullaUpload");
 		if((fotoLs != null) && (!fotoLs.isEmpty())){
 			File sourceFolder = new File(dirFoto);
 			
@@ -125,6 +135,7 @@ public class FotoDaoManBean implements FotoDao, Serializable{
 	}
 	
 	public Boolean annullaUploadUndef(int t, List<UploadedFile> fotoLs, int u){
+		log.info("tmpDEBUGtmp: " + "> " + "annullaUploadUndef(" + t + ", " + fotoLs + ", " + u + ")");
 		// devo cercare nella lista c'è gia' un altro file dello stesso tipo, se si bisogna eliminarlo sia dalla lista che come file uploadato
 		if((fotoLs != null) && (!fotoLs.isEmpty())){
 			UploadedFile o = null;
@@ -147,10 +158,12 @@ public class FotoDaoManBean implements FotoDao, Serializable{
 				}
 			}
 		}
+		log.info("tmpDEBUGtmp: " + "< " + "annullaUploadUndef");
 		return false;
 	}
 	
 	public void salva(Foto foto){
+		log.info("tmpDEBUGtmp: " + "> " + "salva(" + foto + ")");
 		try{
 			try{
 				utx.begin();
@@ -164,9 +177,11 @@ public class FotoDaoManBean implements FotoDao, Serializable{
 		}catch(Exception e){
 			Utility.manageException(e, utx, log);
 		}
+		log.info("tmpDEBUGtmp: " + "< " + "salva");
 	}
 	
 	public String salva(List<UploadedFile> fotoLs){
+		log.info("tmpDEBUGtmp: " + "> " + "salva(" + fotoLs + ")");
 		File sourceFolder = new File(dirFoto); // File(dirFotoUpload);
 		File targetFolder = new File(dirFoto);
 		
@@ -269,10 +284,12 @@ public class FotoDaoManBean implements FotoDao, Serializable{
 		
 		fotoLs = null;
 		
+		log.info("tmpDEBUGtmp: " + "< " + "salva");
 		return "OK-Aggiunte foto";
 	}
 	
 	public void aggiorna(Foto foto){
+		log.info("tmpDEBUGtmp: " + "> " + "aggiorna(" + foto + ")");
 		try{
 			try{
 				utx.begin();
@@ -284,9 +301,11 @@ public class FotoDaoManBean implements FotoDao, Serializable{
 		}catch(Exception e){
 			Utility.manageException(e, utx, log);
 		}
+		log.info("tmpDEBUGtmp: " + "< " + "aggiorna");
 	}
 	
 	public String aggiorna(Foto foto, List<UploadedFile> fotoLs){
+		log.info("tmpDEBUGtmp: " + "> " + "aggiorna(" + foto + ", " + fotoLs + ")");
 		File sourceFolder = new File(dirFoto); // File(dirFotoUpload);
 		File targetFolder = new File(dirFoto);
 		
@@ -421,10 +440,12 @@ public class FotoDaoManBean implements FotoDao, Serializable{
 		fotoLs = null;
 		fotoDeletedLs.clear();
 		
+		log.info("tmpDEBUGtmp: " + "< " + "aggiorna");
 		return "OK-Aggiornate foto";
 	}
 	
 	public void elimina(Foto fotoElimina, List<UploadedFile> fotoLs){
+		log.info("tmpDEBUGtmp: " + "> " + "elimina(" + fotoElimina + ", " + fotoLs + ")");
 		if((fotoElimina == null) || (fotoElimina.getOriginale() == null)){
 			return;
 		}
@@ -485,9 +506,11 @@ public class FotoDaoManBean implements FotoDao, Serializable{
 		}catch(Exception e){
 			Utility.manageException(e, utx, log);
 		}
+		log.info("tmpDEBUGtmp: " + "< " + "elimina");
 	}
 	
 	public void elimina(Foto fotoElimina, int t, List<UploadedFile> fotoLs, int u){
+		log.info("tmpDEBUGtmp: " + "> " + "elimina(" + fotoElimina + ", " + t + ", " +  fotoLs + ", " + u + ")");
 		if((fotoElimina == null) || (fotoElimina.getOriginale() == null)){
 			return;
 		}
@@ -502,13 +525,17 @@ public class FotoDaoManBean implements FotoDao, Serializable{
 		File fd = new File(dirFoto, f.getName() + ".delete" + deleteType);
 		f.renameTo(fd);
 		fotoDeletedLs.add(fd);
+		log.info("tmpDEBUGtmp: " + "< " + "elimina");
 	}
 	
 	public String getSize(Foto foto, int t){
+		log.info("tmpDEBUGtmp: " + "> " + "getSize(" + foto + ", " + t + ")");
+		log.info("tmpDEBUGtmp: " + "< " + "getSize");
 		return getSize(foto, t, null, 0);
 	}
 	
 	public String getSize(Foto foto, int t, List<UploadedFile> fotoLs, int u){
+		log.info("tmpDEBUGtmp: " + "> " + "getSize(" + foto + ", " + t + ", " + fotoLs + ", " + u + ")");
 		if(foto == null){
 			return "n.d.";
 		}
@@ -519,14 +546,18 @@ public class FotoDaoManBean implements FotoDao, Serializable{
 		float size = f.length();
 		size = f.length() / 1024.0f;
 		String df = new DecimalFormat("#,##0.0").format(size);
+		log.info("tmpDEBUGtmp: " + "< " + "getSize");
 		return df + "KB";
 	}
 	
 	public String getResolution(Foto foto, int t){
+		log.info("tmpDEBUGtmp: " + "> " + "getResolution(" + foto + ", " + t + ")");
+		log.info("tmpDEBUGtmp: " + "< " + "getResolution");
 		return getResolution(foto, t, null, 0);
 	}
 	
 	public String getResolution(Foto foto, int t, List<UploadedFile> fotoLs, int u){
+		log.info("tmpDEBUGtmp: " + "> " + "getResolution(" + foto + ", " + t + ", " + fotoLs + ", " + u + ")");
 		if(foto == null){
 			return "n.d.";
 		}
@@ -546,10 +577,12 @@ public class FotoDaoManBean implements FotoDao, Serializable{
 			log.error("file " + f.getName() + " gestito con eccezione");
 			e.printStackTrace();
 		}
+		log.info("tmpDEBUGtmp: " + "< " + "getResolution");
 		return (fimg == null) ? "n.d." : fimg.getWidth() + "x" + fimg.getHeight() + "px";
 	}
 	
 	private BufferedImage manageFileJpeg(File f) throws IOException{
+		log.info("tmpDEBUGtmp: " + "> " + "manageFileJpeg(" + f + ")");
 		Iterator<ImageReader> readers = ImageIO.getImageReadersByFormatName("JPEG");
 		ImageReader reader = null;
 		while(readers.hasNext()){
@@ -574,10 +607,12 @@ public class FotoDaoManBean implements FotoDao, Serializable{
 		
 		// Fill the new image with the old raster
 		// bi.getRaster().setRect(raster);
+		log.info("tmpDEBUGtmp: " + "< " + "manageFileJpeg");
 		return bi;
 	}
 	
 	public int getHeightFromResolution(Foto foto, int t, int h, int w, int u){
+		log.info("tmpDEBUGtmp: " + "> " + "getHeightFromResolution(" + foto + ", " + t + ", " + h + ", " + w + ", " + u + ")");
 		int height = 0;
 		float rapportoTarget = 0.0f;
 		float rapportoH = 0.0f;
@@ -600,6 +635,7 @@ public class FotoDaoManBean implements FotoDao, Serializable{
 		
 		height = (int)Math.floor(imgH / rapportoTarget);
 		
+		log.info("tmpDEBUGtmp: " + "< " + "getHeightFromResolution");
 		return height;
 	}
 	
@@ -616,23 +652,28 @@ public class FotoDaoManBean implements FotoDao, Serializable{
 	// }
 	
 	public String resolvePath(Foto foto){
+		log.info("tmpDEBUGtmp: " + "> " + "resolvePath(" + foto + ")");
 		String path = dirFotoUri;
 		if((foto == null) || (foto.getOriginale() == null)){
 			return path;
 		}
 		path = StringUtils.replace(foto.getPath(), foto.getPath(), path); // foto.getPath().replace(foto.getPath(), path);
+		log.info("tmpDEBUGtmp: " + "< " + "resolvePath");
 		return path;
 	}
 	
 	public String getFotoname(Foto foto, int t, List<UploadedFile> fotoLs, int u){
+		log.info("tmpDEBUGtmp: " + "> " + "getFotoname(" + foto + ", " + t + ", " + fotoLs + ", " + u + ")");
 		if((foto == null) || (foto.getOriginale() == null)){
 			return fotoNotDefined;
 		}
+		log.info("tmpDEBUGtmp: " + "< " + "getFotoname");
 		return getFileBetweenDefAndUpl(foto, t, fotoLs, u).getName();
 	}
 	
 	// private
 	private File getFileBetweenDefAndUpl(Foto foto, int t, List<UploadedFile> fotoLs, int u){
+		log.info("tmpDEBUGtmp: " + "> " + "getFileBetweenDefAndUpl(" + foto + ", " + t + ", " + fotoLs + ", " + u + ")");
 		File f = null;
 		switch(t){
 			case 1:
@@ -673,11 +714,13 @@ public class FotoDaoManBean implements FotoDao, Serializable{
 				}
 			}
 		}
+		log.info("tmpDEBUGtmp: " + "< " + "getFileBetweenDefAndUpl");
 		return f;
 	}
 	
 	@SuppressWarnings("unchecked")
 	public List<Foto> getFotoListPerSel(Foto f){
+		log.info("tmpDEBUGtmp: " + "> " + "getFotoListPerSel(" + f + ")");
 		List<Foto> fotoLs = null;
 		try{
 			List<Foto> foto;
@@ -722,10 +765,12 @@ public class FotoDaoManBean implements FotoDao, Serializable{
 		}catch(Exception e){
 			Utility.manageException(e, utx, log);
 		}
+		log.info("tmpDEBUGtmp: " + "< " + "getFotoListPerSel");
 		return fotoLs;
 	}
 	
 	public void fileUpload(FileUploadEvent event, String type, List<UploadedFile> fotoLs){
+		log.info("tmpDEBUGtmp: " + "> " + "fileUpload(" + event + ", " + type + ", " + fotoLs + ")");
 		if(type.equals(".err")){
 			return;
 		}
@@ -741,9 +786,11 @@ public class FotoDaoManBean implements FotoDao, Serializable{
 		manageSeGiaCaricato(fileOriginale, type, fotoLs);
 		
 		fotoLs.add(fileOriginale);
+		log.info("tmpDEBUGtmp: " + "< " + "fileUpload");
 	}
 	
 	private void manageSeGiaCaricato(UploadedFile fileOriginale, String type, List<UploadedFile> fotoLs){
+		log.info("tmpDEBUGtmp: " + "> " + "manageSeGiaCaricato(" + fileOriginale + ", " + type +", " + fotoLs + ")");
 		// devo cercare nella lista, se già un altro file dello stesso tipo è stato aggiunto, se si bisogna eliminarlo sia dalla lista che come file uploadato
 		if((fotoLs != null) && (!fotoLs.isEmpty())){
 			UploadedFile o = null;
@@ -764,10 +811,11 @@ public class FotoDaoManBean implements FotoDao, Serializable{
 			}
 			return;
 		}
-		
+		log.info("tmpDEBUGtmp: " + "< " + "manageSeGiaCaricato");	
 	}
 	
 	public void copyFile(String fileName, InputStream in){
+		log.info("tmpDEBUGtmp: " + "> " + "copyFile(" + fileName + ", " + in + ")");
 		try{
 			File targetFolder = new File(dirFoto);
 			
@@ -788,9 +836,11 @@ public class FotoDaoManBean implements FotoDao, Serializable{
 		}catch(IOException e){
 			e.printStackTrace();
 		}
+		log.info("tmpDEBUGtmp: " + "< " + "copyFile");
 	}
 	
-	public Foto getFotoFromId(Integer idFoto){
+	public Foto getFotoDaIdFoto(Integer idFoto){
+		log.info("tmpDEBUGtmp: " + "> " + "getFotoDaIdFoto(" + idFoto + ")");
 		Foto foto = null;
 		try{
 			try{
@@ -814,6 +864,7 @@ public class FotoDaoManBean implements FotoDao, Serializable{
 		}catch(Exception e){
 			Utility.manageException(e, utx, log);
 		}
+		log.info("tmpDEBUGtmp: " + "< " + "getFotoDaIdFoto");
 		return foto;
 	}
 	

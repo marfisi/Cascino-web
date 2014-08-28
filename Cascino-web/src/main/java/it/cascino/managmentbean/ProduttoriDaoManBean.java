@@ -35,6 +35,7 @@ public class ProduttoriDaoManBean implements ProduttoriDao, Serializable{
 	
 	@SuppressWarnings("unchecked")
 	public List<Produttori> getAll(){
+		log.info("tmpDEBUGtmp: " + "> " + "getAll(" + ")");
 		List<Produttori> produttori = null;
 		try{
 			try{
@@ -50,10 +51,12 @@ public class ProduttoriDaoManBean implements ProduttoriDao, Serializable{
 		}catch(Exception e){
 			Utility.manageException(e, utx, log);
 		}
+		log.info("tmpDEBUGtmp: " + "< " + "getAll");
 		return produttori;
 	}
 	
 	public void salva(Produttori produttore){
+		log.info("tmpDEBUGtmp: " + "> " + "salva(" + produttore + ")");
 		try{
 			try{
 				utx.begin();
@@ -69,9 +72,11 @@ public class ProduttoriDaoManBean implements ProduttoriDao, Serializable{
 		}catch(Exception e){
 			Utility.manageException(e, utx, log);
 		}
+		log.info("tmpDEBUGtmp: " + "< " + "salva");
 	}
 	
 	public void aggiorna(Produttori produttore){
+		log.info("tmpDEBUGtmp: " + "> " + "aggiorna(" + produttore + ")");
 		try{
 			try{
 				utx.begin();
@@ -86,9 +91,11 @@ public class ProduttoriDaoManBean implements ProduttoriDao, Serializable{
 		}catch(Exception e){
 			Utility.manageException(e, utx, log);
 		}
+		log.info("tmpDEBUGtmp: " + "< " + "aggiorna");
 	}
 	
 	public void elimina(Produttori produttoreElimina){
+		log.info("tmpDEBUGtmp: " + "> " + "elimina(" + produttoreElimina + ")");
 		try{
 			try{
 				utx.begin();
@@ -103,9 +110,11 @@ public class ProduttoriDaoManBean implements ProduttoriDao, Serializable{
 		}catch(Exception e){
 			Utility.manageException(e, utx, log);
 		}
+		log.info("tmpDEBUGtmp: " + "< " + "elimina");
 	}
 	
-	public Foto getFoto(Integer id){
+	public Foto getFotoProduttoreDaIdProduttore(Integer idProduttore){
+		log.info("tmpDEBUGtmp: " + "> " + "getFotoProduttoreDaIdProduttore(" + idProduttore + ")");
 		Foto foto = null;
 		try{
 			try{
@@ -116,7 +125,7 @@ public class ProduttoriDaoManBean implements ProduttoriDao, Serializable{
 				"from produttori p " +
 				"where p.id = :id)";
 				Query query = entityManager.createNativeQuery(sql, Foto.class); // Native
-				query.setParameter("id", id);
+				query.setParameter("id", idProduttore);
 				foto = (Foto)query.getSingleResult();
 			}catch(NoResultException e){
 				foto = null;
@@ -125,10 +134,12 @@ public class ProduttoriDaoManBean implements ProduttoriDao, Serializable{
 		}catch(Exception e){
 			Utility.manageException(e, utx, log);
 		}
+		log.info("tmpDEBUGtmp: " + "< " + "getFotoProduttoreDaIdProduttore");
 		return foto;
 	}
 	
-	public Foto getFotoDaArticolo(Integer idArticolo){
+	public Foto getFotoProduttoreDaIdArticolo(Integer idArticolo){
+		log.info("tmpDEBUGtmp: " + "> " + "getFotoProduttoreDaIdArticolo(" + idArticolo + ")");
 		Foto foto = null;
 		try{
 			try{
@@ -148,10 +159,12 @@ public class ProduttoriDaoManBean implements ProduttoriDao, Serializable{
 		}catch(Exception e){
 			Utility.manageException(e, utx, log);
 		}
+		log.info("tmpDEBUGtmp: " + "< " + "getFotoProduttoreDaIdArticolo");
 		return foto;
 	}
 	
-	public String getNomeDaArticolo(Integer idArticolo){
+	public String getNomeProduttoreDaIdArticolo(Integer idArticolo){
+		log.info("tmpDEBUGtmp: " + "> " + "getNomeProduttoreDaIdArticolo(" + idArticolo + ")");
 		String nome = null;
 		try{
 			try{
@@ -169,16 +182,18 @@ public class ProduttoriDaoManBean implements ProduttoriDao, Serializable{
 		}catch(Exception e){
 			Utility.manageException(e, utx, log);
 		}
+		log.info("tmpDEBUGtmp: " + "< " + "getNomeProduttoreDaIdArticolo");
 		return nome;
 	}
 	
-	public Produttori getProduttoreDaId(Integer id){
+	public Produttori getProduttoreDaIdProduttore(Integer idProduttore){
+		log.info("tmpDEBUGtmp: " + "> " + "getProduttoreDaIdProduttore(" + idProduttore + ")");
 		Produttori produttore = new Produttori();
 		try{
 			try{
 				utx.begin();
 				Query query = entityManager.createNamedQuery("Produttori.findById", Produttori.class);
-				query.setParameter("id", id);
+				query.setParameter("id", idProduttore);
 				produttore = (Produttori)query.getSingleResult();
 			}catch(NoResultException e){
 				produttore = null;
@@ -187,8 +202,7 @@ public class ProduttoriDaoManBean implements ProduttoriDao, Serializable{
 		}catch(Exception e){
 			Utility.manageException(e, utx, log);
 		}
+		log.info("tmpDEBUGtmp: " + "< " + "getProduttoreDaIdProduttore");
 		return produttore;
-	}
-
-	
+	}	
 }

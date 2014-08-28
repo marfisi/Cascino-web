@@ -35,6 +35,7 @@ public class ArticoliDaoManBean implements ArticoliDao, Serializable{
 	
 	@SuppressWarnings("unchecked")
 	public List<Articoli> getAll(){
+		log.info("tmpDEBUGtmp: " + "> " + "getAll(" + ")");
 		List<Articoli> articoli = null;
 		try{
 			try{
@@ -48,10 +49,12 @@ public class ArticoliDaoManBean implements ArticoliDao, Serializable{
 		}catch(Exception e){
 			Utility.manageException(e, utx, log);
 		}
+		log.info("tmpDEBUGtmp: " + "< " + "getAll");
 		return articoli;
 	}
 	
 	public void salva(Articoli articolo){
+		log.info("tmpDEBUGtmp: " + "> " + "salva(" + articolo + ")");
 		try{
 			try{
 				utx.begin();
@@ -67,9 +70,11 @@ public class ArticoliDaoManBean implements ArticoliDao, Serializable{
 		}catch(Exception e){
 			Utility.manageException(e, utx, log);
 		}
+		log.info("tmpDEBUGtmp: " + "< " + "salva");
 	}
 	
 	public void aggiorna(Articoli articolo){
+		log.info("tmpDEBUGtmp: " + "> " + "aggiorna(" + articolo + ")");
 		try{
 			try{
 				utx.begin();
@@ -84,9 +89,11 @@ public class ArticoliDaoManBean implements ArticoliDao, Serializable{
 		}catch(Exception e){
 			Utility.manageException(e, utx, log);
 		}
+		log.info("tmpDEBUGtmp: " + "< " + "aggiorna");
 	}
 	
 	public void elimina(Articoli articoloElimina){
+		log.info("tmpDEBUGtmp: " + "> " + "elimina(" + articoloElimina + ")");
 		try{
 			try{
 				utx.begin();
@@ -101,34 +108,35 @@ public class ArticoliDaoManBean implements ArticoliDao, Serializable{
 		}catch(Exception e){
 			Utility.manageException(e, utx, log);
 		}
+		log.info("tmpDEBUGtmp: " + "< " + "elimina");
 	}
 	
-	public Foto getFotoDaArticolo(Integer idArticolo){
-		log.info("TMP: "+ "i" + " " + "getFotoDaArticolo" + " id: " + idArticolo);
-		log.info("TMP: "+ "f" + " " + "getFotoDaArticolo");
-		return (getFotoOrdLsDaArticolo(idArticolo).size() > 0) ? getFotoOrdLsDaArticolo(idArticolo).get(0) : null;
+	public Foto getFotoArticoloDaIdArticolo(Integer idArticolo){
+		log.info("tmpDEBUGtmp: " + "> " + "getFotoArticoloDaIdArticolo(" + idArticolo + ")");
+		log.info("tmpDEBUGtmp: " + "< " + "getFotoArticoloDaIdArticolo");
+		return (getFotoArticoloOrdLsDaIdArticolo(idArticolo).size() > 0) ? getFotoArticoloOrdLsDaIdArticolo(idArticolo).get(0) : null;
 	}
 	
 	@SuppressWarnings("unchecked")
-	public List<Foto> getFotoOrdLsDaArticolo(Integer idArticolo){
-		log.info("TMP: "+ "i" + " " + "getFotoOrdLsDaArticolo" + " id: " + idArticolo);
+	public List<Foto> getFotoArticoloOrdLsDaIdArticolo(Integer idArticolo){
+		log.info("tmpDEBUGtmp: " + "> " + "getFotoArticoloOrdLsDaIdArticolo(" + idArticolo + ")");
 		List<Foto> foto = null;
 		try{
 			try{
 				utx.begin();
-//				String sql = "select * " +	// solo la prima
-//									"from foto " +
-//									"where id = ( " +
-//									"select selordrow.foto " +
-//									"from ( " +
-//									"select row_number() OVER () AS rownum, selord.foto  " +
-//									"from (select foto " +
-//									"from articoli_foto af join articoli a on af.articolo = a.id " +
-//									"where articolo = :id " +
-//									"order by ordinamento, af.updtime desc) as selord " +
-//									") as selordrow " +
-//									"where selordrow.rownum = 1 " +
-//									")";
+				// String sql = "select * " + // solo la prima
+				// "from foto " +
+				// "where id = ( " +
+				// "select selordrow.foto " +
+				// "from ( " +
+				// "select row_number() OVER () AS rownum, selord.foto  " +
+				// "from (select foto " +
+				// "from articoli_foto af join articoli a on af.articolo = a.id " +
+				// "where articolo = :id " +
+				// "order by ordinamento, af.updtime desc) as selord " +
+				// ") as selordrow " +
+				// "where selordrow.rownum = 1 " +
+				// ")";
 				String sql = "select f.* " +
 				"from ( " +
 				"select row_number() OVER () AS rownum, selord.foto  " +
@@ -146,12 +154,13 @@ public class ArticoliDaoManBean implements ArticoliDao, Serializable{
 		}catch(Exception e){
 			Utility.manageException(e, utx, log);
 		}
-		log.info("TMP: "+ "f" + " " + "getFotoOrdLsDaArticolo");
+		log.info("tmpDEBUGtmp: " + "< " + "getFotoArticoloOrdLsDaIdArticolo");
 		return foto;
 	}
 	
 	@SuppressWarnings("unchecked")
 	public List<String> getArticoliAutoCompleteLs(String str){
+		log.info("tmpDEBUGtmp: " + "> " + "getArticoliAutoCompleteLs(" + str + ")");
 		List<String> articoli = null;
 		try{
 			try{
@@ -167,26 +176,29 @@ public class ArticoliDaoManBean implements ArticoliDao, Serializable{
 		}catch(Exception e){
 			Utility.manageException(e, utx, log);
 		}
+		log.info("tmpDEBUGtmp: " + "< " + "getArticoliAutoCompleteLs");
 		return articoli;
 	}
 	
-//	@SuppressWarnings("unchecked")
-//	public List<String> getProduttoriAutoCompleteLs(String str){
-//		List<String> articoli = null;
-//		try{
-//			try{
-//				utx.begin();
-//				String sql = "SELECT upper(p.nome) FROM Produttori p WHERE upper(p.nome) like upper(:str)";
-//				Query query = entityManager.createQuery(sql);
-//				query.setParameter("str", "%" + str + "%");
-//				articoli = (List<String>)query.getResultList();
-//			}catch(NoResultException e){
-//				articoli = null;
-//			}
-//			utx.commit();
-//		}catch(Exception e){
-//			Utility.manageException(e, utx, log);
-//		}
-//		return articoli;
-//	}
+	// @SuppressWarnings("unchecked")
+	// public List<String> getProduttoriAutoCompleteLs(String str){
+	// log.info("tmpDEBUGtmp: " + "> " + "getProduttoriAutoCompleteLs(" + str + ")");
+	// List<String> articoli = null;
+	// try{
+	// try{
+	// utx.begin();
+	// String sql = "SELECT upper(p.nome) FROM Produttori p WHERE upper(p.nome) like upper(:str)";
+	// Query query = entityManager.createQuery(sql);
+	// query.setParameter("str", "%" + str + "%");
+	// articoli = (List<String>)query.getResultList();
+	// }catch(NoResultException e){
+	// articoli = null;
+	// }
+	// utx.commit();
+	// }catch(Exception e){
+	// Utility.manageException(e, utx, log);
+	// }
+	// log.info("tmpDEBUGtmp: " + "< " + "getProduttoriAutoCompleteLs");
+	// return articoli;
+	// }
 }
