@@ -3,7 +3,6 @@ package it.cascino.managmentbean;
 import java.io.Serializable;
 import java.util.List;
 import it.cascino.dao.TipiDao;
-import it.cascino.model.Foto;
 import it.cascino.model.Tipi;
 import it.cascino.util.Utility;
 import javax.faces.bean.SessionScoped;
@@ -113,58 +112,6 @@ public class TipiDaoManBean implements TipiDao, Serializable{
 			Utility.manageException(e, utx, log);
 		}
 		log.info("tmpDEBUGtmp: " + "< " + "elimina");
-	}
-	
-	public Foto getFotoTipoDaIdTipo(Integer idTipo){
-		log.info("tmpDEBUGtmp: " + "> " + "getFotoTipoDaIdTipo(" + idTipo + ")");
-		// Tipi tipo = (Tipi)nodo.getData();
-		Foto foto = null;
-		try{
-			try{
-				utx.begin();
-				String sql = "select * from foto " +
-				"where id = ( " +
-				"select foto " +
-				"from tipi t " +
-				"where t.id = :id)";
-				Query query = entityManager.createNativeQuery(sql, Foto.class); // Native
-				// Query query = entityManager.createNamedQuery("Foto.findByIdTipo", Foto.class);
-				query.setParameter("id", idTipo); // tipo.getId());
-				foto = (Foto)query.getSingleResult();
-			}catch(NoResultException e){
-				foto = null;
-			}
-			utx.commit();
-		}catch(Exception e){
-			Utility.manageException(e, utx, log);
-		}
-		log.info("tmpDEBUGtmp: " + "< " + "getFotoTipoDaIdTipo");
-		return foto;
-	}
-	
-	public Foto getFotoTipoDaIdArticolo(Integer idArticolo){
-		log.info("tmpDEBUGtmp: " + "> " + "getFotoTipoDaIdArticolo(" + idArticolo + ")");
-		Foto foto = null;
-		try{
-			try{
-				utx.begin();
-				String sql = "select * from foto " +
-				"where id = ( " +
-				"select foto " +
-				"from tipi t join articoli a on t.id = a.tipo " +
-				"where a.id = :id)";
-				Query query = entityManager.createNativeQuery(sql, Foto.class); // Native
-				query.setParameter("id", idArticolo);
-				foto = (Foto)query.getSingleResult();
-			}catch(NoResultException e){
-				foto = null;
-			}
-			utx.commit();
-		}catch(Exception e){
-			Utility.manageException(e, utx, log);
-		}
-		log.info("tmpDEBUGtmp: " + "< " + "getFotoTipoDaIdArticolo");
-		return foto;
 	}
 	
 	public String getNomeTipoDaIdArticolo(Integer idArticolo){

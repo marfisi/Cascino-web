@@ -89,14 +89,34 @@ public class Produttori implements Serializable{
 	
 	@Override
 	public String toString(){
-		if(id == null){
-			return "nd";
+		if(log != null){
+			log.info("tmpDEBUGtmp: " + "> " + "toString(" + ")");
+			log.info("tmpDEBUGtmp: " + "id: " + id);
 		}
-		return nome + " " + dati;
+		StringBuilder stringBuilder = new StringBuilder();
+		stringBuilder.append(this.getClass().getName().substring(this.getClass().getName().lastIndexOf(".") + 1));
+		stringBuilder.append("[");
+		if(id != null){
+			stringBuilder.append("id=" + id).append(", ");
+			stringBuilder.append("nome=" + nome).append(", ");
+			stringBuilder.append("dati=" + dati).append(", ");
+			stringBuilder.append("foto=" + foto);
+		}else{
+			stringBuilder.append("id=1");
+		}
+		stringBuilder.append("]");
+		if(log != null){
+			log.info("tmpDEBUGtmp: " + "< " + "toString");
+		}
+		return stringBuilder.toString();
 	}
 	
 	@Override
 	public boolean equals(Object obj){
+		if(log != null){
+			log.info("tmpDEBUGtmp: " + "> " + "equals(" + obj + ")");
+			log.info("tmpDEBUGtmp: " + "id: " + id);
+		}
 		if(obj instanceof Produttori){
 			if(this.id == ((Produttori)obj).id){
 				return true;
@@ -104,17 +124,27 @@ public class Produttori implements Serializable{
 				return false;
 			}
 		}
+		if(log != null){
+			log.info("tmpDEBUGtmp: " + "< " + "equals");
+		}
 		return false;
 	}
 	
 	@Override
 	public int hashCode(){
+		if(log != null){
+			log.info("tmpDEBUGtmp: " + "> " + "hashCode(" + ")");
+			log.info("tmpDEBUGtmp: " + "id: " + id);
+		}
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result + ((nome == null) ? 0 : nome.hashCode());
 		result = prime * result + ((dati == null) ? 0 : dati.hashCode());
 		result = prime * result + ((foto == null) ? 0 : foto.hashCode());
+		if(log != null){
+			log.info("tmpDEBUGtmp: " + "< " + "hashCode");
+		}
 		return result;
 	}
 }

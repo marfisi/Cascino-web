@@ -48,10 +48,23 @@ public class ArticoliController implements Serializable{
 	
 	private Articoli articoloSel = new Articoli();
 	
-	DualListModel<Foto> fotoPickList;
+	private List<Foto> fotoPLsource = new ArrayList<Foto>();
+	private List<Foto> fotoPLtarget = new ArrayList<Foto>();
+	private DualListModel<Foto> fotoPickList = new DualListModel<Foto>(fotoPLsource, fotoPLtarget);
+//	private Boolean fotoPLtargetModif = true;
+
+//	ArticoliController(){
+////		log.info("tmpDEBUGtmp: " + "> " + "ArticoliController(" + ")");
+////		log.info("tmpDEBUGtmp: " + "id: " + ((articoloSel != null) ? articoloSel.getId() : "null"));
+//		Articoli articolo = new Articoli();
+//		articolo.setId(1);
+//		setArticoloSel(articolo);
+////		log.info("tmpDEBUGtmp: " + "< " + "ArticoliController");
+//	}
 	
 	public List<Articoli> getArticoliLs(){
 		log.info("tmpDEBUGtmp: " + "> " + "getArticoliLs(" + ")");
+		log.info("tmpDEBUGtmp: " + "id: " + ((articoloSel != null) ? articoloSel.getId() : "null"));
 		articoliLs = articoliDao.getAll();
 		log.info("tmpDEBUGtmp: " + "< " + "getArticoliLs");
 		return articoliLs;
@@ -59,64 +72,72 @@ public class ArticoliController implements Serializable{
 	
 	public void setArticoliLs(List<Articoli> articoliLs){
 		log.info("tmpDEBUGtmp: " + "> " + "setArticoliLs(" + articoliLs + ")");
+		log.info("tmpDEBUGtmp: " + "id: " + ((articoloSel != null) ? articoloSel.getId() : "null"));
 		this.articoliLs = articoliLs;
 		log.info("tmpDEBUGtmp: " + "< " + "setArticoliLs");
 	}
 	
 	public Articoli getArticoloSel(){
 		log.info("tmpDEBUGtmp: " + "> " + "getArticoloSel(" + ")");
-		log.info("tmpDEBUGtmp: " + "id: " + articoloSel.getId());
+		log.info("tmpDEBUGtmp: " + "id: " + ((articoloSel != null) ? articoloSel.getId() : "null"));
 		log.info("tmpDEBUGtmp: " + "< " + "getArticoloSel");
 		return articoloSel;
 	}
 	
 	public void setArticoloSel(Articoli articoloSel){
 		log.info("tmpDEBUGtmp: " + "> " + "setArticoloSel(" + articoloSel + ")");
-		log.info("tmpDEBUGtmp: " + "id: " + articoloSel.getId() + " id: " + this.articoloSel.getId());
-		this.articoloSel = articoloSel;
+		if((articoloSel != null) && (this.articoloSel.getId() != articoloSel.getId())){
+			log.info("tmpDEBUGtmp: " + "id: " + ((articoloSel != null) ? articoloSel.getId() : "null") + " this.id: " + ((this.articoloSel != null) ? this.articoloSel.getId() : "null"));
+			this.articoloSel = articoloSel;
+			// aggiorno le variabili che dipendono dell'articolo selezionato
+			if(true){
+				fotoPLsource = fotoDao.getAll();
+				fotoPLtarget = fotoDao.getFotoArticoloOrdLsDaIdArticolo(articoloSel.getId());				
+				fotoPickList = new DualListModel<Foto>(fotoPLsource, fotoPLtarget);
+//				fotoPickList = new DualListModel<Foto>(fotoPLsource, getFotoPLtarget());
+			}
+		}
 		log.info("tmpDEBUGtmp: " + "< " + "setArticoloSel");
 	}
 	
 	public List<Articoli> getFilteredArticoliLs(){
 		log.info("tmpDEBUGtmp: " + "> " + "getFilteredArticoliLs(" + ")");
-		log.info("tmpDEBUGtmp: " + "id: " + articoloSel.getId());
+		log.info("tmpDEBUGtmp: " + "id: " + ((articoloSel != null) ? articoloSel.getId() : "null"));
 		log.info("tmpDEBUGtmp: " + "< " + "getFilteredArticoliLs");
 		return filteredArticoliLs;
 	}
 	
 	public void setFilteredArticoliLs(List<Articoli> filteredArticoliLs){
 		log.info("tmpDEBUGtmp: " + "> " + "setFilteredArticoliLs(" + filteredArticoliLs + ")");
-		log.info("tmpDEBUGtmp: " + "id: " + articoloSel.getId());
+		log.info("tmpDEBUGtmp: " + "id: " + ((articoloSel != null) ? articoloSel.getId() : "null"));
 		this.filteredArticoliLs = filteredArticoliLs;
 		log.info("tmpDEBUGtmp: " + "< " + "setFilteredArticoliLs");
 	}
 	
 	public DualListModel<Foto> getFotoPickList(){
 		log.info("tmpDEBUGtmp: " + "> " + "getFotoPickList(" + ")");
-		log.info("tmpDEBUGtmp: " + "id: " + articoloSel.getId());
-		
-		List<Foto> fotoPLsource = new ArrayList<Foto>();
-		List<Foto> fotoPLtarget = new ArrayList<Foto>();
-		
-		fotoPLsource = fotoDao.getAll();
-		fotoPLtarget = ((articoloSel.getId() != null) && (articoloSel.getId() > 0)) ? articoliDao.getFotoArticoloOrdLsDaIdArticolo(articoloSel.getId()) : new ArrayList<Foto>();
-		
-		fotoPickList = new DualListModel<Foto>(fotoPLsource, fotoPLtarget);
-		
+		log.info("tmpDEBUGtmp: " + "id: " + ((articoloSel != null) ? articoloSel.getId() : "null"));
 		log.info("tmpDEBUGtmp: " + "< " + "getFotoPickList");
 		return fotoPickList;
 	}
 	
+//	private List<Foto> getFotoPLtarget(){
+//		log.info("tmpDEBUGtmp: " + "> " + "getFotoPLtarget(" + ")");
+//		log.info("tmpDEBUGtmp: " + "id: " + ((articoloSel != null) ? articoloSel.getId() : "null"));
+//		log.info("tmpDEBUGtmp: " + "< " + "getFotoPLtarget");
+//		return fotoPLtarget;
+//	}
+	
 	public void setFotoPickList(DualListModel<Foto> fotoPickList){
 		log.info("tmpDEBUGtmp: " + "> " + "setFotoPickList(" + fotoPickList + ")");
-		log.info("tmpDEBUGtmp: " + "id: " + articoloSel.getId());
+		log.info("tmpDEBUGtmp: " + "id: " + ((articoloSel != null) ? articoloSel.getId() : "null"));
 		this.fotoPickList = fotoPickList;
 		log.info("tmpDEBUGtmp: " + "< " + "setFotoPickList");
 	}
 	
 	public List<String> articoliAutoCompleteLs(String str){
 		log.info("tmpDEBUGtmp: " + "> " + "articoliAutoCompleteLs(" + str + ")");
-		log.info("tmpDEBUGtmp: " + "id: " + articoloSel.getId());
+		log.info("tmpDEBUGtmp: " + "id: " + ((articoloSel != null) ? articoloSel.getId() : "null"));
 		List<String> articoliAutoCompleteLs = articoliDao.getArticoliAutoCompleteLs(str.toUpperCase());
 		
 		log.info("tmpDEBUGtmp: " + "< " + "articoliAutoCompleteLs");
@@ -125,14 +146,14 @@ public class ArticoliController implements Serializable{
 	
 	public void salva(){
 		log.info("tmpDEBUGtmp: " + "> " + "salva(" + ")");
-		log.info("tmpDEBUGtmp: " + "id: " + articoloSel.getId());
+		log.info("tmpDEBUGtmp: " + "id: " + ((articoloSel != null) ? articoloSel.getId() : "null"));
 		
 		articoliDao.salva(articoloSel);
 		if(articoloSel != null){
 			esito = "Aggiunto articolo: " + articoloSel.getCodice();
 			showGrowlInsMessage();
 		}else{
-			esito = "non e' stato caricato l'articolo!" + " (articolo: " + articoloSel.getId() + ")";
+			esito = "non e' stato caricato l'articolo!" + " (articolo: " + ((articoloSel != null) ? articoloSel.getId() : "null") + ")";
 			showGrowlErrorMessage();
 		}
 		log.info("tmpDEBUGtmp: " + "< " + "salva");
@@ -140,14 +161,14 @@ public class ArticoliController implements Serializable{
 	
 	public void aggiorna(){
 		log.info("tmpDEBUGtmp: " + "> " + "aggiorna(" + ")");
-		log.info("tmpDEBUGtmp: " + "id: " + articoloSel.getId());
+		log.info("tmpDEBUGtmp: " + "id: " + ((articoloSel != null) ? articoloSel.getId() : "null"));
 		
-		articoliDao.aggiorna(articoloSel);
+		articoliDao.aggiorna(articoloSel, fotoPLtarget);
 		if(articoloSel != null){
 			esito = "Aggiornato articolo: " + articoloSel.getCodice();
 			showGrowlUpdMessage();
 		}else{
-			esito = "non e' stato aggiornato l'articolo!" + " (articolo: " + articoloSel.getId() + ")";
+			esito = "non e' stato aggiornato l'articolo!" + " (articolo: " + ((articoloSel != null) ? articoloSel.getId() : "null") + ")";
 			showGrowlErrorMessage();
 		}
 		log.info("tmpDEBUGtmp: " + "< " + "aggiorna");
@@ -155,14 +176,14 @@ public class ArticoliController implements Serializable{
 	
 	public void elimina(){
 		log.info("tmpDEBUGtmp: " + "> " + "elimina(" + ")");
-		log.info("tmpDEBUGtmp: " + "id: " + articoloSel.getId());
+		log.info("tmpDEBUGtmp: " + "id: " + ((articoloSel != null) ? articoloSel.getId() : "null"));
 		
 		articoliDao.elimina(articoloSel);
 		if(articoloSel != null){
 			esito = "Elimino articolo: " + articoloSel.getCodice();
 			showGrowlDelMessage();
 		}else{
-			esito = "non ho trovato l'articolo!" + " (articolo: " + articoloSel.getId() + ")";
+			esito = "non ho trovato l'articolo!" + " (articolo: " + ((articoloSel != null) ? articoloSel.getId() : "null") + ")";
 			showGrowlErrorMessage();
 		}
 		log.info("tmpDEBUGtmp: " + "< " + "elimina");
@@ -170,7 +191,7 @@ public class ArticoliController implements Serializable{
 	
 	public String getEsito(){
 		log.info("tmpDEBUGtmp: " + "> " + "getEsito(" + ")");
-		log.info("tmpDEBUGtmp: " + "id: " + articoloSel.getId());
+		log.info("tmpDEBUGtmp: " + "id: " + ((articoloSel != null) ? articoloSel.getId() : "null"));
 		log.info("tmpDEBUGtmp: " + "< " + "getEsito");
 		return esito;
 	}
@@ -206,7 +227,7 @@ public class ArticoliController implements Serializable{
 	
 	public int sortByNum(Object obj1, Object obj2){
 		log.info("tmpDEBUGtmp: " + "> " + "sortByNum(" + obj1 + ", " + obj2 + ")");
-		log.info("tmpDEBUGtmp: " + "id: " + articoloSel.getId());
+		log.info("tmpDEBUGtmp: " + "id: " + ((articoloSel != null) ? articoloSel.getId() : "null"));
 		Integer o1 = (Integer)obj1;
 		Integer o2 = (Integer)obj2;
 		log.info("sortById: " + o1 + "-" + o2);
@@ -221,7 +242,7 @@ public class ArticoliController implements Serializable{
 	
 	public int sortByStr(Object obj1, Object obj2){
 		log.info("tmpDEBUGtmp: " + "> " + "sortByStr(" + obj1 + ", " + obj2 + ")");
-		log.info("tmpDEBUGtmp: " + "id: " + articoloSel.getId());
+		log.info("tmpDEBUGtmp: " + "id: " + ((articoloSel != null) ? articoloSel.getId() : "null"));
 		String o1 = (String)obj1;
 		String o2 = (String)obj2;
 		log.info("sortByname: " + o1 + "-" + o2);
@@ -236,7 +257,7 @@ public class ArticoliController implements Serializable{
 	
 	public int sortByStrIC(Object obj1, Object obj2){
 		log.info("tmpDEBUGtmp: " + "> " + "sortByStrIC(" + obj1 + ", " + obj2 + ")");
-		log.info("tmpDEBUGtmp: " + "id: " + articoloSel.getId());
+		log.info("tmpDEBUGtmp: " + "id: " + ((articoloSel != null) ? articoloSel.getId() : "null"));
 		String o1 = (String)obj1;
 		String o2 = (String)obj2;
 		log.info("sortBynameIC: " + o1 + "-" + o2);
@@ -249,30 +270,16 @@ public class ArticoliController implements Serializable{
 		return 0;
 	}
 	
-	public Foto getFotoArticoloDaIdArticolo(Integer idArticolo){
-		log.info("tmpDEBUGtmp: " + "> " + "getFotoArticoloDaIdArticolo(" + idArticolo + ")");
-		log.info("tmpDEBUGtmp: " + "id: " + articoloSel.getId());
-		Foto fotoArticolo = new Foto();
-		fotoArticolo = articoliDao.getFotoArticoloDaIdArticolo(idArticolo);
-		if(fotoArticolo != null){
-			esito = "selezionata foto " + fotoArticolo.getId() + " per articolo: " + idArticolo;
-			showGrowlInfoMessage(esito);
-		}else{
-			esito = "non e' stata trovata la foto per l'articolo!" + " (articolo: " + idArticolo + ")";
-			showGrowlErrorMessage();
-		}
-		log.info("tmpDEBUGtmp: " + "< " + "getFotoArticoloDaIdArticolo");
-		return fotoArticolo;
-	}
-	
 	public void onPickListTransfer(TransferEvent event){
 		log.info("tmpDEBUGtmp: " + "> " + "onPickListTransfer(" + event + ")");
-		log.info("tmpDEBUGtmp: " + "id: " + articoloSel.getId());
+		log.info("tmpDEBUGtmp: " + "id: " + ((articoloSel != null) ? articoloSel.getId() : "null"));
+//		fotoPLtargetModif = true;
 		StringBuilder builder = new StringBuilder();
 		for(Object item : event.getItems()){
-			builder.append(((Foto)item).getOriginale()).append("<br />");
+			builder.append("selezionata la foto: ").append(((Foto)item).getOriginale()).append(((Foto)item).getId()).append("\n");
 		}
 		showGrowlInfoMessage(builder.toString());
+		// pltarget dovrei modificarlo qui
 		log.info("tmpDEBUGtmp: " + "< " + "onPickListTransfer");
 	}
 	

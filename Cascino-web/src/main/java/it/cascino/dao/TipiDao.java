@@ -2,7 +2,6 @@ package it.cascino.dao;
 
 import java.util.List;
 import org.primefaces.model.TreeNode;
-import it.cascino.model.Foto;
 import it.cascino.model.Tipi;
 
 public interface TipiDao{
@@ -15,10 +14,6 @@ public interface TipiDao{
 	List<Tipi> getAll();
 	
 	Tipi getTipoDaIdTipo(Integer idTipo);
-	
-	Foto getFotoTipoDaIdTipo(Integer IdTipo);
-	
-	Foto getFotoTipoDaIdArticolo(Integer idArticolo);
 	
 	String getNomeTipoDaIdArticolo(Integer idArticolo);
 }

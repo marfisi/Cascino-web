@@ -5,8 +5,6 @@ import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
-import javax.inject.Inject;
-import org.jboss.logging.Logger;
 
 @FacesConverter(forClass = it.cascino.model.Tipi.class, value = "fotoConv")
 public class FotoConverter implements Converter{
@@ -19,22 +17,24 @@ public class FotoConverter implements Converter{
 	@Override
 	public Object getAsObject(FacesContext fc, UIComponent uic, String value){
 //		log.info("tmpDEBUGtmp: " + "> " + "getAsObject(" + fc + ", " + uic + ", " + value + ")");
-		if(value.isEmpty()){
+		if(!(value.isEmpty())){
+			value = value.substring(value.indexOf("id=")+3, value.indexOf(", ")).replace("]", "");
+		}else{
 			value = "1";
 		}
+				
 		Foto o = new Foto();
 		int num;
 		try{
 			num = Integer.parseInt(value);
 			o.setId(num);
 		}catch(NumberFormatException e){
-//			if(value.contains("\\")){
-//			o = (new ManagedBeanFotoDao()).getFotoFromNomeOriginale(value);
-//			}
+			o.setId(1);
 		}
 //		log.info("tmpDEBUGtmp: " + "< " + "getAsObject");
 		return o;
 	}
+
 
 	@Override
 	public String getAsString(FacesContext fc, UIComponent uic, Object obj){

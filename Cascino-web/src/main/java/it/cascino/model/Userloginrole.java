@@ -91,17 +91,34 @@ public class Userloginrole implements Serializable{
 	
 	@Override
 	public String toString(){
-		// log.info("toString: " + id);
-		if(id == null){
-			// log.warn("toString: " + "id==null");
-			return "unknown";
+		if(log != null){
+			log.info("tmpDEBUGtmp: " + "> " + "toString(" + ")");
+			log.info("tmpDEBUGtmp: " + "id: " + id);
 		}
-		return "login = " + login + ", password = " + password + ", role = " + role;
+		StringBuilder stringBuilder = new StringBuilder();
+		stringBuilder.append(this.getClass().getName().substring(this.getClass().getName().lastIndexOf(".") + 1));
+		stringBuilder.append("[");
+		if(id != null){
+			stringBuilder.append("id=" + id).append(", ");
+			stringBuilder.append("login=" + login).append(", ");
+			stringBuilder.append("password=" + password).append(", ");
+			stringBuilder.append("role=" + role);
+		}else{
+			stringBuilder.append("id=sconosciuto");
+		}
+		stringBuilder.append("]");
+		if(log != null){
+			log.info("tmpDEBUGtmp: " + "< " + "toString");
+		}
+		return stringBuilder.toString();
 	}
 	
 	@Override
 	public boolean equals(Object obj){
-		// log.info("equals: " + obj);
+		if(log != null){
+			log.info("tmpDEBUGtmp: " + "> " + "equals(" + obj + ")");
+			log.info("tmpDEBUGtmp: " + "id: " + id);
+		}
 		if(obj instanceof Userloginrole){
 			if(this.id == ((Userloginrole)obj).id){
 				return true;
@@ -109,17 +126,27 @@ public class Userloginrole implements Serializable{
 				return false;
 			}
 		}
+		if(log != null){
+			log.info("tmpDEBUGtmp: " + "< " + "equals");
+		}
 		return false;
 	}
 	
 	@Override
 	public int hashCode(){
+		if(log != null){
+			log.info("tmpDEBUGtmp: " + "> " + "hashCode(" + ")");
+			log.info("tmpDEBUGtmp: " + "id: " + id);
+		}
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result + ((login == null) ? 0 : login.hashCode());
 		result = prime * result + ((password == null) ? 0 : password.hashCode());
 		result = prime * result + ((role == null) ? 0 : role.hashCode());
+		if(log != null){
+			log.info("tmpDEBUGtmp: " + "< " + "hashCode");
+		}
 		return result;
 	}
 }

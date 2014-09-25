@@ -52,7 +52,7 @@ public class FotoController implements Serializable{
 	
 	public void onChangeTipoFoto(){
 		log.info("tmpDEBUGtmp: " + "> " + "onChangeTipoFoto(" + ")");
-		log.info("tmpDEBUGtmp: " + "id: " + fotoSel.getId());
+		log.info("tmpDEBUGtmp: " + "id: " + ((fotoSel != null) ? fotoSel.getId() : "null"));
 		tipoFotoNum = 1;
 		if(tipoFoto.equals("orig")){
 			tipoFotoNum = 1;
@@ -73,7 +73,7 @@ public class FotoController implements Serializable{
 	
 	public String getTipoFoto(){
 		log.info("tmpDEBUGtmp: " + "> " + "getTipoFoto(" + ")");
-		log.info("tmpDEBUGtmp: " + "id: " + fotoSel.getId());
+		log.info("tmpDEBUGtmp: " + "id: " + ((fotoSel != null) ? fotoSel.getId() : "null"));
 		if((tipoFoto == null) || (tipoFoto.isEmpty())){
 			tipoFotoNum = 1;
 			tipoFoto = "orig";
@@ -84,14 +84,14 @@ public class FotoController implements Serializable{
 	
 	public void setTipoFoto(String tipoFoto){
 		log.info("tmpDEBUGtmp: " + "> " + "setTipoFoto(" + tipoFoto + ")");
-		log.info("tmpDEBUGtmp: " + "id: " + fotoSel.getId());
+		log.info("tmpDEBUGtmp: " + "id: " + ((fotoSel != null) ? fotoSel.getId() : "null"));
 		this.tipoFoto = tipoFoto;
 		log.info("tmpDEBUGtmp: " + "< " + "setTipoFoto");
 	}
 	
 	public List<Foto> getFotoLs(){
 		log.info("tmpDEBUGtmp: " + "> " + "getFotoLs(" + ")");
-		log.info("tmpDEBUGtmp: " + "id: " + fotoSel.getId());
+		log.info("tmpDEBUGtmp: " + "id: " + ((fotoSel != null) ? fotoSel.getId() : "null"));
 		fotoLs = fotoDao.getAll();		
 		log.info("tmpDEBUGtmp: " + "< " + "getFotoLs");				
 		return fotoLs;
@@ -99,49 +99,42 @@ public class FotoController implements Serializable{
 	
 	public void setFotoLs(List<Foto> fotoLs){
 		log.info("tmpDEBUGtmp: " + "> " + "setFotoLs(" + fotoLs + ")");
-		log.info("tmpDEBUGtmp: " + "id: " + fotoSel.getId());
+		log.info("tmpDEBUGtmp: " + "id: " + ((fotoSel != null) ? fotoSel.getId() : "null"));
 		this.fotoLs = fotoLs;
 		log.info("tmpDEBUGtmp: " + "< " + "setFotoLs");
 	}
 	
 	public Foto getFotoSel(){
 		log.info("tmpDEBUGtmp: " + "> " + "getFotoSel(" + ")");
-		log.info("tmpDEBUGtmp: " + "id: " + fotoSel.getId());
+		log.info("tmpDEBUGtmp: " + "id: " + ((fotoSel != null) ? fotoSel.getId() : "null"));
 		log.info("tmpDEBUGtmp: " + "< " + "getFotoSel");
 		return fotoSel;
 	}
 	
 	public void setFotoSel(Foto fotoSel){
 		log.info("tmpDEBUGtmp: " + "> " + "setFotoSel(" + fotoSel + ")");
-		log.info("tmpDEBUGtmp: " + "id: " + fotoSel.getId());
+		log.info("tmpDEBUGtmp: " + "id: " + ((fotoSel != null) ? fotoSel.getId() : "null"));
 		this.fotoSel = fotoSel;
 		log.info("tmpDEBUGtmp: " + "< " + "setFotoSel");
 	}
 	
 	public List<Foto> getFilteredFotoLs(){
 		log.info("tmpDEBUGtmp: " + "> " + "getFilteredFotoLs(" + ")");
-		log.info("tmpDEBUGtmp: " + "id: " + fotoSel.getId());
+		log.info("tmpDEBUGtmp: " + "id: " + ((fotoSel != null) ? fotoSel.getId() : "null"));
 		log.info("tmpDEBUGtmp: " + "< " + "getFilteredFotoLs");
 		return filteredFotoLs;
 	}
 	
 	public void setFilteredFotoLs(List<Foto> filteredFotoLs){
 		log.info("tmpDEBUGtmp: " + "> " + "setFilteredFotoLs(" + filteredFotoLs + ")");
-		log.info("tmpDEBUGtmp: " + "id: " + fotoSel.getId());
+		log.info("tmpDEBUGtmp: " + "id: " + ((fotoSel != null) ? fotoSel.getId() : "null"));
 		log.info("tmpDEBUGtmp: " + "< " + "setFilteredFotoLs");
 		this.filteredFotoLs = filteredFotoLs;
 	}
 	
-	public Foto getFotoDaIdFoto(Integer idFoto){
-		log.info("tmpDEBUGtmp: " + "> " + "getFotoDaIdFoto(" + idFoto + ")");
-		log.info("tmpDEBUGtmp: " + "id: " + fotoSel.getId());
-		log.info("tmpDEBUGtmp: " + "< " + "getFotoDaIdFoto");
-		return fotoDao.getFotoDaIdFoto(idFoto);
-	}
-	
 	public void salva(){
 		log.info("tmpDEBUGtmp: " + "> " + "salva(" + ")");
-		log.info("tmpDEBUGtmp: " + "id: " + fotoSel.getId());
+		log.info("tmpDEBUGtmp: " + "id: " + ((fotoSel != null) ? fotoSel.getId() : "null"));
 		String risp = fotoDao.salva(fileUploadedLs);
 		if(risp.startsWith("OK-")){
 			risp = risp.substring(3);
@@ -157,7 +150,7 @@ public class FotoController implements Serializable{
 	
 	public void annullaUpdate(){
 		log.info("tmpDEBUGtmp: " + "> " + "annullaUpdate(" + ")");
-		log.info("tmpDEBUGtmp: " + "id: " + fotoSel.getId());
+		log.info("tmpDEBUGtmp: " + "id: " + ((fotoSel != null) ? fotoSel.getId() : "null"));
 		Boolean risp = fotoDao.annullaUpdate(fileUploadedLs);
 		if(risp){
 			esito = "Annullamento foto eseguito";
@@ -172,7 +165,7 @@ public class FotoController implements Serializable{
 	
 	public void annullaUpload(){
 		log.info("tmpDEBUGtmp: " + "> " + "annullaUpload(" + ")");
-		log.info("tmpDEBUGtmp: " + "id: " + fotoSel.getId());
+		log.info("tmpDEBUGtmp: " + "id: " + ((fotoSel != null) ? fotoSel.getId() : "null"));
 		Boolean risp = fotoDao.annullaUpload(fileUploadedLs);
 		if(risp){
 			esito = "Annullamento foto eseguito";
@@ -187,14 +180,14 @@ public class FotoController implements Serializable{
 	
 	public void annullaUploadUndef(){
 		log.info("tmpDEBUGtmp: " + "> " + "annullaUploadUndef(" + ")");
-		log.info("tmpDEBUGtmp: " + "id: " + fotoSel.getId());
+		log.info("tmpDEBUGtmp: " + "id: " + ((fotoSel != null) ? fotoSel.getId() : "null"));
 		annullaUploadUndef(0, 0);
 		log.info("tmpDEBUGtmp: " + "< " + "annullaUploadUndef");
 	}
 	
 	public void annullaUploadUndef(int t, int u){
 		log.info("tmpDEBUGtmp: " + "> " + "annullaUploadUndef(" + t + ", " + u + ")");
-		log.info("tmpDEBUGtmp: " + "id: " + fotoSel.getId());
+		log.info("tmpDEBUGtmp: " + "id: " + ((fotoSel != null) ? fotoSel.getId() : "null"));
 		if(t == 0){
 			t = tipoFotoNum;
 		}
@@ -213,7 +206,7 @@ public class FotoController implements Serializable{
 	
 	public void aggiorna(){
 		log.info("tmpDEBUGtmp: " + "> " + "aggiorna(" + ")");
-		log.info("tmpDEBUGtmp: " + "id: " + fotoSel.getId());
+		log.info("tmpDEBUGtmp: " + "id: " + ((fotoSel != null) ? fotoSel.getId() : "null"));
 		String risp = fotoDao.aggiorna(fotoSel, fileUploadedLs);
 		if(risp.startsWith("OK-")){
 			risp = risp.substring(3);
@@ -229,7 +222,7 @@ public class FotoController implements Serializable{
 	
 	public void elimina(){
 		log.info("tmpDEBUGtmp: " + "> " + "elimina(" + ")");
-		log.info("tmpDEBUGtmp: " + "id: " + fotoSel.getId());
+		log.info("tmpDEBUGtmp: " + "id: " + ((fotoSel != null) ? fotoSel.getId() : "null"));
 		fotoDao.elimina(fotoSel, fileUploadedLs);
 		if(fotoSel != null){
 			esito = "Elimino foto: " + fotoSel.getOriginale();
@@ -243,14 +236,14 @@ public class FotoController implements Serializable{
 	
 	public void eliminaSingFoto(){
 		log.info("tmpDEBUGtmp: " + "> " + "eliminaSingFoto(" + ")");
-		log.info("tmpDEBUGtmp: " + "id: " + fotoSel.getId());
+		log.info("tmpDEBUGtmp: " + "id: " + ((fotoSel != null) ? fotoSel.getId() : "null"));
 		eliminaSingFoto(0, 1);
 		log.info("tmpDEBUGtmp: " + "< " + "eliminaSingFoto");
 	}
 	
 	public void eliminaSingFoto(int t, int u){
 		log.info("tmpDEBUGtmp: " + "> " + "eliminaSingFoto(" + t + ", " + u + ")");
-		log.info("tmpDEBUGtmp: " + "id: " + fotoSel.getId());
+		log.info("tmpDEBUGtmp: " + "id: " + ((fotoSel != null) ? fotoSel.getId() : "null"));
 		if(t == 0){
 			t = tipoFotoNum;
 		}
@@ -267,14 +260,14 @@ public class FotoController implements Serializable{
 	
 	public String getEsito(){
 		log.info("tmpDEBUGtmp: " + "> " + "getEsito(" + ")");
-		log.info("tmpDEBUGtmp: " + "id: " + fotoSel.getId());
+		log.info("tmpDEBUGtmp: " + "id: " + ((fotoSel != null) ? fotoSel.getId() : "null"));
 		log.info("tmpDEBUGtmp: " + "< " + "getEsito");
 		return esito;
 	}
 	
 	public List<Foto> getFotoPerSelLs(){
 		log.info("tmpDEBUGtmp: " + "> " + "getFotoPerSelLs(" + ")");
-		log.info("tmpDEBUGtmp: " + "id: " + fotoSel.getId());
+		log.info("tmpDEBUGtmp: " + "id: " + ((fotoSel != null) ? fotoSel.getId() : "null"));
 		fotoPerSelLs = fotoDao.getFotoListPerSel(fotoSel);
 		log.info("tmpDEBUGtmp: " + "< " + "getFotoPerSelLs");
 		return fotoPerSelLs;
@@ -282,7 +275,7 @@ public class FotoController implements Serializable{
 	
 	public void setFotoPerSelLs(List<Foto> fotoPerSelLs){
 		log.info("tmpDEBUGtmp: " + "> " + "setFotoPerSelLs(" + fotoPerSelLs + ")");
-		log.info("tmpDEBUGtmp: " + "id: " + fotoSel.getId());
+		log.info("tmpDEBUGtmp: " + "id: " + ((fotoSel != null) ? fotoSel.getId() : "null"));
 		this.fotoPerSelLs = fotoPerSelLs;
 		log.info("tmpDEBUGtmp: " + "< " + "setFotoPerSelLs");
 	}
@@ -324,7 +317,7 @@ public class FotoController implements Serializable{
 	
 	public int sortByNum(Object obj1, Object obj2){
 		log.info("tmpDEBUGtmp: " + "> " + "sortByNum(" + obj1 + ", " + obj2 + ")");
-		log.info("tmpDEBUGtmp: " + "id: " + fotoSel.getId());
+		log.info("tmpDEBUGtmp: " + "id: " + ((fotoSel != null) ? fotoSel.getId() : "null"));
 		Integer o1 = (Integer)obj1;
 		Integer o2 = (Integer)obj2;
 		log.info("sortById: " + o1 + "-" + o2);
@@ -339,7 +332,7 @@ public class FotoController implements Serializable{
 	
 	public int sortByStr(Object obj1, Object obj2){
 		log.info("tmpDEBUGtmp: " + "> " + "sortByStr(" + obj1 + ", " + obj2 + ")");
-		log.info("tmpDEBUGtmp: " + "id: " + fotoSel.getId());
+		log.info("tmpDEBUGtmp: " + "id: " + ((fotoSel != null) ? fotoSel.getId() : "null"));
 		String o1 = (String)obj1;
 		String o2 = (String)obj2;
 		log.info("sortByname: " + o1 + "-" + o2);
@@ -354,7 +347,7 @@ public class FotoController implements Serializable{
 	
 	public int sortByStrIC(Object obj1, Object obj2){
 		log.info("tmpDEBUGtmp: " + "> " + "sortByStrIC(" + obj1 + ", " + obj2 + ")");
-		log.info("tmpDEBUGtmp: " + "id: " + fotoSel.getId());
+		log.info("tmpDEBUGtmp: " + "id: " + ((fotoSel != null) ? fotoSel.getId() : "null"));
 		String o1 = (String)obj1;
 		String o2 = (String)obj2;
 		log.info("sortBynameIC: " + o1 + "-" + o2);
@@ -369,14 +362,14 @@ public class FotoController implements Serializable{
 		
 	public String size(Foto f, int t){
 		log.info("tmpDEBUGtmp: " + "> " + "size(" + f + ", " + t + ")");
-		log.info("tmpDEBUGtmp: " + "id: " + fotoSel.getId());
+		log.info("tmpDEBUGtmp: " + "id: " + ((fotoSel != null) ? fotoSel.getId() : "null"));
 		log.info("tmpDEBUGtmp: " + "< " + "size");
 		return size(f, t, 0);
 	}
 	
 	public String size(Foto f, int t, int u){
 		log.info("tmpDEBUGtmp: " + "> " + "size(" + f + ", " + t + ", " + u + ")");
-		log.info("tmpDEBUGtmp: " + "id: " + fotoSel.getId());
+		log.info("tmpDEBUGtmp: " + "id: " + ((fotoSel != null) ? fotoSel.getId() : "null"));
 		if(t == 0){
 			t = tipoFotoNum;
 		}
@@ -387,14 +380,14 @@ public class FotoController implements Serializable{
 	
 	public String resolution(Foto f, int t){
 		log.info("tmpDEBUGtmp: " + "> " + "resolution(" + f + ", " + t + ")");
-		log.info("tmpDEBUGtmp: " + "id: " + fotoSel.getId());
+		log.info("tmpDEBUGtmp: " + "id: " + ((fotoSel != null) ? fotoSel.getId() : "null"));
 		log.info("tmpDEBUGtmp: " + "< " + "resolution");
 		return resolution(f, t, 0);
 	}
 	
 	public String resolution(Foto f, int t, int u){
 		log.info("tmpDEBUGtmp: " + "> " + "resolution(" + f + ", " + t + ", " + u + ")");
-		log.info("tmpDEBUGtmp: " + "id: " + fotoSel.getId());
+		log.info("tmpDEBUGtmp: " + "id: " + ((fotoSel != null) ? fotoSel.getId() : "null"));
 		if(t == 0){
 			t = tipoFotoNum;
 		}
@@ -405,24 +398,24 @@ public class FotoController implements Serializable{
 	
 	public int getHeightFromResolution(Foto f, int t, int h, int l){
 		log.info("tmpDEBUGtmp: " + "> " + "getHeightFromResolution(" + f + ", " + t + ", " + h + ", " + l + ")");
-		log.info("tmpDEBUGtmp: " + "id: " + fotoSel.getId());
+		log.info("tmpDEBUGtmp: " + "id: " + ((fotoSel != null) ? fotoSel.getId() : "null"));
 		log.info("tmpDEBUGtmp: " + "< " + "getHeightFromResolution");
 		return getHeightFromResolution(f, t, h, l, 0);
 	}
 	
 	public int getHeightFromResolution(Foto f, int t, int h, int l, int u){
 		log.info("tmpDEBUGtmp: " + "> " + "getHeightFromResolution(" + f + ", " + t + ", " + h + ", " + l + ", " + u + ")");
-		log.info("tmpDEBUGtmp: " + "id: " + fotoSel.getId());
+		log.info("tmpDEBUGtmp: " + "id: " + ((fotoSel != null) ? fotoSel.getId() : "null"));
 		if(t == 0){
 			t = tipoFotoNum;
 		}
 		log.info("tmpDEBUGtmp: " + "< " + "getHeightFromResolution");
-		return 30; // fotoDao.getHeightFromResolution(f, t, h, l, u);
+		return fotoDao.getHeightFromResolution(f, t, h, l, u);
 	}
 	
 	public String resolvePath(Foto f){
 		log.info("tmpDEBUGtmp: " + "> " + "resolvePath(" + f + ")");
-		log.info("tmpDEBUGtmp: " + "id: " + fotoSel.getId());
+		log.info("tmpDEBUGtmp: " + "id: " + ((fotoSel != null) ? fotoSel.getId() : "null"));
 		// return resolvePath(f, -1);
 		// }
 		//
@@ -435,14 +428,14 @@ public class FotoController implements Serializable{
 	
 	public String getFotonameUrl(Foto f, int t){
 		log.info("tmpDEBUGtmp: " + "> " + "getFotonameUrl(" + f + ", " + t + ")");
-		log.info("tmpDEBUGtmp: " + "id: " + fotoSel.getId());
+		log.info("tmpDEBUGtmp: " + "id: " + ((fotoSel != null) ? fotoSel.getId() : "null"));
 		log.info("tmpDEBUGtmp: " + "< " + "getFotonameUrl");
 		return getFotonameUrl(f, t, 0);
 	}
 	
 	public String getFotonameUrl(Foto f, int t, int u){
 		log.info("tmpDEBUGtmp: " + "> " + "getFotonameUrl(" + f + ", " + t + ", " + u + ")");
-		log.info("tmpDEBUGtmp: " + "id: " + fotoSel.getId());
+		log.info("tmpDEBUGtmp: " + "id: " + ((fotoSel != null) ? fotoSel.getId() : "null"));
 		String nomePerUrl = "";
 		nomePerUrl = getFotoname(f, t, u);
 		// gestione dei simboli che creano anomalie nei nomi url
@@ -455,14 +448,14 @@ public class FotoController implements Serializable{
 	
 	public String getFotoname(Foto f, int t){
 		log.info("tmpDEBUGtmp: " + "> " + "getFotoname(" + f + ", " + t + ")");
-		log.info("tmpDEBUGtmp: " + "id: " + fotoSel.getId());
+		log.info("tmpDEBUGtmp: " + "id: " + ((fotoSel != null) ? fotoSel.getId() : "null"));
 		log.info("tmpDEBUGtmp: " + "< " + "getFotoname");
 		return getFotoname(f, t, 0);
 	}
 	
 	public String getFotoname(Foto f, int t, int u){
 		log.info("tmpDEBUGtmp: " + "> " + "getFotoname(" + f + ", " + t + ", " + u + ")");
-		log.info("tmpDEBUGtmp: " + "id: " + fotoSel.getId());
+		log.info("tmpDEBUGtmp: " + "id: " + ((fotoSel != null) ? fotoSel.getId() : "null"));
 		if(t == 0){
 			t = tipoFotoNum;
 		}
@@ -473,42 +466,42 @@ public class FotoController implements Serializable{
 	
 	public void fileUploadOrig(FileUploadEvent event){
 		log.info("tmpDEBUGtmp: " + "> " + "fileUploadOrig(" + event + ")");
-		log.info("tmpDEBUGtmp: " + "id: " + fotoSel.getId());
+		log.info("tmpDEBUGtmp: " + "id: " + ((fotoSel != null) ? fotoSel.getId() : "null"));
 		fileUpload(event, ".orig");
 		log.info("tmpDEBUGtmp: " + "< " + "fileUploadOrig");
 	}
 	
 	public void fileUploadHD(FileUploadEvent event){
 		log.info("tmpDEBUGtmp: " + "> " + "fileUploadHD(" + event + ")");
-		log.info("tmpDEBUGtmp: " + "id: " + fotoSel.getId());
+		log.info("tmpDEBUGtmp: " + "id: " + ((fotoSel != null) ? fotoSel.getId() : "null"));
 		fileUpload(event, ".hd");
 		log.info("tmpDEBUGtmp: " + "< " + "fileUploadHD");
 	}
 	
 	public void fileUploadHDWM(FileUploadEvent event){
 		log.info("tmpDEBUGtmp: " + "> " + "fileUploadHDWM(" + event + ")");
-		log.info("tmpDEBUGtmp: " + "id: " + fotoSel.getId());
+		log.info("tmpDEBUGtmp: " + "id: " + ((fotoSel != null) ? fotoSel.getId() : "null"));
 		fileUpload(event, ".hdwm");
 		log.info("tmpDEBUGtmp: " + "< " + "fileUploadHDWM");
 	}
 	
 	public void fileUploadLD(FileUploadEvent event){
 		log.info("tmpDEBUGtmp: " + "> " + "fileUploadLD(" + event + ")");
-		log.info("tmpDEBUGtmp: " + "id: " + fotoSel.getId());
+		log.info("tmpDEBUGtmp: " + "id: " + ((fotoSel != null) ? fotoSel.getId() : "null"));
 		fileUpload(event, ".ld");
 		log.info("tmpDEBUGtmp: " + "< " + "fileUploadLD");
 	}
 	
 	public void fileUploadLDWM(FileUploadEvent event){
 		log.info("tmpDEBUGtmp: " + "> " + "fileUploadLDWM(" + event + ")");
-		log.info("tmpDEBUGtmp: " + "id: " + fotoSel.getId());
+		log.info("tmpDEBUGtmp: " + "id: " + ((fotoSel != null) ? fotoSel.getId() : "null"));
 		fileUpload(event, ".ldwm");
 		log.info("tmpDEBUGtmp: " + "< " + "fileUploadLDWM");
 	}
 	
 	public void fileUploadUndef(FileUploadEvent event){
 		log.info("tmpDEBUGtmp: " + "> " + "fileUploadUndef(" + event + ")");
-		log.info("tmpDEBUGtmp: " + "id: " + fotoSel.getId());
+		log.info("tmpDEBUGtmp: " + "id: " + ((fotoSel != null) ? fotoSel.getId() : "null"));
 		String type = "";
 		if(tipoFotoNum == 1){
 			type = ".orig";
@@ -531,7 +524,7 @@ public class FotoController implements Serializable{
 	
 	public void fileUpload(FileUploadEvent event, String type){
 		log.info("tmpDEBUGtmp: " + "> " + "fileUpload(" + event + ", " + type + ")");
-		log.info("tmpDEBUGtmp: " + "id: " + fotoSel.getId());
+		log.info("tmpDEBUGtmp: " + "id: " + ((fotoSel != null) ? fotoSel.getId() : "null"));
 		if(type.equals(".err")){
 			return;
 		}
@@ -544,11 +537,111 @@ public class FotoController implements Serializable{
 	
 	public Boolean canDelete(){
 		log.info("tmpDEBUGtmp: " + "> " + "canDelete(" + ")");
-		log.info("tmpDEBUGtmp: " + "id: " + fotoSel.getId());
+		log.info("tmpDEBUGtmp: " + "id: " + ((fotoSel != null) ? fotoSel.getId() : "null"));
 		if(tipoFotoNum == 1){
 			return false;
 		}
 		log.info("tmpDEBUGtmp: " + "< " + "canDelete");
 		return true;
 	}
+	
+	// ***** inizio Foto *****
+	public Foto getFotoDaIdFoto(Integer idFoto){
+		log.info("tmpDEBUGtmp: " + "> " + "getFotoDaIdFoto(" + idFoto + ")");
+		log.info("tmpDEBUGtmp: " + "id: " + ((fotoSel != null) ? fotoSel.getId() : "null"));
+		log.info("tmpDEBUGtmp: " + "< " + "getFotoDaIdFoto");
+		return fotoDao.getFotoDaIdFoto(idFoto);
+	}
+	// ***** fine Foto *****
+	
+	// ***** inizio Tipi *****
+	public Foto getFotoTipoDaIdTipo(Integer idTipo){
+		log.info("tmpDEBUGtmp: " + "> " + "getFotoTipoDaIdTipo(" + idTipo + ")");
+		log.info("tmpDEBUGtmp: " + "id: " + ((fotoSel != null) ? fotoSel.getId() : "null"));
+		Foto fotoTipo = new Foto();
+		fotoTipo = fotoDao.getFotoTipoDaIdTipo(idTipo);
+		if(fotoTipo != null){
+			esito = "selezionata foto " + fotoTipo.getId() + " per tipo: " + idTipo;
+			showGrowlInfoMessage(esito);
+		}else{
+			esito = "non e' stata trovata la foto!" + " (tipo: " + idTipo + ")";
+			showGrowlErrorMessage();
+		}
+		log.info("tmpDEBUGtmp: " + "< " + "getFotoTipoDaIdTipo");
+		return fotoTipo;
+	}
+	
+	public Foto getFotoTipoDaIdArticolo(Integer idArticolo){
+		log.info("tmpDEBUGtmp: " + "> " + "getFotoTipoDaIdArticolo(" + idArticolo + ")");
+		log.info("tmpDEBUGtmp: " + "id: " + ((fotoSel != null) ? fotoSel.getId() : "null"));
+		Foto fotoTipo = new Foto();
+		fotoTipo = fotoDao.getFotoTipoDaIdArticolo(idArticolo);
+		if(fotoTipo != null){
+			esito = "selezionata foto " + fotoTipo.getId() + " per articolo: " + idArticolo;
+			showGrowlInfoMessage(esito);
+		}else{
+			esito = "non e' stata trovata la foto!" + " (articolo: " + idArticolo + ")";
+			showGrowlErrorMessage();
+		}
+		log.info("tmpDEBUGtmp: " + "< " + "getFotoTipoDaIdArticolo");
+		return fotoTipo;
+	}
+	// ***** fine Tipi *****
+
+	// ***** inizio Produttori *****
+	public Foto getFotoProduttoreDaIdProduttore(Integer idProduttore){
+		log.info("tmpDEBUGtmp: " + "> " + "getFotoProduttoreDaIdProduttore(" + idProduttore + ")");
+		log.info("tmpDEBUGtmp: " + "id: " + ((fotoSel != null) ? fotoSel.getId() : "null"));
+		Foto fotoProduttore = new Foto();
+		fotoProduttore = fotoDao.getFotoProduttoreDaIdProduttore(idProduttore);
+		if(fotoProduttore != null){
+			esito = "selezionata foto " + fotoProduttore.getId() + " per produttore: " + idProduttore;
+			showGrowlInfoMessage(esito);
+		}else{
+			esito = "non e' stata trovata la foto!" + " (produttore: " + idProduttore + ")";
+			showGrowlErrorMessage();
+		}
+		log.info("tmpDEBUGtmp: " + "< " + "getFotoProduttoreDaIdProduttore");
+		return fotoProduttore;
+	}
+	
+	public Foto getFotoProduttoreDaIdArticolo(Integer idArticolo){
+		log.info("tmpDEBUGtmp: " + "> " + "getFotoProduttoreDaIdArticolo(" + idArticolo + ")");
+		log.info("tmpDEBUGtmp: " + "id: " + ((fotoSel != null) ? fotoSel.getId() : "null"));
+		Foto fotoProduttore = new Foto();
+		fotoProduttore = fotoDao.getFotoProduttoreDaIdArticolo(idArticolo);
+		if(fotoProduttore != null){
+			esito = "selezionata foto " + fotoProduttore.getId() + " per articolo: " + idArticolo;
+			showGrowlInfoMessage(esito);
+		}else{
+			esito = "non e' stata trovata la foto!" + " (articolo: " + idArticolo + ")";
+			showGrowlErrorMessage();
+		}
+		log.info("tmpDEBUGtmp: " + "< " + "getFotoProduttoreDaIdArticolo");
+		return fotoProduttore;
+	}
+	// ***** fine Produttori *****
+	
+	// ***** inizio Articoli *****
+	public Foto getFotoArticoloDaIdArticolo(Integer idArticolo){
+		log.info("tmpDEBUGtmp: " + "> " + "getFotoArticoloDaIdArticolo(" + idArticolo + ")");
+		log.info("tmpDEBUGtmp: " + "id: " +  ((fotoSel != null) ? fotoSel.getId() : "null"));
+		Foto fotoArticolo = new Foto();
+		fotoArticolo = fotoDao.getFotoArticoloDaIdArticolo(idArticolo);
+		if(fotoArticolo != null){
+			esito = "selezionata foto " + fotoArticolo.getId() + " per articolo: " + idArticolo;
+			showGrowlInfoMessage(esito);
+		}else{
+			esito = "non e' stata trovata la foto!" + " (articolo: " + idArticolo + ")";
+			showGrowlErrorMessage();
+		}
+		log.info("tmpDEBUGtmp: " + "< " + "getFotoArticoloDaIdArticolo");
+		return fotoArticolo;
+	}
+	
+	// public List<Foto> getFotoArticoloOrdLsDaIdArticolo(Integer idArticolo){
+	// // non dal controller, ma solo da dao, e' utilizzata da ArticoliController per popolare le DualListModel
+	// }
+	// ***** fine Articoli *****
+
 }

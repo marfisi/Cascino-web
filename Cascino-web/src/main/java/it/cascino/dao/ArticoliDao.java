@@ -7,15 +7,11 @@ import it.cascino.model.Foto;
 public interface ArticoliDao{
 	void salva(Articoli t);
 	
-	void aggiorna(Articoli t);
+	void aggiorna(Articoli t,  List<Foto> fotoPLtarget);
 	
 	void elimina(Articoli t);
 	
 	List<Articoli> getAll();
-	
-	Foto getFotoArticoloDaIdArticolo(Integer idArticolo);
-	
-	List<Foto> getFotoArticoloOrdLsDaIdArticolo(Integer idArticolo);
 	
 	List<String> getArticoliAutoCompleteLs(String str);
 	

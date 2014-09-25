@@ -40,9 +40,29 @@ public interface FotoDao{
 	
 	void fileUpload(FileUploadEvent event, String type, List<UploadedFile> uf);
 	
-	Foto getFotoDaIdFoto(Integer idFoto);
-	
 	// Foto getFotoFromNomeOriginale(String fName);
 	
 	int getHeightFromResolution(Foto foto, int t, int h, int l, int u);
+	
+	// ***** inizio Foto *****
+	Foto getFotoDaIdFoto(Integer idFoto);
+	// ***** fine Foto *****
+	
+	// ***** inizio Tipi *****
+	Foto getFotoTipoDaIdTipo(Integer IdTipo);
+	
+	Foto getFotoTipoDaIdArticolo(Integer idArticolo);
+	// ***** fine Tipi *****
+	
+	// ***** inizio Produttori *****
+	Foto getFotoProduttoreDaIdProduttore(Integer idProduttore);
+	
+	Foto getFotoProduttoreDaIdArticolo(Integer idArticolo);
+	// ***** fine Produttori *****
+	
+	// ***** inizio Articoli *****
+	Foto getFotoArticoloDaIdArticolo(Integer idArticolo);
+	
+	List<Foto> getFotoArticoloOrdLsDaIdArticolo(Integer idArticolo);	
+	// ***** fine Articoli *****
 }

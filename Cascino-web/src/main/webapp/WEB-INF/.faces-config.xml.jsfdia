@@ -7,9 +7,9 @@
    <PROCESS-ITEM-OUTPUT ID="canAccess::#homeManage.xhtml" NAME="output"
     PATH="/homeManage.xhtml" TARGET="rules:#homeManage.xhtml"
     TITLE="canAccess" model-entity="JSFProcessItemOutput"/>
-   <PROCESS-ITEM-OUTPUT ID="login2registration::#registration.xhtml"
+   <PROCESS-ITEM-OUTPUT ID="loginToRegistration::#registration.xhtml"
     NAME="output2" PATH="/registration.xhtml"
-    TARGET="rules:#registration.xhtml" TITLE="login2registration" model-entity="JSFProcessItemOutput"/>
+    TARGET="rules:#registration.xhtml" TITLE="loginToRegistration" model-entity="JSFProcessItemOutput"/>
   </PROCESS-ITEM>
  </PROCESS-ITEM>
  <PROCESS-ITEM NAME="rules:#registration.xhtml"
@@ -19,9 +19,9 @@
    <PROCESS-ITEM-OUTPUT ID="confirmRegistration::#login.xhtml"
     NAME="output" PATH="/login.xhtml" TARGET="rules:#login.xhtml"
     TITLE="confirmRegistration" model-entity="JSFProcessItemOutput"/>
-   <PROCESS-ITEM-OUTPUT ID="registration2login::#login.xhtml"
+   <PROCESS-ITEM-OUTPUT ID="registrationToLogin::#login.xhtml"
     NAME="output1" PATH="/login.xhtml" TARGET="rules:#login.xhtml"
-    TITLE="registration2login" model-entity="JSFProcessItemOutput"/>
+    TITLE="registrationToLogin" model-entity="JSFProcessItemOutput"/>
   </PROCESS-ITEM>
  </PROCESS-ITEM>
  <PROCESS-ITEM NAME="rules:#*" PATH="/*" SHAPE="288,273,0,0" model-entity="JSFProcessGroup">

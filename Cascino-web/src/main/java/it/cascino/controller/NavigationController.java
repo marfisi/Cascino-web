@@ -23,9 +23,8 @@ public class NavigationController implements Serializable{
 	
 	@Inject
 	private FacesContext facesContext;
-
 	
-//	private Boolean showLogIn = true;
+	// private Boolean showLogIn = true;
 	private Boolean showHome = true;
 	private Boolean showTipiToFoto = false;
 	private Boolean showFotoToTipi = false;
@@ -104,14 +103,14 @@ public class NavigationController implements Serializable{
 	
 	public String loginToRegistration(){
 		log.info("tmpDEBUGtmp: " + "> " + "loginToRegistration(" + ")");
-		navigationRuleAction = "login2registration";
+		navigationRuleAction = "loginToRegistration";
 		log.info("tmpDEBUGtmp: " + "< " + "loginToRegistration");
 		return navigationRuleAction;
 	}
 	
 	public String registrationToLogin(Boolean registration){
 		log.info("tmpDEBUGtmp: " + "> " + "registrationToLogin(" + registration + ")");
-		navigationRuleAction = "registration2login";
+		navigationRuleAction = "registrationToLogin";
 		
 		if(registration){
 			navigationRuleAction = "confirmRegistration";

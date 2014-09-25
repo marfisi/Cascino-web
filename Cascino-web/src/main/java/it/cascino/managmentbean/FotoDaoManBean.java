@@ -49,14 +49,13 @@ public class FotoDaoManBean implements FotoDao, Serializable{
 	@Inject
 	private UserTransaction utx;
 	
-	private final String dirFoto = "c:\\dev\\foto";
+	private final String fotoNotDefined = "n.d..jpeg";
+	private final String dirFoto = "c:\\dev\\foto";	// this.getClass().getClassLoader().getResource(fotoNotDefined).getPath();
 	// private String dirFotoUpload = "c:\\dev\\foto\\uploadTmp";
 	private final String dirFotoUri = ".\\resources\\gfx\\foto\\";
 	
 	private List<File> fotoDeletedLs = new ArrayList<File>();
-	
-	private final String fotoNotDefined = "n.d..jpeg";
-	
+		
 	@SuppressWarnings("unchecked")
 	public List<Foto> getAll(){
 		log.info("tmpDEBUGtmp: " + "> " + "getAll(" + ")");
@@ -510,7 +509,7 @@ public class FotoDaoManBean implements FotoDao, Serializable{
 	}
 	
 	public void elimina(Foto fotoElimina, int t, List<UploadedFile> fotoLs, int u){
-		log.info("tmpDEBUGtmp: " + "> " + "elimina(" + fotoElimina + ", " + t + ", " +  fotoLs + ", " + u + ")");
+		log.info("tmpDEBUGtmp: " + "> " + "elimina(" + fotoElimina + ", " + t + ", " + fotoLs + ", " + u + ")");
 		if((fotoElimina == null) || (fotoElimina.getOriginale() == null)){
 			return;
 		}
@@ -790,7 +789,7 @@ public class FotoDaoManBean implements FotoDao, Serializable{
 	}
 	
 	private void manageSeGiaCaricato(UploadedFile fileOriginale, String type, List<UploadedFile> fotoLs){
-		log.info("tmpDEBUGtmp: " + "> " + "manageSeGiaCaricato(" + fileOriginale + ", " + type +", " + fotoLs + ")");
+		log.info("tmpDEBUGtmp: " + "> " + "manageSeGiaCaricato(" + fileOriginale + ", " + type + ", " + fotoLs + ")");
 		// devo cercare nella lista, se già un altro file dello stesso tipo è stato aggiunto, se si bisogna eliminarlo sia dalla lista che come file uploadato
 		if((fotoLs != null) && (!fotoLs.isEmpty())){
 			UploadedFile o = null;
@@ -811,7 +810,7 @@ public class FotoDaoManBean implements FotoDao, Serializable{
 			}
 			return;
 		}
-		log.info("tmpDEBUGtmp: " + "< " + "manageSeGiaCaricato");	
+		log.info("tmpDEBUGtmp: " + "< " + "manageSeGiaCaricato");
 	}
 	
 	public void copyFile(String fileName, InputStream in){
@@ -837,35 +836,6 @@ public class FotoDaoManBean implements FotoDao, Serializable{
 			e.printStackTrace();
 		}
 		log.info("tmpDEBUGtmp: " + "< " + "copyFile");
-	}
-	
-	public Foto getFotoDaIdFoto(Integer idFoto){
-		log.info("tmpDEBUGtmp: " + "> " + "getFotoDaIdFoto(" + idFoto + ")");
-		Foto foto = null;
-		try{
-			try{
-				utx.begin();
-				// String sql = "select * from foto " +
-				// "where id = (select foto " +
-				// "from (select row_number() OVER (ORDER BY foto) AS rownum, foto " +
-				// "from articoli_foto af join articoli a on af.articolo = a.id " +
-				// "where articolo = :id " +
-				// "order by ordinamento, af.updtime) as sub " +
-				// "where rownum = 1)";
-				// String sql = "FROM Foto f Where f.id = :id";
-				// Query query = entityManager.createQuery(sql);
-				Query query = entityManager.createNamedQuery("Foto.findById", Foto.class);
-				query.setParameter("id", idFoto);
-				foto = (Foto)query.getSingleResult();
-			}catch(NoResultException e){
-				foto = null;
-			}
-			utx.commit();
-		}catch(Exception e){
-			Utility.manageException(e, utx, log);
-		}
-		log.info("tmpDEBUGtmp: " + "< " + "getFotoDaIdFoto");
-		return foto;
 	}
 	
 	// public Foto getFotoFromNomeOriginale(String fName){
@@ -895,4 +865,193 @@ public class FotoDaoManBean implements FotoDao, Serializable{
 	// }
 	// return foto;
 	// }
+	
+	// ***** inizio Foto *****
+	public Foto getFotoDaIdFoto(Integer idFoto){
+		log.info("tmpDEBUGtmp: " + "> " + "getFotoDaIdFoto(" + idFoto + ")");
+		Foto foto = null;
+		try{
+			try{
+				utx.begin();
+				// String sql = "select * from foto " +
+				// "where id = (select foto " +
+				// "from (select row_number() OVER (ORDER BY foto) AS rownum, foto " +
+				// "from articoli_foto af join articoli a on af.articolo = a.id " +
+				// "where articolo = :id " +
+				// "order by ordinamento, af.updtime) as sub " +
+				// "where rownum = 1)";
+				// String sql = "FROM Foto f Where f.id = :id";
+				// Query query = entityManager.createQuery(sql);
+				Query query = entityManager.createNamedQuery("Foto.findById", Foto.class);
+				query.setParameter("id", idFoto);
+				foto = (Foto)query.getSingleResult();
+			}catch(NoResultException e){
+				foto = null;
+			}
+			utx.commit();
+		}catch(Exception e){
+			Utility.manageException(e, utx, log);
+		}
+		log.info("tmpDEBUGtmp: " + "< " + "getFotoDaIdFoto");
+		return foto;
+	}
+	
+	// ***** fine Foto *****
+	
+	// ***** inizio Tipi *****
+	public Foto getFotoTipoDaIdTipo(Integer idTipo){
+		log.info("tmpDEBUGtmp: " + "> " + "getFotoTipoDaIdTipo(" + idTipo + ")");
+		// Tipi tipo = (Tipi)nodo.getData();
+		Foto foto = null;
+		try{
+			try{
+				utx.begin();
+				String sql = "select * from foto " +
+				"where id = ( " +
+				"select foto " +
+				"from tipi t " +
+				"where t.id = :id)";
+				Query query = entityManager.createNativeQuery(sql, Foto.class); // Native
+				// Query query = entityManager.createNamedQuery("Foto.findByIdTipo", Foto.class);
+				query.setParameter("id", idTipo); // tipo.getId());
+				foto = (Foto)query.getSingleResult();
+			}catch(NoResultException e){
+				foto = null;
+			}
+			utx.commit();
+		}catch(Exception e){
+			Utility.manageException(e, utx, log);
+		}
+		log.info("tmpDEBUGtmp: " + "< " + "getFotoTipoDaIdTipo");
+		return foto;
+	}
+	
+	public Foto getFotoTipoDaIdArticolo(Integer idArticolo){
+		log.info("tmpDEBUGtmp: " + "> " + "getFotoTipoDaIdArticolo(" + idArticolo + ")");
+		Foto foto = null;
+		try{
+			try{
+				utx.begin();
+				String sql = "select * from foto " +
+				"where id = ( " +
+				"select foto " +
+				"from tipi t join articoli a on t.id = a.tipo " +
+				"where a.id = :id)";
+				Query query = entityManager.createNativeQuery(sql, Foto.class); // Native
+				query.setParameter("id", idArticolo);
+				foto = (Foto)query.getSingleResult();
+			}catch(NoResultException e){
+				foto = null;
+			}
+			utx.commit();
+		}catch(Exception e){
+			Utility.manageException(e, utx, log);
+		}
+		log.info("tmpDEBUGtmp: " + "< " + "getFotoTipoDaIdArticolo");
+		return foto;
+	}
+	
+	// ***** fine Tipi *****
+	
+	// ***** inizio Produttori *****
+	public Foto getFotoProduttoreDaIdProduttore(Integer idProduttore){
+		log.info("tmpDEBUGtmp: " + "> " + "getFotoProduttoreDaIdProduttore(" + idProduttore + ")");
+		Foto foto = null;
+		try{
+			try{
+				utx.begin();
+				String sql = "select * from foto " +
+				"where id = ( " +
+				"select foto " +
+				"from produttori p " +
+				"where p.id = :id)";
+				Query query = entityManager.createNativeQuery(sql, Foto.class); // Native
+				query.setParameter("id", idProduttore);
+				foto = (Foto)query.getSingleResult();
+			}catch(NoResultException e){
+				foto = null;
+			}
+			utx.commit();
+		}catch(Exception e){
+			Utility.manageException(e, utx, log);
+		}
+		log.info("tmpDEBUGtmp: " + "< " + "getFotoProduttoreDaIdProduttore");
+		return foto;
+	}
+	
+	public Foto getFotoProduttoreDaIdArticolo(Integer idArticolo){
+		log.info("tmpDEBUGtmp: " + "> " + "getFotoProduttoreDaIdArticolo(" + idArticolo + ")");
+		Foto foto = null;
+		try{
+			try{
+				utx.begin();
+				String sql = "select * from foto " +
+				"where id = ( " +
+				"select foto " +
+				"from produttori p join articoli a on p.id = a.produttore " +
+				"where a.id = :id)";
+				Query query = entityManager.createNativeQuery(sql, Foto.class); // Native
+				query.setParameter("id", idArticolo);
+				foto = (Foto)query.getSingleResult();
+			}catch(NoResultException e){
+				foto = null;
+			}
+			utx.commit();
+		}catch(Exception e){
+			Utility.manageException(e, utx, log);
+		}
+		log.info("tmpDEBUGtmp: " + "< " + "getFotoProduttoreDaIdArticolo");
+		return foto;
+	}
+	
+	// ***** fine Produttori *****
+	
+	// ***** inizio Articoli *****
+	public Foto getFotoArticoloDaIdArticolo(Integer idArticolo){
+		log.info("tmpDEBUGtmp: " + "> " + "getFotoArticoloDaIdArticolo(" + idArticolo + ")");
+		log.info("tmpDEBUGtmp: " + "< " + "getFotoArticoloDaIdArticolo");
+		return (getFotoArticoloOrdLsDaIdArticolo(idArticolo).size() > 0) ? getFotoArticoloOrdLsDaIdArticolo(idArticolo).get(0) : null;
+	}
+	
+	@SuppressWarnings("unchecked")
+	public List<Foto> getFotoArticoloOrdLsDaIdArticolo(Integer idArticolo){
+		log.info("tmpDEBUGtmp: " + "> " + "getFotoArticoloOrdLsDaIdArticolo(" + idArticolo + ")");
+		List<Foto> foto = null;
+		try{
+			try{
+				utx.begin();
+				// String sql = "select * " + // solo la prima
+				// "from foto " +
+				// "where id = ( " +
+				// "select selordrow.foto " +
+				// "from ( " +
+				// "select row_number() OVER () AS rownum, selord.foto  " +
+				// "from (select foto " +
+				// "from articoli_foto af join articoli a on af.articolo = a.id " +
+				// "where articolo = :id " +
+				// "order by ordinamento, af.updtime desc) as selord " +
+				// ") as selordrow " +
+				// "where selordrow.rownum = 1 " +
+				// ")";
+				String sql = "select f.* " +
+				"from ( " +
+				"select row_number() OVER () AS rownum, selord.foto  " +
+				"from (select foto " +
+				"from articoli_foto af join articoli a on af.articolo = a.id  " +
+				"where articolo = :id " +
+				"order by ordinamento, af.updtime desc) as selord) as selordjoin left join foto f on selordjoin.foto = f.id";
+				Query query = entityManager.createNativeQuery(sql, Foto.class); // Native
+				query.setParameter("id", idArticolo);
+				foto = (List<Foto>)query.getResultList();
+			}catch(NoResultException e){
+				foto = null;
+			}
+			utx.commit();
+		}catch(Exception e){
+			Utility.manageException(e, utx, log);
+		}
+		log.info("tmpDEBUGtmp: " + "< " + "getFotoArticoloOrdLsDaIdArticolo");
+		return foto;
+	}
+	// ***** fine Articoli *****
 }

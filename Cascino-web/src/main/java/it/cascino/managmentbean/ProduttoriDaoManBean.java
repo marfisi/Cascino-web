@@ -4,7 +4,6 @@ import java.io.Serializable;
 import java.util.List;
 import it.cascino.dao.ProduttoriDao;
 import it.cascino.model.Produttori;
-import it.cascino.model.Foto;
 import it.cascino.util.Utility;
 import javax.faces.bean.SessionScoped;
 import javax.inject.Inject;
@@ -111,56 +110,6 @@ public class ProduttoriDaoManBean implements ProduttoriDao, Serializable{
 			Utility.manageException(e, utx, log);
 		}
 		log.info("tmpDEBUGtmp: " + "< " + "elimina");
-	}
-	
-	public Foto getFotoProduttoreDaIdProduttore(Integer idProduttore){
-		log.info("tmpDEBUGtmp: " + "> " + "getFotoProduttoreDaIdProduttore(" + idProduttore + ")");
-		Foto foto = null;
-		try{
-			try{
-				utx.begin();
-				String sql = "select * from foto " +
-				"where id = ( " +
-				"select foto " +
-				"from produttori p " +
-				"where p.id = :id)";
-				Query query = entityManager.createNativeQuery(sql, Foto.class); // Native
-				query.setParameter("id", idProduttore);
-				foto = (Foto)query.getSingleResult();
-			}catch(NoResultException e){
-				foto = null;
-			}
-			utx.commit();
-		}catch(Exception e){
-			Utility.manageException(e, utx, log);
-		}
-		log.info("tmpDEBUGtmp: " + "< " + "getFotoProduttoreDaIdProduttore");
-		return foto;
-	}
-	
-	public Foto getFotoProduttoreDaIdArticolo(Integer idArticolo){
-		log.info("tmpDEBUGtmp: " + "> " + "getFotoProduttoreDaIdArticolo(" + idArticolo + ")");
-		Foto foto = null;
-		try{
-			try{
-				utx.begin();
-				String sql = "select * from foto " +
-				"where id = ( " +
-				"select foto " +
-				"from produttori p join articoli a on p.id = a.produttore " +
-				"where a.id = :id)";
-				Query query = entityManager.createNativeQuery(sql, Foto.class); // Native
-				query.setParameter("id", idArticolo);
-				foto = (Foto)query.getSingleResult();
-			}catch(NoResultException e){
-				foto = null;
-			}
-			utx.commit();
-		}catch(Exception e){
-			Utility.manageException(e, utx, log);
-		}
-		log.info("tmpDEBUGtmp: " + "< " + "getFotoProduttoreDaIdArticolo");
-		return foto;
 	}
 	
 	public String getNomeProduttoreDaIdArticolo(Integer idArticolo){

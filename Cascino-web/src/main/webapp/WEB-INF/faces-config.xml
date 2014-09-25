@@ -40,7 +40,7 @@
 			<redirect></redirect>
 		</navigation-case -->
 		<navigation-case>
-			<from-outcome>login2registration</from-outcome>
+			<from-outcome>loginToRegistration</from-outcome>
 			<to-view-id>/registration.xhtml</to-view-id>
 			<redirect></redirect>
 		</navigation-case>
@@ -55,7 +55,7 @@
 			<redirect></redirect>
 		</navigation-case>
 		<navigation-case>
-			<from-outcome>registration2login</from-outcome>
+			<from-outcome>registrationToLogin</from-outcome>
 			<to-view-id>/login.xhtml</to-view-id>
 			<redirect></redirect>
 		</navigation-case>

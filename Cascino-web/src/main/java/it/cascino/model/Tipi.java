@@ -106,17 +106,35 @@ public class Tipi implements Serializable{
 	
 	@Override
 	public String toString(){
-		// log.info("toString: " + id);
-		if(id == null){
-			log.warn("toString: " + "id==null");
-			return "1";
+		if(log != null){
+			log.info("tmpDEBUGtmp: " + "> " + "toString(" + ")");
+			log.info("tmpDEBUGtmp: " + "id: " + id);
 		}
-		return Integer.toString(id);
+		StringBuilder stringBuilder = new StringBuilder();
+		stringBuilder.append(this.getClass().getName().substring(this.getClass().getName().lastIndexOf(".") + 1));
+		stringBuilder.append("[");
+		if(id != null){
+			stringBuilder.append("id=" + id).append(", ");
+			stringBuilder.append("nome=" + nome).append(", ");
+			stringBuilder.append("descrizione=" + descrizione).append(", ");
+			stringBuilder.append("tipoPadre=" + ((tipoPadre != null) ? tipoPadre.getId() : "")).append(", ");
+			stringBuilder.append("idFoto=" + idFoto);
+		}else{
+			stringBuilder.append("id=1");
+		}
+		stringBuilder.append("]");
+		if(log != null){
+			log.info("tmpDEBUGtmp: " + "< " + "toString");
+		}
+		return stringBuilder.toString();
 	}
 	
 	@Override
 	public boolean equals(Object obj){
-		// log.info("equals: " + obj);
+		if(log != null){
+			log.info("tmpDEBUGtmp: " + "> " + "equals(" + obj + ")");
+			log.info("tmpDEBUGtmp: " + "id: " + id);
+		}
 		if(obj instanceof Tipi){
 			if(this.id == ((Tipi)obj).id){
 				return true;
@@ -124,11 +142,18 @@ public class Tipi implements Serializable{
 				return false;
 			}
 		}
+		if(log != null){
+			log.info("tmpDEBUGtmp: " + "< " + "equals");
+		}
 		return false;
 	}
 	
 	@Override
 	public int hashCode(){
+		if(log != null){
+			log.info("tmpDEBUGtmp: " + "> " + "hashCode(" + ")");
+			log.info("tmpDEBUGtmp: " + "id: " + id);
+		}
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
@@ -136,15 +161,25 @@ public class Tipi implements Serializable{
 		result = prime * result + ((descrizione == null) ? 0 : descrizione.hashCode());
 		result = prime * result + ((tipoPadre == null) ? 0 : tipoPadre.hashCode());
 		result = prime * result + ((idFoto == null) ? 0 : idFoto.hashCode());
+		if(log != null){
+			log.info("tmpDEBUGtmp: " + "< " + "hashCode");
+		}
 		return result;
 	}
 	
 	public int compareTo(Tipi t){
-		log.info("compareTo: " + this.id + "-" + t.id);
+		if(log != null){
+			log.info("tmpDEBUGtmp: " + "> " + "compareTo(" + t + ")");
+			log.info("tmpDEBUGtmp: " + "id: " + id);
+			log.info("compareTo: " + this.id + "-" + t.id);
+		}
 		if(this.id < t.id){
 			return -1;
 		}else if(this.id > t.id){
 			return 1;
+		}
+		if(log != null){
+			log.info("tmpDEBUGtmp: " + "< " + "compareTo");
 		}
 		return 0;
 	}
