@@ -8,41 +8,46 @@ import javax.faces.convert.FacesConverter;
 
 @FacesConverter(forClass = it.cascino.model.Tipi.class, value = "tipiConv")
 public class TipiConverter implements Converter{
-//	/**
-//	 * Logger
-//	 */
-//	@Inject
-//	private Logger log;
-	
 	@Override
 	public Object getAsObject(FacesContext fc, UIComponent uic, String value){
-//		log.info("tmpDEBUGtmp: " + "> " + "getAsObject(" + fc + ", " + uic + ", " + value + ")");
-		if(!(value.isEmpty())){
-			value = value.substring(value.indexOf("id=")+3, value.indexOf(", ")).replace("]", "");
-		}else{
-			value = "1";
-		}
-				
 		Tipi o = new Tipi();
-		int num;
-		try{
-			num = Integer.parseInt(value);
-			o.setId(num);
-		}catch(NumberFormatException e){
+		String valueSplit[] = null;
+		if(!(value.isEmpty())){
+			valueSplit = value.replace("Tipi[", "").replace("]", "").split(", ");
+			for(int i = 0; i < valueSplit.length; i++){
+				valueSplit[i] = valueSplit[i].substring(valueSplit[i].indexOf("=") + 1);
+			}
+		}else{
 			o.setId(1);
 		}
-//		log.info("tmpDEBUGtmp: " + "< " + "getAsObject");
+		
+		try{
+			try{
+				o.setId(Integer.parseInt(valueSplit[0]));
+			}catch(NumberFormatException e){
+				o.setId(1);
+			}
+			o.setNome((!(valueSplit[1].equals("null"))) ? valueSplit[1] : null);
+			o.setDescrizione((!(valueSplit[2].equals("null"))) ? valueSplit[2] : null);
+			if(!(valueSplit[3].equals("null"))){
+				Tipi t = new Tipi();
+				t.setId(Integer.parseInt(valueSplit[3]));
+				o.setTipoPadre(t);
+			}else{
+				o.setTipoPadre(null);				
+			}
+			o.setIdFoto((!(valueSplit[4].equals("null"))) ? Integer.parseInt(valueSplit[4]) : null);
+		}catch(Exception e){
+			o.setId(1);
+		}
 		return o;
 	}
 
-	
 	@Override
 	public String getAsString(FacesContext fc, UIComponent uic, Object obj){
-//		log.info("tmpDEBUGtmp: " + "> " + "getAsString(" + fc + ", " + uic + ", " + obj + ")");
 		if(obj == null){
 			obj = "1";
 		}
-//		log.info("tmpDEBUGtmp: " + "< " + "getAsString");
 		return obj.toString();
 	}
 }

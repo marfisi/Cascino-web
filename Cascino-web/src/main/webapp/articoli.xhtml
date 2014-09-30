@@ -30,7 +30,7 @@
 				</p:toolbar>
 				<p:sticky target="tbNavigation" />
 
-				<p:dataTable id="tbl" var="articolo" value="#{articoliController.articoliLs}" selection="#{articoliController.articoloSel}" selectionMode="single" rowKey="#{articolo.id}" update=":updDisplay" oncomplete="PF('updDialog').show()" paginator="true" rows="15" dynamic="true" sortBy="id" emptyMessage="Nessun entry per il criterio definito" widgetVar="articoliTable" filteredValue="#{articoliController.filteredArticoliLs}">
+				<p:dataTable id="tbl" var="articolo" value="#{articoliCondivisiController.articoliLs}" selection="#{articoliController.articoloSel}" selectionMode="single" rowKey="#{articolo.id}" update=":updDisplay" oncomplete="PF('updDialog').show()" paginator="true" rows="15" dynamic="true" sortBy="id" emptyMessage="Nessun entry per il criterio definito" widgetVar="articoliTable" filteredValue="#{articoliController.filteredArticoliLs}">
 
 					<p:ajax event="rowDblselect" update=":display" oncomplete="PF('viewDialog').show()" />
 
@@ -40,19 +40,19 @@
 							<p:inputText id="globalFilter" onkeyup="articoliTable.filter()" style="width:150px" />
 						</p:outputPanel>
 					</f:facet>
-					<p:column sortBy="codice" sortFunction="#{articoliController.sortByStr}" filterBy="#{articolo.codice}" filterMatchMode="contains">
+					<p:column sortBy="codice" sortFunction="#{articoliCondivisiController.sortByStr}" filterBy="#{articolo.codice}" filterMatchMode="contains">
 						<f:facet name="header">
 							<h:outputText value="Codice" />
 						</f:facet>
 						<h:outputText value="#{articolo.codice}" />
 					</p:column>
-					<p:column sortBy="nome" sortFunction="#{articoliController.sortByStrIC}" filterBy="#{articolo.nome}" filterMatchMode="contains">
+					<p:column sortBy="nome" sortFunction="#{articoliCondivisiController.sortByStrIC}" filterBy="#{articolo.nome}" filterMatchMode="contains">
 						<f:facet name="header">
 							<h:outputText value="Nome" />
 						</f:facet>
 						<h:outputText value="#{articolo.nome}" />
 					</p:column>
-					<p:column sortBy="descrizione" sortFunction="#{articoliController.sortByStrIC}" filterBy="#{articolo.descrizione}" filterMatchMode="contains">
+					<p:column sortBy="descrizione" sortFunction="#{articoliCondivisiController.sortByStrIC}" filterBy="#{articolo.descrizione}" filterMatchMode="contains">
 						<f:facet name="header">
 							<h:outputText value="Descrizione" />
 						</f:facet>
@@ -75,7 +75,7 @@
 							<p:graphicImage value="#{fotoController.resolvePath(fotoController.getFotoProduttoreDaIdArticolo(articolo.id))}#{fotoController.getFotonameUrl(fotoController.getFotoProduttoreDaIdArticolo(articolo.id), 1)}" height="#{fotoController.getHeightFromResolution(fotoController.getFotoArticoloDaIdArticolo(articolo.id), 1, 40, 60)}" />
 						</p:column>
 					</p:column>
-					<p:column sortBy="id" sortFunction="#{articoliController.sortByStr}" filterBy="#{articolo.modello}" filterMatchMode="contains">
+					<p:column sortBy="id" sortFunction="#{articoliCondivisiController.sortByStr}" filterBy="#{articolo.modello}" filterMatchMode="contains">
 						<f:facet name="header">
 							<h:outputText value="Modello" />
 						</f:facet>
@@ -92,7 +92,7 @@
 							<p:graphicImage value="#{fotoController.resolvePath(fotoController.getFotoTipoDaIdArticolo(articolo.id))}#{fotoController.getFotonameUrl(fotoController.getFotoTipoDaIdArticolo(articolo.id), 1)}" height="#{fotoController.getHeightFromResolution(fotoController.getFotoTipoDaIdArticolo(articolo.id), 1, 40, 60)}" />
 						</p:column>
 					</p:column>
-					<p:column sortBy="id" sortFunction="#{articoliController.sortByNum}" filterBy="#{articolo.id}" filterMatchMode="contains">
+					<p:column sortBy="id" sortFunction="#{articoliCondivisiController.sortByNum}" filterBy="#{articolo.id}" filterMatchMode="contains">
 						<f:facet name="header">
 							<h:outputText value="ID" />
 						</f:facet>
@@ -100,7 +100,7 @@
 					</p:column>
 					<f:facet name="footer">
 						<h:panelGrid>
-							<h:outputText value="Qty: ${fn:length(articoliController.articoliLs)}" />
+							<h:outputText value="Qty: ${fn:length(articoliCondivisiController.articoliLs)}" />
 
 							<h:panelGrid id="expAll" columns="5" width="200" style="border:none">
 								<h:outputText value="Esporta tutto:" />
@@ -171,7 +171,7 @@
 							<p:column>
 								<p:selectOneMenu id="menuSelProd" value="#{articoliController.articoloSel.produttore}" converter="produttoriConv" var="p" filter="true" filterMatchMode="contains">
 									<f:selectItem itemLabel="Seleziona Marca" itemValue="" />
-									<f:selectItems value="#{produttoriController.produttoriLs}" var="produttore" itemLabel="#{produttore.nome} (id: #{produttore.id})" itemValue="#{produttore}" />
+									<f:selectItems value="#{produttoriCondivisiController.produttoriLs}" var="produttore" itemLabel="#{produttore.nome} (id: #{produttore.id})" itemValue="#{produttore}" />
 									<p:column>
 										<p:graphicImage value="#{fotoController.resolvePath(fotoController.getFotoProduttoreDaIdProduttore(p.id))}#{fotoController.getFotonameUrl(fotoController.getFotoProduttoreDaIdProduttore(p.id), 1)}" height="#{fotoController.getHeightFromResolution(fotoController.getFotoProduttoreDaIdProduttore(p.id), 1, 40, 60)}" />
 									</p:column>
@@ -192,7 +192,7 @@
 							<p:column>
 								<p:selectOneMenu id="menuSelTipo" value="#{articoliController.articoloSel.tipo}" converter="tipiConv" var="t" filter="true" filterMatchMode="contains">
 									<f:selectItem itemLabel="Seleziona Classe" itemValue="" />
-									<f:selectItems value="#{tipiController.tipiLs}" var="tipo" itemLabel="#{tipo.nome} (id: #{tipo.id})" itemValue="#{tipo}" />
+									<f:selectItems value="#{tipiCondivisiController.tipiLs}" var="tipo" itemLabel="#{tipo.nome} (id: #{tipo.id})" itemValue="#{tipo}" />
 									<p:column>
 										<p:graphicImage value="#{fotoController.resolvePath(fotoController.getFotoTipoDaIdTipo(t.id))}#{fotoController.getFotonameUrl(fotoController.getFotoTipoDaIdTipo(t.id), 1)}" height="#{fotoController.getHeightFromResolution(fotoController.getFotoTipoDaIdTipo(t.id), 1, 40, 60)}" />
 									</p:column>
@@ -249,7 +249,7 @@
 							<p:column>
 								<p:selectOneMenu id="menuSelProd" value="#{articoliController.articoloSel.produttoreMenu}" converter="produttoriConv" var="p" filter="true" filterMatchMode="contains">
 									<f:selectItem itemLabel="#{produttoriController.getProduttoreDaIdProduttore(articoliController.articoloSel.produttore).nome} (id: #{produttoriController.getProduttoreDaIdProduttore(articoliController.articoloSel.produttore).id})" itemValue="#{produttoriController.getProduttoreDaIdProduttore(articoliController.articoloSel.produttore)}" />
-									<f:selectItems value="#{produttoriController.produttoriLs}" var="produttore" itemLabel="#{produttore.nome} (id: #{produttore.id})" itemValue="#{produttore}" />
+									<f:selectItems value="#{produttoriCondivisiController.produttoriLs}" var="produttore" itemLabel="#{produttore.nome} (id: #{produttore.id})" itemValue="#{produttore}" />
 									<p:column>
 										<p:graphicImage value="#{fotoController.resolvePath(fotoController.getFotoProduttoreDaIdProduttore(p.id))}#{fotoController.getFotonameUrl(fotoController.getFotoProduttoreDaIdProduttore(p.id), 1)}" height="#{fotoController.getHeightFromResolution(fotoController.getFotoProduttoreDaIdProduttore(p.id), 1, 40, 60)}" />
 									</p:column>
@@ -263,7 +263,7 @@
 							<p:column>
 								<p:selectOneMenu id="menuSelTipo" value="#{articoliController.articoloSel.tipoMenu}" converter="tipiConv" var="t" filter="true" filterMatchMode="contains">
 									<f:selectItem itemLabel="#{tipiController.getTipoDaIdTipo(articoliController.articoloSel.tipo).nome} (id: #{tipiController.getTipoDaIdTipo(articoliController.articoloSel.tipo).id})" itemValue="#{tipiController.getTipoDaIdTipo(articoliController.articoloSel.tipo)}" />
-									<f:selectItems value="#{tipiController.tipiLs}" var="tipo" itemLabel="#{tipo.nome} (id: #{tipo.id})" itemValue="#{tipo}" />
+									<f:selectItems value="#{tipiCondivisiController.tipiLs}" var="tipo" itemLabel="#{tipo.nome} (id: #{tipo.id})" itemValue="#{tipo}" />
 									<p:column>
 										<p:graphicImage value="#{fotoController.resolvePath(fotoController.getFotoTipoDaIdTipo(t.id))}#{fotoController.getFotonameUrl(fotoController.getFotoTipoDaIdTipo(t.id), 1)}" height="#{fotoController.getHeightFromResolution(fotoController.getFotoTipoDaIdTipo(t.id), 1, 40, 60)}" />
 									</p:column>

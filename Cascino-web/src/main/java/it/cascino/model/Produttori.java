@@ -27,18 +27,18 @@ public class Produttori implements Serializable{
 	private Integer id;
 	private String nome;
 	private String dati;
-	private Integer foto;
+	private Integer idFoto;
 	private Timestamp updtime;
 	
 	public Produttori(){
 	}
 	
-	public Produttori(Integer id, String nome, String dati, Integer foto, Timestamp updtime){
+	public Produttori(Integer id, String nome, String dati, Integer idFoto, Timestamp updtime){
 		super();
 		this.id = id;
 		this.nome = nome;
 		this.dati = dati;
-		this.foto = foto;
+		this.idFoto = idFoto;
 		this.updtime = updtime;
 	}
 	
@@ -69,12 +69,13 @@ public class Produttori implements Serializable{
 		this.dati = dati;
 	}
 	
-	public Integer getFoto(){
-		return this.foto;
+	@Column(name = "foto")
+	public Integer getIdFoto(){
+		return this.idFoto;
 	}
 	
-	public void setFoto(Integer foto){
-		this.foto = foto;
+	public void setIdFoto(Integer idFoto){
+		this.idFoto = idFoto;
 	}
 	
 	@Transient
@@ -100,7 +101,7 @@ public class Produttori implements Serializable{
 			stringBuilder.append("id=" + id).append(", ");
 			stringBuilder.append("nome=" + nome).append(", ");
 			stringBuilder.append("dati=" + dati).append(", ");
-			stringBuilder.append("foto=" + foto);
+			stringBuilder.append("foto=" + idFoto);
 		}else{
 			stringBuilder.append("id=1");
 		}
@@ -141,7 +142,7 @@ public class Produttori implements Serializable{
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result + ((nome == null) ? 0 : nome.hashCode());
 		result = prime * result + ((dati == null) ? 0 : dati.hashCode());
-		result = prime * result + ((foto == null) ? 0 : foto.hashCode());
+		result = prime * result + ((idFoto == null) ? 0 : idFoto.hashCode());
 		if(log != null){
 			log.info("tmpDEBUGtmp: " + "< " + "hashCode");
 		}

@@ -30,7 +30,7 @@
 				</p:toolbar>
 				<p:sticky target="tbNavigation" />
 
-				<p:dataTable id="tbl" var="foto" value="#{fotoController.fotoLs}" selection="#{fotoController.fotoSel}" selectionMode="single" rowKey="#{foto.id}" update=":updDisplay" oncomplete="PF('updDialog').show()" paginator="true" rows="15" dynamic="true" sortBy="id" emptyMessage="Nessun entry per il criterio definito" widgetVar="fotoTable" filteredValue="#{fotoController.filteredFotoLs}">
+				<p:dataTable id="tbl" var="foto" value="#{fotoCondivisiController.fotoLs}" selection="#{fotoController.fotoSel}" selectionMode="single" rowKey="#{foto.id}" update=":updDisplay" oncomplete="PF('updDialog').show()" paginator="true" rows="15" dynamic="true" sortBy="id" emptyMessage="Nessun entry per il criterio definito" widgetVar="fotoTable" filteredValue="#{fotoController.filteredFotoLs}">
 
 					<p:ajax event="rowDblselect" update=":contentGalleria" oncomplete="PF('viewDialog').show()" />
 
@@ -104,7 +104,7 @@
 					</p:column>
 					<f:facet name="footer">
 						<h:panelGrid>
-							<h:outputText value="Qty: ${fn:length(fotoController.fotoLs)}" />
+							<h:outputText value="Qty: ${fn:length(fotoCondivisiController.fotoLs)}" />
 
 							<h:panelGrid id="expAll" columns="5" width="200" style="border:none">
 								<h:outputText value="Esporta tutto:" />

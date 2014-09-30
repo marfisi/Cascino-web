@@ -29,7 +29,7 @@
 				</p:toolbar>
 				<p:sticky target="tbNavigation" />
 
-				<p:treeTable id="tbl" var="tipo" value="#{tipiController.albero}" selection="#{tipiController.nodoSel}" selectionMode="single">
+				<p:treeTable id="tbl" var="tipo" value="#{tipiCondivisiController.albero}" selection="#{tipiController.nodoSel}" selectionMode="single">
 
 					<p:ajax event="select" update=":viewForm:display" oncomplete="PF('viewDialog').show()" />
 
@@ -76,7 +76,7 @@
 					</p:column>
 					<f:facet name="footer">
 						<h:panelGrid>
-							<h:outputText value="Qty: ${fn:length(tipiController.tipiLs)}" />
+							<h:outputText value="Qty: ${fn:length(tipiCondivisiController.tipiLs)}" />
 						</h:panelGrid>
 					</f:facet>
 				</p:treeTable>
@@ -124,7 +124,7 @@
 							<h:outputText value="Foto" />
 							<p:selectOneMenu id="menuSelFoto" value="#{fotoController.fotoSel}" converter="fotoConv" var="f" filter="true" filterMatchMode="contains">
 								<f:selectItem itemLabel="Seleziona Foto" itemValue="" />
-								<f:selectItems value="#{fotoController.fotoLs}" var="foto" itemLabel="#{foto.originale} (id: #{foto.id})" itemValue="#{foto.id}" />
+								<f:selectItems value="#{fotoCondivisiController.fotoLs}" var="foto" itemLabel="#{foto.originale} (id: #{foto.id})" itemValue="#{foto.id}" />
 								<p:column>
 									<p:graphicImage value="#{fotoController.resolvePath(fotoController.getFotoDaIdFoto(f))}#{fotoController.getFotoname(fotoController.getFotoDaIdFoto(f), 1)}" height="60" />
 								</p:column>
@@ -140,7 +140,7 @@
 							<h:outputText value="Classe" />
 							<p:selectOneMenu id="menuSelPadre" value="#{tipiController.nodoSel.data.tipoPadre}" converter="tipiConv" var="t" filter="true" filterMatchMode="contains">
 								<f:selectItem itemLabel="Seleziona Classe Padre" itemValue="" />
-								<f:selectItems value="#{tipiController.tipiLs}" var="tipo" itemLabel="#{tipo.nome} (id: #{tipo.id})" itemValue="#{tipo}" />
+								<f:selectItems value="#{tipiCondivisiController.tipiLs}" var="tipo" itemLabel="#{tipo.nome} (id: #{tipo.id})" itemValue="#{tipo}" />
 								<p:column>
 									<p:graphicImage value="#{fotoController.resolvePath(fotoController.getFotoTipoDaIdTipo(t.id))}#{fotoController.getFotonameUrl(fotoController.getFotoTipoDaIdTipo(t.id), 1)}" height="40" />
 								</p:column>
@@ -173,7 +173,7 @@
 							<h:outputText value="Classe" />
 							<p:selectOneMenu value="#{tipiController.nodoSel.data.tipoPadre}" converter="tipiConv" var="p">
 								<f:selectItem itemLabel="Seleziona Classe Padre" itemValue="" />
-								<f:selectItems value="#{tipiController.tipiLs}" var="tipo" itemLabel="#{tipo.nome} (id: #{tipo.id})" itemValue="#{tipo}" />
+								<f:selectItems value="#{tipiCondivisiController.tipiLs}" var="tipo" itemLabel="#{tipo.nome} (id: #{tipo.id})" itemValue="#{tipo}" />
 								<p:column>
 									<p:graphicImage value="#{fotoController.resolvePath(fotoController.getFotoTipoDaIdTipo(p.id))}#{fotoController.getFotonameUrl(fotoController.getFotoTipoDaIdTipo(p.id), 1)}" height="#{fotoController.getHeightFromResolution(fotoController.getFotoTipoDaIdTipo(p.id), 1, 40, 60)}" />
 								</p:column>

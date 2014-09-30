@@ -37,7 +37,6 @@ public class FotoController implements Serializable{
 	
 	private String esito;
 	
-	private List<Foto> fotoLs;
 	private List<Foto> filteredFotoLs;
 	
 	private Foto fotoSel = new Foto();
@@ -87,21 +86,6 @@ public class FotoController implements Serializable{
 		log.info("tmpDEBUGtmp: " + "id: " + ((fotoSel != null) ? fotoSel.getId() : "null"));
 		this.tipoFoto = tipoFoto;
 		log.info("tmpDEBUGtmp: " + "< " + "setTipoFoto");
-	}
-	
-	public List<Foto> getFotoLs(){
-		log.info("tmpDEBUGtmp: " + "> " + "getFotoLs(" + ")");
-		log.info("tmpDEBUGtmp: " + "id: " + ((fotoSel != null) ? fotoSel.getId() : "null"));
-		fotoLs = fotoDao.getAll();		
-		log.info("tmpDEBUGtmp: " + "< " + "getFotoLs");				
-		return fotoLs;
-	}
-	
-	public void setFotoLs(List<Foto> fotoLs){
-		log.info("tmpDEBUGtmp: " + "> " + "setFotoLs(" + fotoLs + ")");
-		log.info("tmpDEBUGtmp: " + "id: " + ((fotoSel != null) ? fotoSel.getId() : "null"));
-		this.fotoLs = fotoLs;
-		log.info("tmpDEBUGtmp: " + "< " + "setFotoLs");
 	}
 	
 	public Foto getFotoSel(){

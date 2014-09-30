@@ -33,25 +33,12 @@ public class ProduttoriController implements Serializable{
 	
 	private String esito;
 	
-	private List<Produttori> produttoriLs;
+	@Inject
+	private ProduttoriCondivisiController produttoriCondivisiController;
+	
 	private List<Produttori> filteredProduttoriLs;
 	
 	private Produttori produttoreSel = new Produttori();
-	
-	public List<Produttori> getProduttoriLs(){
-		log.info("tmpDEBUGtmp: " + "> " + "getProduttoriLs(" + ")");
-		log.info("tmpDEBUGtmp: " + "id: " + ((produttoreSel != null) ? produttoreSel.getId() : "null"));
-		produttoriLs = produttoriDao.getAll();
-		log.info("tmpDEBUGtmp: " + "< " + "getProduttoriLs");
-		return produttoriLs;
-	}
-	
-	public void setProduttoriLs(List<Produttori> produttoriLs){
-		log.info("tmpDEBUGtmp: " + "> " + "setProduttoriLs(" + produttoriLs + ")");
-		log.info("tmpDEBUGtmp: " + "id: " + ((produttoreSel != null) ? produttoreSel.getId() : "null"));
-		this.produttoriLs = produttoriLs;
-		log.info("tmpDEBUGtmp: " + "< " + "setProduttoriLs");
-	}
 	
 	public Produttori getProduttoreSel(){
 		log.info("tmpDEBUGtmp: " + "> " + "getProduttoreSel(" + ")");
@@ -92,6 +79,8 @@ public class ProduttoriController implements Serializable{
 			esito = "non e' stato caricato il produttore!" + " (produttore: " + ((produttoreSel != null) ? produttoreSel.getId() : "null") + ")";
 			showGrowlErrorMessage();
 		}
+		// aggiorno la lista condivisa
+		produttoriCondivisiController.aggiornaProduttoriLs();
 		log.info("tmpDEBUGtmp: " + "< " + "salva");
 	}
 	
@@ -106,6 +95,8 @@ public class ProduttoriController implements Serializable{
 			esito = "non e' stato aggiornato il produttore!" + " (produttore: " + ((produttoreSel != null) ? produttoreSel.getId() : "null") + ")";
 			showGrowlErrorMessage();
 		}
+		// aggiorno la lista condivisa
+		produttoriCondivisiController.aggiornaProduttoriLs();
 		log.info("tmpDEBUGtmp: " + "< " + "aggiorna");
 	}
 	
@@ -120,6 +111,8 @@ public class ProduttoriController implements Serializable{
 			esito = "non ho trovato il produttore!" + " (produttore: " + ((produttoreSel != null) ? produttoreSel.getId() : "null") + ")";
 			showGrowlErrorMessage();
 		}
+		// aggiorno la lista condivisa
+		produttoriCondivisiController.aggiornaProduttoriLs();
 		log.info("tmpDEBUGtmp: " + "< " + "elimina");
 	}
 	
@@ -159,51 +152,6 @@ public class ProduttoriController implements Serializable{
 		log.error(message);
 	}
 	
-	public int sortByNum(Object obj1, Object obj2){
-		log.info("tmpDEBUGtmp: " + "> " + "sortByNum(" + obj1 + ", " + obj2 + ")");
-		log.info("tmpDEBUGtmp: " + "id: " + ((produttoreSel != null) ? produttoreSel.getId() : "null"));
-		Integer o1 = (Integer)obj1;
-		Integer o2 = (Integer)obj2;
-		log.info("sortById: " + o1 + "-" + o2);
-		log.info("tmpDEBUGtmp: " + "< " + "sortByNum");
-		if(o1 < o2){
-			return -1;
-		}else if(o1 > o2){
-			return 1;
-		}
-		return 0;
-	}
-	
-	public int sortByStr(Object obj1, Object obj2){
-		log.info("tmpDEBUGtmp: " + "> " + "sortByStr(" + obj1 + ", " + obj2 + ")");
-		log.info("tmpDEBUGtmp: " + "id: " + ((produttoreSel != null) ? produttoreSel.getId() : "null"));
-		String o1 = (String)obj1;
-		String o2 = (String)obj2;
-		log.info("sortByname: " + o1 + "-" + o2);
-		log.info("tmpDEBUGtmp: " + "< " + "sortByStr");
-		if(o1.compareTo(o2) < 0){
-			return -1;
-		}else if(o1.compareTo(o2) > 0){
-			return 1;
-		}
-		return 0;
-	}
-	
-	public int sortByStrIC(Object obj1, Object obj2){
-		log.info("tmpDEBUGtmp: " + "> " + "sortByStrIC(" + obj1 + ", " + obj2 + ")");
-		log.info("tmpDEBUGtmp: " + "id: " + ((produttoreSel != null) ? produttoreSel.getId() : "null"));
-		String o1 = (String)obj1;
-		String o2 = (String)obj2;
-		log.info("sortBynameIC: " + o1 + "-" + o2);
-		log.info("tmpDEBUGtmp: " + "< " + "sortByStrIC");
-		if(o1.compareToIgnoreCase(o2) < 0){
-			return -1;
-		}else if(o1.compareToIgnoreCase(o2) > 0){
-			return 1;
-		}
-		return 0;
-	}
-		
 	public String getNomeProduttoreDaIdArticolo(Integer idArticolo){
 		log.info("tmpDEBUGtmp: " + "> " + "getNomeProduttoreDaIdArticolo(" + idArticolo + ")");
 		log.info("tmpDEBUGtmp: " + "id: " + ((produttoreSel != null) ? produttoreSel.getId() : "null"));
