@@ -105,38 +105,38 @@
 							<h:panelGrid id="expAll" columns="5" width="200" style="border:none">
 								<h:outputText value="Esporta tutto:" />
 								<h:commandLink>
-									<p:graphicImage value="./resources/gfx/varie/excel.png" style="border:none" />
+									<p:graphicImage value="./resources/gfx/foto/varie/excel.png" style="border:none" />
 									<p:dataExporter type="xls" target="tbl" fileName="export" />
 								</h:commandLink>
 								<h:commandLink>
-									<p:graphicImage value="./resources/gfx/varie/pdf.png" style="border:none" />
+									<p:graphicImage value="./resources/gfx/foto/varie/pdf.png" style="border:none" />
 									<p:dataExporter type="pdf" target="tbl" fileName="export" />
 								</h:commandLink>
 								<h:commandLink>
-									<p:graphicImage value="./resources/gfx/varie/csv.png" style="border:none" />
+									<p:graphicImage value="./resources/gfx/foto/varie/csv.png" style="border:none" />
 									<p:dataExporter type="csv" target="tbl" fileName="export" />
 								</h:commandLink>
 								<h:commandLink>
-									<p:graphicImage value="./resources/gfx/varie/xml.png" style="border:none" />
+									<p:graphicImage value="./resources/gfx/foto/varie/xml.png" style="border:none" />
 									<p:dataExporter type="xml" target="tbl" fileName="export" />
 								</h:commandLink>
 							</h:panelGrid>
 							<h:panelGrid id="expPage" columns="5" width="200" style="border:none">
 								<h:outputText value="Esporta pagina:" />
 								<h:commandLink>
-									<p:graphicImage value="./resources/gfx/varie/excel.png" style="border:none" />
+									<p:graphicImage value="./resources/gfx/foto/varie/excel.png" style="border:none" />
 									<p:dataExporter type="xls" target="tbl" fileName="export" pageOnly="true" />
 								</h:commandLink>
 								<h:commandLink>
-									<p:graphicImage value="./resources/gfx/varie/pdf.png" style="border:none" />
+									<p:graphicImage value="./resources/gfx/foto/varie/pdf.png" style="border:none" />
 									<p:dataExporter type="pdf" target="tbl" fileName="export" pageOnly="true" />
 								</h:commandLink>
 								<h:commandLink>
-									<p:graphicImage value="./resources/gfx/varie/csv.png" style="border:none" />
+									<p:graphicImage value="./resources/gfx/foto/varie/csv.png" style="border:none" />
 									<p:dataExporter type="csv" target="tbl" fileName="export" pageOnly="true" />
 								</h:commandLink>
 								<h:commandLink>
-									<p:graphicImage value="./resources/gfx/varie/xml.png" style="border:none" />
+									<p:graphicImage value="./resources/gfx/foto/varie/xml.png" style="border:none" />
 									<p:dataExporter type="xml" target="tbl" fileName="export" pageOnly="true" />
 								</h:commandLink>
 							</h:panelGrid>
@@ -169,14 +169,14 @@
 							<p:inputText value="#{articoliController.articoloSel.nome}" />
 							<h:outputText value="Marca" />
 							<p:column>
-								<p:selectOneMenu id="menuSelProd" value="#{articoliController.articoloSel.produttore}" converter="produttoriConv" var="p" filter="true" filterMatchMode="contains">
+								<p:selectOneMenu id="menuSelProd" value="#{articoliController.articoloSel.produttore}" var="p" filter="true" filterMatchMode="contains">
 									<f:selectItem itemLabel="Seleziona Marca" itemValue="" />
-									<f:selectItems value="#{produttoriCondivisiController.produttoriLs}" var="produttore" itemLabel="#{produttore.nome} (id: #{produttore.id})" itemValue="#{produttore}" />
+									<f:selectItems value="#{produttoriCondivisiController.produttoriLs}" var="produttore" itemLabel="#{produttore.nome} (id: #{produttore.id})" itemValue="#{produttore.id}" />
 									<p:column>
-										<p:graphicImage value="#{fotoController.resolvePath(fotoController.getFotoProduttoreDaIdProduttore(p.id))}#{fotoController.getFotonameUrl(fotoController.getFotoProduttoreDaIdProduttore(p.id), 1)}" height="#{fotoController.getHeightFromResolution(fotoController.getFotoProduttoreDaIdProduttore(p.id), 1, 40, 60)}" />
+										<p:graphicImage value="#{fotoController.resolvePath(fotoController.getFotoProduttoreDaIdProduttore(p))}#{fotoController.getFotonameUrl(fotoController.getFotoProduttoreDaIdProduttore(p), 1)}" height="#{fotoController.getHeightFromResolution(fotoController.getFotoProduttoreDaIdProduttore(p), 1, 40, 60)}" />
 									</p:column>
 									<p:column>
-										<h:outputText value="#{p.nome} (id: #{p.id})" />
+										<h:outputText value="#{produttoriController.getProduttoreDaIdProduttore(p).nome} (id: #{p})" />
 									</p:column>
 								</p:selectOneMenu>
 								<p:commandButton id="toProduttoriButton" value="Aggiungi Produttore" action="#{navigationController.articoliToProduttori()}" icon="ui-icon-circle-plus" />
@@ -185,45 +185,47 @@
 							<p:inputText value="#{articoliController.articoloSel.modello}" />
 							<h:outputText value="Descrizione" />
 							<p:column>
-								<p:inputTextarea value="#{articoliController.articoloSel.descrizione}" rows="5" cols="23" counter="counter" maxlength="70" counterTemplate="{0} caratteri" autoResize="false" />
+								<p:inputTextarea value="#{articoliController.articoloSel.descrizione}" rows="5" cols="23" counter="counter" maxlength="200" counterTemplate="{0} caratteri" autoResize="false" />
 								<h:outputText id="counter" />
 							</p:column>
 							<h:outputText value="Tipo" />
 							<p:column>
-								<p:selectOneMenu id="menuSelTipo" value="#{articoliController.articoloSel.tipo}" converter="tipiConv" var="t" filter="true" filterMatchMode="contains">
+								<p:selectOneMenu id="menuSelTipo" value="#{articoliController.articoloSel.tipo}" var="t" filter="true" filterMatchMode="contains">
 									<f:selectItem itemLabel="Seleziona Classe" itemValue="" />
-									<f:selectItems value="#{tipiCondivisiController.tipiLs}" var="tipo" itemLabel="#{tipo.nome} (id: #{tipo.id})" itemValue="#{tipo}" />
+									<f:selectItems value="#{tipiCondivisiController.tipiLs}" var="tipo" itemLabel="#{tipo.nome} (id: #{tipo.id})" itemValue="#{tipo.id}" />
 									<p:column>
-										<p:graphicImage value="#{fotoController.resolvePath(fotoController.getFotoTipoDaIdTipo(t.id))}#{fotoController.getFotonameUrl(fotoController.getFotoTipoDaIdTipo(t.id), 1)}" height="#{fotoController.getHeightFromResolution(fotoController.getFotoTipoDaIdTipo(t.id), 1, 40, 60)}" />
+										<p:graphicImage value="#{fotoController.resolvePath(fotoController.getFotoTipoDaIdTipo(t))}#{fotoController.getFotonameUrl(fotoController.getFotoTipoDaIdTipo(t), 1)}" height="#{fotoController.getHeightFromResolution(fotoController.getFotoTipoDaIdTipo(t), 1, 40, 60)}" />
 									</p:column>
 									<p:column>
-										<h:outputText value="#{t.nome} - #{t.descrizione} (id: #{t.id})" />
+										<h:outputText value="#{tipiController.getTipoDaIdTipo(t).nome} - #{tipiController.getTipoDaIdTipo(t).descrizione} (id: #{t})" />
 									</p:column>
 								</p:selectOneMenu>
 								<p:commandButton id="toTipiButton" value="Aggiungi Tipo" action="#{navigationController.articoliToTipi()}" icon="ui-icon-circle-plus" />
 							</p:column>
 							<h:outputText value="Foto" />
 							<p:column>
-								<p:pickList id="fotoPojoPickList" value="#{articoliController.fotoPickList}" var="f" effect="bounce" itemValue="#{foto}" itemLabel="#{foto.id}" showSourceControls="false" showTargetControls="true" showCheckbox="true" showSourceFilter="true" showTargetFilter="true" filterMatchMode="contains" converter="fotoConv">
+								<p:commandButton value="Carica foto" action="#{articoliController.popolaFotoPLsource()}" update=":newForm:fotoMenuDisplay" icon="ui-icon-newwin" />
+								<p:outputPanel id="fotoMenuDisplay">
+									<p:pickList id="fotoPojoPickList" value="#{articoliController.fotoPickList}" var="f" effect="bounce" itemValue="#{foto}" itemLabel="#{foto.id} #{f.originale}" showSourceControls="false" showTargetControls="true" showCheckbox="true" showSourceFilter="true" showTargetFilter="true" filterMatchMode="contains" converter="fotoConv">
+										<f:facet name="sourceCaption">Disponibili</f:facet>
+										<f:facet name="targetCaption">Selezionate</f:facet>
 
-									<f:facet name="sourceCaption">Disponibili</f:facet>
-									<f:facet name="targetCaption">Selezionate</f:facet>
+										<p:ajax event="transfer" listener="#{articoliController.onPickListTransfer}" update=":growlForm:growl" />
 
-									<p:ajax event="transfer" listener="#{articoliController.onPickListTransfer}" update=":growlForm:growl" />
-
-									<p:column>
-										<p:graphicImage value="#{fotoController.resolvePath(f)}#{fotoController.getFotonameUrl(f, 1)}" height="#{fotoController.getHeightFromResolution(f, 1, 40, 60)}" />
-									</p:column>
-									<p:column>
-										<h:outputText value="#{f.originale} (id: #{f.id})" />
-									</p:column>
-								</p:pickList>
+										<p:column>
+											<p:graphicImage value="#{fotoController.resolvePath(f)}#{fotoController.getFotonameUrl(f, 1)}" height="#{fotoController.getHeightFromResolution(f, 1, 40, 60)}" />
+										</p:column>
+										<p:column>
+											<h:outputText value="#{f.originale} (id: #{f.id})" />
+										</p:column>
+									</p:pickList>
+								</p:outputPanel>
 								<p:commandButton id="toFotoButton" value="Aggiungi Foto" action="#{navigationController.articoliToFoto()}" icon="ui-icon-circle-plus" />
 							</p:column>
 						</p:panelGrid>
-						<p:commandButton value="Salva" action="#{tipiController.salva(fotoController.fotoSel.id)}" update=":tblForm:tbl,:growlForm:growl" onclick="PF('newDialog').close()" icon="ui-icon-disk" />
+						<p:commandButton value="Salva" action="#{articoliController.salva()}" update=":tblForm:tbl,:growlForm:growl" onclick="PF('newDialog').close()" icon="ui-icon-disk" />
 						<p:separator />
-						<p:commandButton value="Annulla" update=":tblForm:tbl" onclick="PF('newDialog').close()" icon="ui-icon-cancel" />
+						<p:commandButton value="Annulla" action="#{articoliController.svuotaFotoPLsource()}" update=":tblForm:tbl" onclick="PF('newDialog').close()" icon="ui-icon-cancel" />
 					</p:outputPanel>
 				</h:form>
 			</p:dialog>
@@ -242,7 +244,7 @@
 							<p:inputText value="#{articoliController.articoloSel.modello}" />
 							<h:outputText value="Descrizione" />
 							<p:column>
-								<p:inputTextarea value="#{articoliController.articoloSel.descrizione}" rows="5" cols="23" counter="counter" maxlength="70" counterTemplate="{0} caratteri" autoResize="false" />
+								<p:inputTextarea value="#{articoliController.articoloSel.descrizione}" rows="5" cols="23" counter="counter" maxlength="200" counterTemplate="{0} caratteri" autoResize="false" />
 								<h:outputText id="counter" />
 							</p:column>
 							<h:outputText value="Marca" />
@@ -275,21 +277,6 @@
 							</p:column>
 							<h:outputText value="Foto" />
 							<p:column>
-								<p:pickList id="fotoPojoPickList" value="#{articoliController.fotoPickList}" var="f" effect="bounce" itemValue="#{f}" itemLabel="#{f.id} #{f.originale}" showSourceControls="false" showTargetControls="true" showCheckbox="true" showSourceFilter="true" showTargetFilter="true" filterMatchMode="contains" converter="fotoConv">
-
-									<f:facet name="sourceCaption">Disponibili</f:facet>
-									<f:facet name="targetCaption">Selezionate</f:facet>
-
-									<p:ajax event="transfer" listener="#{articoliController.onPickListTransfer}" update=":growlForm:growl" />
-
-									<p:column>
-										<p:graphicImage value="#{fotoController.resolvePath(f)}#{fotoController.getFotonameUrl(f, 1)}" height="#{fotoController.getHeightFromResolution(f, 1, 40, 60)}" />
-									</p:column>
-									<p:column>
-										<h:outputText value="#{f.originale} (id: #{f.id})" />
-									</p:column>
-								</p:pickList>
-								<p:commandButton id="toFotoButton" value="Aggiungi Foto" action="#{navigationController.articoliToFoto()}" icon="ui-icon-circle-plus" />
 							</p:column>
 						</p:panelGrid>
 						<p:commandButton value="Aggiorna" action="#{articoliController.aggiorna}" update=":tblForm:tbl,:growlForm:growl" onclick="PF('updDialog').close()" icon="ui-icon-refresh" />

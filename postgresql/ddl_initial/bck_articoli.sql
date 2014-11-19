@@ -26,7 +26,7 @@ CREATE TABLE articoli (
     modello character varying(50) DEFAULT 'n.d.'::character varying NOT NULL,
     nome character varying(35) DEFAULT 'n.d.'::character varying NOT NULL,
     tipo integer DEFAULT 1 NOT NULL,
-    descrizione character varying(70),
+    descrizione character varying(200),
     articolo_fornitore integer,
     updtime timestamp with time zone
 );

@@ -57,7 +57,7 @@
 						</f:facet>
 						<p:graphicImage value="#{fotoController.resolvePath(fotoController.getFotoTipoDaIdTipo(tipo.id))}#{fotoController.getFotonameUrl(fotoController.getFotoTipoDaIdTipo(tipo.id), 1)}" height="40" />
 					</p:column>
-					<p:column sortBy="id" sortFunction="#{tipiController.sortByNum}" filterBy="#{tipo.id}" filterMatchMode="contains">
+					<p:column sortBy="id" sortFunction="#{tipiCondivisiController.sortByNum}" filterBy="#{tipo.id}" filterMatchMode="contains">
 						<f:facet name="header">
 							<h:outputText value="ID" />
 						</f:facet>
@@ -77,6 +77,45 @@
 					<f:facet name="footer">
 						<h:panelGrid>
 							<h:outputText value="Qty: ${fn:length(tipiCondivisiController.tipiLs)}" />
+
+							<h:panelGrid id="expAll" columns="5" width="200" style="border:none">
+								<h:outputText value="Esporta tutto:" />
+								<h:commandLink>
+									<p:graphicImage value="./resources/gfx/foto/varie/excel.png" style="border:none" />
+									<p:dataExporter type="xls" target="tbl" fileName="export" />
+								</h:commandLink>
+								<h:commandLink>
+									<p:graphicImage value="./resources/gfx/foto/varie/pdf.png" style="border:none" />
+									<p:dataExporter type="pdf" target="tbl" fileName="export" />
+								</h:commandLink>
+								<h:commandLink>
+									<p:graphicImage value="./resources/gfx/foto/varie/csv.png" style="border:none" />
+									<p:dataExporter type="csv" target="tbl" fileName="export" />
+								</h:commandLink>
+								<h:commandLink>
+									<p:graphicImage value="./resources/gfx/foto/varie/xml.png" style="border:none" />
+									<p:dataExporter type="xml" target="tbl" fileName="export" />
+								</h:commandLink>
+							</h:panelGrid>
+							<h:panelGrid id="expPage" columns="5" width="200" style="border:none">
+								<h:outputText value="Esporta pagina:" />
+								<h:commandLink>
+									<p:graphicImage value="./resources/gfx/foto/varie/excel.png" style="border:none" />
+									<p:dataExporter type="xls" target="tbl" fileName="export" pageOnly="true" />
+								</h:commandLink>
+								<h:commandLink>
+									<p:graphicImage value="./resources/gfx/foto/varie/pdf.png" style="border:none" />
+									<p:dataExporter type="pdf" target="tbl" fileName="export" pageOnly="true" />
+								</h:commandLink>
+								<h:commandLink>
+									<p:graphicImage value="./resources/gfx/foto/varie/csv.png" style="border:none" />
+									<p:dataExporter type="csv" target="tbl" fileName="export" pageOnly="true" />
+								</h:commandLink>
+								<h:commandLink>
+									<p:graphicImage value="./resources/gfx/foto/varie/xml.png" style="border:none" />
+									<p:dataExporter type="xml" target="tbl" fileName="export" pageOnly="true" />
+								</h:commandLink>
+							</h:panelGrid>
 						</h:panelGrid>
 					</f:facet>
 				</p:treeTable>
@@ -118,23 +157,23 @@
 							<h:outputText value="Nome" />
 							<p:inputText value="#{tipiController.nodoSel.data.nome}"></p:inputText>
 							<h:outputText value="Descrizione" />
-							<p:inputTextarea value="#{tipiController.nodoSel.data.descrizione}" rows="5" cols="23" counter="counter" maxlength="70" counterTemplate="{0} caratteri" autoResize="false" />
+							<p:inputTextarea value="#{tipiController.nodoSel.data.descrizione}" rows="5" cols="23" counter="counter" maxlength="200" counterTemplate="{0} caratteri" autoResize="false" />
 							<h:outputText id="blank" />
 							<h:outputText id="counter" />
 							<h:outputText value="Foto" />
-							<p:selectOneMenu id="menuSelFoto" value="#{fotoController.fotoSel}" converter="fotoConv" var="f" filter="true" filterMatchMode="contains">
-								<f:selectItem itemLabel="Seleziona Foto" itemValue="" />
-								<f:selectItems value="#{fotoCondivisiController.fotoLs}" var="foto" itemLabel="#{foto.originale} (id: #{foto.id})" itemValue="#{foto.id}" />
-								<p:column>
-									<p:graphicImage value="#{fotoController.resolvePath(fotoController.getFotoDaIdFoto(f))}#{fotoController.getFotoname(fotoController.getFotoDaIdFoto(f), 1)}" height="60" />
-								</p:column>
-								<p:column>
-									<h:outputText value="#{fotoController.getFotoname(fotoController.getFotoDaIdFoto(f), 1)} (id: #{fotoController.getFotoDaIdFoto(f).id})" />
-								</p:column>
-								<p:column>
-									<h:outputText value="#{fotoController.size(fotoController.getFotoDaIdFoto(f), 1)} - #{fotoController.resolution(fotoController.getFotoDaIdFoto(f), 1)}" />
-								</p:column>
-							</p:selectOneMenu>
+							<p:commandButton value="Carica foto" action="#{fotoController.popolaFotoLsDynPop()}" update=":newForm:fotoMenuDisplay" icon="ui-icon-newwin" />
+							<p:outputPanel id="fotoMenuDisplay">
+								<p:selectOneMenu id="menuSelFoto" value="#{tipiController.nodoSel.data.idFoto}" var="f" filter="true" filterMatchMode="contains">
+									<f:selectItem itemLabel="Seleziona Foto" itemValue="" />
+									<f:selectItems value="#{fotoController.fotoLsDynPop}" var="foto" itemLabel="#{foto.originale} (id: #{foto.id})" itemValue="#{foto.id}" />
+									<p:column>
+										<p:graphicImage value="#{fotoController.resolvePath(fotoController.getFotoDaIdFoto(f))}#{fotoController.getFotonameUrl(fotoController.getFotoDaIdFoto(f), 1)}" height="60" />
+									</p:column>
+									<p:column>
+										<h:outputText value="#{fotoController.getFotoname(fotoController.getFotoDaIdFoto(f), 1)} (id: #{f})" />
+									</p:column>
+								</p:selectOneMenu>
+							</p:outputPanel>
 							<h:outputText id="blank2" />
 							<p:commandButton id="toFotoButton" value="Aggiungi Foto" action="#{navigationController.tipiToFoto()}" icon="ui-icon-circle-plus" />
 							<h:outputText value="Classe" />
@@ -149,9 +188,9 @@
 								</p:column>
 							</p:selectOneMenu>
 						</h:panelGrid>
-						<p:commandButton value="Salva" action="#{tipiController.salva(fotoController.fotoSel.id)}" update=":tblTreeTableForm:tbl,:growlForm:growl" onclick="PF('newDialog').close()" icon="ui-icon-disk" />
+						<p:commandButton value="Salva" action="#{tipiController.salva()}" update=":tblTreeTableForm:tbl,:growlForm:growl" onclick="PF('newDialog').close()" icon="ui-icon-disk" />
 						<p:separator />
-						<p:commandButton value="Annulla" update=":tblTreeTableForm:tbl" onclick="PF('newDialog').close()" icon="ui-icon-cancel" />
+						<p:commandButton value="Annulla" action="#{fotoController.svuotaFotoLsDynPop()}" update=":tblTreeTableForm:tbl" onclick="PF('newDialog').close()" icon="ui-icon-cancel" />
 					</p:outputPanel>
 				</h:form>
 			</p:dialog>
@@ -167,7 +206,7 @@
 							<h:outputText value="Nome" />
 							<p:inputText value="#{tipiController.nodoSel.data.nome}"></p:inputText>
 							<h:outputText value="Descrizione" />
-							<p:inputTextarea value="#{tipiController.nodoSel.data.descrizione}" rows="5" cols="23" counter="counter" maxlength="70" counterTemplate="{0} caratteri" autoResize="false" />
+							<p:inputTextarea value="#{tipiController.nodoSel.data.descrizione}" rows="5" cols="23" counter="counter" maxlength="200" counterTemplate="{0} caratteri" autoResize="false" />
 							<h:outputText id="blank" />
 							<h:outputText id="counter" />
 							<h:outputText value="Classe" />

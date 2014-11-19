@@ -49,7 +49,7 @@ public class FotoDaoManBean implements FotoDao, Serializable{
 	@Inject
 	private UserTransaction utx;
 	
-	private final String fotoNotDefined = "n.d..jpeg";
+	private final String fotoNotDefined = "n.d..jpg";
 	private final String dirFoto = "c:\\dev\\foto";	// this.getClass().getClassLoader().getResource(fotoNotDefined).getPath();
 	// private String dirFotoUpload = "c:\\dev\\foto\\uploadTmp";
 	private final String dirFotoUri = ".\\resources\\gfx\\foto\\";
@@ -637,18 +637,6 @@ public class FotoDaoManBean implements FotoDao, Serializable{
 		log.info("tmpDEBUGtmp: " + "< " + "getHeightFromResolution");
 		return height;
 	}
-	
-	// public String resolvePath(Foto foto, int i, List<UploadedFile> fotoLs){
-	// String path = dirFotoUri;
-	// if(i == 0){
-	// path = dirFotoUri + "uploadTmp\\";
-	// }
-	// if((foto == null)||(foto.getOriginale() == null)){
-	// return path;
-	// }
-	// path = foto.getPath().replace(foto.getPath(), path);
-	// return path;
-	// }
 	
 	public String resolvePath(Foto foto){
 		log.info("tmpDEBUGtmp: " + "> " + "resolvePath(" + foto + ")");

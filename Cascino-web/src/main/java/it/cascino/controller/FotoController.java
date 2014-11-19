@@ -1,7 +1,9 @@
 package it.cascino.controller;
 
 import it.cascino.dao.FotoDao;
+import it.cascino.model.Articoli;
 import it.cascino.model.Foto;
+import it.cascino.model.Tipi;
 import java.util.ArrayList;
 import java.util.List;
 import java.io.Serializable;
@@ -13,6 +15,7 @@ import javax.inject.Named;
 import org.apache.commons.lang3.StringUtils;
 import org.jboss.logging.Logger;
 import org.primefaces.event.FileUploadEvent;
+import org.primefaces.model.DefaultTreeNode;
 import org.primefaces.model.UploadedFile;
 
 @Named
@@ -37,6 +40,9 @@ public class FotoController implements Serializable{
 	
 	private String esito;
 	
+	@Inject
+	private FotoCondivisiController fotoCondivisiController;  
+
 	private List<Foto> filteredFotoLs;
 	
 	private Foto fotoSel = new Foto();
@@ -48,6 +54,8 @@ public class FotoController implements Serializable{
 	private int tipoFotoNum;
 	
 	private List<UploadedFile> fileUploadedLs = new ArrayList<UploadedFile>();
+	
+	private List<Foto> fotoLsDynPop;
 	
 	public void onChangeTipoFoto(){
 		log.info("tmpDEBUGtmp: " + "> " + "onChangeTipoFoto(" + ")");
@@ -91,6 +99,11 @@ public class FotoController implements Serializable{
 	public Foto getFotoSel(){
 		log.info("tmpDEBUGtmp: " + "> " + "getFotoSel(" + ")");
 		log.info("tmpDEBUGtmp: " + "id: " + ((fotoSel != null) ? fotoSel.getId() : "null"));
+		if(fotoSel == null){
+			Foto f = new Foto();
+			f.setId(1);
+			fotoSel = f;
+		}
 		log.info("tmpDEBUGtmp: " + "< " + "getFotoSel");
 		return fotoSel;
 	}
@@ -422,7 +435,10 @@ public class FotoController implements Serializable{
 		log.info("tmpDEBUGtmp: " + "id: " + ((fotoSel != null) ? fotoSel.getId() : "null"));
 		String nomePerUrl = "";
 		nomePerUrl = getFotoname(f, t, u);
-		// gestione dei simboli che creano anomalie nei nomi url
+		// gestione dei simboli che creano anomalie nei nomi url (ci va %hx)
+		if(StringUtils.contains(nomePerUrl, "%")){	// e' importante fare per primo %, altrimenti lo mettessi dopo tutti gli atri mi sostituirebbe i % dei precedenti
+			nomePerUrl = StringUtils.replace(nomePerUrl, "%", "%25");
+		}
 		if(StringUtils.contains(nomePerUrl, "°")){
 			nomePerUrl = StringUtils.replace(nomePerUrl, "°", "%B0");
 		}
@@ -529,6 +545,29 @@ public class FotoController implements Serializable{
 		return true;
 	}
 	
+	public List<Foto> getFotoLsDynPop(){
+		log.info("tmpDEBUGtmp: " + "> " + "getFotoLsDynPop(" + ")");
+		if(fotoLsDynPop == null){
+			fotoLsDynPop = new ArrayList<Foto>();
+		}
+		log.info("tmpDEBUGtmp: " + "< " + "getFotoLsDynPop");				
+		return fotoLsDynPop;
+	}
+	
+	public void setFotoLsDynPop(List<Foto> fotoLsDynPop){
+		log.info("tmpDEBUGtmp: " + "> " + "fotoLsDynPop(" + fotoLsDynPop + ")");
+		this.fotoLsDynPop = fotoLsDynPop;
+		log.info("tmpDEBUGtmp: " + "< " + "fotoLsDynPop");
+	}
+	
+	public void popolaFotoLsDynPop(){
+		fotoLsDynPop = fotoCondivisiController.getFotoLs();
+	}
+	
+	public void svuotaFotoLsDynPop(){
+		fotoLsDynPop = new ArrayList<Foto>();
+	}
+	
 	// ***** inizio Foto *****
 	public Foto getFotoDaIdFoto(Integer idFoto){
 		log.info("tmpDEBUGtmp: " + "> " + "getFotoDaIdFoto(" + idFoto + ")");
@@ -622,10 +661,22 @@ public class FotoController implements Serializable{
 		log.info("tmpDEBUGtmp: " + "< " + "getFotoArticoloDaIdArticolo");
 		return fotoArticolo;
 	}
-	
-	// public List<Foto> getFotoArticoloOrdLsDaIdArticolo(Integer idArticolo){
-	// // non dal controller, ma solo da dao, e' utilizzata da ArticoliController per popolare le DualListModel
-	// }
+
+	public List<Foto> getFotoArticoloOrdLsDaIdArticolo(Integer idArticolo){
+		log.info("tmpDEBUGtmp: " + "> " + "getFotoArticoloOrdLsDaIdArticolo(" + idArticolo + ")");
+		log.info("tmpDEBUGtmp: " + "id: " +  ((fotoSel != null) ? fotoSel.getId() : "null"));
+		List<Foto> fotoArticolo = new ArrayList<Foto>();
+		fotoArticolo = fotoDao.getFotoArticoloOrdLsDaIdArticolo(idArticolo);
+		if(fotoArticolo != null){
+			esito = "selezionate " + fotoArticolo.size() + " foto per articolo: " + idArticolo;
+			showGrowlInfoMessage(esito);
+		}else{
+			esito = "non e' stata trovata la foto!" + " (articolo: " + idArticolo + ")";
+			showGrowlErrorMessage();
+		}
+		log.info("tmpDEBUGtmp: " + "< " + "getFotoArticoloOrdLsDaIdArticolo");
+		return fotoArticolo;
+	}
 	// ***** fine Articoli *****
 
 }

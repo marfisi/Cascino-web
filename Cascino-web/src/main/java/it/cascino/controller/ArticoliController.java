@@ -36,15 +36,16 @@ public class ArticoliController implements Serializable{
 	@Inject
 	private ArticoliDao articoliDao;
 	
-	@Inject
-	private FotoDao fotoDao;
-	
 	private String esito;
 	
 	@Inject
 	private ArticoliCondivisiController articoliCondivisiController;
 
-	
+	@Inject
+	FotoCondivisiController fotoCondivisiController;
+	@Inject
+	FotoController fotoController;
+
 //	private List<Articoli> articoliLs;
 	private List<Articoli> filteredArticoliLs;
 	
@@ -52,10 +53,10 @@ public class ArticoliController implements Serializable{
 	
 	private Articoli articoloSel = new Articoli();
 	
-//	private List<Foto> fotoPLsource = new ArrayList<Foto>();
-//	private List<Foto> fotoPLtarget = new ArrayList<Foto>();
-//	private DualListModel<Foto> fotoPickList = new DualListModel<Foto>(fotoPLsource, fotoPLtarget);
-	private DualListModel<Foto> fotoPickList = new DualListModel<Foto>(new ArrayList<Foto>(), new ArrayList<Foto>());
+	private List<Foto> fotoPLsource = new ArrayList<Foto>();
+	private List<Foto> fotoPLtarget = new ArrayList<Foto>();
+	private DualListModel<Foto> fotoPickList = new DualListModel<Foto>(fotoPLsource, fotoPLtarget);
+//	private DualListModel<Foto> fotoPickList = new DualListModel<Foto>(new ArrayList<Foto>(), new ArrayList<Foto>());
 //	private Boolean fotoPLtargetModif = true;
 
 //	ArticoliController(){
@@ -85,26 +86,30 @@ public class ArticoliController implements Serializable{
 	public Articoli getArticoloSel(){
 		log.info("tmpDEBUGtmp: " + "> " + "getArticoloSel(" + ")");
 		log.info("tmpDEBUGtmp: " + "id: " + ((articoloSel != null) ? articoloSel.getId() : "null"));
+		if(articoloSel == null){
+			Articoli a = new Articoli();
+			a.setId(1);
+			articoloSel = a;
+		}
 		log.info("tmpDEBUGtmp: " + "< " + "getArticoloSel");
 		return articoloSel;
 	}
 	
 	public void setArticoloSel(Articoli articoloSel){
 		log.info("tmpDEBUGtmp: " + "> " + "setArticoloSel(" + articoloSel + ")");
-		if((articoloSel != null) && (this.articoloSel.getId() != articoloSel.getId())){
-			log.info("tmpDEBUGtmp: " + "id: " + ((articoloSel != null) ? articoloSel.getId() : "null") + " this.id: " + ((this.articoloSel != null) ? this.articoloSel.getId() : "null"));
+		log.info("tmpDEBUGtmp: " + "id: " + ((articoloSel != null) ? articoloSel.getId() : "null") + " this.id: " + ((this.articoloSel != null) ? this.articoloSel.getId() : "null"));
+		fotoPLtarget = new ArrayList<Foto>();
+		if(articoloSel != null){
 			this.articoloSel = articoloSel;
 			// aggiorno le variabili che dipendono dell'articolo selezionato
-			if(true){
-				List<Foto> fotoPLsource = fotoDao.getAll(); // fotoCondivisiController.getFotoLS();
-				List<Foto> fotoPLtarget =  fotoDao.getFotoArticoloOrdLsDaIdArticolo(articoloSel.getId());	// togliere fotoDao... non mi paice che sia qui, creare un metodo in fotoController????
-				fotoPickList = new DualListModel<Foto>(fotoPLsource, fotoPLtarget);
-//				fotoPickList = new DualListModel<Foto>(fotoPLsource, getFotoPLtarget());
-			}
+//			if(this.articoloSel.getId() != articoloSel.getId()){
+				fotoPLtarget =  fotoController.getFotoArticoloOrdLsDaIdArticolo(articoloSel.getId());
+//			}
 		}
+		fotoPickList = new DualListModel<Foto>(fotoPLsource, fotoPLtarget);
 		log.info("tmpDEBUGtmp: " + "< " + "setArticoloSel");
 	}
-	
+
 	public List<Articoli> getFilteredArticoliLs(){
 		log.info("tmpDEBUGtmp: " + "> " + "getFilteredArticoliLs(" + ")");
 		log.info("tmpDEBUGtmp: " + "id: " + ((articoloSel != null) ? articoloSel.getId() : "null"));
@@ -122,17 +127,24 @@ public class ArticoliController implements Serializable{
 	public DualListModel<Foto> getFotoPickList(){
 		log.info("tmpDEBUGtmp: " + "> " + "getFotoPickList(" + ")");
 		log.info("tmpDEBUGtmp: " + "id: " + ((articoloSel != null) ? articoloSel.getId() : "null"));
+		
+//		List<Foto> fotoPLsource = new ArrayList<Foto>();
+//		List<Foto> fotoPLtarget = new ArrayList<Foto>();
+//		if((articoloSel != null) && (articoloSel.getId() !=null)){
+//			fotoPLsource = fotoController.getFotoLsDynPop();	// .getFotoLs();	// fotoDao.getAll();
+//			fotoPLtarget =  fotoController.getFotoArticoloOrdLsDaIdArticolo(articoloSel.getId());
+//			// libero la lista dei sorgenti da quelli già selezionati, per evitare i doppioni
+//			if(!(fotoPLtarget.isEmpty())){
+//				fotoPLsource.removeAll(fotoPLtarget);				
+//			}
+//		}
+//		fotoPickList = new DualListModel<Foto>(fotoPLsource, fotoPLtarget);
+//		
+		
 		log.info("tmpDEBUGtmp: " + "< " + "getFotoPickList");
 		return fotoPickList;
 	}
-	
-//	private List<Foto> getFotoPLtarget(){
-//		log.info("tmpDEBUGtmp: " + "> " + "getFotoPLtarget(" + ")");
-//		log.info("tmpDEBUGtmp: " + "id: " + ((articoloSel != null) ? articoloSel.getId() : "null"));
-//		log.info("tmpDEBUGtmp: " + "< " + "getFotoPLtarget");
-//		return fotoPLtarget;
-//	}
-	
+
 	public void setFotoPickList(DualListModel<Foto> fotoPickList){
 		log.info("tmpDEBUGtmp: " + "> " + "setFotoPickList(" + fotoPickList + ")");
 		log.info("tmpDEBUGtmp: " + "id: " + ((articoloSel != null) ? articoloSel.getId() : "null"));
@@ -140,6 +152,50 @@ public class ArticoliController implements Serializable{
 		log.info("tmpDEBUGtmp: " + "< " + "setFotoPickList");
 	}
 	
+	public void popolaFotoPLsource(){
+		fotoPLsource = fotoCondivisiController.getFotoLs();
+		fotoPLsource = fotoPLsource.subList(0, 20); // TMP  TMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMPPPPPPPPPPP
+		// libero la lista dei sorgenti da quelli già selezionati, per evitare i doppioni
+		if(!(fotoPLtarget.isEmpty())){
+			fotoPLsource.removeAll(fotoPLtarget);				
+		}
+		fotoPickList = new DualListModel<Foto>(fotoPLsource, fotoPLtarget);
+	}
+	
+	public void svuotaFotoPLsource(){
+		fotoPLsource = new ArrayList<Foto>();
+		fotoPickList = new DualListModel<Foto>(fotoPLsource, fotoPLtarget);
+	}
+	
+//	private List<Foto> getFotoPLsource(){
+//		log.info("tmpDEBUGtmp: " + "> " + "getFotoPLsource(" + ")");
+//		log.info("tmpDEBUGtmp: " + "id: " + ((articoloSel != null) ? articoloSel.getId() : "null"));
+//		log.info("tmpDEBUGtmp: " + "< " + "getFotoPLsource");
+//		
+//		return fotoPLsource;
+//	}
+//
+//	private void setFotoPLsource(List<Foto> fotoPLsource){
+//		log.info("tmpDEBUGtmp: " + "> " + "setFotoPLsource(" + ")");
+//		log.info("tmpDEBUGtmp: " + "id: " + ((articoloSel != null) ? articoloSel.getId() : "null"));
+//		this.fotoPLsource = fotoPLsource;
+//		log.info("tmpDEBUGtmp: " + "< " + "setFotoPLsource");
+//	}
+//
+//	private List<Foto> getFotoPLtarget(){
+//		log.info("tmpDEBUGtmp: " + "> " + "getFotoPLtarget(" + ")");
+//		log.info("tmpDEBUGtmp: " + "id: " + ((articoloSel != null) ? articoloSel.getId() : "null"));
+//		log.info("tmpDEBUGtmp: " + "< " + "getFotoPLtarget");
+//		return fotoPLtarget;
+//	}
+//
+//	private void setFotoPLtarget(List<Foto> fotoPLtarget){
+//		log.info("tmpDEBUGtmp: " + "> " + "setFotoPLtarget(" + ")");
+//		log.info("tmpDEBUGtmp: " + "id: " + ((articoloSel != null) ? articoloSel.getId() : "null"));
+//		this.fotoPLtarget = fotoPLtarget;
+//		log.info("tmpDEBUGtmp: " + "< " + "setFotoPLtarget");
+//	}
+		
 	public List<String> articoliAutoCompleteLs(String str){
 		log.info("tmpDEBUGtmp: " + "> " + "articoliAutoCompleteLs(" + str + ")");
 		log.info("tmpDEBUGtmp: " + "id: " + ((articoloSel != null) ? articoloSel.getId() : "null"));
@@ -152,7 +208,12 @@ public class ArticoliController implements Serializable{
 	public void salva(){
 		log.info("tmpDEBUGtmp: " + "> " + "salva(" + ")");
 		log.info("tmpDEBUGtmp: " + "id: " + ((articoloSel != null) ? articoloSel.getId() : "null"));
-		articoliDao.salva(articoloSel);
+		
+		// svuoto la lista delle foto
+//		fotoController.svuotaFotoLsDynPop();
+		svuotaFotoPLsource();
+
+		articoliDao.salva(articoloSel, fotoPickList.getTarget());
 		if(articoloSel != null){
 			esito = "Aggiunto articolo: " + articoloSel.getCodice();
 			showGrowlInsMessage();
@@ -168,6 +229,11 @@ public class ArticoliController implements Serializable{
 	public void aggiorna(){
 		log.info("tmpDEBUGtmp: " + "> " + "aggiorna(" + ")");
 		log.info("tmpDEBUGtmp: " + "id: " + ((articoloSel != null) ? articoloSel.getId() : "null"));		
+
+		// svuoto la lista delle foto
+//		fotoController.svuotaFotoLsDynPop();
+		svuotaFotoPLsource();
+
 		articoliDao.aggiorna(articoloSel, fotoPickList.getTarget());
 		if(articoloSel != null){
 			esito = "Aggiornato articolo: " + articoloSel.getCodice();
@@ -184,6 +250,11 @@ public class ArticoliController implements Serializable{
 	public void elimina(){
 		log.info("tmpDEBUGtmp: " + "> " + "elimina(" + ")");
 		log.info("tmpDEBUGtmp: " + "id: " + ((articoloSel != null) ? articoloSel.getId() : "null"));
+		
+		// svuoto la lista delle foto
+//		fotoController.svuotaFotoLsDynPop();
+		svuotaFotoPLsource();
+
 		articoliDao.elimina(articoloSel);
 		if(articoloSel != null){
 			esito = "Elimino articolo: " + articoloSel.getCodice();

@@ -38,12 +38,20 @@ public class TipiController implements Serializable{
 	
 	@Inject
 	private TipiCondivisiController tipiCondivisiController;  
-	
+
+	@Inject
+	private FotoController fotoController;  
+
 	private TreeNode nodoSel;
 	
 	public TreeNode getNodoSel(){
 		log.info("tmpDEBUGtmp: " + "> " + "getNodoSel(" + ")");
 		log.info("tmpDEBUGtmp: " + "id: " + ((nodoSel != null) ? ((Tipi)nodoSel.getData()).getId() : "null"));
+		if(nodoSel == null){
+			Tipi t = new Tipi();
+			t.setId(1);
+			nodoSel = new DefaultTreeNode(t);
+		}
 		log.info("tmpDEBUGtmp: " + "< " + "getNodoSel");
 		return nodoSel;
 	}
@@ -55,17 +63,21 @@ public class TipiController implements Serializable{
 		log.info("tmpDEBUGtmp: " + "< " + "setNodoSel");
 	}
 	
-	public void salva(Integer idFoto){
-		log.info("tmpDEBUGtmp: " + "> " + "salva(" + idFoto + ")");
-		log.info("tmpDEBUGtmp: " + "id: " + ((nodoSel != null) ? ((Tipi)nodoSel.getData()).getId() : "null"));
-		((Tipi)nodoSel.getData()).setIdFoto(idFoto);
-		salva();
-		log.info("tmpDEBUGtmp: " + "< " + "salva");
-	}
+//	public void salva(Integer idFoto){
+//		log.info("tmpDEBUGtmp: " + "> " + "salva(" + idFoto + ")");
+//		log.info("tmpDEBUGtmp: " + "id: " + ((nodoSel != null) ? ((Tipi)nodoSel.getData()).getId() : "null"));
+//		((Tipi)nodoSel.getData()).setIdFoto(idFoto);
+//		salva();
+//		log.info("tmpDEBUGtmp: " + "< " + "salva");
+//	}
 	
 	public void salva(){
 		log.info("tmpDEBUGtmp: " + "> " + "salva(" + ")");
 		log.info("tmpDEBUGtmp: " + "id: " + ((nodoSel != null) ? ((Tipi)nodoSel.getData()).getId() : "null"));
+		
+		// svuoto la lista delle foto
+		fotoController.svuotaFotoLsDynPop();
+		
 		tipiDao.salva(nodoSel);
 		if(nodoSel != null){
 			esito = "Aggiunto tipo: " + ((Tipi)nodoSel.getData()).getDescrizione();
@@ -83,7 +95,10 @@ public class TipiController implements Serializable{
 		log.info("tmpDEBUGtmp: " + "> " + "aggiorna("  + ")");
 		log.info("tmpDEBUGtmp: " + "id: " + ((nodoSel != null) ? ((Tipi)nodoSel.getData()).getId() : "null"));
 		((Tipi)nodoSel.getData()).setTipoPadre(getPadreFromIdPadre());
-		
+				
+		// svuoto la lista delle foto
+		fotoController.svuotaFotoLsDynPop();
+
 		tipiDao.aggiorna(nodoSel);
 		if(nodoSel != null){
 			esito = "Aggiorno tipo: " + ((Tipi)nodoSel.getData()).getDescrizione();

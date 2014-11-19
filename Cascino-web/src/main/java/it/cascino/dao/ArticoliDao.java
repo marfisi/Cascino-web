@@ -5,7 +5,7 @@ import it.cascino.model.Articoli;
 import it.cascino.model.Foto;
 
 public interface ArticoliDao{
-	void salva(Articoli t);
+	void salva(Articoli t,  List<Foto> fotoPLtarget);
 	
 	void aggiorna(Articoli t,  List<Foto> fotoPLtarget);
 	

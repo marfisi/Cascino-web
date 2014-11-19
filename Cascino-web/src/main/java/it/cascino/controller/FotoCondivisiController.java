@@ -2,6 +2,7 @@ package it.cascino.controller;
 
 import it.cascino.dao.FotoDao;
 import it.cascino.model.Foto;
+import java.util.ArrayList;
 import java.util.List;
 import java.io.Serializable;
 import javax.annotation.PostConstruct;
@@ -40,12 +41,13 @@ public class FotoCondivisiController implements Serializable{
 		this.fotoLs = fotoLs;
 		log.info("tmpDEBUGtmp: " + "< " + "setFotoLs");
 	}
-		
+	
 	@PostConstruct
-	public void aggiornaProduttoriLs(){
-		log.info("tmpDEBUGtmp: " + "> " + "aggiornaProduttoriLs(" + ")");
+	public void aggiornaFotoLs(){
+		log.info("tmpDEBUGtmp: " + "> " + "aggiornaFotoLs(" + ")");
 		fotoLs = fotoDao.getAll();
-		log.info("tmpDEBUGtmp: " + "< " + "aggiornaProduttoriLs");
+//		fotoLsEmpty = new ArrayList<Foto>();
+		log.info("tmpDEBUGtmp: " + "< " + "aggiornaFotoLs");
 	}
 	
 	public int sortByNum(Object obj1, Object obj2){

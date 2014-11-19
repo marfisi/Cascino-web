@@ -1,12 +1,10 @@
 package it.cascino.converter;
 
-import it.cascino.dao.FotoDao;
 import it.cascino.model.Foto;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
-import javax.inject.Inject;
 
 @FacesConverter(forClass = it.cascino.model.Tipi.class, value = "fotoConv")
 public class FotoConverter implements Converter{

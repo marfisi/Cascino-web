@@ -22,7 +22,7 @@ SET default_with_oids = false;
 CREATE TABLE tipi (
     id integer NOT NULL,
     nome character varying(30) NOT NULL,
-    descrizione character varying(70),
+    descrizione character varying(200),
     padre integer DEFAULT 1 NOT NULL,
     foto integer DEFAULT 1 NOT NULL,
     updtime timestamp with time zone

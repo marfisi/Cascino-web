@@ -65,7 +65,7 @@ ALTER TABLE ONLY foto ALTER COLUMN id SET DEFAULT nextval('foto_id_seq'::regclas
 -- Data for Name: foto; Type: TABLE DATA; Schema: cascino_schema; Owner: cascino_user_db
 --
 
-INSERT INTO foto VALUES (1, 'c:\dev\foto', 'n.d..jpeg', 'n.d..jpeg', 'n.d..jpeg', 'n.d..jpeg', 'n.d..jpeg', '2014-05-21 11:43:59.038+02');
+INSERT INTO foto VALUES (1, 'c:\dev\foto', 'n.d..jpg', 'n.d..jpg', 'n.d..jpg', 'n.d..jpg', 'n.d..jpg', '2014-05-21 11:43:59.038+02');
 
 
 --
