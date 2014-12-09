@@ -111,7 +111,9 @@ public class FotoController implements Serializable{
 	public void setFotoSel(Foto fotoSel){
 		log.info("tmpDEBUGtmp: " + "> " + "setFotoSel(" + fotoSel + ")");
 		log.info("tmpDEBUGtmp: " + "id: " + ((fotoSel != null) ? fotoSel.getId() : "null"));
-		this.fotoSel = fotoSel;
+		if(fotoSel != null){
+			this.fotoSel = fotoSel;
+		}
 		log.info("tmpDEBUGtmp: " + "< " + "setFotoSel");
 	}
 	

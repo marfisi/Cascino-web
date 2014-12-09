@@ -197,30 +197,30 @@ public class Articoli implements Serializable{
 		return result;
 	}
 	
-	// mi servono per in menu p:selectOneMenu
-	
-	private Tipi tipoMenu;
-	
-	@Transient
-	public Tipi getTipoMenu(){
-		return tipoMenu;
-	}
-	
-	public void setTipoMenu(Tipi tipoMenu){
-		this.tipoMenu = tipoMenu;
-		tipo = tipoMenu.getId();
-	}
-	
-	private Produttori produttoreMenu;
-	
-	@Transient
-	public Produttori getProduttoreMenu(){
-		return produttoreMenu;
-	}
-	
-	public void setProduttoreMenu(Produttori produttoreMenu){
-		this.produttoreMenu = produttoreMenu;
-		produttore = produttoreMenu.getId();
-	}
+//	// mi servono per in menu p:selectOneMenu
+//	
+//	private Tipi tipoMenu;
+//	
+//	@Transient
+//	public Tipi getTipoMenu(){
+//		return tipoMenu;
+//	}
+//	
+//	public void setTipoMenu(Tipi tipoMenu){
+//		this.tipoMenu = tipoMenu;
+//		tipo = tipoMenu.getId();
+//	}
+//	
+//	private Produttori produttoreMenu;
+//	
+//	@Transient
+//	public Produttori getProduttoreMenu(){
+//		return produttoreMenu;
+//	}
+//	
+//	public void setProduttoreMenu(Produttori produttoreMenu){
+//		this.produttoreMenu = produttoreMenu;
+//		produttore = produttoreMenu.getId();
+//	}
 	
 }

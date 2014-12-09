@@ -47,6 +47,7 @@ public class UserLoginDaoManBean implements UserLoginDao, Serializable{
 				utx.commit();
 			}
 		}catch(Exception e){
+			log.info("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
 			Utility.manageException(e, utx, log);
 		}
 		log.info("tmpDEBUGtmp: " + "< " + "salva");

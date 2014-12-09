@@ -61,8 +61,8 @@ public class ArticoliDaoManBean implements ArticoliDao, Serializable{
 		return articoli;
 	}
 	
-	public void salva(Articoli articolo, List<Foto> fotoPLtarget){
-		log.info("tmpDEBUGtmp: " + "> " + "salva(" + articolo + ", " + fotoPLtarget + ")");
+	public void salva(Articoli articolo, List<Foto> fotoPerArticolo){
+		log.info("tmpDEBUGtmp: " + "> " + "salva(" + articolo + ", " + fotoPerArticolo + ")");
 		try{
 			try{
 				utx.begin();
@@ -72,7 +72,7 @@ public class ArticoliDaoManBean implements ArticoliDao, Serializable{
 				entityManager.persist(articolo);
 				// per la lista di foto, aggiorno articoli_foto	
 				try{
-					if(!manageArticoliFoto(articolo.getId(), fotoPLtarget)){
+					if(!manageArticoliFoto(articolo.getId(), fotoPerArticolo)){
 						// entityManager.clear();
 						utx.rollback();
 					}
@@ -91,8 +91,8 @@ public class ArticoliDaoManBean implements ArticoliDao, Serializable{
 		log.info("tmpDEBUGtmp: " + "< " + "salva");
 	}
 	
-	public void aggiorna(Articoli articolo, List<Foto> fotoPLtarget){
-		log.info("tmpDEBUGtmp: " + "> " + "aggiorna(" + articolo + ", " + fotoPLtarget + ")");
+	public void aggiorna(Articoli articolo, List<Foto> fotoPerArticolo){
+		log.info("tmpDEBUGtmp: " + "> " + "aggiorna(" + articolo + ", " + fotoPerArticolo + ")");
 		try{
 			try{
 				utx.begin();
@@ -101,7 +101,7 @@ public class ArticoliDaoManBean implements ArticoliDao, Serializable{
 				entityManager.merge(articolo);
 				// per la lista di foto, aggiorno articoli_foto	
 				try{
-					if(!manageArticoliFoto(articolo.getId(), fotoPLtarget)){
+					if(!manageArticoliFoto(articolo.getId(), fotoPerArticolo)){
 						// entityManager.clear();
 						utx.rollback();
 					}
@@ -120,15 +120,15 @@ public class ArticoliDaoManBean implements ArticoliDao, Serializable{
 		log.info("tmpDEBUGtmp: " + "< " + "aggiorna");
 	}
 	
-	private Boolean manageArticoliFoto(Integer idArticolo, List<Foto> fotoPLtarget) throws SystemException{
-		log.info("tmpDEBUGtmp: " + "> " + "manageArticoliFoto(" + idArticolo + ", " + fotoPLtarget + ")");
+	private Boolean manageArticoliFoto(Integer idArticolo, List<Foto> fotoPerArticolo) throws SystemException{
+		log.info("tmpDEBUGtmp: " + "> " + "manageArticoliFoto(" + idArticolo + ", " + fotoPerArticolo + ")");
 		ArticoliFoto articoloFoto = null;
 		Foto o = null;
 		// try{
 		// try{
 		// utx.begin();
 		log.info("transaction:" + " " + utx.getStatus());
-		Iterator<Foto> iterator = fotoPLtarget.iterator();
+		Iterator<Foto> iterator = fotoPerArticolo.iterator();
 		
 		// elimino le entry in tabella che non sono piu' in essere
 		String sql = "select * "
@@ -142,7 +142,7 @@ public class ArticoliDaoManBean implements ArticoliDao, Serializable{
 			o = iterator.next();
 			idFotoDaNonEliminare.add(o.getId());
 		}
-		query.setParameter("idFotoDaNonEliminare", (idFotoDaNonEliminare.isEmpty()?1:idFotoDaNonEliminare));
+		query.setParameter("idFotoDaNonEliminare", (idFotoDaNonEliminare.isEmpty()?0:idFotoDaNonEliminare));
 		
 		List<ArticoliFoto> articoliFotoDaEliminare = new ArrayList<ArticoliFoto>();
 		try{
@@ -172,7 +172,7 @@ public class ArticoliDaoManBean implements ArticoliDao, Serializable{
 		}
 		
 		// dopo aver eliminato, gestisco le aggiunte e modifiche
-		iterator = fotoPLtarget.iterator();
+		iterator = fotoPerArticolo.iterator();
 		Integer ordinamento = 0;
 		query = entityManager.createNamedQuery("ArticoliFoto.findByIDArtIdFotoOrd", ArticoliFoto.class);
 		query.setParameter("idArt", idArticolo);
@@ -241,8 +241,20 @@ public class ArticoliDaoManBean implements ArticoliDao, Serializable{
 		try{
 			try{
 				utx.begin();
+				log.info("transaction:" + " " + utx.getStatus());
 				Articoli articolo = entityManager.find(Articoli.class, articoloElimina.getId());
 				log.info("elimina: " + articolo.getId() + ", " + articolo.getCodice() + ", " + articolo.getNome() + ", " + articolo.getDescrizione());
+				// per la lista di foto, aggiorno articoli_foto	
+				try{
+					if(!manageArticoliFoto(articolo.getId(), new ArrayList<Foto>())){	// passo fotoPerArticolo = new ArrayList<Foto>(), per ottenere idFotoDaNonEliminare vuoto, quindi cancellare tutti i riferimenti
+						// entityManager.clear();
+						utx.rollback();
+					}
+				}catch(Exception e){
+					utx.rollback();
+					Utility.manageException(e, utx, log);
+				}
+				log.info("transaction:" + " " + utx.getStatus());
 				entityManager.remove(articolo);
 				log.info("transaction:" + " " + utx.getStatus());
 			}finally{
