@@ -1,6 +1,8 @@
 package it.cascino.util;
 
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
 import java.util.Iterator;
 import javax.transaction.SystemException;
 import javax.transaction.UserTransaction;
@@ -32,11 +34,23 @@ public class Utility{
 	}
 	
 	public static void deleteFile(File file, Logger log){
+		System.gc();
+//		log.info("file " + (file.canExecute()?"true":"false"));
+//		log.info("file " + (file.canRead()?"true":"false"));
+//		log.info("file " + (file.canWrite()?"true":"false"));
 		if((file != null) && (file.exists())){
-			file.delete();
-			log.info("file " + file.getName() + " cancellato");
+//			if(file.delete()){
+			try{
+				if(Files.deleteIfExists(file.toPath())){
+					log.info("file " + file.getName() + " cancellato");
+				}else{
+					log.error("file " + file.getName() + " NON cancellato");
+				}
+			}catch(IOException e){
+				log.error("file " + file.getName() + " gestito con eccezione");
+				e.printStackTrace();
+			}
 		}
-		
 	}
 	
 	public static void deleteMultiFiles(File sourceFolder, Iterator<UploadedFile> iterator, Logger log)	{

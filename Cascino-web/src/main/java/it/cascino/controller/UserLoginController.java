@@ -48,7 +48,7 @@ public class UserLoginController implements Serializable{
 	
 	public void setUser(String user){
 		log.info("tmpDEBUGtmp: " + "> " + "setUser(" + user + ")");
-		this.user = user;
+		this.user = user.toLowerCase();
 		log.info("tmpDEBUGtmp: " + "< " + "setUser");
 	}
 	

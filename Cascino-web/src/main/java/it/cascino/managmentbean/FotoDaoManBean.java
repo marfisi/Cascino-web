@@ -803,10 +803,11 @@ public class FotoDaoManBean implements FotoDao, Serializable{
 	
 	public void copyFile(String fileName, InputStream in){
 		log.info("tmpDEBUGtmp: " + "> " + "copyFile(" + fileName + ", " + in + ")");
+		OutputStream out = null;
 		try{
 			File targetFolder = new File(dirFoto);
 			
-			OutputStream out = new FileOutputStream(new File(targetFolder, fileName));
+			out = new FileOutputStream(new File(targetFolder, fileName));
 			
 			int read = 0;
 			byte[] bytes = new byte[1024];
@@ -815,9 +816,12 @@ public class FotoDaoManBean implements FotoDao, Serializable{
 				out.write(bytes, 0, read);
 			}
 			
-			in.close();
-			out.flush();
-			out.close();
+//	        in.close();
+//	        in = null;
+//	        out.flush();
+//	        out.close();
+//	        out = null;
+//	        System.gc();
 			
 			log.info("nuovo file " + fileName + " copiato/creato!");
 		}catch(IOException e){

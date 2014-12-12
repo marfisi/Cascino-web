@@ -231,9 +231,9 @@
 				<h:form id="updFormUpload" enctype="multipart/form-data">
 					<p:outputPanel id="newDisplay">
 						<p:fileUpload fileUploadListener="#{fotoController.fileUploadUndef}" mode="advanced" dragDropSupport="true" update=":growlForm:growl" required="true" label="Seleziona" uploadLabel="Carica" cancelLabel="Annulla" invalidSizeMessage="File troppo grosso (limite 1 MB)" invalidFileMessage="Tipo file non consentito (solo: gif, jpeg, png)" sizeLimit="1048576" allowTypes="/(\.|\/)(gif|jpe?g|png)$/" />
-						<p:commandButton value="Salva" onclick="PF('updDialogUpload').close()" update=":updForm:tipoFotoGrid" process="@this" icon="ui-icon-disk" />
+						<p:commandButton value="Salva" onclick="PF('updDialogUpload').hide()" update=":updForm:tipoFotoGrid" process="@this" icon="ui-icon-disk" />
 						<p:separator />
-						<p:commandButton value="Annulla" action="#{fotoController.annullaUploadUndef}" update=":updForm:tipoFotoGrid,:growlForm:growl" onclick="PF('updDialogUpload').close()" process="@this" icon="ui-icon-cancel" />
+						<p:commandButton value="Annulla" action="#{fotoController.annullaUploadUndef}" update=":updForm:tipoFotoGrid,:growlForm:growl" onclick="PF('updDialogUpload').hide()" process="@this" icon="ui-icon-cancel" />
 					</p:outputPanel>
 				</h:form>
 			</p:dialog>
