@@ -96,24 +96,24 @@ public class FotoDaoManBean implements FotoDao, Serializable{
 	
 	public Boolean annullaUpdate(List<UploadedFile> fotoLs){
 		log.info("tmpDEBUGtmp: " + "> " + "annullaUpdate(" + fotoLs + ")");
-		if((fotoLs != null) && (!fotoLs.isEmpty())){
-			// ripristino i .delete
-			File fd = null;
-			if((fotoDeletedLs != null) && (!fotoDeletedLs.isEmpty())){
-				Iterator<File> iterFD = fotoDeletedLs.iterator();
-				while(iterFD.hasNext()){
-					fd = iterFD.next();
-					if(fd.exists()){
-						File fileRip = new File(dirFoto, fd.getName().substring(0, fd.getName().indexOf(".delete")));
-						fd.renameTo(fileRip);
-						fotoDeletedLs.remove(fd);
-						iterFD = fotoDeletedLs.iterator();
-						log.info("file " + fd.getName() + " annullato come cancellato");
-					}
+		// ripristino i .delete
+		File fd = null;
+		if((fotoDeletedLs != null) && (!fotoDeletedLs.isEmpty())){
+			Iterator<File> iterFD = fotoDeletedLs.iterator();
+			while(iterFD.hasNext()){
+				fd = iterFD.next();
+				if(fd.exists()){
+					File fileRip = new File(dirFoto, fd.getName().substring(0, fd.getName().indexOf(".delete")));
+					Utility.renameFile(fd, fileRip, log);
+					fotoDeletedLs.remove(fd);
+					iterFD = fotoDeletedLs.iterator();
+					log.info("file " + fd.getName() + " annullato come cancellato");
 				}
 			}
-			fotoDeletedLs.clear();
-			
+		}
+		fotoDeletedLs.clear();
+		
+		if((fotoLs != null) && (!fotoLs.isEmpty())){
 			annullaUpload(fotoLs);
 		}
 		log.info("tmpDEBUGtmp: " + "< " + "annullaUpdate");
@@ -128,7 +128,7 @@ public class FotoDaoManBean implements FotoDao, Serializable{
 			
 			Iterator<UploadedFile> iterator = fotoLs.iterator();
 			
-			Utility.deleteMultiFiles(sourceFolder, iterator, log);
+			Utility.deleteMultiFiles(sourceFolder, iterator, "upload-", log);
 		}
 		return true;
 	}
@@ -149,7 +149,7 @@ public class FotoDaoManBean implements FotoDao, Serializable{
 				f = new File(dirFoto, uploadFileName);
 				
 				if(f.exists()){
-					f.delete();
+					Utility.deleteFile(f, log);
 					fotoLs.remove(o);
 					iterator = fotoLs.iterator();
 					log.info("eliminato il file " + f.getName());
@@ -161,23 +161,23 @@ public class FotoDaoManBean implements FotoDao, Serializable{
 		return false;
 	}
 	
-	public void salva(Foto foto){
-		log.info("tmpDEBUGtmp: " + "> " + "salva(" + foto + ")");
-		try{
-			try{
-				utx.begin();
-				foto.setId(null);
-				log.info("salva: " + foto.getId() + ", " + foto.getPath() + ", " + foto.getOriginale());
-				entityManager.persist(foto);
-			}finally{
-				log.info("transaction:" + " " + utx.getStatus());
-				utx.commit();
-			}
-		}catch(Exception e){
-			Utility.manageException(e, utx, log);
-		}
-		log.info("tmpDEBUGtmp: " + "< " + "salva");
-	}
+//	public void salva(Foto foto){
+//		log.info("tmpDEBUGtmp: " + "> " + "salva(" + foto + ")");
+//		try{
+//			try{
+//				utx.begin();
+//				foto.setId(null);
+//				log.info("salva: " + foto.getId() + ", " + foto.getPath() + ", " + foto.getOriginale());
+//				entityManager.persist(foto);
+//			}finally{
+//				log.info("transaction:" + " " + utx.getStatus());
+//				utx.commit();
+//			}
+//		}catch(Exception e){
+//			Utility.manageException(e, utx, log);
+//		}
+//		log.info("tmpDEBUGtmp: " + "< " + "salva");
+//	}
 	
 	public String salva(List<UploadedFile> fotoLs){
 		log.info("tmpDEBUGtmp: " + "> " + "salva(" + fotoLs + ")");
@@ -208,7 +208,7 @@ public class FotoDaoManBean implements FotoDao, Serializable{
 			// cancello tutti i file copiati
 			iterator = fotoLs.iterator();
 			
-			Utility.deleteMultiFiles(sourceFolder, iterator, log);
+			Utility.deleteMultiFiles(sourceFolder, iterator, "upload-", log);
 			
 			return "la foto orignale e' obbligatoria";
 		}
@@ -253,19 +253,19 @@ public class FotoDaoManBean implements FotoDao, Serializable{
 			
 			if(fileO.exists()){
 				foto.setOriginale(o.getFileName());
-				fileO.renameTo(new File(targetFolder, fileN.getName()));
+				Utility.renameFile(fileO, new File(targetFolder, fileN.getName()), log);
 			}else if(fileH.exists()){
 				foto.setGrande(o.getFileName());
-				fileH.renameTo(new File(targetFolder, fileN.getName()));
+				Utility.renameFile(fileH, new File(targetFolder, fileN.getName()), log);
 			}else if(fileHW.exists()){
 				foto.setGrandeWatermark(o.getFileName());
-				fileHW.renameTo(new File(targetFolder, fileN.getName()));
+				Utility.renameFile(fileHW, new File(targetFolder, fileN.getName()), log);
 			}else if(fileL.exists()){
 				foto.setThumbnail(o.getFileName());
-				fileL.renameTo(new File(targetFolder, fileN.getName()));
+				Utility.renameFile(fileL, new File(targetFolder, fileN.getName()), log);
 			}else if(fileLW.exists()){
 				foto.setThumbnailWatermark(o.getFileName());
-				fileLW.renameTo(new File(targetFolder, fileN.getName()));
+				Utility.renameFile(fileLW, new File(targetFolder, fileN.getName()), log);
 			}
 		}
 		
@@ -278,7 +278,11 @@ public class FotoDaoManBean implements FotoDao, Serializable{
 				utx.commit();
 			}
 		}catch(Exception e){
-			Utility.manageException(e, utx, log);
+			// in caso di eccezione, cancello i file appena salvati
+			iterator = fotoLs.iterator();
+			Utility.deleteMultiFiles(sourceFolder, iterator, log);
+			
+			Utility.manageException(e, utx, log);			
 		}
 		
 		fotoLs = null;
@@ -287,21 +291,21 @@ public class FotoDaoManBean implements FotoDao, Serializable{
 		return "OK-Aggiunte foto";
 	}
 	
-	public void aggiorna(Foto foto){
-		log.info("tmpDEBUGtmp: " + "> " + "aggiorna(" + foto + ")");
-		try{
-			try{
-				utx.begin();
-				log.info("aggiorna: " + foto.getId() + ", " + foto.getPath() + ", " + foto.getOriginale());
-				entityManager.merge(foto);
-			}finally{
-				utx.commit();
-			}
-		}catch(Exception e){
-			Utility.manageException(e, utx, log);
-		}
-		log.info("tmpDEBUGtmp: " + "< " + "aggiorna");
-	}
+//	public void aggiorna(Foto foto){
+//		log.info("tmpDEBUGtmp: " + "> " + "aggiorna(" + foto + ")");
+//		try{
+//			try{
+//				utx.begin();
+//				log.info("aggiorna: " + foto.getId() + ", " + foto.getPath() + ", " + foto.getOriginale());
+//				entityManager.merge(foto);
+//			}finally{
+//				utx.commit();
+//			}
+//		}catch(Exception e){
+//			Utility.manageException(e, utx, log);
+//		}
+//		log.info("tmpDEBUGtmp: " + "< " + "aggiorna");
+//	}
 	
 	public String aggiorna(Foto foto, List<UploadedFile> fotoLs){
 		log.info("tmpDEBUGtmp: " + "> " + "aggiorna(" + foto + ", " + fotoLs + ")");
@@ -357,7 +361,7 @@ public class FotoDaoManBean implements FotoDao, Serializable{
 				}
 				Utility.deleteFile(fd, log);
 				foto.setOriginale(o.getFileName());
-				fileO.renameTo(new File(targetFolder, fileN.getName()));
+				Utility.renameFile(fileO, new File(targetFolder, fileN.getName()), log);
 			}else if(fileH.exists()){
 				fd = null;
 				if(foto.getGrande() != null){
@@ -365,7 +369,7 @@ public class FotoDaoManBean implements FotoDao, Serializable{
 				}
 				Utility.deleteFile(fd, log);
 				foto.setGrande(o.getFileName());
-				fileH.renameTo(new File(targetFolder, fileN.getName()));
+				Utility.renameFile(fileH, new File(targetFolder, fileN.getName()), log);
 			}else if(fileHW.exists()){
 				fd = null;
 				if(foto.getGrandeWatermark() != null){
@@ -373,7 +377,7 @@ public class FotoDaoManBean implements FotoDao, Serializable{
 				}
 				Utility.deleteFile(fd, log);
 				foto.setGrandeWatermark(o.getFileName());
-				fileHW.renameTo(new File(targetFolder, fileN.getName()));
+				Utility.renameFile(fileHW, new File(targetFolder, fileN.getName()), log);
 			}else if(fileL.exists()){
 				fd = null;
 				if(foto.getThumbnail() != null){
@@ -381,7 +385,7 @@ public class FotoDaoManBean implements FotoDao, Serializable{
 				}
 				Utility.deleteFile(fd, log);
 				foto.setThumbnail(o.getFileName());
-				fileL.renameTo(new File(targetFolder, fileN.getName()));
+				Utility.renameFile(fileL, new File(targetFolder, fileN.getName()), log);
 			}else if(fileLW.exists()){
 				fd = null;
 				if(foto.getThumbnailWatermark() != null){
@@ -389,7 +393,7 @@ public class FotoDaoManBean implements FotoDao, Serializable{
 				}
 				Utility.deleteFile(fd, log);
 				foto.setThumbnailWatermark(o.getFileName());
-				fileLW.renameTo(new File(targetFolder, fileN.getName()));
+				Utility.renameFile(fileLW, new File(targetFolder, fileN.getName()), log);
 			}
 		}
 		
@@ -416,7 +420,7 @@ public class FotoDaoManBean implements FotoDao, Serializable{
 					}else{
 						foto.setOriginale(null);
 					}
-					fd.delete();
+					Utility.deleteFile(fd, log);
 					fotoDeletedLs.remove(fd);
 					iterFD = fotoDeletedLs.iterator();
 					log.info("file " + fd.getName() + " cancellato");
@@ -450,57 +454,59 @@ public class FotoDaoManBean implements FotoDao, Serializable{
 		}
 		
 		try{
-			try{
-				utx.begin();
-				Foto foto = entityManager.find(Foto.class, fotoElimina.getId());
-				log.info("elimina: " + foto.getId() + ", " + foto.getPath() + ", " + foto.getOriginale());
-				
-				// rimuovere le foto, referenziate nel db, nella lista dei file modificati/eliminati (se uno prima fa le modifche e poi decide di premere cancella)
-				
-				// gestione file .delete
-				File fd = null;
-				if(fotoDeletedLs != null){
-					Iterator<File> iterFD = fotoDeletedLs.iterator();
-					while(iterFD.hasNext()){
-						fd = iterFD.next();
-						if(fd.exists()){
-							fd.delete();
-							fotoDeletedLs.remove(fd);
-							iterFD = fotoDeletedLs.iterator();
-							log.info("file " + fd.getName() + " cancellato");
-						}
+			utx.begin();
+			Foto foto = entityManager.find(Foto.class, fotoElimina.getId());
+			log.info("elimina: " + foto.getId() + ", " + foto.getPath() + ", " + foto.getOriginale());
+			
+			// rimuovere le foto, referenziate nel db, nella lista dei file modificati/eliminati (se uno prima fa le modifche e poi decide di premere cancella)
+			
+			// gestione file .delete
+			File fd = null;
+			if(fotoDeletedLs != null){
+				Iterator<File> iterFD = fotoDeletedLs.iterator();
+				while(iterFD.hasNext()){
+					fd = iterFD.next();
+					if(fd.exists()){
+						Utility.deleteFile(fd, log);
+						fotoDeletedLs.remove(fd);
+						iterFD = fotoDeletedLs.iterator();
+						log.info("file " + fd.getName() + " cancellato");
 					}
 				}
-				fotoDeletedLs.clear();
-				
-				// gestione file modificati
-				if((fotoLs != null) && (!fotoLs.isEmpty())){
-					annullaUpload(fotoLs);
-					fotoLs.clear();
-				}
-				
-				// gestione foto referenziate nel db
-				if(foto.getOriginale() != null){
-					Utility.deleteFile(foto.getPath(), foto.getOriginale(), log);
-				}
-				if(foto.getGrande() != null){
-					Utility.deleteFile(foto.getPath(), foto.getGrande(), log);
-				}
-				if(foto.getGrandeWatermark() != null){
-					Utility.deleteFile(foto.getPath(), foto.getGrandeWatermark(), log);
-				}
-				if(foto.getThumbnail() != null){
-					Utility.deleteFile(foto.getPath(), foto.getThumbnail(), log);
-				}
-				if(foto.getThumbnailWatermark() != null){
-					Utility.deleteFile(foto.getPath(), foto.getThumbnailWatermark(), log);
-				}
-				
+			}
+			fotoDeletedLs.clear();
+			
+			// gestione file modificati
+			if((fotoLs != null) && (!fotoLs.isEmpty())){
+				annullaUpload(fotoLs);
+				fotoLs.clear();
+			}
+			
+			// devo cancellare dal DB prima di canellare i file, perché se fallisce per esempio per una FK, non rimango con il DB popolato e i file cancellati.
+			try{
 				// cancello dal db
 				entityManager.remove(foto);
-			}finally{
-				log.info("transaction:" + " " + utx.getStatus());
-				utx.commit();
+				utx.commit();		
+			}catch(Exception e){
+				Utility.manageException(e, utx, log);
+			}
+			// solo se effettivamente si e' cancellata la foto dal DB, cancello i file
+		
+			// gestione foto referenziate nel db
+			if(foto.getOriginale() != null){
+				Utility.deleteFile(foto.getPath(), foto.getOriginale(), log);
+			}
+			if(foto.getGrande() != null){
+				Utility.deleteFile(foto.getPath(), foto.getGrande(), log);
+			}
+			if(foto.getGrandeWatermark() != null){
+				Utility.deleteFile(foto.getPath(), foto.getGrandeWatermark(), log);
+			}
+			if(foto.getThumbnail() != null){
+				Utility.deleteFile(foto.getPath(), foto.getThumbnail(), log);
+			}
+			if(foto.getThumbnailWatermark() != null){
+				Utility.deleteFile(foto.getPath(), foto.getThumbnailWatermark(), log);
 			}
 		}catch(Exception e){
 			Utility.manageException(e, utx, log);
@@ -522,7 +528,7 @@ public class FotoDaoManBean implements FotoDao, Serializable{
 		String deleteType = CommonsUtility.fileTypeFromNumberMap.get(t) != null ? CommonsUtility.fileTypeFromNumberMap.get(t) : ".err";
 		
 		File fd = new File(dirFoto, f.getName() + ".delete" + deleteType);
-		f.renameTo(fd);
+		Utility.renameFile(f,  fd, log);
 		fotoDeletedLs.add(fd);
 		log.info("tmpDEBUGtmp: " + "< " + "elimina");
 	}
@@ -790,7 +796,7 @@ public class FotoDaoManBean implements FotoDao, Serializable{
 				f = new File(dirFoto, uploadFileName);
 				
 				if(f.exists()){
-					f.delete();
+					Utility.deleteFile(f, log);
 					fotoLs.remove(o);
 					log.info("nuovo file " + fileOriginale.getFileName() + " rimpiazza " + f.getName());
 					return;
@@ -816,12 +822,12 @@ public class FotoDaoManBean implements FotoDao, Serializable{
 				out.write(bytes, 0, read);
 			}
 			
-//	        in.close();
-//	        in = null;
-//	        out.flush();
-//	        out.close();
-//	        out = null;
-//	        System.gc();
+	        in.close();
+	        in = null;
+	        out.flush();
+	        out.close();
+	        out = null;
+	        System.gc();
 			
 			log.info("nuovo file " + fileName + " copiato/creato!");
 		}catch(IOException e){

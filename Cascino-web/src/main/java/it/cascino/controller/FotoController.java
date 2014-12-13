@@ -144,6 +144,8 @@ public class FotoController implements Serializable{
 			showGrowlErrorMessage();
 		}
 		fileUploadedLs.clear();
+		// aggiorno la lista condivisa
+		fotoCondivisiController.aggiornaFotoLs();
 		log.info("tmpDEBUGtmp: " + "< " + "salva");
 	}
 	
@@ -216,6 +218,8 @@ public class FotoController implements Serializable{
 			showGrowlErrorMessage();
 		}
 		fileUploadedLs.clear();
+		// aggiorno la lista condivisa
+		fotoCondivisiController.aggiornaFotoLs();
 		log.info("tmpDEBUGtmp: " + "< " + "aggiorna");
 	}
 	
@@ -230,6 +234,8 @@ public class FotoController implements Serializable{
 			esito = "non ho trovato la foto!";
 			showGrowlErrorMessage();
 		}
+		// aggiorno la lista condivisa
+		fotoCondivisiController.aggiornaFotoLs();
 		log.info("tmpDEBUGtmp: " + "< " + "elimina");
 	}
 	

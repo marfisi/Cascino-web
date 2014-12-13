@@ -6,7 +6,7 @@ import org.primefaces.model.UploadedFile;
 import it.cascino.model.Foto;
 
 public interface FotoDao{
-	void salva(Foto f);
+//	void salva(Foto f);
 	
 	String salva(List<UploadedFile> f);
 	
@@ -16,7 +16,7 @@ public interface FotoDao{
 	
 	Boolean annullaUploadUndef(int t, List<UploadedFile> uf, int u);
 	
-	void aggiorna(Foto f);
+//	void aggiorna(Foto f);
 	
 	String aggiorna(Foto foto, List<UploadedFile> f);
 	
