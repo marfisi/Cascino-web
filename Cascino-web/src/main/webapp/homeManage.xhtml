@@ -12,6 +12,31 @@
 				<p:growl id="growl" showDetail="true" life="4000" />
 			</h:form>
 
+			<p:accordionPanel activeIndex="null">
+				<p:tab title="Utente - #{request.remoteUser}" rendered="#{not empty request.remoteUser}">
+					<p:outputPanel>
+						<h:outputText value="#{userLoginController.nome} #{userLoginController.cognome}" />
+						<p:separator />
+						 <p:commandButton value="logout" action="#{userLoginController.logout()}" />
+						<p:dataList value="#{userLoginController.getRolesDaUser(request.remoteUser)}" var="roles" type="ordered">
+							<f:facet name="header">
+					            Ruoli
+					        </f:facet>
+							<h:outputText value="#{roles.role}" />
+						</p:dataList>
+						<p:dataList value="#{userLoginController.getPermissionsDaUser(request.remoteUser)}" var="permissions" type="ordered">
+							<f:facet name="header">
+					            Permessi
+					        </f:facet>
+							<h:outputText value="#{permissions.azione}" />
+						</p:dataList>
+					</p:outputPanel>
+				</p:tab>
+				<p:tab title="Utente - Guest" rendered="#{empty request.remoteUser}">
+					<h:link value="login" outcome="login" />
+				</p:tab>
+			</p:accordionPanel>
+
 			<h:form id="mngForm">
 				<p:panelGrid style="margin-top:20px">
 					<f:facet name="header">

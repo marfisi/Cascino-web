@@ -36,6 +36,14 @@
 						</p:column>
 					</p:row>
 					<p:row>
+						<p:column>
+							<h:outputText value="Ricordami" />
+						</p:column>
+						<p:column>
+							<h:selectBooleanCheckbox id="rememberMe" value="#{userLoginController.remember}" />
+						</p:column>
+					</p:row>	
+					<p:row>
 						<p:column />
 						<p:column>
 							<p:commandButton value="Login" action="#{navigationController.loginToHome(userLoginController.canAccess)}" update=":growlForm:growl" icon="ui-icon-person" />

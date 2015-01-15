@@ -1,0 +1,29 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core" xmlns:p="http://primefaces.org/ui" xmlns:pc="http://java.sun.com/jsp/jstl/core" xmlns:fn="http://java.sun.com/jsp/jstl/functions">
+<h:head></h:head>
+<h:body>
+  
+  
+    <h2>Utente non autorizzato</h2>
+    
+    <h:panelGroup rendered="#{empty request.remoteUser}">
+        Welcome! Well, it seems that you are not logged in! 
+        Please <h:link value="login" outcome="login" /> to see more awesomeness on this site!
+    </h:panelGroup>
+
+    <h:panelGroup rendered="#{not empty request.remoteUser}">
+        Welcome! You're logged in as #{request.remoteUser}. Enjoy the site!
+
+        <h:panelGroup rendered="#{request.isUserInRole('ADMIN')}">
+            You're an ADMIN user! Wow, we'll render some more cool buttons for you soon.
+        </h:panelGroup>
+
+        <h:panelGroup rendered="#{not request.isUserInRole('ADMIN')}">
+            You're not an ADMIN user. You probably will never become one.
+        </h:panelGroup>
+    </h:panelGroup>
+    
+    
+
+</h:body>
+</html>

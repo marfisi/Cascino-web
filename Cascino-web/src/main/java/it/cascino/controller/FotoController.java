@@ -4,6 +4,7 @@ import it.cascino.dao.FotoDao;
 import it.cascino.model.Articoli;
 import it.cascino.model.Foto;
 import it.cascino.model.Tipi;
+import it.cascino.util.securety.shiro.ShiroSecured;
 import java.util.ArrayList;
 import java.util.List;
 import java.io.Serializable;
@@ -13,6 +14,8 @@ import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.jboss.logging.Logger;
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.DefaultTreeNode;
@@ -20,6 +23,7 @@ import org.primefaces.model.UploadedFile;
 
 @Named
 @SessionScoped
+@ShiroSecured
 public class FotoController implements Serializable{
 	/**
 	 * 
@@ -223,6 +227,8 @@ public class FotoController implements Serializable{
 		log.info("tmpDEBUGtmp: " + "< " + "aggiorna");
 	}
 	
+	//@RequiresRoles("ruoloNome")
+	@RequiresPermissions("foto:delete")
 	public void elimina(){
 		log.info("tmpDEBUGtmp: " + "> " + "elimina(" + ")");
 		log.info("tmpDEBUGtmp: " + "id: " + ((fotoSel != null) ? fotoSel.getId() : "null"));

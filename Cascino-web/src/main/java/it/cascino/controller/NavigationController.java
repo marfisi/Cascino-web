@@ -98,6 +98,7 @@ public class NavigationController implements Serializable{
 			navigationRuleAction = "canAccess";
 		}
 		log.info("tmpDEBUGtmp: " + "< " + "loginToHome");
+//		return "/faces/homeManage.xhtml?faces-redirect=true";
 		return navigationRuleAction;
 	}
 	
