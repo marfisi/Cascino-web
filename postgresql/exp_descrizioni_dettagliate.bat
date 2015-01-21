@@ -1,0 +1,1 @@
+pg_dump -U cascino_user_db -h localhost -n cascino_schema -F p -C --inserts -t descrizioni_dettagliate -f .\bck_descrizioni_dettagliate.sql cascino_db

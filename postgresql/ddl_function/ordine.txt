@@ -16,4 +16,7 @@ bck_caratteristiche.sql
 bck_descrizioni.sql
 bck_descrizioni_dettagliate.sql
 bck_risorse.sql
-bck_userloginrole.sql
+bck_users.sql
+bck_usersrolenames.sql
+bck_usersroles.sql
+bck_userspermissions.sql

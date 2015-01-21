@@ -228,7 +228,7 @@ public class FotoController implements Serializable{
 	}
 	
 	//@RequiresRoles("ruoloNome")
-	@RequiresPermissions("foto:delete")
+	@RequiresPermissions("foto:write:delete")
 	public void elimina(){
 		log.info("tmpDEBUGtmp: " + "> " + "elimina(" + ")");
 		log.info("tmpDEBUGtmp: " + "id: " + ((fotoSel != null) ? fotoSel.getId() : "null"));
@@ -450,7 +450,7 @@ public class FotoController implements Serializable{
 		String nomePerUrl = "";
 		nomePerUrl = getFotoname(f, t, u);
 		// gestione dei simboli che creano anomalie nei nomi url (ci va %hx)
-		if(StringUtils.contains(nomePerUrl, "%")){	// e' importante fare per primo %, altrimenti lo mettessi dopo tutti gli atri mi sostituirebbe i % dei precedenti
+		if(StringUtils.contains(nomePerUrl, "%")){	// e' importante fare per primo %, altrimenti lo mettessi dopo tutti gli altri mi sostituirebbe i % dei precedenti
 			nomePerUrl = StringUtils.replace(nomePerUrl, "%", "%25");
 		}
 		if(StringUtils.contains(nomePerUrl, "°")){

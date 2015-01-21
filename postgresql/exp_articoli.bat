@@ -1,0 +1,1 @@
+pg_dump -U cascino_user_db -h localhost -n cascino_schema -F p -C --inserts -t articoli -f .\bck_articoli.sql cascino_db

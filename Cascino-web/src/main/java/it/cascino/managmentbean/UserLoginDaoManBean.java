@@ -3,9 +3,11 @@ package it.cascino.managmentbean;
 import java.io.Serializable;
 import java.util.List;
 import it.cascino.dao.UserLoginDao;
+import it.cascino.model.Foto;
 import it.cascino.model.Produttori;
 import it.cascino.model.Users;
 import it.cascino.model.Userspermissions;
+import it.cascino.model.Usersrolenames;
 import it.cascino.model.Usersroles;
 import it.cascino.util.Utility;
 import javax.faces.bean.SessionScoped;
@@ -162,24 +164,26 @@ public class UserLoginDaoManBean implements UserLoginDao, Serializable{
 		return (user == null) ? "" : user.getCognome();
 	}
 	
-	public List<Usersroles> getRolesDaUser(String username){
+	public List<Usersrolenames> getRolesDaUser(String username){
 		log.info("tmpDEBUGtmp: " + "> " + "getRolesDaUser(" + username + ")");
-		List<Usersroles> roles = null;
+		List<Usersrolenames> rolenames = null;
 		try{
 			try{
 				utx.begin();
-				Query query = entityManager.createNamedQuery("Usersroles.findByUserName", Usersroles.class);
+				String sql = "select urn.* from users u inner join usersroles ur on u.id = ur.user inner join usersrolenames urn on ur.role = urn.id where u.login = :username order by urn.role";
+				Query query = entityManager.createNativeQuery(sql, Usersrolenames.class);
+//				Query query = entityManager.createNamedQuery("Usersroles.findByUserName", Usersroles.class);
 				query.setParameter("username", username);
-				roles = (List<Usersroles>)query.getResultList();
+				rolenames = (List<Usersrolenames>)query.getResultList();
 			}catch(NoResultException e){
-				roles = null;
+				rolenames = null;
 			}
 			utx.commit();
 		}catch(Exception e){
 			Utility.manageException(e, utx, log);
 		}
 		log.info("tmpDEBUGtmp: " + "< " + "getRolesDaUser");
-		return roles;
+		return rolenames;
 	}
 	
 	public List<Userspermissions> getPermissionsDaUser(String username){
@@ -188,7 +192,9 @@ public class UserLoginDaoManBean implements UserLoginDao, Serializable{
 		try{
 			try{
 				utx.begin();
-				Query query = entityManager.createNamedQuery("Userspermissions.findByUserName", Userspermissions.class);
+				String sql = "select up.* from users u inner join usersroles ur on u.id = ur.user inner join usersrolenames urn on ur.role = urn.id inner join userspermissions up on urn.id = up.role where u.login = :username order by up.azione";
+				Query query = entityManager.createNativeQuery(sql, Userspermissions.class);
+//				Query query = entityManager.createNamedQuery("Userspermissions.findByUserName", Userspermissions.class);
 				query.setParameter("username", username);
 				permissions = (List<Userspermissions>)query.getResultList();
 			}catch(NoResultException e){

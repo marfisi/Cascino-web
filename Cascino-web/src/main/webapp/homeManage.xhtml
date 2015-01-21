@@ -17,7 +17,7 @@
 					<p:outputPanel>
 						<h:outputText value="#{userLoginController.nome} #{userLoginController.cognome}" />
 						<p:separator />
-						 <p:commandButton value="logout" action="#{userLoginController.logout()}" />
+						<p:commandButton value="logout" action="#{userLoginController.logout()}" />
 						<p:dataList value="#{userLoginController.getRolesDaUser(request.remoteUser)}" var="roles" type="ordered">
 							<f:facet name="header">
 					            Ruoli

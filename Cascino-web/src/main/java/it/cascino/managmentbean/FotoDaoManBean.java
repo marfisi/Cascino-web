@@ -232,7 +232,7 @@ public class FotoDaoManBean implements FotoDao, Serializable{
 			// cancello tutti i file copiati
 			iterator = fotoLs.iterator();
 			
-			Utility.deleteMultiFiles(sourceFolder, iterator, log);
+			Utility.deleteMultiFiles(sourceFolder, iterator, "upload-", log);
 			
 			return "la foto definita " + nomeFileEsistente + " e' gia' esistente";
 		}

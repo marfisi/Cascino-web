@@ -4,6 +4,7 @@ import it.cascino.dao.UserLoginDao;
 import it.cascino.model.Tipi;
 import it.cascino.model.Users;
 import it.cascino.model.Userspermissions;
+import it.cascino.model.Usersrolenames;
 import it.cascino.model.Usersroles;
 import it.cascino.util.securety.shiro.ShiroSecured;
 import java.io.Serializable;
@@ -142,7 +143,7 @@ public class UserLoginController implements Serializable{
 		log.info("tmpDEBUGtmp: " + "< " + "setRemember");
 	}
 	
-	public List<Usersroles> getRolesDaUser(String username){
+	public List<Usersrolenames> getRolesDaUser(String username){
 		log.info("tmpDEBUGtmp: " + "> " + "getRolesDaUser(" + username + ")");
 		log.info("tmpDEBUGtmp: " + "< " + "getRolesDaUser");
 		return userLoginDao.getRolesDaUser(username);
@@ -309,11 +310,8 @@ public class UserLoginController implements Serializable{
 			Subject subject = SecurityUtils.getSubject();
 			if(StringUtils.equals(pORr, "p")){ // permission
 				subject.checkPermission(permOrRole);
-				// can = subject.isPermitted(permOrRole);
-				// RequiresPermissions permissions =
 			}else if(StringUtils.equals(pORr, "r")){ // role
 				subject.checkRole(permOrRole);
-				// can = subject.hasRole(permOrRole);
 			}else{
 				return false;
 			}

@@ -17,7 +17,7 @@
 					<p:outputPanel>
 						<h:outputText value="#{userLoginController.nome} #{userLoginController.cognome}" />
 						<p:separator />
-						 <p:commandButton value="logout" action="#{userLoginController.logout()}" />
+						<p:commandButton value="logout" action="#{userLoginController.logout()}" />
 						<p:dataList value="#{userLoginController.getRolesDaUser(request.remoteUser)}" var="roles" type="ordered">
 							<f:facet name="header">
 					            Ruoli
@@ -56,7 +56,7 @@
 				</p:toolbar>
 				<p:sticky target="tbNavigation" />
 
-				<p:dataTable id="tbl" var="foto" value="#{fotoCondivisiController.fotoLs}" selection="#{fotoController.fotoSel}" selectionMode="single" rowKey="#{foto.id}" update=":updDisplay" oncomplete="PF('updDialog').show()" paginator="true" rows="15" dynamic="true" sortBy="id" emptyMessage="Nessun entry per il criterio definito" widgetVar="fotoTable" filteredValue="#{fotoController.filteredFotoLs}">
+				<p:dataTable id="tbl" var="foto" value="#{fotoCondivisiController.fotoLs}" selection="#{fotoController.fotoSel}" selectionMode="single" rowKey="#{foto.id}" update=":updDisplay" oncomplete="PF('updDialog').show()" paginator="true" rows="15" dynamic="true" sortBy="#{foto.id}"  emptyMessage="Nessun entry per il criterio definito" widgetVar="fotoTable" filteredValue="#{fotoController.filteredFotoLs}">
 
 					<p:ajax event="rowDblselect" update=":contentGalleria" oncomplete="PF('viewDialog').show()" />
 
@@ -194,6 +194,14 @@
 			<p:dialog widgetVar="newDialog" header="Inserisci" modal="true" closable="false">
 				<h:form id="newForm" enctype="multipart/form-data">
 					<p:outputPanel id="newDisplay">
+						<p:toolbar>
+							<p:toolbarGroup align="left">
+								<p:commandButton value="Annulla" action="#{fotoController.annullaUpload}" update=":tblForm:tbl,:growlForm:growl" onclick="PF('newDialog').close()" icon="ui-icon-cancel" />
+							</p:toolbarGroup>
+							<p:toolbarGroup align="left">
+								<p:commandButton value="Salva" action="#{fotoController.salva}" update=":tblForm:tbl,:growlForm:growl" onclick="PF('newDialog').close()" icon="ui-icon-disk" />
+							</p:toolbarGroup>
+						</p:toolbar>
 						<h:panelGrid columns="2">
 							<h:outputText value="Originale (obbligatoria)" />
 							<p:fileUpload fileUploadListener="#{fotoController.fileUploadOrig}" mode="advanced" dragDropSupport="true" update=":growlForm:growl" required="true" label="Seleziona" uploadLabel="Carica" cancelLabel="Annulla" invalidSizeMessage="File troppo grosso (limite 1 MB)" invalidFileMessage="Tipo file non consentito (solo: gif, jpeg, png)" fileLimitMessage="Puoi caricare un file alla volta" fileLimit="1" sizeLimit="1048576" allowTypes="/(\.|\/)(gif|jpe?g|png)$/" />
@@ -206,9 +214,6 @@
 							<h:outputText value="LD WM" />
 							<p:fileUpload fileUploadListener="#{fotoController.fileUploadLDWM}" mode="advanced" dragDropSupport="true" update=":growlForm:growl" required="false" label="Seleziona" uploadLabel="Carica" cancelLabel="Annulla" invalidSizeMessage="File troppo grosso (limite 1 MB)" invalidFileMessage="Tipo file non consentito (solo: gif, jpeg, png)" fileLimitMessage="Puoi caricare un file alla volta" fileLimit="1" sizeLimit="1048576" allowTypes="/(\.|\/)(gif|jpe?g|png)$/" />
 						</h:panelGrid>
-						<p:commandButton value="Salva" action="#{fotoController.salva}" update=":tblForm:tbl,:growlForm:growl" onclick="PF('newDialog').close()" icon="ui-icon-disk" />
-						<p:separator />
-						<p:commandButton value="Annulla" action="#{fotoController.annullaUpload}" update=":tblForm:tbl,:growlForm:growl" onclick="PF('newDialog').close()" icon="ui-icon-cancel" />
 					</p:outputPanel>
 				</h:form>
 			</p:dialog>
@@ -216,6 +221,15 @@
 			<p:dialog widgetVar="updDialog" header="Modifica" modal="true" closable="false">
 				<h:form id="updForm">
 					<p:outputPanel id="updDisplay">
+						<p:toolbar>
+							<p:toolbarGroup align="left">
+								<p:commandButton value="Annulla" action="#{fotoController.annullaUpdate}" update=":tblForm:tbl,:growlForm:growl" onclick="PF('updDialog').close()" icon="ui-icon-cancel" />
+							</p:toolbarGroup>
+							<p:toolbarGroup align="left">
+								<p:commandButton value="Aggiorna" action="#{fotoController.aggiorna}" update=":tblForm:tbl,:growlForm:growl" onclick="PF('updDialog').close()" icon="ui-icon-refresh" />
+								<p:commandButton value="Elimina" action="#{fotoController.elimina}" update=":tblForm:tbl,:growlForm:growl" onclick="PF('updDialog').close()" icon="ui-icon-trash" />
+							</p:toolbarGroup>
+						</p:toolbar>
 						<h:outputText value="Tipo: " />
 						<p:selectOneRadio id="options" value="#{fotoController.tipoFoto}">
 							<p:ajax event="change" update="tipoFotoGrid" listener="#{fotoController.onChangeTipoFoto}"></p:ajax>
@@ -245,10 +259,6 @@
 								</h:panelGrid>
 							</h:panelGrid>
 						</h:panelGrid>
-						<p:commandButton value="Aggiorna" action="#{fotoController.aggiorna}" update=":tblForm:tbl,:growlForm:growl" onclick="PF('updDialog').close()" icon="ui-icon-refresh" />
-						<p:commandButton value="Elimina" action="#{fotoController.elimina}" update=":tblForm:tbl,:growlForm:growl" onclick="PF('updDialog').close()" icon="ui-icon-trash" />
-						<p:separator />
-						<p:commandButton value="Annulla" action="#{fotoController.annullaUpdate}" update=":tblForm:tbl,:growlForm:growl" onclick="PF('updDialog').close()" icon="ui-icon-cancel" />
 					</p:outputPanel>
 				</h:form>
 			</p:dialog>
@@ -256,10 +266,15 @@
 			<p:dialog widgetVar="updDialogUpload" header="Inserisci" modal="true" closable="false">
 				<h:form id="updFormUpload" enctype="multipart/form-data">
 					<p:outputPanel id="newDisplay">
+						<p:toolbar>
+							<p:toolbarGroup align="left">
+								<p:commandButton value="Annulla" action="#{fotoController.annullaUploadUndef}" update=":updForm:tipoFotoGrid,:growlForm:growl" onclick="PF('updDialogUpload').hide()" process="@this" icon="ui-icon-cancel" />
+							</p:toolbarGroup>
+							<p:toolbarGroup align="left">
+								<p:commandButton value="Salva" onclick="PF('updDialogUpload').hide()" update=":updForm:tipoFotoGrid" process="@this" icon="ui-icon-disk" />
+							</p:toolbarGroup>
+						</p:toolbar>
 						<p:fileUpload fileUploadListener="#{fotoController.fileUploadUndef}" mode="advanced" dragDropSupport="true" update=":growlForm:growl" required="true" label="Seleziona" uploadLabel="Carica" cancelLabel="Annulla" invalidSizeMessage="File troppo grosso (limite 1 MB)" invalidFileMessage="Tipo file non consentito (solo: gif, jpeg, png)" sizeLimit="1048576" allowTypes="/(\.|\/)(gif|jpe?g|png)$/" />
-						<p:commandButton value="Salva" onclick="PF('updDialogUpload').hide()" update=":updForm:tipoFotoGrid" process="@this" icon="ui-icon-disk" />
-						<p:separator />
-						<p:commandButton value="Annulla" action="#{fotoController.annullaUploadUndef}" update=":updForm:tipoFotoGrid,:growlForm:growl" onclick="PF('updDialogUpload').hide()" process="@this" icon="ui-icon-cancel" />
 					</p:outputPanel>
 				</h:form>
 			</p:dialog>

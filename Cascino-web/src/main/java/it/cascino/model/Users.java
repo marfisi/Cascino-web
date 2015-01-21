@@ -37,7 +37,7 @@ public class Users implements Serializable{
 	private String stato;
 	private Timestamp updtime;
 	
-	private List<Usersroles> roles;
+//	private List<Usersroles> roles;
 	
 	public Users(){
 	}
@@ -121,15 +121,15 @@ public class Users implements Serializable{
 		this.updtime = updtime;
 	}
 	
-	@OneToMany
-	@JoinColumn(name="user", referencedColumnName="id")
-	public List<Usersroles> getRoles(){
-		return roles;
-	}
-
-	public void setRoles(List<Usersroles> roles){
-		this.roles = roles;
-	}
+//	@OneToMany
+//	@JoinColumn(name="user", referencedColumnName="id")
+//	public List<Usersroles> getRoles(){
+//		return roles;
+//	}
+//
+//	public void setRoles(List<Usersroles> roles){
+//		this.roles = roles;
+//	}
 	
 	@Override
 	public String toString(){

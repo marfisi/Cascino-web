@@ -12,6 +12,31 @@
 				<p:growl id="growl" showDetail="true" life="4000" />
 			</h:form>
 
+			<p:accordionPanel activeIndex="null">
+				<p:tab title="Utente - #{request.remoteUser}" rendered="#{not empty request.remoteUser}">
+					<p:outputPanel>
+						<h:outputText value="#{userLoginController.nome} #{userLoginController.cognome}" />
+						<p:separator />
+						<p:commandButton value="logout" action="#{userLoginController.logout()}" />
+						<p:dataList value="#{userLoginController.getRolesDaUser(request.remoteUser)}" var="roles" type="ordered">
+							<f:facet name="header">
+					            Ruoli
+					        </f:facet>
+							<h:outputText value="#{roles.role}" />
+						</p:dataList>
+						<p:dataList value="#{userLoginController.getPermissionsDaUser(request.remoteUser)}" var="permissions" type="ordered">
+							<f:facet name="header">
+					            Permessi
+					        </f:facet>
+							<h:outputText value="#{permissions.azione}" />
+						</p:dataList>
+					</p:outputPanel>
+				</p:tab>
+				<p:tab title="Utente - Guest" rendered="#{empty request.remoteUser}">
+					<h:link value="login" outcome="login" />
+				</p:tab>
+			</p:accordionPanel>
+			
 			<h:form id="tblForm">
 				<p:toolbar id="tb">
 					<p:toolbarGroup align="left">
@@ -30,7 +55,7 @@
 				</p:toolbar>
 				<p:sticky target="tbNavigation" />
 
-				<p:dataTable id="tbl" var="articolo" value="#{articoliCondivisiController.articoliLs}" selection="#{articoliController.articoloSel}" selectionMode="single" rowKey="#{articolo.id}" update=":updDisplay" oncomplete="PF('updDialog').show()" paginator="true" rows="15" dynamic="true" sortBy="id" emptyMessage="Nessun entry per il criterio definito" widgetVar="articoliTable" filteredValue="#{articoliController.filteredArticoliLs}">
+				<p:dataTable id="tbl" var="articolo" value="#{articoliCondivisiController.articoliLs}" selection="#{articoliController.articoloSel}" selectionMode="single" rowKey="#{articolo.id}" update=":updDisplay" oncomplete="PF('updDialog').show()" paginator="true" rows="15" dynamic="true" sortBy="#{articolo.id}" emptyMessage="Nessun entry per il criterio definito" widgetVar="articoliTable" filteredValue="#{articoliController.filteredArticoliLs}">
 
 					<p:ajax event="rowDblselect" update=":display" oncomplete="PF('viewDialog').show()" />
 
@@ -40,7 +65,7 @@
 							<p:inputText id="globalFilter" onkeyup="articoliTable.filter()" style="width:150px" />
 						</p:outputPanel>
 					</f:facet>
-					<p:column sortBy="codice" sortFunction="#{articoliCondivisiController.sortByStr}" filterBy="#{articolo.codice}" filterMatchMode="contains">
+					<p:column sortBy="codice" sortFunction="#{articoliCondivisiController.sortByStr}" filterBy="#{articolo.codice}" filterFunction="#{articoliCondivisiController.filterArticoloCodice}">
 						<f:facet name="header">
 							<h:outputText value="Codice" />
 						</f:facet>
@@ -63,6 +88,7 @@
 							<h:outputText value="Foto" />
 						</f:facet>
 						<p:graphicImage value="#{fotoController.resolvePath(fotoController.getFotoArticoloDaIdArticolo(articolo.id))}#{fotoController.getFotonameUrl(fotoController.getFotoArticoloDaIdArticolo(articolo.id), 1)}" height="#{fotoController.getHeightFromResolution(fotoController.getFotoArticoloDaIdArticolo(articolo.id), 1, 40, 60)}" />
+						<h:outputText value="(# #{fotoController.getFotoArticoloOrdLsDaIdArticolo(articolo.id).size()})" />
 					</p:column>
 					<p:column>
 						<f:facet name="header">
@@ -181,14 +207,13 @@
 							<f:facet name="header">
 								<h:outputText value="Foto" />
 							</f:facet>
-
 							<p:column>
-								<p:galleria id="contentGalleria" var="foto" value="#{articoliController.fotoPerArticolo}" panelWidth="650" panelHeight="450" frameWidth="50" frameHeight="50">
+								<p:galleria id="contentGalleria" var="foto" value="#{articoliController.fotoPerArticolo}" panelWidth="450" panelHeight="380" frameWidth="50" frameHeight="50">
 									<p:graphicImage id="fotoImage" value="#{fotoController.resolvePath(foto)}#{fotoController.getFotonameUrl(foto, 1)}" />
 									<f:facet name="content">
 										<h:panelGrid columns="1" cellpadding="5">
 											<f:facet name="header">
-												<p:graphicImage value="#{fotoController.resolvePath(foto)}#{fotoController.getFotonameUrl(foto, 1)}" alt="#{foto.originale}" title="#{foto.originale}" height="#{fotoController.getHeightFromResolution(foto, 1, 360, 650)}" />
+												<p:graphicImage value="#{fotoController.resolvePath(foto)}#{fotoController.getFotonameUrl(foto, 1)}" alt="#{foto.originale}" title="#{foto.originale}" height="#{fotoController.getHeightFromResolution(foto, 1, 300, 440)}" />
 											</f:facet>
 				
 											<h:outputText id="name" value="#{foto.originale}" />
@@ -224,6 +249,14 @@
 			<p:dialog widgetVar="newDialog" header="Inserisci" modal="true" closable="false">
 				<h:form id="newForm">
 					<p:outputPanel id="newDisplay">
+						<p:toolbar>
+							<p:toolbarGroup align="left">
+									<p:commandButton value="Annulla" action="#{fotoController.svuotaFotoLsDynPop()}" update=":tblForm:tbl" onclick="PF('newDialog').close()" icon="ui-icon-cancel" />
+							</p:toolbarGroup>
+							<p:toolbarGroup align="left">
+								<p:commandButton value="Salva" action="#{articoliController.salva}" update=":tblForm:tbl,:growlForm:growl" onclick="PF('newDialog').close()" icon="ui-icon-disk" />
+							</p:toolbarGroup>
+						</p:toolbar>
 						<p:panelGrid columns="6" styleClass="newPanel">
 							<h:outputText value="ID" />
 							<h:outputText value="#{articoliController.articoloSel.id}" />
@@ -276,7 +309,7 @@
 									<p:column>
 										<p:commandButton value="Carica foto" action="#{fotoController.popolaFotoLsDynPop()}" update=":newForm:fotoMenuDisplay" icon="ui-icon-newwin" />
 										<p:outputPanel id="fotoMenuDisplay">
-											<p:dataTable id="fotoDataTable" var="f" value="#{fotoController.fotoLsDynPop}" selection="#{fotoController.fotoSel}" selectionMode="single" rowKey="#{f.id}" paginator="true" rows="7" dynamic="true" sortBy="id" emptyMessage="Nessun entry per il criterio definito" widgetVar="fotoTable" filteredValue="#{fotoController.filteredFotoLs}">
+											<p:dataTable id="fotoDataTable" var="f" value="#{fotoController.fotoLsDynPop}" selection="#{fotoController.fotoSel}" selectionMode="single" rowKey="#{f.id}" paginator="true" rows="7" dynamic="true" sortBy="#{f.id}" emptyMessage="Nessun entry per il criterio definito" widgetVar="fotoTable" filteredValue="#{fotoController.filteredFotoLs}">
 												<f:facet name="sourceCaption">Disponibili</f:facet>
 												<p:column>
 													<f:facet name="header">
@@ -325,9 +358,6 @@
 								</p:panelGrid>
 							</p:column>
 						</p:panelGrid>
-						<p:commandButton value="Salva" action="#{articoliController.salva}" update=":tblForm:tbl,:growlForm:growl" onclick="PF('newDialog').close()" icon="ui-icon-disk" />
-						<p:separator />
-						<p:commandButton value="Annulla" action="#{fotoController.svuotaFotoLsDynPop()}" update=":tblForm:tbl" onclick="PF('newDialog').close()" icon="ui-icon-cancel" />
 					</p:outputPanel>
 				</h:form>
 			</p:dialog>
@@ -335,6 +365,15 @@
 			<p:dialog widgetVar="updDialog" header="Modifica" modal="true" closable="false">
 				<h:form id="updForm">
 					<p:outputPanel id="updDisplay">
+						<p:toolbar>
+							<p:toolbarGroup align="left">
+								<p:commandButton value="Annulla" action="#{fotoController.svuotaFotoLsDynPop()}" update=":tblForm:tbl" onclick="PF('updDialog').close()" icon="ui-icon-cancel" />
+							</p:toolbarGroup>
+							<p:toolbarGroup align="left">
+								<p:commandButton value="Aggiorna" action="#{articoliController.aggiorna}" update=":tblForm:tbl,:growlForm:growl" onclick="PF('updDialog').close()" icon="ui-icon-refresh" />
+								<p:commandButton value="Elimina" action="#{articoliController.elimina}" update=":tblForm:tbl,:growlForm:growl" onclick="PF('updDialog').close()" icon="ui-icon-trash" />
+							</p:toolbarGroup>
+						</p:toolbar>
 						<p:panelGrid columns="6" styleClass="updPanel">
 							<h:outputText value="ID" />
 							<h:outputText value="#{articoliController.articoloSel.id}" />
@@ -383,11 +422,10 @@
 									<f:facet name="header">
 										<h:outputText value="Foto" />
 									</f:facet>
-
 									<p:column>
-										<p:commandButton value="Carica foto" action="#{fotoController.popolaFotoLsDynPop()}" update=":newForm:fotoMenuDisplay" icon="ui-icon-newwin" />
+										<p:commandButton value="Carica foto" action="#{fotoController.popolaFotoLsDynPop()}" update=":updForm:fotoMenuDisplay" icon="ui-icon-newwin" />
 										<p:outputPanel id="fotoMenuDisplay">
-											<p:dataTable id="fotoDataTable" var="f" value="#{fotoController.fotoLsDynPop}" selection="#{fotoController.fotoSel}" selectionMode="single" rowKey="#{f.id}" paginator="true" rows="7" dynamic="true" sortBy="id" emptyMessage="Nessun entry per il criterio definito" widgetVar="fotoTable" filteredValue="#{fotoController.filteredFotoLs}">
+											<p:dataTable id="fotoDataTable" var="f" value="#{fotoController.fotoLsDynPop}" selection="#{fotoController.fotoSel}" selectionMode="single" rowKey="#{f.id}" paginator="true" rows="7" dynamic="true" sortBy="#{f.id}" emptyMessage="Nessun entry per il criterio definito" widgetVar="fotoTable" filteredValue="#{fotoController.filteredFotoLs}">
 												<f:facet name="sourceCaption">Disponibili</f:facet>
 												<p:column>
 													<f:facet name="header">
@@ -406,13 +444,13 @@
 										<p:commandButton id="toFotoButton" value="Aggiungi Foto" action="#{navigationController.articoliToFoto()}" icon="ui-icon-circle-plus" />
 									</p:column>
 									<p:column>
-										<p:commandButton id="aggiungiFotoArticoloButton" actionListener="#{articoliController.onAggiungiFotoArticoloButton}" update=":newForm:fotoArticoloMenuDisplay" title="Aggiungi Foto" icon="ui-icon-arrowthick-1-e" />
+										<p:commandButton id="aggiungiFotoArticoloButton" actionListener="#{articoliController.onAggiungiFotoArticoloButton}" update=":updForm:fotoArticoloMenuDisplay" title="Aggiungi Foto" icon="ui-icon-arrowthick-1-e" />
 									</p:column>
 									<p:column>
-										<p:commandButton id="rimuoviFotoArticoloButton" actionListener="#{articoliController.onRimuoviFotoArticoloButton}" update=":newForm:fotoArticoloMenuDisplay" title="Rimuovi Foto" icon="ui-icon-arrowthick-1-w" />
+										<p:commandButton id="rimuoviFotoArticoloButton" actionListener="#{articoliController.onRimuoviFotoArticoloButton}" update=":updForm:fotoArticoloMenuDisplay" title="Rimuovi Foto" icon="ui-icon-arrowthick-1-w" />
 										<p:separator />
-										<p:commandButton id="alzaFotoArticoloButton" actionListener="#{articoliController.onAlzaFotoArticoloButton}" update=":newForm:fotoArticoloMenuDisplay" title="Alza" icon="ui-icon-arrowthick-1-n" />
-										<p:commandButton id="abbassaFotoArticoloButton" actionListener="#{articoliController.onAbbassaFotoArticoloButton}" update=":newForm:fotoArticoloMenuDisplay" title="Abbassa" icon="ui-icon-arrowthick-1-s" />
+										<p:commandButton id="alzaFotoArticoloButton" actionListener="#{articoliController.onAlzaFotoArticoloButton}" update=":updForm:fotoArticoloMenuDisplay" title="Alza" icon="ui-icon-arrowthick-1-n" />
+										<p:commandButton id="abbassaFotoArticoloButton" actionListener="#{articoliController.onAbbassaFotoArticoloButton}" update=":updForm:fotoArticoloMenuDisplay" title="Abbassa" icon="ui-icon-arrowthick-1-s" />
 									</p:column>
 									<p:column>
 										<p:outputPanel id="fotoArticoloMenuDisplay">
@@ -436,10 +474,6 @@
 								</p:panelGrid>
 							</p:column>
 						</p:panelGrid>
-						<p:commandButton value="Aggiorna" action="#{articoliController.aggiorna}" update=":tblForm:tbl,:growlForm:growl" onclick="PF('updDialog').close()" icon="ui-icon-refresh" />
-						<p:commandButton value="Elimina" action="#{articoliController.elimina}" update=":tblForm:tbl,:growlForm:growl" onclick="PF('updDialog').close()" icon="ui-icon-trash" />
-						<p:separator />
-						<p:commandButton value="Annulla" action="#{fotoController.svuotaFotoLsDynPop()}" update=":tblForm:tbl" onclick="PF('updDialog').close()" icon="ui-icon-cancel" />
 					</p:outputPanel>
 				</h:form>
 			</p:dialog>

@@ -15,9 +15,9 @@ import java.sql.Timestamp;
 @NamedQueries({
 		@NamedQuery(name = "Userspermissions.findAll", query = "SELECT up FROM Userspermissions up"),
 		@NamedQuery(name = "Userspermissions.findById", query = "SELECT up FROM Userspermissions up WHERE up.id = :id"),
-		@NamedQuery(name = "Userspermissions.findByRoleId", query = "SELECT up FROM Userspermissions up WHERE up.idRole = :roleid"),
-		@NamedQuery(name = "Userspermissions.findByRoleName", query = "SELECT up FROM Userspermissions up WHERE up.idRole in (SELECT ur FROM Usersroles ur WHERE ur.role = :rolename)"),
-		@NamedQuery(name = "Userspermissions.findByUserName", query = "SELECT up FROM Userspermissions up WHERE up.idRole in (SELECT ur FROM Usersroles ur WHERE ur.idUser in (SELECT u FROM Users u WHERE u.login = :username))")
+		@NamedQuery(name = "Userspermissions.findByRoleId", query = "SELECT up FROM Userspermissions up WHERE up.idRole = :roleid")/*,
+		/*@NamedQuery(name = "Userspermissions.findByRoleName", query = "SELECT up FROM Userspermissions up WHERE up.idRole in (SELECT ur FROM Usersroles ur WHERE ur.role = :rolename)"),*/
+		/*@NamedQuery(name = "Userspermissions.findByUserName", query = "SELECT up FROM Userspermissions up WHERE up.idRole in (SELECT ur.role FROM Usersroles ur WHERE ur.idUser in (SELECT u FROM Users u WHERE u.login = :username))")*/
 })
 public class Userspermissions implements Serializable{
 	private static final long serialVersionUID = 1L;

@@ -6,20 +6,18 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import org.jboss.logging.Logger;
 import java.sql.Timestamp;
-import java.util.List;
 
 /**
- * The persistent class for the usersroles database table.
+ * The persistent class for the usersrolenames database table.
  * 
  */
 @Entity
 @NamedQueries({
-		@NamedQuery(name = "Usersroles.findAll", query = "SELECT ur FROM Usersroles ur"),
-		@NamedQuery(name = "Usersroles.findById", query = "SELECT ur FROM Usersroles ur WHERE ur.id = :id"),
-		@NamedQuery(name = "Usersroles.findByUserId", query = "SELECT ur FROM Usersroles ur WHERE ur.idUser = :userid")/*,
-		@NamedQuery(name = "Usersroles.findByUserName", query = "SELECT ur FROM Usersroles ur WHERE ur.idUser in (SELECT u FROM Users u WHERE u.login = :username)")*/
+		@NamedQuery(name = "Usersrolenames.findAll", query = "SELECT urn FROM Usersrolenames urn"),
+		@NamedQuery(name = "Usersrolenames.findById", query = "SELECT urn FROM Usersrolenames urn WHERE urn.id = :id"),
+		@NamedQuery(name = "Usersrolenames.findByRoleName", query = "SELECT urn FROM Usersrolenames urn WHERE urn.role = :rolename")
 })
-public class Usersroles implements Serializable{
+public class Usersrolenames implements Serializable{
 	private static final long serialVersionUID = 1L;
 	
 	/**
@@ -29,24 +27,22 @@ public class Usersroles implements Serializable{
 	private Logger log;
 	
 	private Integer id;
-	private Integer idUser;
-	private Integer idRole;
+	private String role;
 	private Timestamp updtime;
-
-	public Usersroles(){
+	
+	public Usersrolenames(){
 	}
 	
-	public Usersroles(Integer id, Integer idUser, Integer idRole, Timestamp updtime){
+	public Usersrolenames(Integer id, String role, Timestamp updtime){
 		super();
 		this.id = id;
-		this.idUser = idUser;
-		this.idRole = idRole;
+		this.role = role;
 		this.updtime = updtime;
 	}
 	
 	@Id
-	@SequenceGenerator(name = "USERSROLES_ID_GENERATOR", sequenceName = "USERSROLES_ID_SEQ", allocationSize = 1, initialValue = 1)
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "USERSROLES_ID_GENERATOR")
+	@SequenceGenerator(name = "USERSROLENAMES_ID_GENERATOR", sequenceName = "USERSPERMISSIONS_ID_SEQ", allocationSize = 1, initialValue = 1)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "USERSROLENAMES_ID_GENERATOR")
 	public Integer getId(){
 		return this.id;
 	}
@@ -56,24 +52,13 @@ public class Usersroles implements Serializable{
 	}
 	
 	@NotNull
-	@Column(name = "user")
-	public Integer getIdUser(){
-		return this.idUser;
+	public String getRole(){
+		return this.role;
 	}
 	
-	public void setIdUser(Integer idUser){
-		this.idUser = idUser;
+	public void setRole(String role){
+		this.role = role;
 	}
-	
-	@NotNull
-	@Column(name = "role")
-	public Integer getIdRole(){
-		return this.idRole;
-	}
-	
-	public void setIdRole(Integer idRole){
-		this.idRole = idRole;
-	}	
 	
 	@Transient
 	@Temporal(TemporalType.TIMESTAMP)
@@ -85,16 +70,6 @@ public class Usersroles implements Serializable{
 		this.updtime = updtime;
 	}
 	
-//	@OneToMany
-//	@JoinColumn(name="role", referencedColumnName="id")
-//	public List<Userspermissions> getPermissions(){
-//		return permissions;
-//	}
-//
-//	public void setPermissions(List<Userspermissions> permissions){
-//		this.permissions = permissions;
-//	}
-
 	@Override
 	public String toString(){
 		if(log != null){
@@ -106,8 +81,7 @@ public class Usersroles implements Serializable{
 		stringBuilder.append("[");
 		if(id != null){
 			stringBuilder.append("id=" + id).append(", ");
-			stringBuilder.append("user=" + idUser).append(", ");
-			stringBuilder.append("role=" + idRole);
+			stringBuilder.append("role=" + role).append(", ");
 		}else{
 			stringBuilder.append("id=sconosciuto");
 		}
@@ -124,8 +98,8 @@ public class Usersroles implements Serializable{
 			log.info("tmpDEBUGtmp: " + "> " + "equals(" + obj + ")");
 			log.info("tmpDEBUGtmp: " + "id: " + id);
 		}
-		if(obj instanceof Usersroles){
-			if(this.id == ((Usersroles)obj).id){
+		if(obj instanceof Usersrolenames){
+			if(this.id == ((Usersrolenames)obj).id){
 				return true;
 			}else{
 				return false;
@@ -146,8 +120,7 @@ public class Usersroles implements Serializable{
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
-		result = prime * result + ((idUser == null) ? 0 : idUser.hashCode());
-		result = prime * result + ((idRole == null) ? 0 : idRole.hashCode());
+		result = prime * result + ((role == null) ? 0 : role.hashCode());
 		if(log != null){
 			log.info("tmpDEBUGtmp: " + "< " + "hashCode");
 		}

@@ -454,7 +454,7 @@ public class ArticoliController implements Serializable{
 		log.info("tmpDEBUGtmp: " + "> " + "onAbbassaFotoArticoloButton(" + actionEvent + ")");
 		log.info("tmpDEBUGtmp: " + "id: " + ((articoloSel != null) ? articoloSel.getId() : "null"));
 		int indiceFoto = fotoPerArticolo.indexOf(fotoPerArticoloSel);
-		if((indiceFoto > 0) && (indiceFoto < fotoPerArticolo.size()-1)){
+		if(indiceFoto < fotoPerArticolo.size()-1){
 			Foto fotoSwap =  fotoPerArticolo.get(indiceFoto + 1);
 			fotoPerArticolo.set(indiceFoto +1, fotoPerArticoloSel);
 			fotoPerArticolo.set(indiceFoto , fotoSwap);
