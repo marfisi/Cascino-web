@@ -12,10 +12,35 @@
 				<p:growl id="growl" showDetail="true" life="4000" />
 			</h:form>
 
-			<h:form id="tblTreeTableForm">
+			<p:accordionPanel activeIndex="null">
+				<p:tab title="Utente - #{request.remoteUser}" rendered="#{not empty request.remoteUser}">
+					<p:outputPanel>
+						<h:outputText value="#{userLoginController.nome} #{userLoginController.cognome}" />
+						<p:separator />
+						<p:commandButton value="logout" action="#{userLoginController.logout()}" />
+						<p:dataList value="#{userLoginController.getRolesDaUser(request.remoteUser)}" var="roles" type="ordered">
+							<f:facet name="header">
+					            Ruoli
+					        </f:facet>
+							<h:outputText value="#{roles.role}" />
+						</p:dataList>
+						<p:dataList value="#{userLoginController.getPermissionsDaUser(request.remoteUser)}" var="permissions" type="ordered">
+							<f:facet name="header">
+					            Permessi
+					        </f:facet>
+							<h:outputText value="#{permissions.azione}" />
+						</p:dataList>
+					</p:outputPanel>
+				</p:tab>
+				<p:tab title="Utente - Guest" rendered="#{empty request.remoteUser}">
+					<h:link value="login" outcome="login" />
+				</p:tab>
+			</p:accordionPanel>
+			
+			<h:form id="tblForm">
 				<p:toolbar id="tb">
 					<p:toolbarGroup align="left">
-						<p:commandButton id="viewButton" value="View" update=":viewForm:display" oncomplete="PF('viewDialog').show()" icon="ui-icon-search" />
+						<p:commandButton id="viewButton" value="View" update=":display" oncomplete="PF('viewDialog').show()" icon="ui-icon-search" />
 						<p:commandButton id="modifButton" value="Modifica" update=":updForm:updDisplay" oncomplete="PF('updDialog').show()" icon="ui-icon-pencil" />
 						<p:separator />
 						<p:commandButton id="newButton" value="Aggiungi" oncomplete="PF('newDialog').show()" icon="ui-icon-circle-plus" />
@@ -31,7 +56,7 @@
 
 				<p:treeTable id="tbl" var="tipo" value="#{tipiCondivisiController.albero}" selection="#{tipiController.nodoSel}" selectionMode="single">
 
-					<p:ajax event="select" update=":viewForm:display" oncomplete="PF('viewDialog').show()" />
+					<p:ajax event="select" update=":display" oncomplete="PF('viewDialog').show()" />
 
 					<f:facet name="header">
 						<p:outputPanel>
@@ -121,41 +146,41 @@
 				</p:treeTable>
 			</h:form>
 
-			<p:dialog id="dialog" header="Dettagli" widgetVar="viewDialog" resizable="false" showEffect="clip" hideEffect="fold" modal="true">
-				<h:form id="viewForm">
-					<h:panelGrid id="display" columns="3" cellpadding="4">
-						<f:facet name="header">
-							<p:graphicImage value="#{fotoController.resolvePath(fotoController.getFotoTipoDaIdTipo(tipiController.nodoSel.data.id))}#{fotoController.getFotonameUrl(fotoController.getFotoTipoDaIdTipo(tipiController.nodoSel.data.id), 1)}" height="230" />
-						</f:facet>
-						<h:outputLabel for="id">ID:</h:outputLabel>
-						<h:outputText id="id" value="#{tipiController.nodoSel.data.id}" />
-						<h:message for="id" />
-
-						<h:outputLabel for="nome">Nome:</h:outputLabel>
-						<h:outputText id="nome" value="#{tipiController.nodoSel.data.nome}" />
-						<h:message for="nome" />
-
-						<h:outputLabel for="descrizione">Descrizione:</h:outputLabel>
-						<h:outputText id="descrizione" value="#{tipiController.nodoSel.data.descrizione}" />
-						<h:message for="descrizione" />
-
-						<h:panelGrid id="displayDettPadre" columns="4" cellpadding="4">
-							<h:outputText value="Classe:" />
-							<h:outputText id="padreNome" value="#{tipiController.nodoSel.data.tipoPadre.nome}" />
-							<h:outputText id="padreDesc" value=" - #{tipiController.nodoSel.data.tipoPadre.descrizione} " />
-							<h:outputText id="padreId" value="(id: #{tipiController.nodoSel.data.tipoPadre.id})" />
-							<p:graphicImage value="#{fotoController.resolvePath(fotoController.getFotoTipoDaIdTipo(tipiController.nodoSel.data.tipoPadre.id))}#{fotoController.getFotonameUrl(fotoController.getFotoTipoDaIdTipo(tipiController.nodoSel.data.tipoPadre.id), 1)}" height="180" />
-						</h:panelGrid>
+			<p:dialog id="viewDialog" header="Dettagli" widgetVar="viewDialog" resizable="false" showEffect="clip" hideEffect="fold" modal="true">
+				<h:panelGrid id="display" columns="3" cellpadding="4">
+					<f:facet name="header">
+						<p:graphicImage value="#{fotoController.resolvePath(fotoController.getFotoTipoDaIdTipo(tipiController.nodoSel.data.id))}#{fotoController.getFotonameUrl(fotoController.getFotoTipoDaIdTipo(tipiController.nodoSel.data.id), 1)}" height="230" />
+					</f:facet>
+					<h:outputText value="ID" />
+					<h:outputText value="#{tipiController.nodoSel.data.id}" />
+					<h:outputText value="Nome" />
+					<h:outputText value="#{tipiController.nodoSel.data.nome}" />
+					<h:outputText value="Descrizione" />
+					<h:outputText value="#{tipiController.nodoSel.data.descrizione}" />
+					<h:panelGrid id="displayDettPadre" columns="4" cellpadding="4">
+						<h:outputText value="Classe:" />
+						<h:outputText id="padreNome" value="#{tipiController.nodoSel.data.tipoPadre.nome}" />
+						<h:outputText id="padreDesc" value=" - #{tipiController.nodoSel.data.tipoPadre.descrizione} " />
+						<h:outputText id="padreId" value="(id: #{tipiController.nodoSel.data.tipoPadre.id})" />
+						<p:graphicImage value="#{fotoController.resolvePath(fotoController.getFotoTipoDaIdTipo(tipiController.nodoSel.data.tipoPadre.id))}#{fotoController.getFotonameUrl(fotoController.getFotoTipoDaIdTipo(tipiController.nodoSel.data.tipoPadre.id), 1)}" height="180" />
 					</h:panelGrid>
-				</h:form>
+				</h:panelGrid>
 			</p:dialog>
 
 			<p:dialog widgetVar="newDialog" header="Inserisci" modal="true" closable="false">
 				<h:form id="newForm">
 					<p:outputPanel id="newDisplay">
+						<p:toolbar>
+							<p:toolbarGroup align="left">
+								<p:commandButton value="Annulla" action="#{fotoController.svuotaFotoLsDynPop()}" update=":tblForm:tbl" onclick="PF('newDialog').close()" icon="ui-icon-cancel" />
+							</p:toolbarGroup>
+							<p:toolbarGroup align="left">
+								<p:commandButton value="Salva" action="#{tipiController.salva}" update=":tblForm:tbl,:growlForm:growl" onclick="PF('newDialog').close()" icon="ui-icon-disk" />
+							</p:toolbarGroup>
+						</p:toolbar>
 						<h:panelGrid columns="2">
 							<h:outputText value="Nome" />
-							<p:inputText value="#{tipiController.nodoSel.data.nome}"></p:inputText>
+							<p:inputText value="#{tipiController.nodoSel.data.nome}" maxlength="30" />
 							<h:outputText value="Descrizione" />
 							<p:inputTextarea value="#{tipiController.nodoSel.data.descrizione}" rows="5" cols="23" counter="counter" maxlength="200" counterTemplate="{0} caratteri" autoResize="false" />
 							<h:outputText id="blank" />
@@ -188,9 +213,6 @@
 								</p:column>
 							</p:selectOneMenu>
 						</h:panelGrid>
-						<p:commandButton value="Salva" action="#{tipiController.salva()}" update=":tblTreeTableForm:tbl,:growlForm:growl" onclick="PF('newDialog').close()" icon="ui-icon-disk" />
-						<p:separator />
-						<p:commandButton value="Annulla" action="#{fotoController.svuotaFotoLsDynPop()}" update=":tblTreeTableForm:tbl" onclick="PF('newDialog').close()" icon="ui-icon-cancel" />
 					</p:outputPanel>
 				</h:form>
 			</p:dialog>
@@ -198,13 +220,28 @@
 			<p:dialog widgetVar="updDialog" header="Modifica" modal="true" closable="false">
 				<h:form id="updForm">
 					<p:outputPanel id="updDisplay">
+						<p:toolbar>
+							<p:toolbarGroup align="left">
+								<p:commandButton value="Annulla" update=":tblForm:tbl" onclick="PF('updDialog').close()" icon="ui-icon-cancel" />
+							</p:toolbarGroup>
+							<p:toolbarGroup align="left">
+								<p:commandButton value="Aggiorna" action="#{tipiController.aggiorna}" update=":tblForm:tbl,:growlForm:growl" onclick="PF('updDialog').close()" icon="ui-icon-refresh" />
+								<p:commandButton value="Elimina" action="#{tipiController.elimina}" update=":tblForm:tbl,:growlForm:growl" icon="ui-icon-trash" >
+									<p:confirm header="Confirmation" message="Sei sicuro?" icon="ui-icon-alert" />
+								</p:commandButton>
+								<p:confirmDialog global="true" showEffect="fade" hideEffect="explode">
+									<p:commandButton value="Si" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" onclick="PF('updDialog').hide()" />
+									<p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+								</p:confirmDialog>
+							</p:toolbarGroup>
+						</p:toolbar>
 						<h:panelGrid columns="2">
 							<h:outputText value="ID:" />
 							<h:outputText value="#{tipiController.nodoSel.data.id}" />
 							<h:inputHidden id="id" value="#{tipiController.nodoSel.data.id}" />
 							<h:outputText id="blank2" />
 							<h:outputText value="Nome" />
-							<p:inputText value="#{tipiController.nodoSel.data.nome}"></p:inputText>
+							<p:inputText value="#{tipiController.nodoSel.data.nome}" maxlength="30" />
 							<h:outputText value="Descrizione" />
 							<p:inputTextarea value="#{tipiController.nodoSel.data.descrizione}" rows="5" cols="23" counter="counter" maxlength="200" counterTemplate="{0} caratteri" autoResize="false" />
 							<h:outputText id="blank" />
@@ -221,10 +258,6 @@
 								</p:column>
 							</p:selectOneMenu>
 						</h:panelGrid>
-						<p:commandButton value="Aggiorna" action="#{tipiController.aggiorna}" update=":tblTreeTableForm:tbl,:growlForm:growl" onclick="PF('updDialog').close()" icon="ui-icon-refresh" />
-						<p:commandButton value="Elimina" action="#{tipiController.elimina}" update=":tblTreeTableForm:tbl,:growlForm:growl" onclick="PF('updDialog').close()" icon="ui-icon-trash" />
-						<p:separator />
-						<p:commandButton value="Annulla" update=":tblTreeTableForm:tbl" onclick="PF('updDialog').close()" icon="ui-icon-cancel" />
 					</p:outputPanel>
 				</h:form>
 			</p:dialog>

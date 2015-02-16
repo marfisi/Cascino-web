@@ -43,7 +43,7 @@ public class ArticoliDaoManBean implements ArticoliDao, Serializable{
 	
 	@SuppressWarnings("unchecked")
 	public List<Articoli> getAll(){
-		log.info("tmpDEBUGtmp: " + "> " + "getAll(" + ")");
+		// log.info("tmpDEBUGtmp: " + "> " + "getAll(" + ")");
 		List<Articoli> articoli = null;
 		try{
 			try{
@@ -57,12 +57,12 @@ public class ArticoliDaoManBean implements ArticoliDao, Serializable{
 		}catch(Exception e){
 			Utility.manageException(e, utx, log);
 		}
-		log.info("tmpDEBUGtmp: " + "< " + "getAll");
+		// log.info("tmpDEBUGtmp: " + "< " + "getAll");
 		return articoli;
 	}
 	
 	public void salva(Articoli articolo, List<Foto> fotoPerArticolo){
-		log.info("tmpDEBUGtmp: " + "> " + "salva(" + articolo + ", " + fotoPerArticolo + ")");
+		// log.info("tmpDEBUGtmp: " + "> " + "salva(" + articolo + ", " + fotoPerArticolo + ")");
 		try{
 			try{
 				utx.begin();
@@ -88,11 +88,11 @@ public class ArticoliDaoManBean implements ArticoliDao, Serializable{
 		}catch(Exception e){
 			Utility.manageException(e, utx, log);
 		}
-		log.info("tmpDEBUGtmp: " + "< " + "salva");
+		// log.info("tmpDEBUGtmp: " + "< " + "salva");
 	}
 	
 	public void aggiorna(Articoli articolo, List<Foto> fotoPerArticolo){
-		log.info("tmpDEBUGtmp: " + "> " + "aggiorna(" + articolo + ", " + fotoPerArticolo + ")");
+		// log.info("tmpDEBUGtmp: " + "> " + "aggiorna(" + articolo + ", " + fotoPerArticolo + ")");
 		try{
 			try{
 				utx.begin();
@@ -117,11 +117,11 @@ public class ArticoliDaoManBean implements ArticoliDao, Serializable{
 		}catch(Exception e){
 			Utility.manageException(e, utx, log);
 		}
-		log.info("tmpDEBUGtmp: " + "< " + "aggiorna");
+		// log.info("tmpDEBUGtmp: " + "< " + "aggiorna");
 	}
 	
 	private Boolean manageArticoliFoto(Integer idArticolo, List<Foto> fotoPerArticolo) throws SystemException{
-		log.info("tmpDEBUGtmp: " + "> " + "manageArticoliFoto(" + idArticolo + ", " + fotoPerArticolo + ")");
+		// log.info("tmpDEBUGtmp: " + "> " + "manageArticoliFoto(" + idArticolo + ", " + fotoPerArticolo + ")");
 		ArticoliFoto articoloFoto = null;
 		Foto o = null;
 		// try{
@@ -232,12 +232,12 @@ public class ArticoliDaoManBean implements ArticoliDao, Serializable{
 		// }catch(Exception e){
 		// Utility.manageException(e, utx, log);
 		// }
-		log.info("tmpDEBUGtmp: " + "< " + "manageArticoliFoto");
+		// log.info("tmpDEBUGtmp: " + "< " + "manageArticoliFoto");
 		return true;
 	}
 	
 	public void elimina(Articoli articoloElimina){
-		log.info("tmpDEBUGtmp: " + "> " + "elimina(" + articoloElimina + ")");
+		// log.info("tmpDEBUGtmp: " + "> " + "elimina(" + articoloElimina + ")");
 		try{
 			try{
 				utx.begin();
@@ -264,12 +264,12 @@ public class ArticoliDaoManBean implements ArticoliDao, Serializable{
 		}catch(Exception e){
 			Utility.manageException(e, utx, log);
 		}
-		log.info("tmpDEBUGtmp: " + "< " + "elimina");
+		// log.info("tmpDEBUGtmp: " + "< " + "elimina");
 	}
 	
 	@SuppressWarnings("unchecked")
 	public List<String> getArticoliAutoCompleteLs(String str){
-		log.info("tmpDEBUGtmp: " + "> " + "getArticoliAutoCompleteLs(" + str + ")");
+		// log.info("tmpDEBUGtmp: " + "> " + "getArticoliAutoCompleteLs(" + str + ")");
 		List<String> articoli = null;
 		try{
 			try{
@@ -285,13 +285,13 @@ public class ArticoliDaoManBean implements ArticoliDao, Serializable{
 		}catch(Exception e){
 			Utility.manageException(e, utx, log);
 		}
-		log.info("tmpDEBUGtmp: " + "< " + "getArticoliAutoCompleteLs");
+		// log.info("tmpDEBUGtmp: " + "< " + "getArticoliAutoCompleteLs");
 		return articoli;
 	}
 	
 	// @SuppressWarnings("unchecked")
 	// public List<String> getProduttoriAutoCompleteLs(String str){
-	// log.info("tmpDEBUGtmp: " + "> " + "getProduttoriAutoCompleteLs(" + str + ")");
+	// // log.info("tmpDEBUGtmp: " + "> " + "getProduttoriAutoCompleteLs(" + str + ")");
 	// List<String> articoli = null;
 	// try{
 	// try{
@@ -307,7 +307,7 @@ public class ArticoliDaoManBean implements ArticoliDao, Serializable{
 	// }catch(Exception e){
 	// Utility.manageException(e, utx, log);
 	// }
-	// log.info("tmpDEBUGtmp: " + "< " + "getProduttoriAutoCompleteLs");
+	// // log.info("tmpDEBUGtmp: " + "< " + "getProduttoriAutoCompleteLs");
 	// return articoli;
 	// }
 }

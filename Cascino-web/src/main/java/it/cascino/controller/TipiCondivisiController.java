@@ -35,32 +35,32 @@ public class TipiCondivisiController implements Serializable{
 	private List<Tipi> tipiLs;
 	
 	public List<Tipi> getTipiLs(){
-		log.info("tmpDEBUGtmp: " + "> " + "getTipiLs("  + ")");
-		log.info("tmpDEBUGtmp: " + "< " + "getTipiLs");
+		// log.info("tmpDEBUGtmp: " + "> " + "getTipiLs("  + ")");
+		// log.info("tmpDEBUGtmp: " + "< " + "getTipiLs");
 		return tipiLs;
 	}
 	
 	public void setTipiLs(List<Tipi> tipiLs){
-		log.info("tmpDEBUGtmp: " + "> " + "setTipiLs(" + tipiLs + ")");
+		// log.info("tmpDEBUGtmp: " + "> " + "setTipiLs(" + tipiLs + ")");
 		this.tipiLs = tipiLs;
-		log.info("tmpDEBUGtmp: " + "< " + "setTipiLs");
+		// log.info("tmpDEBUGtmp: " + "< " + "setTipiLs");
 	}
 	
 	public TreeNode getAlbero(){
-		log.info("tmpDEBUGtmp: " + "> " + "getAlbero(" + ")");
-		log.info("tmpDEBUGtmp: " + "< " + "getAlbero");
+		// log.info("tmpDEBUGtmp: " + "> " + "getAlbero(" + ")");
+		// log.info("tmpDEBUGtmp: " + "< " + "getAlbero");
 		return albero;
 	}
 	
 	public void setAlbero(TreeNode albero){
-		log.info("tmpDEBUGtmp: " + "> " + "setAlbero(" + albero + ")");
+		// log.info("tmpDEBUGtmp: " + "> " + "setAlbero(" + albero + ")");
 		this.albero = albero;
-		log.info("tmpDEBUGtmp: " + "< " + "setAlbero");
+		// log.info("tmpDEBUGtmp: " + "< " + "setAlbero");
 	}
 	
 	// private, solo di servizio, ricorsiva
 	private TreeNode popolaConFigli(int idPadre, TreeNode root){
-		log.info("tmpDEBUGtmp: " + "> " + "popolaConFiglli(" + idPadre + ", " + root + ")");
+		// log.info("tmpDEBUGtmp: " + "> " + "popolaConFiglli(" + idPadre + ", " + root + ")");
 		// log.info("popolaConFigli con id " + idPadre);
 		
 		TreeNode leaf = null;
@@ -80,25 +80,25 @@ public class TipiCondivisiController implements Serializable{
 				popolaConFigli(p.getId(), leaf);
 			}
 		}
-		log.info("tmpDEBUGtmp: " + "< " + "popolaConFigli");
+		// log.info("tmpDEBUGtmp: " + "< " + "popolaConFigli");
 		return leaf;
 	}
 		
 	@PostConstruct
 	public void aggiornaTipiLs(){
-		log.info("tmpDEBUGtmp: " + "> " + "aggiornaTipiLs(" + ")");
+		// log.info("tmpDEBUGtmp: " + "> " + "aggiornaTipiLs(" + ")");
 		tipiLs = tipiDao.getAll();
 		albero = new DefaultTreeNode("root", null);
 		popolaConFigli(1, albero);
-		log.info("tmpDEBUGtmp: " + "< " + "aggiornaTipiLs");
+		// log.info("tmpDEBUGtmp: " + "< " + "aggiornaTipiLs");
 	}
 	
 	public int sortByNum(Object obj1, Object obj2){
-		log.info("tmpDEBUGtmp: " + "> " + "sortByNum(" + obj1 + ", " + obj2 + ")");
+		// log.info("tmpDEBUGtmp: " + "> " + "sortByNum(" + obj1 + ", " + obj2 + ")");
 		Integer o1 = (Integer)obj1;
 		Integer o2 = (Integer)obj2;
 		log.info("sortById: " + o1 + "-" + o2);
-		log.info("tmpDEBUGtmp: " + "< " + "sortByNum");
+		// log.info("tmpDEBUGtmp: " + "< " + "sortByNum");
 		if(o1 < o2){
 			return -1;
 		}else if(o1 > o2){
@@ -108,11 +108,11 @@ public class TipiCondivisiController implements Serializable{
 	}
 	
 	public int sortByStr(Object obj1, Object obj2){
-		log.info("tmpDEBUGtmp: " + "> " + "sortByStr(" + obj1 + ", " + obj2 + ")");
+		// log.info("tmpDEBUGtmp: " + "> " + "sortByStr(" + obj1 + ", " + obj2 + ")");
 		String o1 = (String)obj1;
 		String o2 = (String)obj2;
 		log.info("sortByname: " + o1 + "-" + o2);
-		log.info("tmpDEBUGtmp: " + "< " + "sortByStr");
+		// log.info("tmpDEBUGtmp: " + "< " + "sortByStr");
 		if(o1.compareTo(o2) < 0){
 			return -1;
 		}else if(o1.compareTo(o2) > 0){
@@ -122,11 +122,11 @@ public class TipiCondivisiController implements Serializable{
 	}
 	
 	public int sortByStrIC(Object obj1, Object obj2){
-		log.info("tmpDEBUGtmp: " + "> " + "sortByStrIC(" + obj1 + ", " + obj2 + ")");
+		// log.info("tmpDEBUGtmp: " + "> " + "sortByStrIC(" + obj1 + ", " + obj2 + ")");
 		String o1 = (String)obj1;
 		String o2 = (String)obj2;
 		log.info("sortBynameIC: " + o1 + "-" + o2);
-		log.info("tmpDEBUGtmp: " + "< " + "sortByStrIC");
+		// log.info("tmpDEBUGtmp: " + "< " + "sortByStrIC");
 		if(o1.compareToIgnoreCase(o2) < 0){
 			return -1;
 		}else if(o1.compareToIgnoreCase(o2) > 0){

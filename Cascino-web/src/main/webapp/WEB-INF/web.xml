@@ -26,17 +26,22 @@
 		<dispatcher>INCLUDE</dispatcher>
 		<dispatcher>ERROR</dispatcher>
 	</filter-mapping>
+	<session-config>
+        <session-timeout>
+            60 <!-- minutes -->
+        </session-timeout>
+    </session-config>
 	<welcome-file-list>
 		<welcome-file>index.xhtml</welcome-file>
 	</welcome-file-list>
-	<error-page>
+	<!-- error-page>
 		<error-code>401</error-code>
 		<location>/WEB-INF/errorpages/unauthorized.xhtml</location>
 	</error-page>
 	<error-page>
 		<error-code>500</error-code>
 		<location>/WEB-INF/errorpages/unauthorized.xhtml</location>
-	</error-page>
+	</error-page-->
 	<error-page>
 		<exception-type>org.apache.shiro.authz.AuthorizationException</exception-type>
 		<location>/WEB-INF/errorpages/unauthorized.xhtml</location>
@@ -45,6 +50,39 @@
 		<exception-type>org.apache.shiro.authz.UnauthorizedException</exception-type>
 		<location>/WEB-INF/errorpages/unauthorized.xhtml</location>
 	</error-page>
+	<error-page>
+		<exception-type>javax.servlet.ServletException</exception-type>
+		<location>/WEB-INF/errorpages/db_ex.xhtml</location>
+	</error-page>
+	<error-page>
+		<exception-type>org.hibernate.*</exception-type>
+		<location>/WEB-INF/errorpages/db_ex.xhtml</location>
+	</error-page>
+	<error-page>
+		<exception-type>org.postgresql.*</exception-type>
+		<location>/WEB-INF/errorpages/db_ex.xhtml</location>
+	</error-page>
+	<error-page>
+		<exception-type>java.lang.IllegalStateException</exception-type>
+		<location>/WEB-INF/errorpages/db_ex.xhtml</location>
+	</error-page>
+	<error-page>
+		<exception-type>javax.faces.el.EvaluationException</exception-type>
+		<location>/WEB-INF/errorpages/db_ex.xhtml</location>
+	</error-page>
+	<error-page>
+		<exception-type>javax.persistence.PersistenceException</exception-type>
+		<location>/WEB-INF/errorpages/db_ex.xhtml</location>
+	</error-page>
+	<error-page>
+		<exception-type>javax.persistence.*</exception-type>
+		<location>/WEB-INF/errorpages/db_ex.xhtml</location>
+	</error-page>
+	<error-page>
+		<exception-type>org.hibernate.exception.ConstraintViolationException</exception-type>
+		<location>/WEB-INF/errorpages/db_ex.xhtml</location>
+	</error-page>
+
 	<servlet>
 		<servlet-name>Faces Servlet</servlet-name>
 		<servlet-class>javax.faces.webapp.FacesServlet</servlet-class>

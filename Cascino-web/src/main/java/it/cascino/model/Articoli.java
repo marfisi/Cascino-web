@@ -12,8 +12,9 @@ import java.sql.Timestamp;
  */
 @Entity
 @NamedQueries({
-		@NamedQuery(name = "Articoli.findAll", query = "SELECT a FROM Articoli a"),
-		@NamedQuery(name = "Articoli.findById", query = "SELECT a FROM Articoli a WHERE a.id = :id")
+	@NamedQuery(name = "Articoli.findAll", query = "SELECT a FROM Articoli a"),
+	@NamedQuery(name = "Articoli.findAllOrderCod", query = "SELECT a FROM Articoli a order by a.codice asc"),
+	@NamedQuery(name = "Articoli.findById", query = "SELECT a FROM Articoli a WHERE a.id = :id")
 })
 public class Articoli implements Serializable{
 	private static final long serialVersionUID = 1L;
@@ -26,6 +27,7 @@ public class Articoli implements Serializable{
 	
 	private Integer id;
 	private String codice;
+	private String descrizioneAs400;
 	private String nome;
 	private String descrizione;
 	private Integer produttore;
@@ -37,10 +39,11 @@ public class Articoli implements Serializable{
 	public Articoli(){
 	}
 	
-	public Articoli(Integer id, Integer articoloFornitore, String codice, String descrizione, String modello, String nome, Integer produttore, Integer tipo, Timestamp updtime){
+	public Articoli(Integer id, String codice, String descrizioneAs400, String nome, String descrizione, String modello, Integer produttore,  Integer articoloFornitore, Integer tipo, Timestamp updtime){
 		super();
 		this.id = id;
 		this.codice = codice;
+		this.descrizioneAs400 = descrizioneAs400;
 		this.nome = nome;
 		this.descrizione = descrizione;
 		this.produttore = produttore;
@@ -67,6 +70,15 @@ public class Articoli implements Serializable{
 	
 	public void setCodice(String codice){
 		this.codice = codice;
+	}
+	
+	@Column(name = "descrizioneAS400")
+	public String getDescrizioneAs400(){
+		return this.descrizioneAs400;
+	}
+	
+	public void setDescrizioneAs400(String descrizioneAs400){
+		this.descrizioneAs400 = descrizioneAs400;
 	}
 	
 	public String getNome(){

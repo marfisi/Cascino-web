@@ -55,7 +55,7 @@
 				</p:toolbar>
 				<p:sticky target="tbNavigation" />
 
-				<p:dataTable id="tbl" var="articolo" value="#{articoliCondivisiController.articoliLs}" selection="#{articoliController.articoloSel}" selectionMode="single" rowKey="#{articolo.id}" update=":updDisplay" oncomplete="PF('updDialog').show()" paginator="true" rows="15" dynamic="true" sortBy="#{articolo.id}" emptyMessage="Nessun entry per il criterio definito" widgetVar="articoliTable" filteredValue="#{articoliController.filteredArticoliLs}">
+				<p:dataTable id="tbl" var="articolo" value="#{articoliCondivisiController.articoliLs}" selection="#{articoliController.articoloSel}" selectionMode="single" rowKey="#{articolo.id}" update=":updDisplay" oncomplete="PF('updDialog').show()" paginator="true" rows="15" dynamic="true" sortBy="#{articolo.codice}" emptyMessage="Nessun entry per il criterio definito" widgetVar="articoliTable" filteredValue="#{articoliController.filteredArticoliLs}" paginatorTemplate="Pagina {CurrentPageReport} Vai a pagina: {JumpToPageDropdown} &nbsp; {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} &nbsp; Righe: {RowsPerPageDropdown}" rowsPerPageTemplate="5,10,15,20,50,75,100">
 
 					<p:ajax event="rowDblselect" update=":display" oncomplete="PF('viewDialog').show()" />
 
@@ -76,6 +76,12 @@
 							<h:outputText value="Nome" />
 						</f:facet>
 						<h:outputText value="#{articolo.nome}" />
+					</p:column>
+					<p:column sortBy="descrizioneAs400" sortFunction="#{articoliCondivisiController.sortByStrIC}" filterBy="#{articolo.descrizioneAs400}" filterMatchMode="contains">
+						<f:facet name="header">
+							<h:outputText value="Descrizione AS400" />
+						</f:facet>
+						<h:outputText value="#{articolo.descrizioneAs400}" />
 					</p:column>
 					<p:column sortBy="descrizione" sortFunction="#{articoliCondivisiController.sortByStrIC}" filterBy="#{articolo.descrizione}" filterMatchMode="contains">
 						<f:facet name="header">
@@ -190,6 +196,8 @@
 					</p:column>
 					<h:outputText value="Modello" />
 					<h:outputText value="#{articoliController.articoloSel.modello}" />
+					<h:outputText value="Descrizione AS400" />
+					<h:outputText value="#{articoliController.articoloSel.descrizioneAs400}" />
 					<h:outputText value="Descrizione" />
 					<h:outputText value="#{articoliController.articoloSel.descrizione}" />
 					<h:outputText value="Tipo" />
@@ -263,7 +271,7 @@
 							<h:outputText value="Codice" />
 							<p:autoComplete id="codiceAutoCompl" minQueryLength="3" value="#{articoliController.articoloSel.codice}" completeMethod="#{articoliController.articoliAutoCompleteLs}" effect="fade" />
 							<h:outputText value="Nome" />
-							<p:inputText value="#{articoliController.articoloSel.nome}" />
+							<p:inputText value="#{articoliController.articoloSel.nome}"  maxlength="100" />
 							<h:outputText value="Marca" />
 							<p:column>
 								<p:selectOneMenu id="menuSelProd" value="#{articoliController.articoloSel.produttore}" var="p" filter="true" filterMatchMode="contains">
@@ -279,7 +287,9 @@
 								<p:commandButton id="toProduttoriButton" value="Aggiungi Produttore" action="#{navigationController.articoliToProduttori()}" icon="ui-icon-circle-plus" />
 							</p:column>
 							<h:outputText value="Modello" />
-							<p:inputText value="#{articoliController.articoloSel.modello}" />
+							<p:inputText value="#{articoliController.articoloSel.modello}"  maxlength="50" />
+							<h:outputText value="Descrizione AS400" />
+							<h:outputText value="#{articoliController.articoloSel.descrizioneAs400}" />
 							<h:outputText value="Descrizione" />
 							<p:column>
 								<p:inputTextarea value="#{articoliController.articoloSel.descrizione}" rows="5" cols="23" counter="counter" maxlength="200" counterTemplate="{0} caratteri" autoResize="false" />
@@ -371,16 +381,22 @@
 							</p:toolbarGroup>
 							<p:toolbarGroup align="left">
 								<p:commandButton value="Aggiorna" action="#{articoliController.aggiorna}" update=":tblForm:tbl,:growlForm:growl" onclick="PF('updDialog').close()" icon="ui-icon-refresh" />
-								<p:commandButton value="Elimina" action="#{articoliController.elimina}" update=":tblForm:tbl,:growlForm:growl" onclick="PF('updDialog').close()" icon="ui-icon-trash" />
+								<p:commandButton value="Elimina" action="#{articoliController.elimina}" update=":tblForm:tbl,:growlForm:growl" icon="ui-icon-trash" >
+									<p:confirm header="Confirmation" message="Sei sicuro?" icon="ui-icon-alert" />
+								</p:commandButton>
+								<p:confirmDialog global="true" showEffect="fade" hideEffect="explode">
+									<p:commandButton value="Si" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" onclick="PF('updDialog').hide()" />
+									<p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+								</p:confirmDialog>
 							</p:toolbarGroup>
 						</p:toolbar>
 						<p:panelGrid columns="6" styleClass="updPanel">
 							<h:outputText value="ID" />
 							<h:outputText value="#{articoliController.articoloSel.id}" />
 							<h:outputText value="Codice" />
-							<p:autoComplete id="codiceAutoCompl" minQueryLength="3" value="#{articoliController.articoloSel.codice}" completeMethod="#{articoliController.articoliAutoCompleteLs}" effect="fade" />
+							<h:outputText value="#{articoliController.articoloSel.codice}" />
 							<h:outputText value="Nome" />
-							<p:inputText value="#{articoliController.articoloSel.nome}" />
+							<p:inputText value="#{articoliController.articoloSel.nome}"  maxlength="100" />
 							<h:outputText value="Marca" />
 							<p:column>
 								<p:selectOneMenu id="menuSelProd" value="#{articoliController.articoloSel.produttore}" var="p" filter="true" filterMatchMode="contains">
@@ -396,7 +412,9 @@
 								<p:commandButton id="toProduttoriButton" value="Aggiungi Produttore" action="#{navigationController.articoliToProduttori()}" icon="ui-icon-circle-plus" />
 							</p:column>
 							<h:outputText value="Modello" />
-							<p:inputText value="#{articoliController.articoloSel.modello}" />
+							<p:inputText value="#{articoliController.articoloSel.modello}" maxlength="50" />
+							<h:outputText value="Descrizione AS400" />
+							<h:outputText value="#{articoliController.articoloSel.descrizioneAs400}" />
 							<h:outputText value="Descrizione" />
 							<p:column>
 								<p:inputTextarea value="#{articoliController.articoloSel.descrizione}" rows="5" cols="23" counter="counter" maxlength="200" counterTemplate="{0} caratteri" autoResize="false" />

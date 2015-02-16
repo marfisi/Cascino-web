@@ -65,98 +65,98 @@ public class UserLoginController implements Serializable{
 	private Boolean confirmRegistration = false;
 	
 	public String getUser(){
-		log.info("tmpDEBUGtmp: " + "> " + "getUser(" + ")");
-		log.info("tmpDEBUGtmp: " + "< " + "getUser");
+		// log.info("tmpDEBUGtmp: " + "> " + "getUser(" + ")");
+		// log.info("tmpDEBUGtmp: " + "< " + "getUser");
 		return user;
 	}
 	
 	public void setUser(String user){
-		log.info("tmpDEBUGtmp: " + "> " + "setUser(" + user + ")");
+		// log.info("tmpDEBUGtmp: " + "> " + "setUser(" + user + ")");
 		this.user = user.toLowerCase();
-		log.info("tmpDEBUGtmp: " + "< " + "setUser");
+		// log.info("tmpDEBUGtmp: " + "< " + "setUser");
 	}
 	
 	public String getPassword(){
-		log.info("tmpDEBUGtmp: " + "> " + "getPassword(" + ")");
-		log.info("tmpDEBUGtmp: " + "< " + "getPassword");
+		// log.info("tmpDEBUGtmp: " + "> " + "getPassword(" + ")");
+		// log.info("tmpDEBUGtmp: " + "< " + "getPassword");
 		return password;
 	}
 	
 	public void setPassword(String password){
-		log.info("tmpDEBUGtmp: " + "> " + "setPassword(" + password + ")");
+		// log.info("tmpDEBUGtmp: " + "> " + "setPassword(" + password + ")");
 		// produce in ogni caso 64 byte
 		this.password = password; // new Sha256Hash(password).toHex();
-		log.info("tmpDEBUGtmp: " + "< " + "setPassword");
+		// log.info("tmpDEBUGtmp: " + "< " + "setPassword");
 	}
 	
 	public String getNome(){
-		log.info("tmpDEBUGtmp: " + "> " + "getNome(" + ")");
+		// log.info("tmpDEBUGtmp: " + "> " + "getNome(" + ")");
 		if(StringUtils.isEmpty(nome)){
 			nome = userLoginDao.getNomeDaUser(user);
 		}
-		log.info("tmpDEBUGtmp: " + "< " + "getNome");
+		// log.info("tmpDEBUGtmp: " + "< " + "getNome");
 		return nome;
 	}
 	
 	public void setNome(String nome){
-		log.info("tmpDEBUGtmp: " + "> " + "setNome(" + nome + ")");
+		// log.info("tmpDEBUGtmp: " + "> " + "setNome(" + nome + ")");
 		this.nome = nome.toLowerCase();
-		log.info("tmpDEBUGtmp: " + "< " + "setNome");
+		// log.info("tmpDEBUGtmp: " + "< " + "setNome");
 	}
 	
 	public String getCognome(){
-		log.info("tmpDEBUGtmp: " + "> " + "getCognome(" + ")");
+		// log.info("tmpDEBUGtmp: " + "> " + "getCognome(" + ")");
 		if(StringUtils.isEmpty(cognome)){
 			cognome = userLoginDao.getCognomeDaUser(user);
 		}
-		log.info("tmpDEBUGtmp: " + "< " + "getCognome");
+		// log.info("tmpDEBUGtmp: " + "< " + "getCognome");
 		return cognome;
 	}
 	
 	public void setCognome(String cognome){
-		log.info("tmpDEBUGtmp: " + "> " + "setCognome(" + cognome + ")");
+		// log.info("tmpDEBUGtmp: " + "> " + "setCognome(" + cognome + ")");
 		this.cognome = cognome.toLowerCase();
-		log.info("tmpDEBUGtmp: " + "< " + "setCognome");
+		// log.info("tmpDEBUGtmp: " + "< " + "setCognome");
 	}
 	
 	public void setStato(String stato){
-		log.info("tmpDEBUGtmp: " + "> " + "setStato(" + stato + ")");
+		// log.info("tmpDEBUGtmp: " + "> " + "setStato(" + stato + ")");
 		this.stato = stato.toLowerCase();
-		log.info("tmpDEBUGtmp: " + "< " + "setStato");
+		// log.info("tmpDEBUGtmp: " + "< " + "setStato");
 	}
 	
 	public String getStato(){
-		log.info("tmpDEBUGtmp: " + "> " + "getStato(" + ")");
-		log.info("tmpDEBUGtmp: " + "< " + "getStato");
+		// log.info("tmpDEBUGtmp: " + "> " + "getStato(" + ")");
+		// log.info("tmpDEBUGtmp: " + "< " + "getStato");
 		return stato;
 	}
 	
 	public boolean getRemember(){
-		log.info("tmpDEBUGtmp: " + "> " + "getRemember(" + ")");
-		log.info("tmpDEBUGtmp: " + "< " + "getRemember");
+		// log.info("tmpDEBUGtmp: " + "> " + "getRemember(" + ")");
+		// log.info("tmpDEBUGtmp: " + "< " + "getRemember");
 		return remember;
 	}
 	
 	public void setRemember(boolean remember){
-		log.info("tmpDEBUGtmp: " + "> " + "setRemember(" + remember + ")");
+		// log.info("tmpDEBUGtmp: " + "> " + "setRemember(" + remember + ")");
 		this.remember = remember;
-		log.info("tmpDEBUGtmp: " + "< " + "setRemember");
+		// log.info("tmpDEBUGtmp: " + "< " + "setRemember");
 	}
 	
 	public List<Usersrolenames> getRolesDaUser(String username){
-		log.info("tmpDEBUGtmp: " + "> " + "getRolesDaUser(" + username + ")");
-		log.info("tmpDEBUGtmp: " + "< " + "getRolesDaUser");
+		// log.info("tmpDEBUGtmp: " + "> " + "getRolesDaUser(" + username + ")");
+		// log.info("tmpDEBUGtmp: " + "< " + "getRolesDaUser");
 		return userLoginDao.getRolesDaUser(username);
 	}
 	
 	public List<Userspermissions> getPermissionsDaUser(String username){
-		log.info("tmpDEBUGtmp: " + "> " + "getPermissionsDaUser(" + username + ")");
-		log.info("tmpDEBUGtmp: " + "< " + "getPermissionsDaUser");
+		// log.info("tmpDEBUGtmp: " + "> " + "getPermissionsDaUser(" + username + ")");
+		// log.info("tmpDEBUGtmp: " + "< " + "getPermissionsDaUser");
 		return userLoginDao.getPermissionsDaUser(username);
 	}
 	
 	public void salva(){
-		log.info("tmpDEBUGtmp: " + "> " + "salva(" + ")");
+		// log.info("tmpDEBUGtmp: " + "> " + "salva(" + ")");
 		userLoginDao.salva(userSel);
 		if((userSel != null) && (userSel.getId() != null)){
 			esito = "utente " + userSel.getLogin() + " e' stato registrato";
@@ -165,22 +165,22 @@ public class UserLoginController implements Serializable{
 			esito = "utente " + userSel.getLogin() + " NON e' stato registrato";
 			showGrowlErrorMessage();
 		}
-		log.info("tmpDEBUGtmp: " + "< " + "salva");
+		// log.info("tmpDEBUGtmp: " + "< " + "salva");
 	}
 	
 	public void aggiorna(){
-		log.info("tmpDEBUGtmp: " + "> " + "aggiorna(" + ")");
-		log.info("tmpDEBUGtmp: " + "< " + "aggiorna");
+		// log.info("tmpDEBUGtmp: " + "> " + "aggiorna(" + ")");
+		// log.info("tmpDEBUGtmp: " + "< " + "aggiorna");
 	}
 	
 	public void elimina(){
-		log.info("tmpDEBUGtmp: " + "> " + "elimina(" + ")");
-		log.info("tmpDEBUGtmp: " + "< " + "elimina");
+		// log.info("tmpDEBUGtmp: " + "> " + "elimina(" + ")");
+		// log.info("tmpDEBUGtmp: " + "< " + "elimina");
 	}
 	
 	public String getEsito(){
-		log.info("tmpDEBUGtmp: " + "> " + "getEsito(" + ")");
-		log.info("tmpDEBUGtmp: " + "< " + "getEsito");
+		// log.info("tmpDEBUGtmp: " + "> " + "getEsito(" + ")");
+		// log.info("tmpDEBUGtmp: " + "< " + "getEsito");
 		return esito;
 	}
 	
@@ -214,7 +214,7 @@ public class UserLoginController implements Serializable{
 	}
 	
 	// public Boolean getCanAccess(){
-	// log.info("tmpDEBUGtmp: " + "> " + "getCanAccess(" + ")");
+	// // log.info("tmpDEBUGtmp: " + "> " + "getCanAccess(" + ")");
 	// // if(canAccess == false){
 	// canAccess = userLoginDao.canAccess(user, password);
 	// // }
@@ -225,12 +225,12 @@ public class UserLoginController implements Serializable{
 	// esito = "utente " + user + " NON e' autorizzato (o non e' inserito)";
 	// showGrowlErrorMessage();
 	// }
-	// log.info("tmpDEBUGtmp: " + "< " + "getCanAccess");
+	// // log.info("tmpDEBUGtmp: " + "< " + "getCanAccess");
 	// return canAccess;
 	// }
 	
 	public Boolean getCanAccess(){
-		log.info("tmpDEBUGtmp: " + "> " + "getCanAccess(" + ")");
+		// log.info("tmpDEBUGtmp: " + "> " + "getCanAccess(" + ")");
 		canAccess = false;
 		if(login()){
 			esito = "utente " + user + " e' autorizzato";
@@ -241,18 +241,18 @@ public class UserLoginController implements Serializable{
 			showGrowlErrorMessage();
 			canAccess = false;
 		}
-		log.info("tmpDEBUGtmp: " + "< " + "getCanAccess");
+		// log.info("tmpDEBUGtmp: " + "< " + "getCanAccess");
 		return canAccess;
 	}
 	
 	public void setCanAccess(Boolean canAccess){
-		log.info("tmpDEBUGtmp: " + "> " + "setCanAccess(" + canAccess + ")");
+		// log.info("tmpDEBUGtmp: " + "> " + "setCanAccess(" + canAccess + ")");
 		this.canAccess = canAccess;
-		log.info("tmpDEBUGtmp: " + "< " + "setCanAccess");
+		// log.info("tmpDEBUGtmp: " + "< " + "setCanAccess");
 	}
 	
 	public Boolean login(){
-		log.info("tmpDEBUGtmp: " + "> " + "login(" + ")");
+		// log.info("tmpDEBUGtmp: " + "> " + "login(" + ")");
 		try{
 			if(subject == null){
 				subject = SecurityUtils.getSubject();
@@ -261,23 +261,23 @@ public class UserLoginController implements Serializable{
 		}catch(ShiroException e){
 			return false;
 		}
-		log.info("tmpDEBUGtmp: " + "< " + "login");
+		// log.info("tmpDEBUGtmp: " + "< " + "login");
 		return true;
 	}
 	
 	public String logout(){
-		log.info("tmpDEBUGtmp: " + "> " + "logout(" + ")");
+		// log.info("tmpDEBUGtmp: " + "> " + "logout(" + ")");
 		try{
 			subject.logout();
 		}catch(ShiroException e){
 			return "logoutFallito";
 		}
-		log.info("tmpDEBUGtmp: " + "< " + "logout");
+		// log.info("tmpDEBUGtmp: " + "< " + "logout");
 		return "logout";
 	}
 	
 	public Boolean getConfirmRegistration(){
-		log.info("tmpDEBUGtmp: " + "> " + "getConfirmRegistration(" + ")");
+		// log.info("tmpDEBUGtmp: " + "> " + "getConfirmRegistration(" + ")");
 		
 		if(confirmRegistration == false){
 			userSel = new Users();
@@ -293,14 +293,14 @@ public class UserLoginController implements Serializable{
 				confirmRegistration = true;
 			}
 		}
-		log.info("tmpDEBUGtmp: " + "< " + "getConfirmRegistration");
+		// log.info("tmpDEBUGtmp: " + "< " + "getConfirmRegistration");
 		return confirmRegistration;
 	}
 	
 	public void setConfirmRegistration(Boolean confirmRegistration){
-		log.info("tmpDEBUGtmp: " + "> " + "setConfirmRegistration(" + confirmRegistration + ")");
+		// log.info("tmpDEBUGtmp: " + "> " + "setConfirmRegistration(" + confirmRegistration + ")");
 		this.confirmRegistration = confirmRegistration;
-		log.info("tmpDEBUGtmp: " + "< " + "setConfirmRegistration");
+		// log.info("tmpDEBUGtmp: " + "< " + "setConfirmRegistration");
 	}
 	
 	// serve per decidere se visualizzare un elemento o meno (es. bottone)

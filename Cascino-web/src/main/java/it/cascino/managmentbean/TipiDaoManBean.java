@@ -35,7 +35,7 @@ public class TipiDaoManBean implements TipiDao, Serializable{
 	
 	@SuppressWarnings("unchecked")
 	public List<Tipi> getAll(){
-		log.info("tmpDEBUGtmp: " + "> " + "getAll(" + ")");
+		// log.info("tmpDEBUGtmp: " + "> " + "getAll(" + ")");
 		List<Tipi> tipi = null;
 		try{
 			try{
@@ -51,12 +51,12 @@ public class TipiDaoManBean implements TipiDao, Serializable{
 		}catch(Exception e){
 			Utility.manageException(e, utx, log);
 		}
-		log.info("tmpDEBUGtmp: " + "< " + "getAll");
+		// log.info("tmpDEBUGtmp: " + "< " + "getAll");
 		return tipi;
 	}
 	
 	public void salva(TreeNode nodo){
-		log.info("tmpDEBUGtmp: " + "> " + "salva(" + nodo + ")");
+		// log.info("tmpDEBUGtmp: " + "> " + "salva(" + nodo + ")");
 		Tipi tipo = (Tipi)nodo.getData();
 		try{
 			try{
@@ -73,11 +73,11 @@ public class TipiDaoManBean implements TipiDao, Serializable{
 		}catch(Exception e){
 			Utility.manageException(e, utx, log);
 		}
-		log.info("tmpDEBUGtmp: " + "< " + "salva");
+		// log.info("tmpDEBUGtmp: " + "< " + "salva");
 	}
 	
 	public void aggiorna(TreeNode nodo){
-		log.info("tmpDEBUGtmp: " + "> " + "aggiorna(" + nodo + ")");
+		// log.info("tmpDEBUGtmp: " + "> " + "aggiorna(" + nodo + ")");
 		Tipi tipo = (Tipi)nodo.getData();		
 		try{
 			try{
@@ -91,11 +91,11 @@ public class TipiDaoManBean implements TipiDao, Serializable{
 		}catch(Exception e){
 			Utility.manageException(e, utx, log);
 		}
-		log.info("tmpDEBUGtmp: " + "< " + "aggiorna");
+		// log.info("tmpDEBUGtmp: " + "< " + "aggiorna");
 	}
 	
 	public void elimina(TreeNode nodo){
-		log.info("tmpDEBUGtmp: " + "> " + "elimina(" + nodo + ")");
+		// log.info("tmpDEBUGtmp: " + "> " + "elimina(" + nodo + ")");
 		Tipi tipoElimina = (Tipi)nodo.getData();		
 		try{
 			try{
@@ -111,11 +111,11 @@ public class TipiDaoManBean implements TipiDao, Serializable{
 		}catch(Exception e){
 			Utility.manageException(e, utx, log);
 		}
-		log.info("tmpDEBUGtmp: " + "< " + "elimina");
+		// log.info("tmpDEBUGtmp: " + "< " + "elimina");
 	}
 	
 	public String getNomeTipoDaIdArticolo(Integer idArticolo){
-		log.info("tmpDEBUGtmp: " + "> " + "getNomeTipoDaIdArticolo(" + idArticolo + ")");
+		// log.info("tmpDEBUGtmp: " + "> " + "getNomeTipoDaIdArticolo(" + idArticolo + ")");
 		String nome = null;
 		try{
 			try{
@@ -133,12 +133,12 @@ public class TipiDaoManBean implements TipiDao, Serializable{
 		}catch(Exception e){
 			Utility.manageException(e, utx, log);
 		}
-		log.info("tmpDEBUGtmp: " + "< " + "getNomeTipoDaIdArticolo");
+		// log.info("tmpDEBUGtmp: " + "< " + "getNomeTipoDaIdArticolo");
 		return nome;
 	}
 	
 	public Tipi getTipoDaIdTipo(Integer idTipo){
-		log.info("tmpDEBUGtmp: " + "> " + "getTipoDaIdTipo(" + idTipo + ")");
+		// log.info("tmpDEBUGtmp: " + "> " + "getTipoDaIdTipo(" + idTipo + ")");
 		Tipi tipo = new Tipi();
 		try{
 			try{
@@ -153,7 +153,7 @@ public class TipiDaoManBean implements TipiDao, Serializable{
 		}catch(Exception e){
 			Utility.manageException(e, utx, log);
 		}
-		log.info("tmpDEBUGtmp: " + "< " + "getTipoDaIdTipo");
+		// log.info("tmpDEBUGtmp: " + "< " + "getTipoDaIdTipo");
 		return tipo;
 	}
 }

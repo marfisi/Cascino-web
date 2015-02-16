@@ -36,35 +36,35 @@ public class ArticoliCondivisiController implements Serializable{
 	// }
 	
 	public List<Articoli> getArticoliLs(){
-		log.info("tmpDEBUGtmp: " + "> " + "getArticoliLs(" + ")");
+		// log.info("tmpDEBUGtmp: " + "> " + "getArticoliLs(" + ")");
 		// if(inizializzazione){
 		// articoliLs = articoliDao.getAll();
 		// inizializzazione = false;
 		// }
 		// articoliLs = articoliDao.getAll();
-		log.info("tmpDEBUGtmp: " + "< " + "getArticoliLs");
+		// log.info("tmpDEBUGtmp: " + "< " + "getArticoliLs");
 		return articoliLs;
 	}
 	
 	public void setArticoliLs(List<Articoli> articoliLs){
-		log.info("tmpDEBUGtmp: " + "> " + "setArticoliLs(" + articoliLs + ")");
+		// log.info("tmpDEBUGtmp: " + "> " + "setArticoliLs(" + articoliLs + ")");
 		this.articoliLs = articoliLs;
-		log.info("tmpDEBUGtmp: " + "< " + "setArticoliLs");
+		// log.info("tmpDEBUGtmp: " + "< " + "setArticoliLs");
 	}
 	
 	@PostConstruct
 	public void aggiornaArticoliLs(){
-		log.info("tmpDEBUGtmp: " + "> " + "aggiornaArticoliLs(" + ")");
+		// log.info("tmpDEBUGtmp: " + "> " + "aggiornaArticoliLs(" + ")");
 		articoliLs = articoliDao.getAll();
-		log.info("tmpDEBUGtmp: " + "< " + "aggiornaArticoliLs");
+		// log.info("tmpDEBUGtmp: " + "< " + "aggiornaArticoliLs");
 	}
 	
 	public int sortByNum(Object obj1, Object obj2){
-		log.info("tmpDEBUGtmp: " + "> " + "sortByNum(" + obj1 + ", " + obj2 + ")");
+		// log.info("tmpDEBUGtmp: " + "> " + "sortByNum(" + obj1 + ", " + obj2 + ")");
 		Integer o1 = (Integer)obj1;
 		Integer o2 = (Integer)obj2;
 		log.info("sortById: " + o1 + "-" + o2);
-		log.info("tmpDEBUGtmp: " + "< " + "sortByNum");
+		// log.info("tmpDEBUGtmp: " + "< " + "sortByNum");
 		if(o1 < o2){
 			return -1;
 		}else if(o1 > o2){
@@ -74,11 +74,11 @@ public class ArticoliCondivisiController implements Serializable{
 	}
 	
 	public int sortByStr(Object obj1, Object obj2){
-		log.info("tmpDEBUGtmp: " + "> " + "sortByStr(" + obj1 + ", " + obj2 + ")");
+		// log.info("tmpDEBUGtmp: " + "> " + "sortByStr(" + obj1 + ", " + obj2 + ")");
 		String o1 = (String)obj1;
 		String o2 = (String)obj2;
 		log.info("sortByname: " + o1 + "-" + o2);
-		log.info("tmpDEBUGtmp: " + "< " + "sortByStr");
+		// log.info("tmpDEBUGtmp: " + "< " + "sortByStr");
 		if(o1.compareTo(o2) < 0){
 			return -1;
 		}else if(o1.compareTo(o2) > 0){
@@ -88,11 +88,11 @@ public class ArticoliCondivisiController implements Serializable{
 	}
 	
 	public int sortByStrIC(Object obj1, Object obj2){
-		log.info("tmpDEBUGtmp: " + "> " + "sortByStrIC(" + obj1 + ", " + obj2 + ")");
+		// log.info("tmpDEBUGtmp: " + "> " + "sortByStrIC(" + obj1 + ", " + obj2 + ")");
 		String o1 = (String)obj1;
 		String o2 = (String)obj2;
 		log.info("sortBynameIC: " + o1 + "-" + o2);
-		log.info("tmpDEBUGtmp: " + "< " + "sortByStrIC");
+		// log.info("tmpDEBUGtmp: " + "< " + "sortByStrIC");
 		if(o1.compareToIgnoreCase(o2) < 0){
 			return -1;
 		}else if(o1.compareToIgnoreCase(o2) > 0){
@@ -102,7 +102,7 @@ public class ArticoliCondivisiController implements Serializable{
 	}
 	
 	public boolean filterArticoloCodice(Object value, Object filter, Locale locale){
-		log.info("tmpDEBUGtmp: " + "> " + "filterArticoloCodice(" + value + ", " + filter + ", " + locale + ")");
+		// log.info("tmpDEBUGtmp: " + "> " + "filterArticoloCodice(" + value + ", " + filter + ", " + locale + ")");
 		String filterText = (filter == null) ? null : filter.toString().trim().toUpperCase(locale);
 		if(filterText == null || filterText.equals("")){
 			return true;
@@ -110,7 +110,7 @@ public class ArticoliCondivisiController implements Serializable{
 		if(value == null){
 			return false;
 		}
-		log.info("tmpDEBUGtmp: " + "< " + "filterArticoloCodice");
+		// log.info("tmpDEBUGtmp: " + "< " + "filterArticoloCodice");
 		// return ((Comparable)value).compareTo(filterText) >= 0;
 		return (String.valueOf(value).toUpperCase()).compareTo(filterText) >= 0;
 	}

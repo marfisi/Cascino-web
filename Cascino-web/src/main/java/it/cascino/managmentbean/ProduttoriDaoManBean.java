@@ -34,7 +34,7 @@ public class ProduttoriDaoManBean implements ProduttoriDao, Serializable{
 	
 	@SuppressWarnings("unchecked")
 	public List<Produttori> getAll(){
-		log.info("tmpDEBUGtmp: " + "> " + "getAll(" + ")");
+		// log.info("tmpDEBUGtmp: " + "> " + "getAll(" + ")");
 		List<Produttori> produttori = null;
 		try{
 			try{
@@ -50,12 +50,12 @@ public class ProduttoriDaoManBean implements ProduttoriDao, Serializable{
 		}catch(Exception e){
 			Utility.manageException(e, utx, log);
 		}
-		log.info("tmpDEBUGtmp: " + "< " + "getAll");
+		// log.info("tmpDEBUGtmp: " + "< " + "getAll");
 		return produttori;
 	}
 	
 	public void salva(Produttori produttore){
-		log.info("tmpDEBUGtmp: " + "> " + "salva(" + produttore + ")");
+		// log.info("tmpDEBUGtmp: " + "> " + "salva(" + produttore + ")");
 		try{
 			try{
 				utx.begin();
@@ -71,11 +71,11 @@ public class ProduttoriDaoManBean implements ProduttoriDao, Serializable{
 		}catch(Exception e){
 			Utility.manageException(e, utx, log);
 		}
-		log.info("tmpDEBUGtmp: " + "< " + "salva");
+		// log.info("tmpDEBUGtmp: " + "< " + "salva");
 	}
 	
 	public void aggiorna(Produttori produttore){
-		log.info("tmpDEBUGtmp: " + "> " + "aggiorna(" + produttore + ")");
+		// log.info("tmpDEBUGtmp: " + "> " + "aggiorna(" + produttore + ")");
 		try{
 			try{
 				utx.begin();
@@ -90,11 +90,11 @@ public class ProduttoriDaoManBean implements ProduttoriDao, Serializable{
 		}catch(Exception e){
 			Utility.manageException(e, utx, log);
 		}
-		log.info("tmpDEBUGtmp: " + "< " + "aggiorna");
+		// log.info("tmpDEBUGtmp: " + "< " + "aggiorna");
 	}
 	
 	public void elimina(Produttori produttoreElimina){
-		log.info("tmpDEBUGtmp: " + "> " + "elimina(" + produttoreElimina + ")");
+		// log.info("tmpDEBUGtmp: " + "> " + "elimina(" + produttoreElimina + ")");
 		try{
 			try{
 				utx.begin();
@@ -109,11 +109,11 @@ public class ProduttoriDaoManBean implements ProduttoriDao, Serializable{
 		}catch(Exception e){
 			Utility.manageException(e, utx, log);
 		}
-		log.info("tmpDEBUGtmp: " + "< " + "elimina");
+		// log.info("tmpDEBUGtmp: " + "< " + "elimina");
 	}
 	
 	public String getNomeProduttoreDaIdArticolo(Integer idArticolo){
-		log.info("tmpDEBUGtmp: " + "> " + "getNomeProduttoreDaIdArticolo(" + idArticolo + ")");
+		// log.info("tmpDEBUGtmp: " + "> " + "getNomeProduttoreDaIdArticolo(" + idArticolo + ")");
 		String nome = null;
 		try{
 			try{
@@ -131,12 +131,12 @@ public class ProduttoriDaoManBean implements ProduttoriDao, Serializable{
 		}catch(Exception e){
 			Utility.manageException(e, utx, log);
 		}
-		log.info("tmpDEBUGtmp: " + "< " + "getNomeProduttoreDaIdArticolo");
+		// log.info("tmpDEBUGtmp: " + "< " + "getNomeProduttoreDaIdArticolo");
 		return nome;
 	}
 	
 	public Produttori getProduttoreDaIdProduttore(Integer idProduttore){
-		log.info("tmpDEBUGtmp: " + "> " + "getProduttoreDaIdProduttore(" + idProduttore + ")");
+		// log.info("tmpDEBUGtmp: " + "> " + "getProduttoreDaIdProduttore(" + idProduttore + ")");
 		Produttori produttore = new Produttori();
 		try{
 			try{
@@ -151,7 +151,7 @@ public class ProduttoriDaoManBean implements ProduttoriDao, Serializable{
 		}catch(Exception e){
 			Utility.manageException(e, utx, log);
 		}
-		log.info("tmpDEBUGtmp: " + "< " + "getProduttoreDaIdProduttore");
+		// log.info("tmpDEBUGtmp: " + "< " + "getProduttoreDaIdProduttore");
 		return produttore;
 	}	
 }

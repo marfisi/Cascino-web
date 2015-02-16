@@ -31,31 +31,31 @@ public class FotoCondivisiController implements Serializable{
 	private List<Foto> fotoLs;
 
 	public List<Foto> getFotoLs(){
-		log.info("tmpDEBUGtmp: " + "> " + "getFotoLs(" + ")");
-		log.info("tmpDEBUGtmp: " + "< " + "getFotoLs");				
+		// log.info("tmpDEBUGtmp: " + "> " + "getFotoLs(" + ")");
+		// log.info("tmpDEBUGtmp: " + "< " + "getFotoLs");				
 		return fotoLs;
 	}
 	
 	public void setFotoLs(List<Foto> fotoLs){
-		log.info("tmpDEBUGtmp: " + "> " + "setFotoLs(" + fotoLs + ")");
+		// log.info("tmpDEBUGtmp: " + "> " + "setFotoLs(" + fotoLs + ")");
 		this.fotoLs = fotoLs;
-		log.info("tmpDEBUGtmp: " + "< " + "setFotoLs");
+		// log.info("tmpDEBUGtmp: " + "< " + "setFotoLs");
 	}
 	
 	@PostConstruct
 	public void aggiornaFotoLs(){
-		log.info("tmpDEBUGtmp: " + "> " + "aggiornaFotoLs(" + ")");
+		// log.info("tmpDEBUGtmp: " + "> " + "aggiornaFotoLs(" + ")");
 		fotoLs = fotoDao.getAll();
 //		fotoLsEmpty = new ArrayList<Foto>();
-		log.info("tmpDEBUGtmp: " + "< " + "aggiornaFotoLs");
+		// log.info("tmpDEBUGtmp: " + "< " + "aggiornaFotoLs");
 	}
 	
 	public int sortByNum(Object obj1, Object obj2){
-		log.info("tmpDEBUGtmp: " + "> " + "sortByNum(" + obj1 + ", " + obj2 + ")");
+		// log.info("tmpDEBUGtmp: " + "> " + "sortByNum(" + obj1 + ", " + obj2 + ")");
 		Integer o1 = (Integer)obj1;
 		Integer o2 = (Integer)obj2;
 		log.info("sortById: " + o1 + "-" + o2);
-		log.info("tmpDEBUGtmp: " + "< " + "sortByNum");
+		// log.info("tmpDEBUGtmp: " + "< " + "sortByNum");
 		if(o1 < o2){
 			return -1;
 		}else if(o1 > o2){
@@ -65,11 +65,11 @@ public class FotoCondivisiController implements Serializable{
 	}
 	
 	public int sortByStr(Object obj1, Object obj2){
-		log.info("tmpDEBUGtmp: " + "> " + "sortByStr(" + obj1 + ", " + obj2 + ")");
+		// log.info("tmpDEBUGtmp: " + "> " + "sortByStr(" + obj1 + ", " + obj2 + ")");
 		String o1 = (String)obj1;
 		String o2 = (String)obj2;
 		log.info("sortByname: " + o1 + "-" + o2);
-		log.info("tmpDEBUGtmp: " + "< " + "sortByStr");
+		// log.info("tmpDEBUGtmp: " + "< " + "sortByStr");
 		if(o1.compareTo(o2) < 0){
 			return -1;
 		}else if(o1.compareTo(o2) > 0){
@@ -79,11 +79,11 @@ public class FotoCondivisiController implements Serializable{
 	}
 	
 	public int sortByStrIC(Object obj1, Object obj2){
-		log.info("tmpDEBUGtmp: " + "> " + "sortByStrIC(" + obj1 + ", " + obj2 + ")");
+		// log.info("tmpDEBUGtmp: " + "> " + "sortByStrIC(" + obj1 + ", " + obj2 + ")");
 		String o1 = (String)obj1;
 		String o2 = (String)obj2;
 		log.info("sortBynameIC: " + o1 + "-" + o2);
-		log.info("tmpDEBUGtmp: " + "< " + "sortByStrIC");
+		// log.info("tmpDEBUGtmp: " + "< " + "sortByStrIC");
 		if(o1.compareToIgnoreCase(o2) < 0){
 			return -1;
 		}else if(o1.compareToIgnoreCase(o2) > 0){

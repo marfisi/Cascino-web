@@ -39,7 +39,7 @@ public class UserLoginDaoManBean implements UserLoginDao, Serializable{
 	private UserTransaction utx;
 	
 	public void salva(Users user){
-		log.info("tmpDEBUGtmp: " + "> " + "salva(" + user + ")");
+		// log.info("tmpDEBUGtmp: " + "> " + "salva(" + user + ")");
 		try{
 			try{
 				utx.begin();
@@ -56,11 +56,11 @@ public class UserLoginDaoManBean implements UserLoginDao, Serializable{
 			log.info("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
 			Utility.manageException(e, utx, log);
 		}
-		log.info("tmpDEBUGtmp: " + "< " + "salva");
+		// log.info("tmpDEBUGtmp: " + "< " + "salva");
 	}
 	
 	public void aggiorna(Users user){
-		log.info("tmpDEBUGtmp: " + "> " + "aggiorna(" + user + ")");
+		// log.info("tmpDEBUGtmp: " + "> " + "aggiorna(" + user + ")");
 		try{
 			try{
 				utx.begin();
@@ -75,11 +75,11 @@ public class UserLoginDaoManBean implements UserLoginDao, Serializable{
 		}catch(Exception e){
 			Utility.manageException(e, utx, log);
 		}
-		log.info("tmpDEBUGtmp: " + "< " + "aggiorna");
+		// log.info("tmpDEBUGtmp: " + "< " + "aggiorna");
 	}
 	
 	public void elimina(Users userElimina){
-		log.info("tmpDEBUGtmp: " + "> " + "Userloginrole(" + userElimina + ")");
+		// log.info("tmpDEBUGtmp: " + "> " + "Userloginrole(" + userElimina + ")");
 		try{
 			try{
 				utx.begin();
@@ -94,11 +94,11 @@ public class UserLoginDaoManBean implements UserLoginDao, Serializable{
 		}catch(Exception e){
 			Utility.manageException(e, utx, log);
 		}
-		log.info("tmpDEBUGtmp: " + "< " + "Userloginrole");
+		// log.info("tmpDEBUGtmp: " + "< " + "Userloginrole");
 	}
 	
 	public Boolean canAccess(String user, String password){
-		log.info("tmpDEBUGtmp: " + "> " + "canAccess(" + user + ", " + password + ")");
+		// log.info("tmpDEBUGtmp: " + "> " + "canAccess(" + user + ", " + password + ")");
 		Boolean canAccess = false;
 		try{
 			try{
@@ -120,12 +120,12 @@ public class UserLoginDaoManBean implements UserLoginDao, Serializable{
 		}catch(Exception e){
 			Utility.manageException(e, utx, log);
 		}
-		log.info("tmpDEBUGtmp: " + "< " + "canAccess");
+		// log.info("tmpDEBUGtmp: " + "< " + "canAccess");
 		return canAccess;
 	}
 	
 	public String getNomeDaUser(String username){
-		log.info("tmpDEBUGtmp: " + "> " + "getNomeDaUser(" + username + ")");
+		// log.info("tmpDEBUGtmp: " + "> " + "getNomeDaUser(" + username + ")");
 		Users user = new Users();
 		try{
 			try{
@@ -140,12 +140,12 @@ public class UserLoginDaoManBean implements UserLoginDao, Serializable{
 		}catch(Exception e){
 			Utility.manageException(e, utx, log);
 		}
-		log.info("tmpDEBUGtmp: " + "< " + "getNomeDaUser");
+		// log.info("tmpDEBUGtmp: " + "< " + "getNomeDaUser");
 		return (user == null) ? "" : user.getNome();
 	}	
 	
 	public String getCognomeDaUser(String username){
-		log.info("tmpDEBUGtmp: " + "> " + "getCognomeDaUser(" + username + ")");
+		// log.info("tmpDEBUGtmp: " + "> " + "getCognomeDaUser(" + username + ")");
 		Users user = new Users();
 		try{
 			try{
@@ -160,12 +160,12 @@ public class UserLoginDaoManBean implements UserLoginDao, Serializable{
 		}catch(Exception e){
 			Utility.manageException(e, utx, log);
 		}
-		log.info("tmpDEBUGtmp: " + "< " + "getCognomeDaUser");
+		// log.info("tmpDEBUGtmp: " + "< " + "getCognomeDaUser");
 		return (user == null) ? "" : user.getCognome();
 	}
 	
 	public List<Usersrolenames> getRolesDaUser(String username){
-		log.info("tmpDEBUGtmp: " + "> " + "getRolesDaUser(" + username + ")");
+		// log.info("tmpDEBUGtmp: " + "> " + "getRolesDaUser(" + username + ")");
 		List<Usersrolenames> rolenames = null;
 		try{
 			try{
@@ -182,12 +182,12 @@ public class UserLoginDaoManBean implements UserLoginDao, Serializable{
 		}catch(Exception e){
 			Utility.manageException(e, utx, log);
 		}
-		log.info("tmpDEBUGtmp: " + "< " + "getRolesDaUser");
+		// log.info("tmpDEBUGtmp: " + "< " + "getRolesDaUser");
 		return rolenames;
 	}
 	
 	public List<Userspermissions> getPermissionsDaUser(String username){
-		log.info("tmpDEBUGtmp: " + "> " + "getPermissionsDaUser(" + username + ")");
+		// log.info("tmpDEBUGtmp: " + "> " + "getPermissionsDaUser(" + username + ")");
 		List<Userspermissions> permissions = null;
 		try{
 			try{
@@ -204,7 +204,7 @@ public class UserLoginDaoManBean implements UserLoginDao, Serializable{
 		}catch(Exception e){
 			Utility.manageException(e, utx, log);
 		}
-		log.info("tmpDEBUGtmp: " + "< " + "getPermissionsDaUser");
+		// log.info("tmpDEBUGtmp: " + "< " + "getPermissionsDaUser");
 		return permissions;
 	}
 }

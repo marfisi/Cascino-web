@@ -24,12 +24,11 @@ CREATE TABLE articoli (
     codice character varying(15) NOT NULL,
     produttore integer DEFAULT 1 NOT NULL,
     modello character varying(50) DEFAULT 'n.d.'::character varying NOT NULL,
-    nome character varying(100) DEFAULT 'n.d.'::character varying NOT NULL,
+    nome character varying(35) DEFAULT 'n.d.'::character varying NOT NULL,
     tipo integer DEFAULT 1 NOT NULL,
     descrizione character varying(200),
     articolo_fornitore integer,
-    updtime timestamp with time zone,
-    descrizioneas400 character varying(35) DEFAULT 'da ereditare da AS400'::character varying NOT NULL
+    updtime timestamp with time zone
 );
 
 

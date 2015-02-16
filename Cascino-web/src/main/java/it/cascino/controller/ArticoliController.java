@@ -64,44 +64,44 @@ public class ArticoliController implements Serializable{
 	private List<Foto> fotoPerArticolo = new ArrayList<Foto>();
 	
 	// ArticoliController(){
-	// // log.info("tmpDEBUGtmp: " + "> " + "ArticoliController(" + ")");
-	// // log.info("tmpDEBUGtmp: " + "id: " + ((articoloSel != null) ? articoloSel.getId() : "null"));
+	// // // log.info("tmpDEBUGtmp: " + "> " + "ArticoliController(" + ")");
+	// // // log.info("tmpDEBUGtmp: " + "id: " + ((articoloSel != null) ? articoloSel.getId() : "null"));
 	// Articoli articolo = new Articoli();
 	// articolo.setId(1);
 	// setArticoloSel(articolo);
-	// // log.info("tmpDEBUGtmp: " + "< " + "ArticoliController");
+	// // // log.info("tmpDEBUGtmp: " + "< " + "ArticoliController");
 	// }
 	
 	// public List<Articoli> getArticoliLs(){
-	// log.info("tmpDEBUGtmp: " + "> " + "getArticoliLs(" + ")");
-	// log.info("tmpDEBUGtmp: " + "id: " + ((articoloSel != null) ? articoloSel.getId() : "null"));
+	// // log.info("tmpDEBUGtmp: " + "> " + "getArticoliLs(" + ")");
+	// // log.info("tmpDEBUGtmp: " + "id: " + ((articoloSel != null) ? articoloSel.getId() : "null"));
 	// articoliLs = articoliDao.getAll();
-	// log.info("tmpDEBUGtmp: " + "< " + "getArticoliLs");
+	// // log.info("tmpDEBUGtmp: " + "< " + "getArticoliLs");
 	// return articoliLs;
 	// }
 	//
 	// public void setArticoliLs(List<Articoli> articoliLs){
-	// log.info("tmpDEBUGtmp: " + "> " + "setArticoliLs(" + articoliLs + ")");
-	// log.info("tmpDEBUGtmp: " + "id: " + ((articoloSel != null) ? articoloSel.getId() : "null"));
+	// // log.info("tmpDEBUGtmp: " + "> " + "setArticoliLs(" + articoliLs + ")");
+	// // log.info("tmpDEBUGtmp: " + "id: " + ((articoloSel != null) ? articoloSel.getId() : "null"));
 	// this.articoliLs = articoliLs;
-	// log.info("tmpDEBUGtmp: " + "< " + "setArticoliLs");
+	// // log.info("tmpDEBUGtmp: " + "< " + "setArticoliLs");
 	// }
 	
 	public Articoli getArticoloSel(){
-		log.info("tmpDEBUGtmp: " + "> " + "getArticoloSel(" + ")");
-		log.info("tmpDEBUGtmp: " + "id: " + ((articoloSel != null) ? articoloSel.getId() : "null"));
+		// // log.info("tmpDEBUGtmp: " + "> " + "getArticoloSel(" + ")");
+		// // log.info("tmpDEBUGtmp: " + "id: " + ((articoloSel != null) ? articoloSel.getId() : "null"));
 		if(articoloSel == null){
 			Articoli a = new Articoli();
 			a.setId(1);
 			articoloSel = a;
 		}
-		log.info("tmpDEBUGtmp: " + "< " + "getArticoloSel");
+		// // log.info("tmpDEBUGtmp: " + "< " + "getArticoloSel");
 		return articoloSel;
 	}
 	
 	public void setArticoloSel(Articoli articoloSel){
-		log.info("tmpDEBUGtmp: " + "> " + "setArticoloSel(" + articoloSel + ")");
-		log.info("tmpDEBUGtmp: " + "id: " + ((articoloSel != null) ? articoloSel.getId() : "null") + " this.id: " + ((this.articoloSel != null) ? this.articoloSel.getId() : "null"));
+		// // log.info("tmpDEBUGtmp: " + "> " + "setArticoloSel(" + articoloSel + ")");
+		// // log.info("tmpDEBUGtmp: " + "id: " + ((articoloSel != null) ? articoloSel.getId() : "null") + " this.id: " + ((this.articoloSel != null) ? this.articoloSel.getId() : "null"));
 		// fotoPLtarget = new ArrayList<Foto>();
 		fotoPerArticolo = new ArrayList<Foto>();
 		if(articoloSel != null){
@@ -113,40 +113,40 @@ public class ArticoliController implements Serializable{
 //			}
 		}
 		// fotoPickList = new DualListModel<Foto>(fotoPLsource, fotoPLtarget);
-		log.info("tmpDEBUGtmp: " + "< " + "setArticoloSel");
+		// // log.info("tmpDEBUGtmp: " + "< " + "setArticoloSel");
 	}
 	
 	public List<Articoli> getFilteredArticoliLs(){
-		log.info("tmpDEBUGtmp: " + "> " + "getFilteredArticoliLs(" + ")");
-		log.info("tmpDEBUGtmp: " + "id: " + ((articoloSel != null) ? articoloSel.getId() : "null"));
-		log.info("tmpDEBUGtmp: " + "< " + "getFilteredArticoliLs");
+		// // log.info("tmpDEBUGtmp: " + "> " + "getFilteredArticoliLs(" + ")");
+		// // log.info("tmpDEBUGtmp: " + "id: " + ((articoloSel != null) ? articoloSel.getId() : "null"));
+		// // log.info("tmpDEBUGtmp: " + "< " + "getFilteredArticoliLs");
 		return filteredArticoliLs;
 	}
 	
 	public void setFilteredArticoliLs(List<Articoli> filteredArticoliLs){
-		log.info("tmpDEBUGtmp: " + "> " + "setFilteredArticoliLs(" + filteredArticoliLs + ")");
-		log.info("tmpDEBUGtmp: " + "id: " + ((articoloSel != null) ? articoloSel.getId() : "null"));
+		// // log.info("tmpDEBUGtmp: " + "> " + "setFilteredArticoliLs(" + filteredArticoliLs + ")");
+		// // log.info("tmpDEBUGtmp: " + "id: " + ((articoloSel != null) ? articoloSel.getId() : "null"));
 		this.filteredArticoliLs = filteredArticoliLs;
-		log.info("tmpDEBUGtmp: " + "< " + "setFilteredArticoliLs");
+		// // log.info("tmpDEBUGtmp: " + "< " + "setFilteredArticoliLs");
 	}
 	
 	public List<Foto> getFotoPerArticolo(){
-		log.info("tmpDEBUGtmp: " + "> " + "getFotoPerArticolo(" + ")");
-		log.info("tmpDEBUGtmp: " + "id: " + ((articoloSel != null) ? articoloSel.getId() : "null"));
-		log.info("tmpDEBUGtmp: " + "< " + "getFotoPerArticolo");
+		// // log.info("tmpDEBUGtmp: " + "> " + "getFotoPerArticolo(" + ")");
+		// // log.info("tmpDEBUGtmp: " + "id: " + ((articoloSel != null) ? articoloSel.getId() : "null"));
+		// // log.info("tmpDEBUGtmp: " + "< " + "getFotoPerArticolo");
 		return fotoPerArticolo;
 	}
 	
 	public void setFotoPerArticolo(List<Foto> fotoPerArticolo){
-		log.info("tmpDEBUGtmp: " + "> " + "setFotoPerArticolo(" + fotoPerArticolo + ")");
-		log.info("tmpDEBUGtmp: " + "id: " + ((articoloSel != null) ? articoloSel.getId() : "null"));
+		// // log.info("tmpDEBUGtmp: " + "> " + "setFotoPerArticolo(" + fotoPerArticolo + ")");
+		// // log.info("tmpDEBUGtmp: " + "id: " + ((articoloSel != null) ? articoloSel.getId() : "null"));
 		this.fotoPerArticolo = fotoPerArticolo;
-		log.info("tmpDEBUGtmp: " + "< " + "setFotoPerArticolo");
+		// // log.info("tmpDEBUGtmp: " + "< " + "setFotoPerArticolo");
 	}
 	
 	// public DualListModel<Foto> getFotoPickList(){
-	// log.info("tmpDEBUGtmp: " + "> " + "getFotoPickList(" + ")");
-	// log.info("tmpDEBUGtmp: " + "id: " + ((articoloSel != null) ? articoloSel.getId() : "null"));
+	// // log.info("tmpDEBUGtmp: " + "> " + "getFotoPickList(" + ")");
+	// // log.info("tmpDEBUGtmp: " + "id: " + ((articoloSel != null) ? articoloSel.getId() : "null"));
 	//
 	// // List<Foto> fotoPLsource = new ArrayList<Foto>();
 	// // List<Foto> fotoPLtarget = new ArrayList<Foto>();
@@ -161,15 +161,15 @@ public class ArticoliController implements Serializable{
 	// // fotoPickList = new DualListModel<Foto>(fotoPLsource, fotoPLtarget);
 	// //
 	//
-	// log.info("tmpDEBUGtmp: " + "< " + "getFotoPickList");
+	// // log.info("tmpDEBUGtmp: " + "< " + "getFotoPickList");
 	// return fotoPickList;
 	// }
 	
 	// public void setFotoPickList(DualListModel<Foto> fotoPickList){
-	// log.info("tmpDEBUGtmp: " + "> " + "setFotoPickList(" + fotoPickList + ")");
-	// log.info("tmpDEBUGtmp: " + "id: " + ((articoloSel != null) ? articoloSel.getId() : "null"));
+	// // log.info("tmpDEBUGtmp: " + "> " + "setFotoPickList(" + fotoPickList + ")");
+	// // log.info("tmpDEBUGtmp: " + "id: " + ((articoloSel != null) ? articoloSel.getId() : "null"));
 	// this.fotoPickList = fotoPickList;
-	// log.info("tmpDEBUGtmp: " + "< " + "setFotoPickList");
+	// // log.info("tmpDEBUGtmp: " + "< " + "setFotoPickList");
 	// }
 	
 	// public void popolaFotoPLsource(){
@@ -188,46 +188,46 @@ public class ArticoliController implements Serializable{
 	// }
 	
 	// private List<Foto> getFotoPLsource(){
-	// log.info("tmpDEBUGtmp: " + "> " + "getFotoPLsource(" + ")");
-	// log.info("tmpDEBUGtmp: " + "id: " + ((articoloSel != null) ? articoloSel.getId() : "null"));
-	// log.info("tmpDEBUGtmp: " + "< " + "getFotoPLsource");
+	// // log.info("tmpDEBUGtmp: " + "> " + "getFotoPLsource(" + ")");
+	// // log.info("tmpDEBUGtmp: " + "id: " + ((articoloSel != null) ? articoloSel.getId() : "null"));
+	// // log.info("tmpDEBUGtmp: " + "< " + "getFotoPLsource");
 	//
 	// return fotoPLsource;
 	// }
 	//
 	// private void setFotoPLsource(List<Foto> fotoPLsource){
-	// log.info("tmpDEBUGtmp: " + "> " + "setFotoPLsource(" + ")");
-	// log.info("tmpDEBUGtmp: " + "id: " + ((articoloSel != null) ? articoloSel.getId() : "null"));
+	// // log.info("tmpDEBUGtmp: " + "> " + "setFotoPLsource(" + ")");
+	// // log.info("tmpDEBUGtmp: " + "id: " + ((articoloSel != null) ? articoloSel.getId() : "null"));
 	// this.fotoPLsource = fotoPLsource;
-	// log.info("tmpDEBUGtmp: " + "< " + "setFotoPLsource");
+	// // log.info("tmpDEBUGtmp: " + "< " + "setFotoPLsource");
 	// }
 	//
 	// private List<Foto> getFotoPLtarget(){
-	// log.info("tmpDEBUGtmp: " + "> " + "getFotoPLtarget(" + ")");
-	// log.info("tmpDEBUGtmp: " + "id: " + ((articoloSel != null) ? articoloSel.getId() : "null"));
-	// log.info("tmpDEBUGtmp: " + "< " + "getFotoPLtarget");
+	// // log.info("tmpDEBUGtmp: " + "> " + "getFotoPLtarget(" + ")");
+	// // log.info("tmpDEBUGtmp: " + "id: " + ((articoloSel != null) ? articoloSel.getId() : "null"));
+	// // log.info("tmpDEBUGtmp: " + "< " + "getFotoPLtarget");
 	// return fotoPLtarget;
 	// }
 	//
 	// private void setFotoPLtarget(List<Foto> fotoPLtarget){
-	// log.info("tmpDEBUGtmp: " + "> " + "setFotoPLtarget(" + ")");
-	// log.info("tmpDEBUGtmp: " + "id: " + ((articoloSel != null) ? articoloSel.getId() : "null"));
+	// // log.info("tmpDEBUGtmp: " + "> " + "setFotoPLtarget(" + ")");
+	// // log.info("tmpDEBUGtmp: " + "id: " + ((articoloSel != null) ? articoloSel.getId() : "null"));
 	// this.fotoPLtarget = fotoPLtarget;
-	// log.info("tmpDEBUGtmp: " + "< " + "setFotoPLtarget");
+	// // log.info("tmpDEBUGtmp: " + "< " + "setFotoPLtarget");
 	// }
 	
 	public List<String> articoliAutoCompleteLs(String str){
-		log.info("tmpDEBUGtmp: " + "> " + "articoliAutoCompleteLs(" + str + ")");
-		log.info("tmpDEBUGtmp: " + "id: " + ((articoloSel != null) ? articoloSel.getId() : "null"));
+		// // log.info("tmpDEBUGtmp: " + "> " + "articoliAutoCompleteLs(" + str + ")");
+		// // log.info("tmpDEBUGtmp: " + "id: " + ((articoloSel != null) ? articoloSel.getId() : "null"));
 		List<String> articoliAutoCompleteLs = articoliDao.getArticoliAutoCompleteLs(str.toUpperCase());
 		
-		log.info("tmpDEBUGtmp: " + "< " + "articoliAutoCompleteLs");
+		// // log.info("tmpDEBUGtmp: " + "< " + "articoliAutoCompleteLs");
 		return articoliAutoCompleteLs;
 	}
 	
 	public void salva(){
-		log.info("tmpDEBUGtmp: " + "> " + "salva(" + ")");
-		log.info("tmpDEBUGtmp: " + "id: " + ((articoloSel != null) ? articoloSel.getId() : "null"));
+		// // log.info("tmpDEBUGtmp: " + "> " + "salva(" + ")");
+		// // log.info("tmpDEBUGtmp: " + "id: " + ((articoloSel != null) ? articoloSel.getId() : "null"));
 		
 		// svuoto la lista delle foto
 		fotoController.svuotaFotoLsDynPop();
@@ -244,12 +244,12 @@ public class ArticoliController implements Serializable{
 		}
 		// aggiorno la lista condivisa
 		articoliCondivisiController.aggiornaArticoliLs();
-		log.info("tmpDEBUGtmp: " + "< " + "salva");
+		// // log.info("tmpDEBUGtmp: " + "< " + "salva");
 	}
 	
 	public void aggiorna(){
-		log.info("tmpDEBUGtmp: " + "> " + "aggiorna(" + ")");
-		log.info("tmpDEBUGtmp: " + "id: " + ((articoloSel != null) ? articoloSel.getId() : "null"));
+		// // log.info("tmpDEBUGtmp: " + "> " + "aggiorna(" + ")");
+		// // log.info("tmpDEBUGtmp: " + "id: " + ((articoloSel != null) ? articoloSel.getId() : "null"));
 		
 		// svuoto la lista delle foto
 		fotoController.svuotaFotoLsDynPop();
@@ -266,12 +266,12 @@ public class ArticoliController implements Serializable{
 		}
 		// aggiorno la lista condivisa
 		articoliCondivisiController.aggiornaArticoliLs();
-		log.info("tmpDEBUGtmp: " + "< " + "aggiorna");
+		// // log.info("tmpDEBUGtmp: " + "< " + "aggiorna");
 	}
 	
 	public void elimina(){
-		log.info("tmpDEBUGtmp: " + "> " + "elimina(" + ")");
-		log.info("tmpDEBUGtmp: " + "id: " + ((articoloSel != null) ? articoloSel.getId() : "null"));
+		// // log.info("tmpDEBUGtmp: " + "> " + "elimina(" + ")");
+		// // log.info("tmpDEBUGtmp: " + "id: " + ((articoloSel != null) ? articoloSel.getId() : "null"));
 		
 		// svuoto la lista delle foto
 		fotoController.svuotaFotoLsDynPop();
@@ -287,13 +287,13 @@ public class ArticoliController implements Serializable{
 		}
 		// aggiorno la lista condivisa
 		articoliCondivisiController.aggiornaArticoliLs();
-		log.info("tmpDEBUGtmp: " + "< " + "elimina");
+		// // log.info("tmpDEBUGtmp: " + "< " + "elimina");
 	}
 	
 	public String getEsito(){
-		log.info("tmpDEBUGtmp: " + "> " + "getEsito(" + ")");
-		log.info("tmpDEBUGtmp: " + "id: " + ((articoloSel != null) ? articoloSel.getId() : "null"));
-		log.info("tmpDEBUGtmp: " + "< " + "getEsito");
+		// // log.info("tmpDEBUGtmp: " + "> " + "getEsito(" + ")");
+		// // log.info("tmpDEBUGtmp: " + "id: " + ((articoloSel != null) ? articoloSel.getId() : "null"));
+		// // log.info("tmpDEBUGtmp: " + "< " + "getEsito");
 		return esito;
 	}
 	
@@ -327,12 +327,12 @@ public class ArticoliController implements Serializable{
 	}
 	
 	// public int sortByNum(Object obj1, Object obj2){
-	// log.info("tmpDEBUGtmp: " + "> " + "sortByNum(" + obj1 + ", " + obj2 + ")");
-	// log.info("tmpDEBUGtmp: " + "id: " + ((articoloSel != null) ? articoloSel.getId() : "null"));
+	// // // log.info("tmpDEBUGtmp: " + "> " + "sortByNum(" + obj1 + ", " + obj2 + ")");
+	// // // log.info("tmpDEBUGtmp: " + "id: " + ((articoloSel != null) ? articoloSel.getId() : "null"));
 	// Integer o1 = (Integer)obj1;
 	// Integer o2 = (Integer)obj2;
 	// log.info("sortById: " + o1 + "-" + o2);
-	// log.info("tmpDEBUGtmp: " + "< " + "sortByNum");
+	// // // log.info("tmpDEBUGtmp: " + "< " + "sortByNum");
 	// if(o1 < o2){
 	// return -1;
 	// }else if(o1 > o2){
@@ -342,12 +342,12 @@ public class ArticoliController implements Serializable{
 	// }
 	//
 	// public int sortByStr(Object obj1, Object obj2){
-	// log.info("tmpDEBUGtmp: " + "> " + "sortByStr(" + obj1 + ", " + obj2 + ")");
-	// log.info("tmpDEBUGtmp: " + "id: " + ((articoloSel != null) ? articoloSel.getId() : "null"));
+	// // log.info("tmpDEBUGtmp: " + "> " + "sortByStr(" + obj1 + ", " + obj2 + ")");
+	// // log.info("tmpDEBUGtmp: " + "id: " + ((articoloSel != null) ? articoloSel.getId() : "null"));
 	// String o1 = (String)obj1;
 	// String o2 = (String)obj2;
 	// log.info("sortByname: " + o1 + "-" + o2);
-	// log.info("tmpDEBUGtmp: " + "< " + "sortByStr");
+	// // log.info("tmpDEBUGtmp: " + "< " + "sortByStr");
 	// if(o1.compareTo(o2) < 0){
 	// return -1;
 	// }else if(o1.compareTo(o2) > 0){
@@ -357,12 +357,12 @@ public class ArticoliController implements Serializable{
 	// }
 	//
 	// public int sortByStrIC(Object obj1, Object obj2){
-	// log.info("tmpDEBUGtmp: " + "> " + "sortByStrIC(" + obj1 + ", " + obj2 + ")");
-	// log.info("tmpDEBUGtmp: " + "id: " + ((articoloSel != null) ? articoloSel.getId() : "null"));
+	// // log.info("tmpDEBUGtmp: " + "> " + "sortByStrIC(" + obj1 + ", " + obj2 + ")");
+	// // log.info("tmpDEBUGtmp: " + "id: " + ((articoloSel != null) ? articoloSel.getId() : "null"));
 	// String o1 = (String)obj1;
 	// String o2 = (String)obj2;
 	// log.info("sortBynameIC: " + o1 + "-" + o2);
-	// log.info("tmpDEBUGtmp: " + "< " + "sortByStrIC");
+	// // log.info("tmpDEBUGtmp: " + "< " + "sortByStrIC");
 	// if(o1.compareToIgnoreCase(o2) < 0){
 	// return -1;
 	// }else if(o1.compareToIgnoreCase(o2) > 0){
@@ -372,8 +372,8 @@ public class ArticoliController implements Serializable{
 	// }
 	
 //	public void onPickListTransfer(TransferEvent event){
-//		log.info("tmpDEBUGtmp: " + "> " + "onPickListTransfer(" + event + ")");
-//		log.info("tmpDEBUGtmp: " + "id: " + ((articoloSel != null) ? articoloSel.getId() : "null"));
+//		// log.info("tmpDEBUGtmp: " + "> " + "onPickListTransfer(" + event + ")");
+//		// log.info("tmpDEBUGtmp: " + "id: " + ((articoloSel != null) ? articoloSel.getId() : "null"));
 //		// fotoPLtargetModif = true;
 //		StringBuilder builder = new StringBuilder();
 //		for(Object item : event.getItems()){
@@ -381,36 +381,36 @@ public class ArticoliController implements Serializable{
 //		}
 //		showGrowlInfoMessage(builder.toString());
 //		// pltarget dovrei modificarlo qui
-//		log.info("tmpDEBUGtmp: " + "< " + "onPickListTransfer");
+//		// log.info("tmpDEBUGtmp: " + "< " + "onPickListTransfer");
 //	}
 	
 	
 	private Foto fotoPerArticoloSel = new Foto();
 
 	public Foto getFotoPerArticoloSel(){
-		log.info("tmpDEBUGtmp: " + "> " + "getFotoPerArticoloSel(" + ")");
-		log.info("tmpDEBUGtmp: " + "id: " + ((fotoPerArticoloSel != null) ? fotoPerArticoloSel.getId() : "null"));
+		// log.info("tmpDEBUGtmp: " + "> " + "getFotoPerArticoloSel(" + ")");
+		// log.info("tmpDEBUGtmp: " + "id: " + ((fotoPerArticoloSel != null) ? fotoPerArticoloSel.getId() : "null"));
 		if(fotoPerArticoloSel == null){
 			Foto f = new Foto();
 			f.setId(1);
 			fotoPerArticoloSel = f;
 		}
-		log.info("tmpDEBUGtmp: " + "< " + "getFotoPerArticoloSel");
+		// log.info("tmpDEBUGtmp: " + "< " + "getFotoPerArticoloSel");
 		return fotoPerArticoloSel;
 	}
 	
 	public void setFotoPerArticoloSel(Foto fotoPerArticoloSel){
-		log.info("tmpDEBUGtmp: " + "> " + "setFotoPerArticoloSel(" + fotoPerArticoloSel + ")");
-		log.info("tmpDEBUGtmp: " + "id: " + ((fotoPerArticoloSel != null) ? fotoPerArticoloSel.getId() : "null"));
+		// log.info("tmpDEBUGtmp: " + "> " + "setFotoPerArticoloSel(" + fotoPerArticoloSel + ")");
+		// log.info("tmpDEBUGtmp: " + "id: " + ((fotoPerArticoloSel != null) ? fotoPerArticoloSel.getId() : "null"));
 		if(fotoPerArticoloSel != null){
 			this.fotoPerArticoloSel = fotoPerArticoloSel;
 		}
-		log.info("tmpDEBUGtmp: " + "< " + "setFotoPerArticoloSel");
+		// log.info("tmpDEBUGtmp: " + "< " + "setFotoPerArticoloSel");
 	}
 
 	public void onAggiungiFotoArticoloButton(ActionEvent actionEvent){
-		log.info("tmpDEBUGtmp: " + "> " + "onAggiungiFotoArticoloButton(" + actionEvent + ")");
-		log.info("tmpDEBUGtmp: " + "id: " + ((articoloSel != null) ? articoloSel.getId() : "null"));
+		// log.info("tmpDEBUGtmp: " + "> " + "onAggiungiFotoArticoloButton(" + actionEvent + ")");
+		// log.info("tmpDEBUGtmp: " + "id: " + ((articoloSel != null) ? articoloSel.getId() : "null"));
 		boolean giaIns = false;
 		Integer fsid = fotoController.getFotoSel().getId();
 		if((fotoController.getFotoSel() != null)&&(fsid != 1)){
@@ -427,38 +427,38 @@ public class ArticoliController implements Serializable{
 				fotoPerArticolo.add(fotoController.getFotoSel());
 			}
 		}
-		log.info("tmpDEBUGtmp: " + "< " + "onAggiungiFotoArticoloButton");
+		// log.info("tmpDEBUGtmp: " + "< " + "onAggiungiFotoArticoloButton");
 	}
 	
 	public void onRimuoviFotoArticoloButton(ActionEvent actionEvent){
-		log.info("tmpDEBUGtmp: " + "> " + "onRimuoviFotoArticoloButton(" + actionEvent + ")");
-		log.info("tmpDEBUGtmp: " + "id: " + ((articoloSel != null) ? articoloSel.getId() : "null"));
+		// log.info("tmpDEBUGtmp: " + "> " + "onRimuoviFotoArticoloButton(" + actionEvent + ")");
+		// log.info("tmpDEBUGtmp: " + "id: " + ((articoloSel != null) ? articoloSel.getId() : "null"));
 //		fotoPerArticolo.remove(fotoController.getFotoSel());
 		fotoPerArticolo.remove(fotoPerArticoloSel);
-		log.info("tmpDEBUGtmp: " + "< " + "onRimuoviFotoArticoloButton");
+		// log.info("tmpDEBUGtmp: " + "< " + "onRimuoviFotoArticoloButton");
 	}
 	
 	public void onAlzaFotoArticoloButton(ActionEvent actionEvent){
-		log.info("tmpDEBUGtmp: " + "> " + "onAlzaFotoArticoloButton(" + actionEvent + ")");
-		log.info("tmpDEBUGtmp: " + "id: " + ((articoloSel != null) ? articoloSel.getId() : "null"));
+		// log.info("tmpDEBUGtmp: " + "> " + "onAlzaFotoArticoloButton(" + actionEvent + ")");
+		// log.info("tmpDEBUGtmp: " + "id: " + ((articoloSel != null) ? articoloSel.getId() : "null"));
 		int indiceFoto = fotoPerArticolo.indexOf(fotoPerArticoloSel);
 		if(indiceFoto > 0){
 			Foto fotoSwap =  fotoPerArticolo.get(indiceFoto - 1);
 			fotoPerArticolo.set(indiceFoto - 1, fotoPerArticoloSel);
 			fotoPerArticolo.set(indiceFoto , fotoSwap);
 		}
-		log.info("tmpDEBUGtmp: " + "< " + "onAlzaFotoArticoloButton");
+		// log.info("tmpDEBUGtmp: " + "< " + "onAlzaFotoArticoloButton");
 	}
 	
 	public void onAbbassaFotoArticoloButton(ActionEvent actionEvent){
-		log.info("tmpDEBUGtmp: " + "> " + "onAbbassaFotoArticoloButton(" + actionEvent + ")");
-		log.info("tmpDEBUGtmp: " + "id: " + ((articoloSel != null) ? articoloSel.getId() : "null"));
+		// log.info("tmpDEBUGtmp: " + "> " + "onAbbassaFotoArticoloButton(" + actionEvent + ")");
+		// log.info("tmpDEBUGtmp: " + "id: " + ((articoloSel != null) ? articoloSel.getId() : "null"));
 		int indiceFoto = fotoPerArticolo.indexOf(fotoPerArticoloSel);
 		if(indiceFoto < fotoPerArticolo.size()-1){
 			Foto fotoSwap =  fotoPerArticolo.get(indiceFoto + 1);
 			fotoPerArticolo.set(indiceFoto +1, fotoPerArticoloSel);
 			fotoPerArticolo.set(indiceFoto , fotoSwap);
 		}
-		log.info("tmpDEBUGtmp: " + "< " + "onAbbassaFotoArticoloButton");
+		// log.info("tmpDEBUGtmp: " + "< " + "onAbbassaFotoArticoloButton");
 	}
 }

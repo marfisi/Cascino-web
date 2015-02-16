@@ -112,6 +112,33 @@
 					</f:facet>
 				</p:panelGrid>
 			</h:form>
+			
+			<h:form id="mngListeForm" rendered="#{userLoginController.canView('admin', 'r')}">
+				<p:panelGrid style="margin-top:20px">
+					<f:facet name="header">
+						<p:row>
+							<p:column colspan="6">GESTIONE LISTE</p:column>
+						</p:row>
+					</f:facet>
+
+					<p:row>
+						<p:column colspan="5" styleClass="ui-widget-header">
+							Ricarica Lista
+						</p:column>
+					</p:row>
+					<p:row>
+						<p:column colspan="2" style="font-weight: bold;">
+							<p:commandButton value="Articoli" action="#{articoliCondivisiController.aggiornaArticoliLs()}" styleClass="articoli" />
+						</p:column>
+						<p:column colspan="2" style="font-weight: bold;">
+							<p:commandButton value="Foto" action="#{fotoCondivisiController.aggiornaFotoLs()}" styleClass="foto" />
+						</p:column>
+						<p:column colspan="2" style="font-weight: bold;">
+							<p:commandButton value="Tipi" action="#{tipiCondivisiController.aggiornaTipiLs()}" styleClass="tipi" />
+						</p:column>
+					</p:row>
+				</p:panelGrid>
+			</h:form>
 		</ui:define>
 	</ui:composition>
 </h:body>
