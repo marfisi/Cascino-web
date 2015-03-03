@@ -44,7 +44,7 @@
 						<p:commandButton id="viewButton" value="View" update=":contentGalleria" oncomplete="PF('viewDialog').show()" icon="ui-icon-search" />
 						<p:commandButton id="modifButton" value="Modifica" update=":updForm:updDisplay" oncomplete="PF('updDialog').show()" icon="ui-icon-pencil" />
 						<p:separator />
-						<p:commandButton id="newButton" value="Aggiungi" oncomplete="PF('newDialog').show()" icon="ui-icon-circle-plus" />
+						<p:commandButton id="newButton" value="Aggiungi" action="#{fotoController.resetOnNewFotoSel()}" oncomplete="PF('newDialog').show()" icon="ui-icon-circle-plus" />
 						<p:commandButton id="homeMngButton" value="Home Gestione" action="homeMng" icon="ui-icon-home" rendered="#{navigationController.showHome}" />
 					</p:toolbarGroup>
 				</p:toolbar>
@@ -56,7 +56,7 @@
 				</p:toolbar>
 				<p:sticky target="tbNavigation" />
 
-				<p:dataTable id="tbl" var="foto" value="#{fotoCondivisiController.fotoLs}" selection="#{fotoController.fotoSel}" selectionMode="single" rowKey="#{foto.id}" update=":updDisplay" oncomplete="PF('updDialog').show()" paginator="true" rows="15" dynamic="true" sortBy="#{foto.id}"  emptyMessage="Nessun entry per il criterio definito" widgetVar="fotoTable" filteredValue="#{fotoController.filteredFotoLs}">
+				<p:dataTable id="tbl" var="foto" value="#{fotoCondivisiController.fotoLs}" selection="#{fotoController.fotoSel}" selectionMode="single" rowKey="#{foto.id}" update=":updDisplay" oncomplete="PF('updDialog').show()" paginator="true" rows="15" dynamic="true" sortBy="#{foto.id}" emptyMessage="Nessun entry per il criterio definito" widgetVar="fotoTable" filteredValue="#{fotoController.filteredFotoLs}" paginatorTemplate="Pagina {CurrentPageReport} Vai a pagina: {JumpToPageDropdown} &nbsp; {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} &nbsp; Righe: {RowsPerPageDropdown}" rowsPerPageTemplate="5,10,15,20,50,75,100">
 
 					<p:ajax event="rowDblselect" update=":contentGalleria" oncomplete="PF('viewDialog').show()" />
 
@@ -75,6 +75,35 @@
 							<h:outputText value="#{fotoController.getFotoname(foto, 1)}" />
 							<h:outputText value="#{fotoController.size(foto, 1)} - #{fotoController.resolution(foto, 1)}" />
 						</h:panelGrid>
+					</p:column>
+					<p:column sortBy="originale" sortFunction="#{fotoController.sortByStr}" filterBy="#{foto}" filterFunction="#{fotoController.filterPerCaratteristiche}">
+						<f:facet name="header">
+							<h:outputText value="caratteristiche" />
+						</f:facet>
+						<p:dataTable id="tagList" var="tag" value="#{fotoController.getTagFotoSelLs(foto)}" emptyMessage="Nessun tag specificato">
+							<p:column>
+								<h:outputText value="#{tag}" />
+							</p:column>
+						</p:dataTable>
+						<p:panelGrid columns="4" cellpadding="5">
+							<p:outputPanel id="col_prim" style="height: 40px; width: 40px;" styleClass="sfondo-#{fotoController.getColor1(foto)}" />
+							<p:outputPanel id="col_sec" style="height: 25px; width: 25px;" styleClass="sfondo-#{fotoController.getColor2(foto)}" />
+							<p:graphicImage value="./resources/gfx/foto/varie/#{foto.forma}.jpg" height="35" />
+							<h:outputText value="#{foto.cosaMostra}" />
+						</p:panelGrid>
+					</p:column>
+					<p:column filterBy="#{foto.id}" filterFunction="#{fotoController.filterPerTipoDelloArticolo}">
+						<f:facet name="header">
+							<h:outputText value="Tipo Articolo" />
+						</f:facet>
+						<p:dataTable id="idTipoList" var="idTipo" value="#{fotoController.getTipoLsDaIdFoto(foto.id)}" emptyMessage="Nessun articolo utilizza questa foto">
+							<p:column>
+								<h:outputText value="#{tipiController.getTipoDaIdTipo(idTipo).nome} (id: #{tipiController.getTipoDaIdTipo(idTipo).id})" />
+							</p:column>
+							<p:column>
+								<p:graphicImage value="#{fotoController.resolvePath(fotoController.getFotoTipoDaIdTipo(idTipo))}#{fotoController.getFotonameUrl(fotoController.getFotoTipoDaIdTipo(idTipo), 1)}" height="#{fotoController.getHeightFromResolution(fotoController.getFotoTipoDaIdTipo(idTipo), 1, 60, 100)}" />
+							</p:column>
+						</p:dataTable>						
 					</p:column>
 					<p:column filterBy="#{foto.grande}" filterMatchMode="contains">
 						<f:facet name="header">
@@ -203,16 +232,181 @@
 							</p:toolbarGroup>
 						</p:toolbar>
 						<h:panelGrid columns="2">
-							<h:outputText value="Originale (obbligatoria)" />
-							<p:fileUpload fileUploadListener="#{fotoController.fileUploadOrig}" mode="advanced" dragDropSupport="true" update=":growlForm:growl" required="true" label="Seleziona" uploadLabel="Carica" cancelLabel="Annulla" invalidSizeMessage="File troppo grosso (limite 1 MB)" invalidFileMessage="Tipo file non consentito (solo: gif, jpeg, png)" fileLimitMessage="Puoi caricare un file alla volta" fileLimit="1" sizeLimit="1048576" allowTypes="/(\.|\/)(gif|jpe?g|png)$/" />
-							<h:outputText value="HD" />
-							<p:fileUpload fileUploadListener="#{fotoController.fileUploadHD}" mode="advanced" dragDropSupport="true" update=":growlForm:growl" required="false" label="Seleziona" uploadLabel="Carica" cancelLabel="Annulla" invalidSizeMessage="File troppo grosso (limite 1 MB)" invalidFileMessage="Tipo file non consentito (solo: gif, jpeg, png)" fileLimitMessage="Puoi caricare un file alla volta" fileLimit="1" sizeLimit="1048576" allowTypes="/(\.|\/)(gif|jpe?g|png)$/" />
-							<h:outputText value="HD WM" />
-							<p:fileUpload fileUploadListener="#{fotoController.fileUploadHDWM}" mode="advanced" dragDropSupport="true" update=":growlForm:growl" required="false" label="Seleziona" uploadLabel="Carica" cancelLabel="Annulla" invalidSizeMessage="File troppo grosso (limite 1 MB)" invalidFileMessage="Tipo file non consentito (solo: gif, jpeg, png)" fileLimitMessage="Puoi caricare un file alla volta" fileLimit="1" sizeLimit="1048576" allowTypes="/(\.|\/)(gif|jpe?g|png)$/" />
-							<h:outputText value="LD" />
-							<p:fileUpload fileUploadListener="#{fotoController.fileUploadLD}" mode="advanced" dragDropSupport="true" update=":growlForm:growl" required="false" label="Seleziona" uploadLabel="Carica" cancelLabel="Annulla" invalidSizeMessage="File troppo grosso (limite 1 MB)" invalidFileMessage="Tipo file non consentito (solo: gif, jpeg, png)" fileLimitMessage="Puoi caricare un file alla volta" fileLimit="1" sizeLimit="1048576" allowTypes="/(\.|\/)(gif|jpe?g|png)$/" />
-							<h:outputText value="LD WM" />
-							<p:fileUpload fileUploadListener="#{fotoController.fileUploadLDWM}" mode="advanced" dragDropSupport="true" update=":growlForm:growl" required="false" label="Seleziona" uploadLabel="Carica" cancelLabel="Annulla" invalidSizeMessage="File troppo grosso (limite 1 MB)" invalidFileMessage="Tipo file non consentito (solo: gif, jpeg, png)" fileLimitMessage="Puoi caricare un file alla volta" fileLimit="1" sizeLimit="1048576" allowTypes="/(\.|\/)(gif|jpe?g|png)$/" />
+							<h:panelGrid columns="1">
+								<h:panelGrid columns="2">
+									<h:outputText value="Originale (obbligatoria)" />
+									<p:fileUpload fileUploadListener="#{fotoController.fileUploadOrig}" mode="advanced" dragDropSupport="true" update=":growlForm:growl" required="true" label="Seleziona" uploadLabel="Carica" cancelLabel="Annulla" invalidSizeMessage="File troppo grosso (limite 1 MB)" invalidFileMessage="Tipo file non consentito (solo: gif, jpeg, png)" fileLimitMessage="Puoi caricare un file alla volta" fileLimit="1" sizeLimit="1048576" allowTypes="/(\.|\/)(gif|jpe?g|png)$/" />
+									<h:outputText value="HD" />
+									<p:fileUpload fileUploadListener="#{fotoController.fileUploadHD}" mode="advanced" dragDropSupport="true" update=":growlForm:growl" required="false" label="Seleziona" uploadLabel="Carica" cancelLabel="Annulla" invalidSizeMessage="File troppo grosso (limite 1 MB)" invalidFileMessage="Tipo file non consentito (solo: gif, jpeg, png)" fileLimitMessage="Puoi caricare un file alla volta" fileLimit="1" sizeLimit="1048576" allowTypes="/(\.|\/)(gif|jpe?g|png)$/" />
+									<h:outputText value="HD WM" />
+									<p:fileUpload fileUploadListener="#{fotoController.fileUploadHDWM}" mode="advanced" dragDropSupport="true" update=":growlForm:growl" required="false" label="Seleziona" uploadLabel="Carica" cancelLabel="Annulla" invalidSizeMessage="File troppo grosso (limite 1 MB)" invalidFileMessage="Tipo file non consentito (solo: gif, jpeg, png)" fileLimitMessage="Puoi caricare un file alla volta" fileLimit="1" sizeLimit="1048576" allowTypes="/(\.|\/)(gif|jpe?g|png)$/" />
+									<h:outputText value="LD" />
+									<p:fileUpload fileUploadListener="#{fotoController.fileUploadLD}" mode="advanced" dragDropSupport="true" update=":growlForm:growl" required="false" label="Seleziona" uploadLabel="Carica" cancelLabel="Annulla" invalidSizeMessage="File troppo grosso (limite 1 MB)" invalidFileMessage="Tipo file non consentito (solo: gif, jpeg, png)" fileLimitMessage="Puoi caricare un file alla volta" fileLimit="1" sizeLimit="1048576" allowTypes="/(\.|\/)(gif|jpe?g|png)$/" />
+									<h:outputText value="LD WM" />
+									<p:fileUpload fileUploadListener="#{fotoController.fileUploadLDWM}" mode="advanced" dragDropSupport="true" update=":growlForm:growl" required="false" label="Seleziona" uploadLabel="Carica" cancelLabel="Annulla" invalidSizeMessage="File troppo grosso (limite 1 MB)" invalidFileMessage="Tipo file non consentito (solo: gif, jpeg, png)" fileLimitMessage="Puoi caricare un file alla volta" fileLimit="1" sizeLimit="1048576" allowTypes="/(\.|\/)(gif|jpe?g|png)$/" />
+								</h:panelGrid>
+								<h:panelGrid columns="3">
+									<h:outputText value="TAG" />
+									<p:autoComplete id="tagAutoCompl" minQueryLength="2" value="#{fotoController.tagDaAggiungere}" completeMethod="#{fotoController.tagAutoCompleteLs}" effect="fade" />
+									<p:commandButton action="#{fotoController.aggiungiTagAllaFoto()}" update=":newForm:tagList,:newForm:tagAutoCompl" icon="ui-icon-circle-plus" title="Aggiungi" />
+								</h:panelGrid>
+								<h:panelGrid columns="1" style="max-width: 500px;">
+									<p:dataTable id="tagList" var="tag" value="#{fotoController.tagFotoSelLs}" >
+										<p:column headerText="tag">
+											<h:outputText value="#{tag}" />
+										</p:column>
+										<p:column headerText="rimuovi" style="width:30px;text-align: center">
+											<p:commandButton action="#{fotoController.rimuoviTagAllaFoto()}" update=":newForm:tagList" icon="ui-icon-trash" title="Cancella"><f:setPropertyActionListener value="#{tag}" target="#{fotoController.tagDaEliminare}" /></p:commandButton>
+										</p:column>
+									</p:dataTable>
+								</h:panelGrid>
+							</h:panelGrid>
+
+							<h:panelGrid columns="1" border="1">
+								<h:panelGrid id="cosaMostraPanel" style="margin:10px;">
+									<h:outputText value="Tipo" />
+									<p:selectOneRadio id="cosaMostra" value="#{fotoController.cosaMostra}">
+										<p:ajax event="change" listener="#{fotoController.onChangeCosaMostra}" />
+										<f:selectItem itemLabel="Prodotto" itemValue="P" />
+										<f:selectItem itemLabel="Logo" itemValue="L" />
+										<f:selectItem itemLabel="Scheda" itemValue="S" />
+										<f:selectItem itemLabel="Altro" itemValue="A" />
+										<f:selectItem itemLabel="Indefinito" itemValue="I" />
+									</p:selectOneRadio>
+								</h:panelGrid>
+								<h:panelGrid id="color1panel" style="margin:10px;">
+									<h:outputText value="Colore Principale" />
+									<p:selectOneRadio id="color1" value="#{fotoController.color1}" layout="custom">
+										<p:ajax event="change" listener="#{fotoController.onChangeColor1}" />
+										<f:selectItem itemLabel="nero" itemValue="000000" />
+										<f:selectItem itemLabel="bianco" itemValue="FFFFFF" />
+										<f:selectItem itemLabel="rosso" itemValue="FF0000" />
+										<f:selectItem itemLabel="blu" itemValue="0000FF" />
+										<f:selectItem itemLabel="grigio" itemValue="808080" />
+										<f:selectItem itemLabel="verde" itemValue="008000" />
+										<f:selectItem itemLabel="giallo" itemValue="FFFF00" />
+										<f:selectItem itemLabel="celeste" itemValue="00FFFF" />
+										<f:selectItem itemLabel="arancione" itemValue="FF8000" />
+										<f:selectItem itemLabel="viola" itemValue="FF00FF" />
+										<f:selectItem itemLabel="marrone" itemValue="964B00" />
+										<f:selectItem itemLabel="indefinito" itemValue="ind" />
+									</p:selectOneRadio>
+									<h:panelGrid columns="8" cellpadding="5">
+										<p:radioButton id="opt1_0" for="color1" itemIndex="0" />
+										<div style="background-color: #000000">nero</div>
+										<p:radioButton id="opt1_1" for="color1" itemIndex="1" />
+										<div style="background-color: #FFFFFF">bianco</div>
+										<p:radioButton id="opt1_2" for="color1" itemIndex="2" />
+										<div style="background-color: #FF0000">rosso</div>
+										<p:radioButton id="opt1_3" for="color1" itemIndex="3" />
+										<div style="background-color: #0000FF">blu</div>
+										<p:radioButton id="opt1_4" for="color1" itemIndex="4" />
+										<div style="background-color: #808080">grigio/ferro/argento</div>
+										<p:radioButton id="opt1_5" for="color1" itemIndex="5" />
+										<div style="background-color: #008000">verde</div>
+										<p:radioButton id="opt1_6" for="color1" itemIndex="6" />
+										<div style="background-color: #FFFF00">giallo/oro/bronzo/rame</div>
+										<p:radioButton id="opt1_7" for="color1" itemIndex="7" />
+										<div style="background-color: #00FFFF">celeste</div>
+										<p:radioButton id="opt1_8" for="color1" itemIndex="8" />
+										<div style="background-color: #FF8000">arancione</div>
+										<p:radioButton id="opt1_9" for="color1" itemIndex="9" />
+										<div style="background-color: #FF00FF">viola</div>
+										<p:radioButton id="opt1_10" for="color1" itemIndex="10" />
+										<div style="background-color: #964B00">marrone</div>
+										<p:radioButton id="opt1_11" for="color1" itemIndex="11" />
+										<div style="color: #FF1493">indefinito</div>
+										</h:panelGrid>
+								</h:panelGrid>
+								<h:panelGrid id="color2panel" style="margin:10px;">
+									<h:outputText value="Colore Secondario" />
+									<p:selectOneRadio id="color2" value="#{fotoController.color2}" layout="custom">
+										<p:ajax event="change" listener="#{fotoController.onChangeColor2}" />
+										<f:selectItem itemLabel="nero" itemValue="000000" />
+										<f:selectItem itemLabel="bianco" itemValue="FFFFFF" />
+										<f:selectItem itemLabel="rosso" itemValue="FF0000" />
+										<f:selectItem itemLabel="blu" itemValue="0000FF" />
+										<f:selectItem itemLabel="grigio" itemValue="808080" />
+										<f:selectItem itemLabel="verde" itemValue="008000" />
+										<f:selectItem itemLabel="giallo" itemValue="FFFF00" />
+										<f:selectItem itemLabel="celeste" itemValue="00FFFF" />
+										<f:selectItem itemLabel="arancione" itemValue="FF8000" />
+										<f:selectItem itemLabel="viola" itemValue="FF00FF" />
+										<f:selectItem itemLabel="marrone" itemValue="964B00" />
+										<f:selectItem itemLabel="indefinito" itemValue="ind" />
+									</p:selectOneRadio>
+									<h:panelGrid columns="8" cellpadding="5">
+										<p:radioButton id="opt2_0" for="color2" itemIndex="0" />
+										<div style="background-color: #000000">nero</div>
+										<p:radioButton id="opt2_1" for="color2" itemIndex="1" />
+										<div style="background-color: #FFFFFF">bianco</div>
+										<p:radioButton id="opt2_2" for="color2" itemIndex="2" />
+										<div style="background-color: #FF0000">rosso</div>
+										<p:radioButton id="opt2_3" for="color2" itemIndex="3" />
+										<div style="background-color: #0000FF">blu</div>
+										<p:radioButton id="opt2_4" for="color2" itemIndex="4" />
+										<div style="background-color: #808080">grigio/ferro/argento</div>
+										<p:radioButton id="opt2_5" for="color2" itemIndex="5" />
+										<div style="background-color: #008000">verde</div>
+										<p:radioButton id="opt2_6" for="color2" itemIndex="6" />
+										<div style="background-color: #FFFF00">giallo/oro/bronzo/rame</div>
+										<p:radioButton id="opt2_7" for="color2" itemIndex="7" />
+										<div style="background-color: #00FFFF">celeste</div>
+										<p:radioButton id="opt2_8" for="color2" itemIndex="8" />
+										<div style="background-color: #FF8000">arancione</div>
+										<p:radioButton id="opt2_9" for="color2" itemIndex="9" />
+										<div style="background-color: #FF00FF">viola</div>
+										<p:radioButton id="opt2_10" for="color2" itemIndex="10" />
+										<div style="background-color: #964B00">marrone</div>
+										<p:radioButton id="opt2_11" for="color2" itemIndex="11" />
+										<div style="color: #FF1493">indefinito</div>
+									</h:panelGrid>
+								</h:panelGrid>
+								<h:panelGrid id="formaPanel" style="margin:10px;">
+									<h:outputText value="Forma" />
+									<p:selectOneRadio id="forma" value="#{fotoController.forma}" layout="custom">
+										<p:ajax event="change" listener="#{fotoController.onChangeForma}" />
+										<f:selectItem itemLabel="squadrato" itemValue="squ" />
+										<f:selectItem itemLabel="tondeggiante" itemValue="ton" />
+										<f:selectItem itemLabel="angolare" itemValue="ang" />
+										<f:selectItem itemLabel="longilineo" itemValue="lon" />
+										<f:selectItem itemLabel="irregolare" itemValue="irr" />
+										<f:selectItem itemLabel="indefinito" itemValue="ind" />
+									</p:selectOneRadio>
+									<h:panelGrid columns="6" cellpadding="5">
+										<p:radioButton id="opt3_0" for="forma" itemIndex="0" />
+										<h:panelGrid columns="1">
+											<p:graphicImage value="./resources/gfx/foto/varie/squ.jpg" style="border:none" height="30" />
+											<h:outputText value="squadrato" />
+										</h:panelGrid>
+										<p:radioButton id="opt3_1" for="forma" itemIndex="1" />
+										<h:panelGrid columns="1">
+											<p:graphicImage value="./resources/gfx/foto/varie/ton.jpg" style="border:none" height="30" />
+											<h:outputText value="tondeggiante" />
+										</h:panelGrid>
+										<p:radioButton id="opt3_2" for="forma" itemIndex="2" />
+										<h:panelGrid columns="1">
+											<p:graphicImage value="./resources/gfx/foto/varie/ang.jpg" style="border:none" height="30" />
+											<h:outputText value="angolare" />
+										</h:panelGrid>
+										<p:radioButton id="opt3_3" for="forma" itemIndex="3" />
+										<h:panelGrid columns="1">
+											<p:graphicImage value="./resources/gfx/foto/varie/lon.jpg" style="border:none" width="30" />
+											<h:outputText value="longilineo" />
+										</h:panelGrid>
+										<p:radioButton id="opt3_4" for="forma" itemIndex="4" />
+										<h:panelGrid columns="1">
+											<p:graphicImage value="./resources/gfx/foto/varie/irr.jpg" style="border:none" height="30" />
+											<h:outputText value="irregolare" />
+										</h:panelGrid>
+										<p:radioButton id="opt3_5" for="forma" itemIndex="5" />
+										<h:panelGrid columns="1">
+											<p:graphicImage value="./resources/gfx/foto/varie/ind.jpg" style="border:none" height="30" />
+											<h:outputText value="indefinito" />
+										</h:panelGrid>
+									</h:panelGrid>
+								</h:panelGrid>
+							</h:panelGrid>
 						</h:panelGrid>
 					</p:outputPanel>
 				</h:form>
@@ -227,7 +421,7 @@
 							</p:toolbarGroup>
 							<p:toolbarGroup align="left">
 								<p:commandButton value="Aggiorna" action="#{fotoController.aggiorna}" update=":tblForm:tbl,:growlForm:growl" onclick="PF('updDialog').close()" icon="ui-icon-refresh" />
-								<p:commandButton value="Elimina" action="#{fotoController.elimina}" update=":tblForm:tbl,:growlForm:growl" icon="ui-icon-trash" >
+								<p:commandButton value="Elimina" action="#{fotoController.elimina}" update=":tblForm:tbl,:growlForm:growl" icon="ui-icon-trash">
 									<p:confirm header="Confirmation" message="Sei sicuro?" icon="ui-icon-alert" />
 								</p:commandButton>
 								<p:confirmDialog global="true" showEffect="fade" hideEffect="explode">
@@ -236,32 +430,198 @@
 								</p:confirmDialog>
 							</p:toolbarGroup>
 						</p:toolbar>
-						<h:outputText value="Tipo: " />
-						<p:selectOneRadio id="options" value="#{fotoController.tipoFoto}">
-							<p:ajax event="change" update="tipoFotoGrid" listener="#{fotoController.onChangeTipoFoto}"></p:ajax>
-							<f:selectItem itemLabel="Originale" itemValue="orig" />
-							<f:selectItem itemLabel="HD" itemValue="hd" />
-							<f:selectItem itemLabel="HD wm" itemValue="hdwm" />
-							<f:selectItem itemLabel="LD" itemValue="ld" />
-							<f:selectItem itemLabel="LD wm" itemValue="ldwm" />
-						</p:selectOneRadio>
-
-						<h:panelGrid columns="2" id="tipoFotoGrid">
-							<h:panelGrid columns="2">
-								<h:panelGrid columns="2" cellpadding="4">
-									<h:outputText value="Prima" />
-									<h:outputText value="Dopo" />
-									<p:graphicImage value="#{fotoController.resolvePath(fotoController.fotoSel)}#{fotoController.getFotonameUrl(fotoController.fotoSel, 0)}" height="#{fotoController.getHeightFromResolution(fotoController.fotoSel, 0, 250, 250)}" />
-									<p:graphicImage value="#{fotoController.resolvePath(fotoController.fotoSel)}#{fotoController.getFotonameUrl(fotoController.fotoSel, 0, 1)}" height="#{fotoController.getHeightFromResolution(fotoController.fotoSel, 0, 250, 250, 1)}" />
-									<h:outputText value="#{fotoController.getFotoname(fotoController.fotoSel, 0)}" />
-									<h:outputText value="#{fotoController.getFotoname(fotoController.fotoSel, 0, 1)}" />
-									<h:outputText value="#{fotoController.size(fotoController.fotoSel, 0)} - #{fotoController.resolution(fotoController.fotoSel, 0)}" />
-									<h:outputText value="#{fotoController.size(fotoController.fotoSel, 0, 1)} - #{fotoController.resolution(fotoController.fotoSel, 0, 1)}" />
-									<p:imageCompare leftImage="#{fotoController.resolvePath(fotoController.fotoSel)}#{fotoController.getFotonameUrl(fotoController.fotoSel, 0)}" rightImage="#{fotoController.resolvePath(fotoController.fotoSel)}#{fotoController.getFotonameUrl(fotoController.fotoSel, 0, 1)}" width="550" height="330" />
+						<h:panelGrid columns="2">
+							<h:panelGrid columns="1">
+								<h:outputText value="Tipo: " />
+								<p:selectOneRadio id="options" value="#{fotoController.tipoFoto}">
+									<p:ajax event="change" update="tipoFotoGrid" listener="#{fotoController.onChangeTipoFoto}"></p:ajax>
+									<f:selectItem itemLabel="Originale" itemValue="orig" />
+									<f:selectItem itemLabel="HD" itemValue="hd" />
+									<f:selectItem itemLabel="HD wm" itemValue="hdwm" />
+									<f:selectItem itemLabel="LD" itemValue="ld" />
+									<f:selectItem itemLabel="LD wm" itemValue="ldwm" />
+								</p:selectOneRadio>
+		
+								<h:panelGrid columns="2" id="tipoFotoGrid">
+									<h:panelGrid columns="2">
+										<h:panelGrid columns="2" cellpadding="4">
+											<h:outputText value="Prima" />
+											<h:outputText value="Dopo" />
+											<p:graphicImage value="#{fotoController.resolvePath(fotoController.fotoSel)}#{fotoController.getFotonameUrl(fotoController.fotoSel, 0)}" height="#{fotoController.getHeightFromResolution(fotoController.fotoSel, 0, 250, 250)}" />
+											<p:graphicImage value="#{fotoController.resolvePath(fotoController.fotoSel)}#{fotoController.getFotonameUrl(fotoController.fotoSel, 0, 1)}" height="#{fotoController.getHeightFromResolution(fotoController.fotoSel, 0, 250, 250, 1)}" />
+											<h:outputText value="#{fotoController.getFotoname(fotoController.fotoSel, 0)}" />
+											<h:outputText value="#{fotoController.getFotoname(fotoController.fotoSel, 0, 1)}" />
+											<h:outputText value="#{fotoController.size(fotoController.fotoSel, 0)} - #{fotoController.resolution(fotoController.fotoSel, 0)}" />
+											<h:outputText value="#{fotoController.size(fotoController.fotoSel, 0, 1)} - #{fotoController.resolution(fotoController.fotoSel, 0, 1)}" />
+											<p:imageCompare leftImage="#{fotoController.resolvePath(fotoController.fotoSel)}#{fotoController.getFotonameUrl(fotoController.fotoSel, 0)}" rightImage="#{fotoController.resolvePath(fotoController.fotoSel)}#{fotoController.getFotonameUrl(fotoController.fotoSel, 0, 1)}" width="550" height="330" />
+										</h:panelGrid>
+										<h:panelGrid columns="1">
+											<p:commandButton value="Modifica" onclick="PF('updDialogUpload').show()" icon="ui-icon-pencil" />
+											<p:commandButton value="Elimina" action="#{fotoController.eliminaSingFoto}" update=":updForm:tipoFotoGrid,:growlForm:growl" icon="ui-icon-trash" disabled="#{!fotoController.canDelete()}" />
+										</h:panelGrid>
+									</h:panelGrid>
 								</h:panelGrid>
+							</h:panelGrid>
+							<h:panelGrid columns="1" border="1">
 								<h:panelGrid columns="1">
-									<p:commandButton value="Modifica" onclick="PF('updDialogUpload').show()" icon="ui-icon-pencil" />
-									<p:commandButton value="Elimina" action="#{fotoController.eliminaSingFoto}" update=":updForm:tipoFotoGrid,:growlForm:growl" icon="ui-icon-trash" disabled="#{!fotoController.canDelete()}" />
+								<h:panelGrid columns="3" style="margin:10px;">
+									<h:outputText value="TAG" />
+									<p:autoComplete id="tagAutoCompl" minQueryLength="2" value="#{fotoController.tagDaAggiungere}" completeMethod="#{fotoController.tagAutoCompleteLs}" effect="fade" />
+									<p:commandButton action="#{fotoController.aggiungiTagAllaFoto()}" update=":updForm:tagList,:updForm:tagAutoCompl" icon="ui-icon-circle-plus" title="Aggiungi" />
+								</h:panelGrid>
+								<h:panelGrid columns="1" style="max-width: 500px;">
+									<p:dataTable id="tagList" var="tag" value="#{fotoController.tagFotoSelLs}" >
+										<p:column headerText="tag">
+											<h:outputText value="#{tag}" />
+										</p:column>
+										<p:column headerText="rimuovi" style="width:30px;text-align: center">
+											<p:commandButton action="#{fotoController.rimuoviTagAllaFoto()}" update=":newForm:tagList" icon="ui-icon-trash" title="Cancella"><f:setPropertyActionListener value="#{tag}" target="#{fotoController.tagDaEliminare}" /></p:commandButton>
+										</p:column>
+									</p:dataTable>
+								</h:panelGrid>	
+								</h:panelGrid>						
+								<h:panelGrid id="cosaMostraPanel" style="margin:10px;">
+									<h:outputText value="Tipo" />
+									<p:selectOneRadio id="cosaMostra" value="#{fotoController.fotoSel.cosaMostra}">
+										<p:ajax event="change" listener="#{fotoController.onChangeCosaMostra}" />
+										<f:selectItem itemLabel="Prodotto" itemValue="P" />
+										<f:selectItem itemLabel="Logo" itemValue="L" />
+										<f:selectItem itemLabel="Scheda" itemValue="S" />
+										<f:selectItem itemLabel="Altro" itemValue="A" />
+										<f:selectItem itemLabel="Indefinito" itemValue="I" />
+									</p:selectOneRadio>
+								</h:panelGrid>
+								<h:panelGrid id="color1panel" style="margin:10px;">
+									<h:outputText value="Colore Principale" />
+									<p:selectOneRadio id="color1" value="#{fotoController.color1}" layout="custom">
+										<p:ajax event="change" listener="#{fotoController.onChangeColor1}" />
+										<f:selectItem itemLabel="nero" itemValue="000000" />
+										<f:selectItem itemLabel="bianco" itemValue="FFFFFF" />
+										<f:selectItem itemLabel="rosso" itemValue="FF0000" />
+										<f:selectItem itemLabel="blu" itemValue="0000FF" />
+										<f:selectItem itemLabel="grigio" itemValue="808080" />
+										<f:selectItem itemLabel="verde" itemValue="008000" />
+										<f:selectItem itemLabel="giallo" itemValue="FFFF00" />
+										<f:selectItem itemLabel="celeste" itemValue="00FFFF" />
+										<f:selectItem itemLabel="arancione" itemValue="FF8000" />
+										<f:selectItem itemLabel="viola" itemValue="FF00FF" />
+										<f:selectItem itemLabel="marrone" itemValue="964B00" />
+										<f:selectItem itemLabel="indefinito" itemValue="ind" />
+									</p:selectOneRadio>
+									<h:panelGrid columns="8" cellpadding="5">
+										<p:radioButton id="opt1_0" for="color1" itemIndex="0" />
+										<div style="background-color: #000000">nero</div>
+										<p:radioButton id="opt1_1" for="color1" itemIndex="1" />
+										<div style="background-color: #FFFFFF">bianco</div>
+										<p:radioButton id="opt1_2" for="color1" itemIndex="2" />
+										<div style="background-color: #FF0000">rosso</div>
+										<p:radioButton id="opt1_3" for="color1" itemIndex="3" />
+										<div style="background-color: #0000FF">blu</div>
+										<p:radioButton id="opt1_4" for="color1" itemIndex="4" />
+										<div style="background-color: #808080">grigio/ferro/argento</div>
+										<p:radioButton id="opt1_5" for="color1" itemIndex="5" />
+										<div style="background-color: #008000">verde</div>
+										<p:radioButton id="opt1_6" for="color1" itemIndex="6" />
+										<div style="background-color: #FFFF00">giallo/oro/bronzo/rame</div>
+										<p:radioButton id="opt1_7" for="color1" itemIndex="7" />
+										<div style="background-color: #00FFFF">celeste</div>
+										<p:radioButton id="opt1_8" for="color1" itemIndex="8" />
+										<div style="background-color: #FF8000">arancione</div>
+										<p:radioButton id="opt1_9" for="color1" itemIndex="9" />
+										<div style="background-color: #FF00FF">viola</div>
+										<p:radioButton id="opt1_10" for="color1" itemIndex="10" />
+										<div style="background-color: #964B00">marrone</div>
+										<p:radioButton id="opt1_11" for="color1" itemIndex="11" />
+										<div style="color: #FF1493">indefinito</div>
+										</h:panelGrid>
+								</h:panelGrid>
+								<h:panelGrid id="color2panel" style="margin:10px;">
+									<h:outputText value="Colore Secondario" />
+									<p:selectOneRadio id="color2" value="#{fotoController.color2}" layout="custom">
+										<p:ajax event="change" listener="#{fotoController.onChangeColor2}" />
+										<f:selectItem itemLabel="nero" itemValue="000000" />
+										<f:selectItem itemLabel="bianco" itemValue="FFFFFF" />
+										<f:selectItem itemLabel="rosso" itemValue="FF0000" />
+										<f:selectItem itemLabel="blu" itemValue="0000FF" />
+										<f:selectItem itemLabel="grigio" itemValue="808080" />
+										<f:selectItem itemLabel="verde" itemValue="008000" />
+										<f:selectItem itemLabel="giallo" itemValue="FFFF00" />
+										<f:selectItem itemLabel="celeste" itemValue="00FFFF" />
+										<f:selectItem itemLabel="arancione" itemValue="FF8000" />
+										<f:selectItem itemLabel="viola" itemValue="FF00FF" />
+										<f:selectItem itemLabel="marrone" itemValue="964B00" />
+										<f:selectItem itemLabel="indefinito" itemValue="ind" />
+									</p:selectOneRadio>
+									<h:panelGrid columns="8" cellpadding="5">
+										<p:radioButton id="opt2_0" for="color2" itemIndex="0" />
+										<div style="background-color: #000000">nero</div>
+										<p:radioButton id="opt2_1" for="color2" itemIndex="1" />
+										<div style="background-color: #FFFFFF">bianco</div>
+										<p:radioButton id="opt2_2" for="color2" itemIndex="2" />
+										<div style="background-color: #FF0000">rosso</div>
+										<p:radioButton id="opt2_3" for="color2" itemIndex="3" />
+										<div style="background-color: #0000FF">blu</div>
+										<p:radioButton id="opt2_4" for="color2" itemIndex="4" />
+										<div style="background-color: #808080">grigio/ferro/argento</div>
+										<p:radioButton id="opt2_5" for="color2" itemIndex="5" />
+										<div style="background-color: #008000">verde</div>
+										<p:radioButton id="opt2_6" for="color2" itemIndex="6" />
+										<div style="background-color: #FFFF00">giallo/oro/bronzo/rame</div>
+										<p:radioButton id="opt2_7" for="color2" itemIndex="7" />
+										<div style="background-color: #00FFFF">celeste</div>
+										<p:radioButton id="opt2_8" for="color2" itemIndex="8" />
+										<div style="background-color: #FF8000">arancione</div>
+										<p:radioButton id="opt2_9" for="color2" itemIndex="9" />
+										<div style="background-color: #FF00FF">viola</div>
+										<p:radioButton id="opt2_10" for="color2" itemIndex="10" />
+										<div style="background-color: #964B00">marrone</div>
+										<p:radioButton id="opt2_11" for="color2" itemIndex="11" />
+										<div style="color: #FF1493">indefinito</div>
+									</h:panelGrid>
+								</h:panelGrid>
+								<h:panelGrid id="formaPanel" style="margin:10px;">
+									<h:outputText value="Forma" />
+									<p:selectOneRadio id="forma" value="#{fotoController.fotoSel.forma}" layout="custom">
+										<p:ajax event="change" listener="#{fotoController.onChangeForma}" />
+										<f:selectItem itemLabel="squadrato" itemValue="squ" />
+										<f:selectItem itemLabel="tondeggiante" itemValue="ton" />
+										<f:selectItem itemLabel="angolare" itemValue="ang" />
+										<f:selectItem itemLabel="longilineo" itemValue="lon" />
+										<f:selectItem itemLabel="irregolare" itemValue="irr" />
+										<f:selectItem itemLabel="indefinito" itemValue="ind" />
+									</p:selectOneRadio>
+									<h:panelGrid columns="6" cellpadding="5">
+										<p:radioButton id="opt3_0" for="forma" itemIndex="0" />
+										<h:panelGrid columns="1">
+											<p:graphicImage value="./resources/gfx/foto/varie/squ.jpg" style="border:none" height="30" />
+											<h:outputText value="squadrato" />
+										</h:panelGrid>
+										<p:radioButton id="opt3_1" for="forma" itemIndex="1" />
+										<h:panelGrid columns="1">
+											<p:graphicImage value="./resources/gfx/foto/varie/ton.jpg" style="border:none" height="30" />
+											<h:outputText value="tondeggiante" />
+										</h:panelGrid>
+										<p:radioButton id="opt3_2" for="forma" itemIndex="2" />
+										<h:panelGrid columns="1">
+											<p:graphicImage value="./resources/gfx/foto/varie/ang.jpg" style="border:none" height="30" />
+											<h:outputText value="angolare" />
+										</h:panelGrid>
+										<p:radioButton id="opt3_3" for="forma" itemIndex="3" />
+										<h:panelGrid columns="1">
+											<p:graphicImage value="./resources/gfx/foto/varie/lon.jpg" style="border:none" width="30" />
+											<h:outputText value="longilineo" />
+										</h:panelGrid>
+										<p:radioButton id="opt3_4" for="forma" itemIndex="4" />
+										<h:panelGrid columns="1">
+											<p:graphicImage value="./resources/gfx/foto/varie/irr.jpg" style="border:none" height="30" />
+											<h:outputText value="irregolare" />
+										</h:panelGrid>
+										<p:radioButton id="opt3_5" for="forma" itemIndex="5" />
+										<h:panelGrid columns="1">
+											<p:graphicImage value="./resources/gfx/foto/varie/ind.jpg" style="border:none" height="30" />
+											<h:outputText value="indefinito" />
+										</h:panelGrid>
+									</h:panelGrid>
 								</h:panelGrid>
 							</h:panelGrid>
 						</h:panelGrid>
@@ -284,7 +644,7 @@
 					</p:outputPanel>
 				</h:form>
 			</p:dialog>
-
+			
 		</ui:define>
 	</ui:composition>
 </h:body>

@@ -116,6 +116,13 @@ public class ArticoliController implements Serializable{
 		// // log.info("tmpDEBUGtmp: " + "< " + "setArticoloSel");
 	}
 	
+	// chiamata quando faccio nuovo, per non avere i campi sporchi da una selezione che deriva dalla tabella
+	public void resetOnNewArticoloSel(){
+		Articoli a = new Articoli();
+		a.setId(1);
+		articoloSel = a;
+	}
+	
 	public List<Articoli> getFilteredArticoliLs(){
 		// // log.info("tmpDEBUGtmp: " + "> " + "getFilteredArticoliLs(" + ")");
 		// // log.info("tmpDEBUGtmp: " + "id: " + ((articoloSel != null) ? articoloSel.getId() : "null"));

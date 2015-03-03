@@ -71,7 +71,7 @@ public class TipiCondivisiController implements Serializable{
 		while(iterator.hasNext()){
 			p = iterator.next();
 			
-			if(p.getTipoPadre().getId() == idPadre){
+			if(p.getTipoPadre().getId().equals(idPadre)){
 				leaf = new DefaultTreeNode(p, root);
 				// sono nella riga nd, che ha tipo e tipoPadre = 1, avrei un loop infinito, quindi gestisco il caso senza chiamare la ricorsione
 				if(p.getId() == 1){

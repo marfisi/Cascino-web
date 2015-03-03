@@ -43,7 +43,7 @@
 						<p:commandButton id="viewButton" value="View" update=":display" oncomplete="PF('viewDialog').show()" icon="ui-icon-search" />
 						<p:commandButton id="modifButton" value="Modifica" update=":updForm:updDisplay" oncomplete="PF('updDialog').show()" icon="ui-icon-pencil" />
 						<p:separator />
-						<p:commandButton id="newButton" value="Aggiungi" oncomplete="PF('newDialog').show()" icon="ui-icon-circle-plus" />
+						<p:commandButton id="newButton" value="Aggiungi" action="#{tipiController.resetOnNewNodoSel()}" oncomplete="PF('newDialog').show()" icon="ui-icon-circle-plus" />
 						<p:commandButton id="homeMngButton" value="Home Gestione" action="homeMng" icon="ui-icon-home" rendered="#{navigationController.showHome}" />
 					</p:toolbarGroup>
 				</p:toolbar>

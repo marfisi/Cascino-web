@@ -14,6 +14,8 @@ import java.io.OutputStream;
 import java.io.Serializable;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import javax.faces.bean.SessionScoped;
@@ -179,7 +181,7 @@ public class FotoDaoManBean implements FotoDao, Serializable{
 //		// log.info("tmpDEBUGtmp: " + "< " + "salva");
 //	}
 	
-	public String salva(List<UploadedFile> fotoLs){
+	public String salva(Foto foto, List<UploadedFile> fotoLs){
 		// log.info("tmpDEBUGtmp: " + "> " + "salva(" + fotoLs + ")");
 		File sourceFolder = new File(dirFoto); // File(dirFotoUpload);
 		File targetFolder = new File(dirFoto);
@@ -237,7 +239,7 @@ public class FotoDaoManBean implements FotoDao, Serializable{
 			return "la foto definita " + nomeFileEsistente + " e' gia' esistente";
 		}
 		
-		Foto foto = new Foto();
+//		Foto foto = new Foto();
 		foto.setPath(dirFoto);
 		
 		iterator = fotoLs.iterator();
@@ -273,6 +275,7 @@ public class FotoDaoManBean implements FotoDao, Serializable{
 			try{
 				utx.begin();
 				log.info("salva: " + foto.getId() + ", " + foto.getPath() + ", " + foto.getOriginale());
+				foto.setId(null);
 				entityManager.persist(foto);
 			}finally{
 				utx.commit();
@@ -719,7 +722,7 @@ public class FotoDaoManBean implements FotoDao, Serializable{
 			List<Foto> foto;
 			fotoLs = new ArrayList<Foto>();
 			if((f == null) || (f.getId() == null)){
-				fotoLs.add(new Foto(null, dirFoto, fotoNotDefined, null, null, null, null, null));
+				fotoLs.add(new Foto(null, dirFoto, fotoNotDefined, null, null, null, null, null, null, null, null, null));
 				return fotoLs;
 			}
 			try{
@@ -740,19 +743,19 @@ public class FotoDaoManBean implements FotoDao, Serializable{
 				o = iterator.next();
 				
 				if((o.getOriginale() != null) && (!o.getOriginale().isEmpty())){
-					fotoLs.add(new Foto(null, o.getPath(), o.getOriginale(), getSize(o, 1), null, getResolution(o, 1), null, null));
+					fotoLs.add(new Foto(null, o.getPath(), o.getOriginale(), getSize(o, 1), null, getResolution(o, 1), null, null, null, null, null, null));
 				}
 				if((o.getGrande() != null) && (!o.getGrande().isEmpty())){
-					fotoLs.add(new Foto(null, o.getPath(), o.getGrande(), getSize(o, 2), null, getResolution(o, 2), null, null));
+					fotoLs.add(new Foto(null, o.getPath(), o.getGrande(), getSize(o, 2), null, getResolution(o, 2), null, null, null, null, null, null));
 				}
 				if((o.getGrandeWatermark() != null) && (!o.getGrandeWatermark().isEmpty())){
-					fotoLs.add(new Foto(null, o.getPath(), o.getGrandeWatermark(), getSize(o, 3), null, getResolution(o, 3), null, null));
+					fotoLs.add(new Foto(null, o.getPath(), o.getGrandeWatermark(), getSize(o, 3), null, getResolution(o, 3), null, null, null, null, null, null));
 				}
 				if((o.getThumbnail() != null) && (!o.getThumbnail().isEmpty())){
-					fotoLs.add(new Foto(null, o.getPath(), o.getThumbnail(), getSize(o, 4), null, getResolution(o, 4), null, null));
+					fotoLs.add(new Foto(null, o.getPath(), o.getThumbnail(), getSize(o, 4), null, getResolution(o, 4), null, null, null, null, null, null));
 				}
 				if((o.getThumbnailWatermark() != null) && (!o.getThumbnailWatermark().isEmpty())){
-					fotoLs.add(new Foto(null, o.getPath(), o.getThumbnailWatermark(), getSize(o, 5), null, getResolution(o, 5), null, null));
+					fotoLs.add(new Foto(null, o.getPath(), o.getThumbnailWatermark(), getSize(o, 5), null, getResolution(o, 5), null, null, null, null, null, null));
 				}
 			}
 		}catch(Exception e){
@@ -864,6 +867,47 @@ public class FotoDaoManBean implements FotoDao, Serializable{
 	// return foto;
 	// }
 	
+	public List<String> getTagUtilizzati(){
+		List<String> tag = null;
+		try{
+			try{
+				utx.begin();
+				String sql = "select distinct(tag) " +
+				"from foto " +
+				"where tag is not null";
+				Query query = entityManager.createNativeQuery(sql);
+				tag = (List<String>)query.getResultList();
+			}catch(NoResultException e){
+				tag = null;
+			}
+			utx.commit();
+		}catch(Exception e){
+			Utility.manageException(e, utx, log);
+		}
+		
+		// devo creare la lista, con lo split per rigo e eliminando le ripetizioni
+		HashSet hs = new HashSet();
+		if(tag != null){
+			// devo dividere i tag
+			Iterator<String> iterTag = tag.iterator();
+			while(iterTag.hasNext()){
+				String tagAnalizzato = iterTag.next();
+				if(StringUtils.contains(tagAnalizzato, ";")){
+					//tag.addAll(Arrays.asList(StringUtils.split(tagAnalizzato, ";")));
+					hs.addAll(Arrays.asList(StringUtils.split(tagAnalizzato, ";")));
+				}else{
+					hs.add(tagAnalizzato);
+				}
+			}
+		}
+		
+//		hs.addAll(tag);
+		tag.clear();
+		tag.addAll(hs);
+		
+		return tag;		
+	}
+	
 	// ***** inizio Foto *****
 	public Foto getFotoDaIdFoto(Integer idFoto){
 		// log.info("tmpDEBUGtmp: " + "> " + "getFotoDaIdFoto(" + idFoto + ")");
@@ -949,6 +993,83 @@ public class FotoDaoManBean implements FotoDao, Serializable{
 		return foto;
 	}
 	
+	public List<Integer> getTipoLsDaIdFoto(Integer idFoto){
+		List<Integer> idTipiLs = null;
+		try{
+			try{
+				utx.begin();
+				String sql = "select distinct(tipo) " +
+				"from articoli " +
+				"where id in (select articolo " +
+				"from articoli_foto " +
+				"where foto = :id) " +
+				"order by tipo asc";
+				Query query = entityManager.createNativeQuery(sql);
+				query.setParameter("id", idFoto);
+				idTipiLs = (List<Integer>)query.getResultList();
+			}catch(NoResultException e){
+				idTipiLs = null;
+			}
+			utx.commit();
+		}catch(Exception e){
+			Utility.manageException(e, utx, log);
+		}
+		return idTipiLs;
+	}
+	
+	public Boolean getTipoDiscendeDaTipo(Integer idTipo, Integer idTipoPadre){
+		if(idTipo.equals(1)){
+			return false;
+		}
+		Integer idTipoGenitore = null;
+		try{
+			try{
+				utx.begin();
+				String sql = "select padre " +
+				"from tipi " +
+				"where id = :id";
+				Query query = entityManager.createNativeQuery(sql);
+				query.setParameter("id", idTipo);
+				idTipoGenitore = (Integer)query.getSingleResult();
+			}catch(NoResultException e){
+				idTipoGenitore = null;
+			}
+			utx.commit();
+		}catch(Exception e){
+			Utility.manageException(e, utx, log);
+		}
+		if(idTipoGenitore.equals(idTipoPadre)){
+			return true;
+		}
+		// ricorsiva
+		return getTipoDiscendeDaTipo(idTipoGenitore, idTipoPadre);
+//		List<String> idEidPadre = null;
+//		try{
+//			try{
+//				utx.begin();
+//				String sql = "select concat_ws(';', id::text, padre::text) AS conc " +
+//				"from tipi";
+//				Query query = entityManager.createNativeQuery(sql);
+//				idEidPadre = (List<String>)query.getResultList();
+//			}catch(NoResultException e){
+//				idEidPadre = null;
+//			}
+//			utx.commit();
+//		}catch(Exception e){
+//			Utility.manageException(e, utx, log);
+//		}
+//		
+//		String idEidPadreArr[] = idEidPadre.toArray(new String[idEidPadre.size()]);
+//		for(int i = 0; i < idEidPadreArr.length; i++){
+//			String idEidPadreRow[] = StringUtils.split(idEidPadreArr[i], ";");
+//			
+//			
+//			
+//			if(myart == null){
+//				continue;
+//			}
+//		
+		}
 	// ***** fine Tipi *****
 	
 	// ***** inizio Produttori *****

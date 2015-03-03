@@ -8,7 +8,7 @@ import it.cascino.model.Foto;
 public interface FotoDao{
 //	void salva(Foto f);
 	
-	String salva(List<UploadedFile> f);
+	String salva(Foto foto, List<UploadedFile> f);
 	
 	Boolean annullaUpdate(List<UploadedFile> f);
 	
@@ -40,6 +40,8 @@ public interface FotoDao{
 	
 	void fileUpload(FileUploadEvent event, String type, List<UploadedFile> uf);
 	
+	List<String> getTagUtilizzati();
+	
 	// Foto getFotoFromNomeOriginale(String fName);
 	
 	int getHeightFromResolution(Foto foto, int t, int h, int l, int u);
@@ -52,6 +54,10 @@ public interface FotoDao{
 	Foto getFotoTipoDaIdTipo(Integer IdTipo);
 	
 	Foto getFotoTipoDaIdArticolo(Integer idArticolo);
+	
+	List<Integer> getTipoLsDaIdFoto(Integer idFoto);
+	
+	Boolean getTipoDiscendeDaTipo(Integer idTipo, Integer idTipoPadre);
 	// ***** fine Tipi *****
 	
 	// ***** inizio Produttori *****

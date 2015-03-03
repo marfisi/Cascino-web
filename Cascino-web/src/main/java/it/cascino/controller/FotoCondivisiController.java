@@ -4,6 +4,7 @@ import it.cascino.dao.FotoDao;
 import it.cascino.model.Foto;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.io.Serializable;
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.ApplicationScoped;
@@ -29,6 +30,8 @@ public class FotoCondivisiController implements Serializable{
 	private FotoDao fotoDao;
 	
 	private List<Foto> fotoLs;
+	
+	private List<String> tagUtilizzatiLs;
 
 	public List<Foto> getFotoLs(){
 		// log.info("tmpDEBUGtmp: " + "> " + "getFotoLs(" + ")");
@@ -42,10 +45,19 @@ public class FotoCondivisiController implements Serializable{
 		// log.info("tmpDEBUGtmp: " + "< " + "setFotoLs");
 	}
 	
+	public List<String> getTagUtilizzatiLs(){
+		return tagUtilizzatiLs;
+	}
+
+	public void setTagUtilizzatiLs(List<String> tagUtilizzatiLs){
+		this.tagUtilizzatiLs = tagUtilizzatiLs;
+	}
+ 
 	@PostConstruct
 	public void aggiornaFotoLs(){
 		// log.info("tmpDEBUGtmp: " + "> " + "aggiornaFotoLs(" + ")");
 		fotoLs = fotoDao.getAll();
+		tagUtilizzatiLs = fotoDao.getTagUtilizzati();
 //		fotoLsEmpty = new ArrayList<Foto>();
 		// log.info("tmpDEBUGtmp: " + "< " + "aggiornaFotoLs");
 	}
@@ -91,4 +103,5 @@ public class FotoCondivisiController implements Serializable{
 		}
 		return 0;
 	}
+
 }

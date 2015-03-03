@@ -1,6 +1,7 @@
 package it.cascino.controller;
 
 import it.cascino.dao.TipiDao;
+import it.cascino.model.Articoli;
 import it.cascino.model.Tipi;
 import java.io.Serializable;
 import java.util.Iterator;
@@ -61,6 +62,13 @@ public class TipiController implements Serializable{
 		// log.info("tmpDEBUGtmp: " + "id: " + ((nodoSel != null) ? ((Tipi)nodoSel.getData()).getId() : "null"));
 		this.nodoSel = nodoSel;
 		// log.info("tmpDEBUGtmp: " + "< " + "setNodoSel");
+	}
+	
+	// chiamata quando faccio nuovo, per non avere i campi sporchi da una selezione che deriva dalla tabella
+	public void resetOnNewNodoSel(){
+		Tipi t = new Tipi();
+		t.setId(1);
+		nodoSel = new DefaultTreeNode(t);
 	}
 	
 //	public void salva(Integer idFoto){
@@ -184,7 +192,7 @@ public class TipiController implements Serializable{
 		Iterator<Tipi> iterator = tipiCondivisiController.getTipiLs().iterator();
 		while(iterator.hasNext()){
 			p = iterator.next();
-			if(p.getId() == ((Tipi)nodoSel.getData()).getTipoPadre().getId()){
+			if(p.getId().equals(((Tipi)nodoSel.getData()).getTipoPadre().getId())){
 				break;
 			}
 			p = null;
