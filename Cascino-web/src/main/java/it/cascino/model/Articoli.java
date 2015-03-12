@@ -152,6 +152,7 @@ public class Articoli implements Serializable{
 		if(id != null){
 			stringBuilder.append("id=" + id).append(", ");
 			stringBuilder.append("codice=" + codice).append(", ");
+			stringBuilder.append("descrizioneAs400=" + descrizioneAs400).append(", ");
 			stringBuilder.append("nome=" + nome).append(", ");
 			stringBuilder.append("descrizione=" + descrizione).append(", ");
 			stringBuilder.append("produttore=" + produttore).append(", ");
@@ -197,6 +198,7 @@ public class Articoli implements Serializable{
 		int result = 1;
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result + ((codice == null) ? 0 : codice.hashCode());
+		result = prime * result + ((descrizioneAs400 == null) ? 0 : descrizioneAs400.hashCode());
 		result = prime * result + ((nome == null) ? 0 : nome.hashCode());
 		result = prime * result + ((descrizione == null) ? 0 : descrizione.hashCode());
 		result = prime * result + ((produttore == null) ? 0 : produttore.hashCode());

@@ -26,6 +26,12 @@ public interface FotoDao{
 	
 	List<Foto> getAll();
 	
+	List<Foto> getMostraProdotto();
+	List<Foto> getMostraLogo();
+	List<Foto> getMostraScheda();
+	List<Foto> getMostraAltro();
+	List<Foto> getMostraIndefinito();
+	
 	String getSize(Foto f, int t, List<UploadedFile> uf, int u);
 	
 	String getResolution(Foto f, int t, List<UploadedFile> uf, int u);
@@ -51,7 +57,7 @@ public interface FotoDao{
 	// ***** fine Foto *****
 	
 	// ***** inizio Tipi *****
-	Foto getFotoTipoDaIdTipo(Integer IdTipo);
+	Foto getFotoTipoDaIdTipo(Integer idTipo);
 	
 	Foto getFotoTipoDaIdArticolo(Integer idArticolo);
 	

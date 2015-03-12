@@ -4,6 +4,7 @@ import java.io.Serializable;
 import javax.inject.Inject;
 import javax.persistence.*;
 import org.jboss.logging.Logger;
+import org.sonatype.aether.util.StringUtils;
 import java.sql.Timestamp;
 
 /**
@@ -13,7 +14,8 @@ import java.sql.Timestamp;
 @Entity
 @NamedQueries({
 		@NamedQuery(name = "Foto.findAll", query = "SELECT f FROM Foto f"),
-		@NamedQuery(name = "Foto.findById", query = "SELECT f FROM Foto f WHERE f.id = :id")
+		@NamedQuery(name = "Foto.findById", query = "SELECT f FROM Foto f WHERE f.id = :id"),
+		@NamedQuery(name = "Foto.findMostra", query = "SELECT f FROM Foto f WHERE f.cosaMostra = :cosa_mostra")
 })
 public class Foto implements Serializable{
 	private static final long serialVersionUID = 1L;

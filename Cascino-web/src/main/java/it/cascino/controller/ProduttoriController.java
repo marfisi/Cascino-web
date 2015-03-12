@@ -1,6 +1,7 @@
 package it.cascino.controller;
 
 import it.cascino.dao.ProduttoriDao;
+import it.cascino.model.Articoli;
 import it.cascino.model.Produttori;
 import java.util.List;
 import java.io.Serializable;
@@ -44,6 +45,11 @@ public class ProduttoriController implements Serializable{
 		// log.info("tmpDEBUGtmp: " + "> " + "getProduttoreSel(" + ")");
 		// log.info("tmpDEBUGtmp: " + "id: " + ((produttoreSel != null) ? produttoreSel.getId() : "null"));
 		// log.info("tmpDEBUGtmp: " + "< " + "getProduttoreSel");
+		if(produttoreSel == null){
+			Produttori p = new Produttori();
+			p.setId(1);
+			produttoreSel = p;
+		}
 		return produttoreSel;
 	}
 	
@@ -52,6 +58,13 @@ public class ProduttoriController implements Serializable{
 		// log.info("tmpDEBUGtmp: " + "id: " + ((produttoreSel != null) ? produttoreSel.getId() : "null"));
 		this.produttoreSel = produttoreSel;
 		// log.info("tmpDEBUGtmp: " + "< " + "setProduttoreSel");
+	}
+	
+	// chiamata quando faccio nuovo, per non avere i campi sporchi da una selezione che deriva dalla tabella
+	public void resetOnNewProduttoreSel(){
+		Produttori p = new Produttori();
+		p.setId(1);
+		produttoreSel = p;
 	}
 	
 	public List<Produttori> getFilteredProduttoriLs(){

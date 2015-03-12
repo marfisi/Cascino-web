@@ -232,7 +232,7 @@
 							</p:column>
 							<p:column>
 								<p:outputPanel id="fotoArticoloMenuDisplay">
-									<p:dataTable id="fotoArticoloDataTable" var="f" value="#{articoliController.fotoPerArticolo}" rowKey="#{f.id}" paginator="true" rows="7" dynamic="true" >
+									<p:dataTable id="fotoArticoloDataTable" var="f" value="#{articoliController.fotoPerArticolo}" rowKey="#{f.id}" paginator="true" rows="7" dynamic="true" style="max-width: 220px;">
 										<f:facet name="sourceCaption">Selezionate</f:facet>
 										<p:column>
 											<f:facet name="header">
@@ -287,7 +287,7 @@
 								<p:commandButton id="toProduttoriButton" value="Aggiungi Produttore" action="#{navigationController.articoliToProduttori()}" icon="ui-icon-circle-plus" />
 							</p:column>
 							<h:outputText value="Modello" />
-							<p:inputText value="#{articoliController.articoloSel.modello}"  maxlength="50" />
+							<p:inputText value="#{articoliController.articoloSel.modello}" maxlength="50" />
 							<h:outputText value="Descrizione AS400" />
 							<h:outputText value="#{articoliController.articoloSel.descrizioneAs400}" />
 							<h:outputText value="Descrizione" />
@@ -297,7 +297,7 @@
 							</p:column>
 							<h:outputText value="Tipo" />
 							<p:column>
-								<p:selectOneMenu id="menuSelTipo" value="#{articoliController.articoloSel.tipo}" var="t" filter="true" filterMatchMode="contains">
+								<p:selectOneMenu id="menuSelTipo" value="#{articoliController.articoloSel.tipo}" var="t" filter="true" filterMatchMode="contains" style="max-width: 220px;">
 									<f:selectItem itemLabel="Seleziona Classe" itemValue="" />
 									<f:selectItems value="#{tipiCondivisiController.tipiLs}" var="tipo" itemLabel="#{tipo.nome} (id: #{tipo.id})" itemValue="#{tipo.id}" />
 									<p:column>
@@ -348,7 +348,7 @@
 									</p:column>
 									<p:column>
 										<p:outputPanel id="fotoArticoloMenuDisplay">
-											<p:dataTable id="fotoArticoloDataTable" var="f" value="#{articoliController.fotoPerArticolo}" selection="#{articoliController.fotoPerArticoloSel}" selectionMode="single" rowKey="#{f.id}" paginator="true" rows="7" dynamic="true" >
+											<p:dataTable id="fotoArticoloDataTable" var="f" value="#{articoliController.fotoPerArticolo}" selection="#{articoliController.fotoPerArticoloSel}" selectionMode="single" rowKey="#{f.id}" paginator="true" rows="7" dynamic="true" style="min-width: 130px;">
 												<f:facet name="sourceCaption">Selezionate</f:facet>
 												<p:column>
 													<f:facet name="header">
@@ -422,7 +422,7 @@
 							</p:column>
 							<h:outputText value="Tipo" />
 							<p:column>
-								<p:selectOneMenu id="menuSelTipo" value="#{articoliController.articoloSel.tipo}" var="t" filter="true" filterMatchMode="contains">
+								<p:selectOneMenu id="menuSelTipo" value="#{articoliController.articoloSel.tipo}" var="t" filter="true" filterMatchMode="contains" style="max-width: 220px;">
 									<f:selectItem itemLabel="#{tipiController.getTipoDaIdTipo(articoliController.articoloSel.tipo).nome} (id: #{articoliController.articoloSel.tipo})" itemValue="#{articoliController.articoloSel.tipo}" />
 									<f:selectItems value="#{tipiCondivisiController.tipiLs}" var="tipo" itemLabel="#{tipo.nome} (id: #{tipo.id})" itemValue="#{tipo.id}" />
 									<p:column>
@@ -472,7 +472,7 @@
 									</p:column>
 									<p:column>
 										<p:outputPanel id="fotoArticoloMenuDisplay">
-											<p:dataTable id="fotoArticoloDataTable" var="f" value="#{articoliController.fotoPerArticolo}" selection="#{articoliController.fotoPerArticoloSel}" selectionMode="single" rowKey="#{f.id}" paginator="true" rows="7" dynamic="true" >
+											<p:dataTable id="fotoArticoloDataTable" var="f" value="#{articoliController.fotoPerArticolo}" selection="#{articoliController.fotoPerArticoloSel}" selectionMode="single" rowKey="#{f.id}" paginator="true" rows="7" dynamic="true" style="min-width: 130px;">
 												<f:facet name="sourceCaption">Selezionate</f:facet>
 												<p:column>
 													<f:facet name="header">

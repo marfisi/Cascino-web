@@ -603,7 +603,8 @@ public class FotoController implements Serializable{
 	}
 	
 	public void popolaFotoLsDynPop(){
-		fotoLsDynPop = fotoCondivisiController.getFotoLs();
+		// fotoLsDynPop = fotoCondivisiController.getFotoLs();
+		fotoLsDynPop = fotoCondivisiController.getFotoMostraPeSeAeILs();
 	}
 	
 	public void svuotaFotoLsDynPop(){

@@ -5,6 +5,7 @@ import it.cascino.model.Foto;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.io.File;
 import java.io.Serializable;
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.ApplicationScoped;
@@ -30,6 +31,15 @@ public class FotoCondivisiController implements Serializable{
 	private FotoDao fotoDao;
 	
 	private List<Foto> fotoLs;
+
+	private List<Foto> fotoMostraProdottoLs;
+	private List<Foto> fotoMostraLogoLs;
+	private List<Foto> fotoMostraSchedaLs;
+	private List<Foto> fotoMostraAltroLs;
+	private List<Foto> fotoMostraIndefinitaLs;
+
+	private List<Foto> fotoMostraLeILs;
+	private List<Foto> fotoMostraPeSeAeILs;
 	
 	private List<String> tagUtilizzatiLs;
 
@@ -45,6 +55,46 @@ public class FotoCondivisiController implements Serializable{
 		// log.info("tmpDEBUGtmp: " + "< " + "setFotoLs");
 	}
 	
+	public List<Foto> getFotoMostraProdottoLs(){
+		return fotoMostraProdottoLs;
+	}
+
+	public void setFotoMostraProdottoLs(List<Foto> fotoMostraProdottoLs){
+		this.fotoMostraProdottoLs = fotoMostraProdottoLs;
+	}
+
+	public List<Foto> getFotoMostraLogoLs(){
+		return fotoMostraLogoLs;
+	}
+
+	public void setFotoMostraLogoLs(List<Foto> fotoMostraLogoLs){
+		this.fotoMostraLogoLs = fotoMostraLogoLs;
+	}
+
+	public List<Foto> getFotoMostraSchedaLs(){
+		return fotoMostraSchedaLs;
+	}
+
+	public void setFotoMostraSchedaLs(List<Foto> fotoMostraSchedaLs){
+		this.fotoMostraSchedaLs = fotoMostraSchedaLs;
+	}
+
+	public List<Foto> getFotoMostraAltroLs(){
+		return fotoMostraAltroLs;
+	}
+
+	public void setFotoMostraAltroLs(List<Foto> fotoMostraAltroLs){
+		this.fotoMostraAltroLs = fotoMostraAltroLs;
+	}
+
+	public List<Foto> getFotoMostraIndefinitaLs(){
+		return fotoMostraIndefinitaLs;
+	}
+
+	public void setFotoMostraIndefinitaLs(List<Foto> fotoMostraIndefinitaLs){
+		this.fotoMostraIndefinitaLs = fotoMostraIndefinitaLs;
+	}	
+	
 	public List<String> getTagUtilizzatiLs(){
 		return tagUtilizzatiLs;
 	}
@@ -53,12 +103,44 @@ public class FotoCondivisiController implements Serializable{
 		this.tagUtilizzatiLs = tagUtilizzatiLs;
 	}
  
+	public List<Foto> getFotoMostraLeILs(){
+		return fotoMostraLeILs;
+	}
+
+	public void setFotoMostraLeILs(List<Foto> fotoMostraLeILs){
+		this.fotoMostraLeILs = fotoMostraLeILs;
+	}
+
+	public List<Foto> getFotoMostraPeSeAeILs(){
+		return fotoMostraPeSeAeILs;
+	}
+
+	public void setFotoMostraPeSeAeILs(List<Foto> fotoMostraPeSeAeILs){
+		this.fotoMostraPeSeAeILs = fotoMostraPeSeAeILs;
+	}
+	
 	@PostConstruct
 	public void aggiornaFotoLs(){
 		// log.info("tmpDEBUGtmp: " + "> " + "aggiornaFotoLs(" + ")");
 		fotoLs = fotoDao.getAll();
 		tagUtilizzatiLs = fotoDao.getTagUtilizzati();
-//		fotoLsEmpty = new ArrayList<Foto>();
+		
+		fotoMostraProdottoLs = fotoDao.getMostraProdotto();
+		fotoMostraLogoLs = fotoDao.getMostraLogo();
+		fotoMostraSchedaLs = fotoDao.getMostraScheda();
+		fotoMostraAltroLs = fotoDao.getMostraAltro();
+		fotoMostraIndefinitaLs = fotoDao.getMostraIndefinito();
+		
+		fotoMostraLeILs = new ArrayList<Foto>();
+		fotoMostraLeILs.addAll(fotoMostraLogoLs);
+		fotoMostraLeILs.addAll(fotoMostraIndefinitaLs);
+		
+		fotoMostraPeSeAeILs = new ArrayList<Foto>();
+		fotoMostraPeSeAeILs.addAll(fotoMostraProdottoLs);
+		fotoMostraPeSeAeILs.addAll(fotoMostraSchedaLs);
+		fotoMostraPeSeAeILs.addAll(fotoMostraAltroLs);
+		fotoMostraPeSeAeILs.addAll(fotoMostraIndefinitaLs);
+
 		// log.info("tmpDEBUGtmp: " + "< " + "aggiornaFotoLs");
 	}
 	
@@ -103,5 +185,4 @@ public class FotoCondivisiController implements Serializable{
 		}
 		return 0;
 	}
-
 }

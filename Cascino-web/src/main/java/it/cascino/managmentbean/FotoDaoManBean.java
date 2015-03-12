@@ -80,6 +80,111 @@ public class FotoDaoManBean implements FotoDao, Serializable{
 		return foto;
 	}
 	
+	@SuppressWarnings("unchecked")
+	public List<Foto> getMostraProdotto(){
+		// log.info("tmpDEBUGtmp: " + "> " + "getMostraProdotto(" + ")");
+		List<Foto> foto = null;
+		try{
+			try{
+				utx.begin();
+				Query query = entityManager.createNamedQuery("Foto.findMostra");
+				query.setParameter("cosa_mostra", "P");
+				foto = (List<Foto>)query.getResultList();
+			}catch(NoResultException e){
+				foto = null;
+			}
+			utx.commit();
+		}catch(Exception e){
+			Utility.manageException(e, utx, log);
+		}
+		// log.info("tmpDEBUGtmp: " + "< " + "getMostraProdotto");
+		return foto;
+	}
+	
+	@SuppressWarnings("unchecked")
+	public List<Foto> getMostraLogo(){
+		// log.info("tmpDEBUGtmp: " + "> " + "getMostraLogo(" + ")");
+		List<Foto> foto = null;
+		try{
+			try{
+				utx.begin();
+				Query query = entityManager.createNamedQuery("Foto.findMostra");
+				query.setParameter("cosa_mostra", "L");
+				foto = (List<Foto>)query.getResultList();
+			}catch(NoResultException e){
+				foto = null;
+			}
+			utx.commit();
+		}catch(Exception e){
+			Utility.manageException(e, utx, log);
+		}
+		// log.info("tmpDEBUGtmp: " + "< " + "getMostraLogo");
+		return foto;
+	}
+	
+	@SuppressWarnings("unchecked")
+	public List<Foto> getMostraScheda(){
+		// log.info("tmpDEBUGtmp: " + "> " + "getMostraScheda(" + ")");
+		List<Foto> foto = null;
+		try{
+			try{
+				utx.begin();
+				Query query = entityManager.createNamedQuery("Foto.findMostra");
+				query.setParameter("cosa_mostra", "S");
+				foto = (List<Foto>)query.getResultList();
+			}catch(NoResultException e){
+				foto = null;
+			}
+			utx.commit();
+		}catch(Exception e){
+			Utility.manageException(e, utx, log);
+		}
+		// log.info("tmpDEBUGtmp: " + "< " + "getMostraScheda");
+		return foto;
+	}
+	
+	@SuppressWarnings("unchecked")
+	public List<Foto> getMostraAltro(){
+		// log.info("tmpDEBUGtmp: " + "> " + "getMostraAltro(" + ")");
+		List<Foto> foto = null;
+		try{
+			try{
+				utx.begin();
+				Query query = entityManager.createNamedQuery("Foto.findMostra");
+				query.setParameter("cosa_mostra", "A");
+				foto = (List<Foto>)query.getResultList();
+			}catch(NoResultException e){
+				foto = null;
+			}
+			utx.commit();
+		}catch(Exception e){
+			Utility.manageException(e, utx, log);
+		}
+		// log.info("tmpDEBUGtmp: " + "< " + "getMostraAltro");
+		return foto;
+	}
+
+	@SuppressWarnings("unchecked")
+	public List<Foto> getMostraIndefinito(){
+		// log.info("tmpDEBUGtmp: " + "> " + "getMostraIndefinito(" + ")");
+		List<Foto> foto = null;
+		try{
+			try{
+				utx.begin();
+				Query query = entityManager.createNamedQuery("Foto.findMostra");
+				query.setParameter("cosa_mostra", "I");
+				foto = (List<Foto>)query.getResultList();
+			}catch(NoResultException e){
+				foto = null;
+			}
+			utx.commit();
+		}catch(Exception e){
+			Utility.manageException(e, utx, log);
+		}
+		// log.info("tmpDEBUGtmp: " + "< " + "getMostraIndefinito");
+		return foto;
+	}
+
 	public String getDirFoto(){
 		// log.info("tmpDEBUGtmp: " + "> " + "getDirFoto(" + ")");
 		// log.info("tmpDEBUGtmp: " + "< " + "getDirFoto");
@@ -276,8 +381,19 @@ public class FotoDaoManBean implements FotoDao, Serializable{
 				utx.begin();
 				log.info("salva: " + foto.getId() + ", " + foto.getPath() + ", " + foto.getOriginale());
 				foto.setId(null);
+				if((foto.getColore() == null) || StringUtils.isEmpty(foto.getColore())){
+					foto.setColore("ind;ind");
+				}else{
+					foto.setColore(StringUtils.replace(foto.getColore(), "null", "ind"));
+				}
+				if((foto.getForma() == null) || StringUtils.isEmpty(foto.getForma())){
+					foto.setForma("ind");
+				}
+				if((foto.getCosaMostra() == null) || StringUtils.isEmpty(foto.getCosaMostra())){
+					foto.setCosaMostra("I");
+				}
 				entityManager.persist(foto);
-			}finally{
+				}finally{
 				utx.commit();
 			}
 		}catch(Exception e){
@@ -435,6 +551,17 @@ public class FotoDaoManBean implements FotoDao, Serializable{
 			try{
 				utx.begin();
 				log.info("aggiorna: " + foto.getId() + ", " + foto.getPath() + ", " + foto.getOriginale());
+				if((foto.getColore() == null) || StringUtils.isEmpty(foto.getColore())){
+					foto.setColore("ind;ind");
+				}else{
+					foto.setColore(StringUtils.replace(foto.getColore(), "null", "ind"));
+				}
+				if((foto.getForma() == null) || StringUtils.isEmpty(foto.getForma())){
+					foto.setForma("ind");
+				}
+				if((foto.getCosaMostra() == null) || StringUtils.isEmpty(foto.getCosaMostra())){
+					foto.setCosaMostra("I");
+				}
 				entityManager.merge(foto);
 			}finally{
 				utx.commit();

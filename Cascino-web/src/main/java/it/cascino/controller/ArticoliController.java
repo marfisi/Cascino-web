@@ -240,6 +240,9 @@ public class ArticoliController implements Serializable{
 		fotoController.svuotaFotoLsDynPop();
 		// svuotaFotoPLsource();
 		
+		if(articoloSel.getDescrizioneAs400() == null){
+			articoloSel.setDescrizioneAs400("da ereditare da AS400");
+		}
 		// articoliDao.salva(articoloSel, fotoPickList.getTarget());
 		articoliDao.salva(articoloSel, fotoPerArticolo);
 		if(articoloSel != null){

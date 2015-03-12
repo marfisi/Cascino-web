@@ -28,6 +28,7 @@ public class NavigationController implements Serializable{
 	private Boolean showHome = true;
 	private Boolean showTipiToFoto = false;
 	private Boolean showFotoToTipi = false;
+	private Boolean showProduttoriToArticoli = false;
 	private String navigationRuleAction = "daNessunaParte";
 	
 	public Boolean getShowHome(){
@@ -64,6 +65,14 @@ public class NavigationController implements Serializable{
 		// log.info("tmpDEBUGtmp: " + "> " + "setShowFotoToTipi(" + showFotoToTipi + ")");
 		this.showFotoToTipi = showFotoToTipi;
 		// log.info("tmpDEBUGtmp: " + "< " + "setShowFotoToTipi");
+	}
+	
+	public Boolean getShowProduttoriToArticoli(){
+		return showProduttoriToArticoli;
+	}
+	
+	public void setShowProduttoriToArticoli(Boolean showProduttoriToArticoli){
+		this.showProduttoriToArticoli = showProduttoriToArticoli;
 	}
 	
 	public String tipiToFoto(){
