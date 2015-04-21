@@ -59,13 +59,10 @@ public class ProduttoriDaoManBean implements ProduttoriDao, Serializable{
 		try{
 			try{
 				utx.begin();
-				log.info("transaction:" + " " + utx.getStatus());
 				produttore.setId(null);
 				log.info("salva: " + produttore.getId() + ", " + produttore.getNome() + ", " + produttore.getDati() + ", " + produttore.getIdFoto());
 				entityManager.persist(produttore);
-				log.info("transaction:" + " " + utx.getStatus());
 			}finally{
-				log.info("transaction:" + " " + utx.getStatus());
 				utx.commit();
 			}
 		}catch(Exception e){
@@ -79,12 +76,9 @@ public class ProduttoriDaoManBean implements ProduttoriDao, Serializable{
 		try{
 			try{
 				utx.begin();
-				log.info("transaction:" + " " + utx.getStatus());
 				log.info("aggiorna: " + produttore.getId() + ", " + produttore.getNome() + ", " + produttore.getDati() + ", " + produttore.getIdFoto());
 				entityManager.merge(produttore);
-				log.info("transaction:" + " " + utx.getStatus());
 			}finally{
-				log.info("transaction:" + " " + utx.getStatus());
 				utx.commit();
 			}
 		}catch(Exception e){
@@ -101,9 +95,7 @@ public class ProduttoriDaoManBean implements ProduttoriDao, Serializable{
 				Produttori produttore = entityManager.find(Produttori.class, produttoreElimina.getId());
 				log.info("elimina: " + produttore.getId() + ", " + produttore.getNome() + ", " + produttore.getDati() + ", " + produttore.getIdFoto());
 				entityManager.remove(produttore);
-				log.info("transaction:" + " " + utx.getStatus());
 			}finally{
-				log.info("transaction:" + " " + utx.getStatus());
 				utx.commit();
 			}
 		}catch(Exception e){

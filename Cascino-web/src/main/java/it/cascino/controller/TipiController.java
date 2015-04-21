@@ -1,11 +1,11 @@
 package it.cascino.controller;
 
 import it.cascino.dao.TipiDao;
-import it.cascino.model.Articoli;
+//import it.cascino.model.Articoli;
 import it.cascino.model.Tipi;
 import java.io.Serializable;
 import java.util.Iterator;
-import java.util.List;
+//import java.util.List;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
@@ -51,7 +51,7 @@ public class TipiController implements Serializable{
 		if(nodoSel == null){
 			Tipi t = new Tipi();
 			t.setId(1);
-			nodoSel = new DefaultTreeNode(t);
+			nodoSel = (TreeNode)new DefaultTreeNode(t, null);
 		}
 		// log.info("tmpDEBUGtmp: " + "< " + "getNodoSel");
 		return nodoSel;
@@ -68,7 +68,7 @@ public class TipiController implements Serializable{
 	public void resetOnNewNodoSel(){
 		Tipi t = new Tipi();
 		t.setId(1);
-		nodoSel = new DefaultTreeNode(t);
+		nodoSel = (TreeNode)new DefaultTreeNode(t, null);
 	}
 	
 //	public void salva(Integer idFoto){

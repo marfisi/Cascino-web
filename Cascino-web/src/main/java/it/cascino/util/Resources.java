@@ -31,7 +31,7 @@ import org.jboss.logging.Logger;
 public class Resources{
 	
 	// use @SuppressWarnings to tell IDE to ignore warnings about field not being referenced directly
-	@SuppressWarnings("unused")
+//	@SuppressWarnings("unused")
 	@Produces
 	@PersistenceContext
 	private EntityManager em;

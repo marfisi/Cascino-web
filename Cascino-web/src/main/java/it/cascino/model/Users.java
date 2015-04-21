@@ -6,7 +6,6 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import org.jboss.logging.Logger;
 import java.sql.Timestamp;
-import java.util.List;
 
 /**
  * The persistent class for the users database table.
@@ -37,7 +36,7 @@ public class Users implements Serializable{
 	private String stato;
 	private Timestamp updtime;
 	
-//	private List<Usersroles> roles;
+	// private List<Usersroles> roles;
 	
 	public Users(){
 	}
@@ -83,34 +82,33 @@ public class Users implements Serializable{
 		this.password = password;
 	}
 	
-
 	@NotNull
 	public String getNome(){
 		return nome;
 	}
-
+	
 	public void setNome(String nome){
 		this.nome = nome;
 	}
-
+	
 	@NotNull
 	public String getCognome(){
 		return cognome;
 	}
-
+	
 	public void setCognome(String cognome){
 		this.cognome = cognome;
 	}
-
+	
 	@NotNull
 	public String getStato(){
 		return stato;
 	}
-
+	
 	public void setStato(String stato){
 		this.stato = stato;
 	}
-
+	
 	@Transient
 	@Temporal(TemporalType.TIMESTAMP)
 	public Timestamp getUpdtime(){
@@ -121,15 +119,15 @@ public class Users implements Serializable{
 		this.updtime = updtime;
 	}
 	
-//	@OneToMany
-//	@JoinColumn(name="user", referencedColumnName="id")
-//	public List<Usersroles> getRoles(){
-//		return roles;
-//	}
-//
-//	public void setRoles(List<Usersroles> roles){
-//		this.roles = roles;
-//	}
+	// @OneToMany
+	// @JoinColumn(name="user", referencedColumnName="id")
+	// public List<Usersroles> getRoles(){
+	// return roles;
+	// }
+	//
+	// public void setRoles(List<Usersroles> roles){
+	// this.roles = roles;
+	// }
 	
 	@Override
 	public String toString(){

@@ -393,7 +393,7 @@ public class FotoDaoManBean implements FotoDao, Serializable{
 					foto.setCosaMostra("I");
 				}
 				entityManager.persist(foto);
-				}finally{
+			}finally{
 				utx.commit();
 			}
 		}catch(Exception e){
@@ -994,6 +994,7 @@ public class FotoDaoManBean implements FotoDao, Serializable{
 	// return foto;
 	// }
 	
+	@SuppressWarnings("unchecked")
 	public List<String> getTagUtilizzati(){
 		List<String> tag = null;
 		try{
@@ -1013,7 +1014,7 @@ public class FotoDaoManBean implements FotoDao, Serializable{
 		}
 		
 		// devo creare la lista, con lo split per rigo e eliminando le ripetizioni
-		HashSet hs = new HashSet();
+		HashSet<String> hs = new HashSet<String>();
 		if(tag != null){
 			// devo dividere i tag
 			Iterator<String> iterTag = tag.iterator();
@@ -1042,15 +1043,6 @@ public class FotoDaoManBean implements FotoDao, Serializable{
 		try{
 			try{
 				utx.begin();
-				// String sql = "select * from foto " +
-				// "where id = (select foto " +
-				// "from (select row_number() OVER (ORDER BY foto) AS rownum, foto " +
-				// "from articoli_foto af join articoli a on af.articolo = a.id " +
-				// "where articolo = :id " +
-				// "order by ordinamento, af.updtime) as sub " +
-				// "where rownum = 1)";
-				// String sql = "FROM Foto f Where f.id = :id";
-				// Query query = entityManager.createQuery(sql);
 				Query query = entityManager.createNamedQuery("Foto.findById", Foto.class);
 				query.setParameter("id", idFoto);
 				foto = (Foto)query.getSingleResult();
@@ -1120,6 +1112,7 @@ public class FotoDaoManBean implements FotoDao, Serializable{
 		return foto;
 	}
 	
+	@SuppressWarnings("unchecked")
 	public List<Integer> getTipoLsDaIdFoto(Integer idFoto){
 		List<Integer> idTipiLs = null;
 		try{
@@ -1266,19 +1259,6 @@ public class FotoDaoManBean implements FotoDao, Serializable{
 		try{
 			try{
 				utx.begin();
-				// String sql = "select * " + // solo la prima
-				// "from foto " +
-				// "where id = ( " +
-				// "select selordrow.foto " +
-				// "from ( " +
-				// "select row_number() OVER () AS rownum, selord.foto  " +
-				// "from (select foto " +
-				// "from articoli_foto af join articoli a on af.articolo = a.id " +
-				// "where articolo = :id " +
-				// "order by ordinamento, af.updtime desc) as selord " +
-				// ") as selordrow " +
-				// "where selordrow.rownum = 1 " +
-				// ")";
 				String sql = "select f.* " +
 				"from ( " +
 				"select row_number() OVER () AS rownum, selord.foto  " +

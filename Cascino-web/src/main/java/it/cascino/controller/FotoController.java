@@ -1,16 +1,13 @@
 package it.cascino.controller;
 
 import it.cascino.dao.FotoDao;
-import it.cascino.model.Articoli;
 import it.cascino.model.Foto;
-import it.cascino.model.Tipi;
 import it.cascino.util.securety.shiro.ShiroSecured;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
-import java.io.File;
 import java.io.Serializable;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
@@ -18,12 +15,9 @@ import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.poi.util.StringUtil;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
-import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.jboss.logging.Logger;
 import org.primefaces.event.FileUploadEvent;
-import org.primefaces.model.DefaultTreeNode;
 import org.primefaces.model.UploadedFile;
 
 @Named
@@ -712,6 +706,14 @@ public class FotoController implements Serializable{
 		this.tagDaAggiungere = tagDaAggiungere;
 	}
 	
+	public String getTagDaEliminare(){
+		return tagDaEliminare;
+	}
+	
+	public void setTagDaEliminare(String tagDaEliminare){
+		this.tagDaEliminare = tagDaEliminare;
+	}
+	
 	public void aggiungiTagAllaFoto(){
 		if(!(StringUtils.isEmpty(tagDaAggiungere))){
 			tagFotoSelLs.add(tagDaAggiungere);
@@ -725,15 +727,7 @@ public class FotoController implements Serializable{
 		tagDaAggiungere = "";
 		log.info("tmpDEBUGtmp: " + "< " + "aggiungiTagAllaFoto");
 	}
-	
-	public String getTagDaEliminare(){
-		return tagDaEliminare;
-	}
-	
-	public void setTagDaEliminare(String tagDaEliminare){
-		this.tagDaEliminare = tagDaEliminare;
-	}
-	
+
 	public void rimuoviTagAllaFoto(){
 		if(!(StringUtils.isEmpty(tagDaEliminare))){
 			tagFotoSelLs.remove(tagDaEliminare);

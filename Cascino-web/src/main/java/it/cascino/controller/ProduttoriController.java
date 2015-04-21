@@ -1,7 +1,7 @@
 package it.cascino.controller;
 
 import it.cascino.dao.ProduttoriDao;
-import it.cascino.model.Articoli;
+//import it.cascino.model.Articoli;
 import it.cascino.model.Produttori;
 import java.util.List;
 import java.io.Serializable;

@@ -14,8 +14,8 @@ import java.sql.Timestamp;
 @NamedQueries({
 		@NamedQuery(name = "ArticoliFoto.findAll", query = "SELECT a FROM articoli_foto a"),
 		@NamedQuery(name = "ArticoliFoto.findById", query = "SELECT a FROM articoli_foto a WHERE a.id = :id"),
-		@NamedQuery(name = "ArticoliFoto.findByIDArtIdFoto", query = "SELECT a FROM articoli_foto a WHERE a.articolo = :idArt and a.foto = :idFoto"),
-		@NamedQuery(name = "ArticoliFoto.findByIDArtIdFotoOrd", query = "SELECT a FROM articoli_foto a WHERE a.articolo = :idArt and a.foto = :idFoto and a.ordinamento = :ord")
+		@NamedQuery(name = "ArticoliFoto.findByIdArtIdFoto", query = "SELECT a FROM articoli_foto a WHERE a.articolo = :idArt and a.foto = :idFoto"),
+		@NamedQuery(name = "ArticoliFoto.findByIdArtIdFotoOrd", query = "SELECT a FROM articoli_foto a WHERE a.articolo = :idArt and a.foto = :idFoto and a.ordinamento = :ord")
 })
 public class ArticoliFoto implements Serializable{
 	private static final long serialVersionUID = 1L;

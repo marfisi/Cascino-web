@@ -6,7 +6,6 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import org.jboss.logging.Logger;
 import java.sql.Timestamp;
-import java.util.List;
 
 /**
  * The persistent class for the usersroles database table.
@@ -17,7 +16,7 @@ import java.util.List;
 		@NamedQuery(name = "Usersroles.findAll", query = "SELECT ur FROM Usersroles ur"),
 		@NamedQuery(name = "Usersroles.findById", query = "SELECT ur FROM Usersroles ur WHERE ur.id = :id"),
 		@NamedQuery(name = "Usersroles.findByUserId", query = "SELECT ur FROM Usersroles ur WHERE ur.idUser = :userid")/*,
-		@NamedQuery(name = "Usersroles.findByUserName", query = "SELECT ur FROM Usersroles ur WHERE ur.idUser in (SELECT u FROM Users u WHERE u.login = :username)")*/
+@NamedQuery(name = "Usersroles.findByUserName", query = "SELECT ur FROM Usersroles ur WHERE ur.idUser in (SELECT u FROM Users u WHERE u.login = :username)")*/
 })
 public class Usersroles implements Serializable{
 	private static final long serialVersionUID = 1L;
@@ -32,7 +31,7 @@ public class Usersroles implements Serializable{
 	private Integer idUser;
 	private Integer idRole;
 	private Timestamp updtime;
-
+	
 	public Usersroles(){
 	}
 	
@@ -73,7 +72,7 @@ public class Usersroles implements Serializable{
 	
 	public void setIdRole(Integer idRole){
 		this.idRole = idRole;
-	}	
+	}
 	
 	@Transient
 	@Temporal(TemporalType.TIMESTAMP)
@@ -85,16 +84,16 @@ public class Usersroles implements Serializable{
 		this.updtime = updtime;
 	}
 	
-//	@OneToMany
-//	@JoinColumn(name="role", referencedColumnName="id")
-//	public List<Userspermissions> getPermissions(){
-//		return permissions;
-//	}
-//
-//	public void setPermissions(List<Userspermissions> permissions){
-//		this.permissions = permissions;
-//	}
-
+	// @OneToMany
+	// @JoinColumn(name="role", referencedColumnName="id")
+	// public List<Userspermissions> getPermissions(){
+	// return permissions;
+	// }
+	//
+	// public void setPermissions(List<Userspermissions> permissions){
+	// this.permissions = permissions;
+	// }
+	
 	@Override
 	public String toString(){
 		if(log != null){

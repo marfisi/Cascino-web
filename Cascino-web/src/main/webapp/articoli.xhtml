@@ -36,7 +36,7 @@
 					<h:link value="login" outcome="login" />
 				</p:tab>
 			</p:accordionPanel>
-			
+
 			<h:form id="tblForm">
 				<p:toolbar id="tb">
 					<p:toolbarGroup align="left">
@@ -223,7 +223,7 @@
 											<f:facet name="header">
 												<p:graphicImage value="#{fotoController.resolvePath(foto)}#{fotoController.getFotonameUrl(foto, 1)}" alt="#{foto.originale}" title="#{foto.originale}" height="#{fotoController.getHeightFromResolution(foto, 1, 300, 440)}" />
 											</f:facet>
-				
+
 											<h:outputText id="name" value="#{foto.originale}" />
 											<h:outputText id="size-resolution" value="#{fotoController.size(foto, 1)} - #{fotoController.resolution(foto, 1)}" />
 										</h:panelGrid>
@@ -259,116 +259,308 @@
 					<p:outputPanel id="newDisplay">
 						<p:toolbar>
 							<p:toolbarGroup align="left">
-									<p:commandButton value="Annulla" action="#{fotoController.svuotaFotoLsDynPop()}" update=":tblForm:tbl" onclick="PF('newDialog').close()" icon="ui-icon-cancel" />
+								<p:commandButton value="Annulla" action="#{fotoController.svuotaFotoLsDynPop()}" update=":tblForm:tbl" onclick="PF('newDialog').close()" icon="ui-icon-cancel" />
 							</p:toolbarGroup>
 							<p:toolbarGroup align="left">
 								<p:commandButton value="Salva" action="#{articoliController.salva}" update=":tblForm:tbl,:growlForm:growl" onclick="PF('newDialog').close()" icon="ui-icon-disk" />
 							</p:toolbarGroup>
 						</p:toolbar>
-						<p:panelGrid columns="6" styleClass="newPanel">
-							<h:outputText value="ID" />
-							<h:outputText value="#{articoliController.articoloSel.id}" />
-							<h:outputText value="Codice" />
-							<p:autoComplete id="codiceAutoCompl" minQueryLength="3" value="#{articoliController.articoloSel.codice}" completeMethod="#{articoliController.articoliAutoCompleteLs}" effect="fade" />
-							<h:outputText value="Nome" />
-							<p:inputText value="#{articoliController.articoloSel.nome}"  maxlength="100" />
-							<h:outputText value="Marca" />
-							<p:column>
-								<p:selectOneMenu id="menuSelProd" value="#{articoliController.articoloSel.produttore}" var="p" filter="true" filterMatchMode="contains">
-									<f:selectItem itemLabel="Seleziona Marca" itemValue="" />
-									<f:selectItems value="#{produttoriCondivisiController.produttoriLs}" var="produttore" itemLabel="#{produttore.nome} (id: #{produttore.id})" itemValue="#{produttore.id}" />
-									<p:column>
-										<p:graphicImage value="#{fotoController.resolvePath(fotoController.getFotoProduttoreDaIdProduttore(p))}#{fotoController.getFotonameUrl(fotoController.getFotoProduttoreDaIdProduttore(p), 1)}" height="#{fotoController.getHeightFromResolution(fotoController.getFotoProduttoreDaIdProduttore(p), 1, 40, 60)}" />
-									</p:column>
-									<p:column>
-										<h:outputText value="#{produttoriController.getProduttoreDaIdProduttore(p).nome} (id: #{p})" />
-									</p:column>
-								</p:selectOneMenu>
-								<p:commandButton id="toProduttoriButton" value="Aggiungi Produttore" action="#{navigationController.articoliToProduttori()}" icon="ui-icon-circle-plus" />
-							</p:column>
-							<h:outputText value="Modello" />
-							<p:inputText value="#{articoliController.articoloSel.modello}" maxlength="50" />
-							<h:outputText value="Descrizione AS400" />
-							<h:outputText value="#{articoliController.articoloSel.descrizioneAs400}" />
-							<h:outputText value="Descrizione" />
-							<p:column>
-								<p:inputTextarea value="#{articoliController.articoloSel.descrizione}" rows="5" cols="23" counter="counter" maxlength="200" counterTemplate="{0} caratteri" autoResize="false" />
-								<h:outputText id="counter" />
-							</p:column>
-							<h:outputText value="Tipo" />
-							<p:column>
-								<p:selectOneMenu id="menuSelTipo" value="#{articoliController.articoloSel.tipo}" var="t" filter="true" filterMatchMode="contains" style="max-width: 220px;">
-									<f:selectItem itemLabel="Seleziona Classe" itemValue="" />
-									<f:selectItems value="#{tipiCondivisiController.tipiLs}" var="tipo" itemLabel="#{tipo.nome} (id: #{tipo.id})" itemValue="#{tipo.id}" />
-									<p:column>
-										<p:graphicImage value="#{fotoController.resolvePath(fotoController.getFotoTipoDaIdTipo(t))}#{fotoController.getFotonameUrl(fotoController.getFotoTipoDaIdTipo(t), 1)}" height="#{fotoController.getHeightFromResolution(fotoController.getFotoTipoDaIdTipo(t), 1, 40, 60)}" />
-									</p:column>
-									<p:column>
-										<h:outputText value="#{tipiController.getTipoDaIdTipo(t).nome} - #{tipiController.getTipoDaIdTipo(t).descrizione} (id: #{t})" />
-									</p:column>
-								</p:selectOneMenu>
-								<p:commandButton id="toTipiButton" value="Aggiungi Tipo" action="#{navigationController.articoliToTipi()}" icon="ui-icon-circle-plus" />
-							</p:column>
-							<h:outputText value="Foto" />
-							<p:column>
-								<p:panelGrid columns="4">
-									<f:facet name="header">
-										<h:outputText value="Foto" />
-									</f:facet>
-
-									<p:column>
-										<p:commandButton value="Carica foto" action="#{fotoController.popolaFotoLsDynPop()}" update=":newForm:fotoMenuDisplay" icon="ui-icon-newwin" />
-										<p:outputPanel id="fotoMenuDisplay">
-											<p:dataTable id="fotoDataTable" var="f" value="#{fotoController.fotoLsDynPop}" selection="#{fotoController.fotoSel}" selectionMode="single" rowKey="#{f.id}" paginator="true" rows="7" dynamic="true" sortBy="#{f.id}" emptyMessage="Nessun entry per il criterio definito" widgetVar="fotoTable" filteredValue="#{fotoController.filteredFotoLs}">
-												<f:facet name="sourceCaption">Disponibili</f:facet>
-												<p:column>
-													<f:facet name="header">
-														<h:outputText value="Foto" />
-													</f:facet>
-													<p:graphicImage value="#{fotoController.resolvePath(f)}#{fotoController.getFotonameUrl(f, 1)}" height="#{fotoController.getHeightFromResolution(f, 1, 40, 60)}" />
-												</p:column>
-												<p:column sortBy="originale" sortFunction="#{fotoController.sortByStr}" filterBy="#{f.originale} #{f.id}" filterMatchMode="contains">
-													<f:facet name="header">
-														<h:outputText value="Nome (id)" />
-													</f:facet>
-													<h:outputText value="#{f.originale} (id: #{f.id})" />
-												</p:column>
-											</p:dataTable>
-										</p:outputPanel>
-										<p:commandButton id="toFotoButton" value="Aggiungi Foto" action="#{navigationController.articoliToFoto()}" icon="ui-icon-circle-plus" />
-									</p:column>
-									<p:column>
-										<p:commandButton id="aggiungiFotoArticoloButton" actionListener="#{articoliController.onAggiungiFotoArticoloButton}" update=":newForm:fotoArticoloMenuDisplay" title="Aggiungi Foto" icon="ui-icon-arrowthick-1-e" />
-									</p:column>
-									<p:column>
-										<p:commandButton id="rimuoviFotoArticoloButton" actionListener="#{articoliController.onRimuoviFotoArticoloButton}" update=":newForm:fotoArticoloMenuDisplay" title="Rimuovi Foto" icon="ui-icon-arrowthick-1-w" />
-										<p:separator />
-										<p:commandButton id="alzaFotoArticoloButton" actionListener="#{articoliController.onAlzaFotoArticoloButton}" update=":newForm:fotoArticoloMenuDisplay" title="Alza" icon="ui-icon-arrowthick-1-n" />
-										<p:commandButton id="abbassaFotoArticoloButton" actionListener="#{articoliController.onAbbassaFotoArticoloButton}" update=":newForm:fotoArticoloMenuDisplay" title="Abbassa" icon="ui-icon-arrowthick-1-s" />
-									</p:column>
-									<p:column>
-										<p:outputPanel id="fotoArticoloMenuDisplay">
-											<p:dataTable id="fotoArticoloDataTable" var="f" value="#{articoliController.fotoPerArticolo}" selection="#{articoliController.fotoPerArticoloSel}" selectionMode="single" rowKey="#{f.id}" paginator="true" rows="7" dynamic="true" style="min-width: 130px;">
-												<f:facet name="sourceCaption">Selezionate</f:facet>
-												<p:column>
-													<f:facet name="header">
-														<h:outputText value="Foto" />
-													</f:facet>
-													<p:graphicImage value="#{fotoController.resolvePath(f)}#{fotoController.getFotonameUrl(f, 1)}" height="#{fotoController.getHeightFromResolution(f, 1, 40, 60)}" />
-												</p:column>
-												<p:column>
-													<f:facet name="header">
-														<h:outputText value="Nome (id)" />
-													</f:facet>
-													<h:outputText value="#{f.originale} (id: #{f.id})" />
-												</p:column>
-											</p:dataTable>
-										</p:outputPanel>
-									</p:column>
-								</p:panelGrid>
-							</p:column>
-						</p:panelGrid>
 					</p:outputPanel>
+					<p:tabView id="newTab">
+						<p:tab title="Info">
+							<p:panelGrid columns="6" styleClass="newPanel" id="newDisplayTab1">
+								<h:outputText value="ID" />
+								<h:outputText value="#{articoliController.articoloSel.id}" />
+								<h:outputText value="Codice" />
+								<p:autoComplete id="codiceAutoCompl" minQueryLength="3" value="#{articoliController.articoloSel.codice}" completeMethod="#{articoliController.articoliAutoCompleteLs}" effect="fade" />
+								<h:outputText value="Nome" />
+								<p:inputText value="#{articoliController.articoloSel.nome}" maxlength="100" />
+								<h:outputText value="Marca" />
+								<p:column>
+									<p:selectOneMenu id="menuSelProd" value="#{articoliController.articoloSel.produttore}" var="p" filter="true" filterMatchMode="contains">
+										<f:selectItem itemLabel="Seleziona Marca" itemValue="" />
+										<f:selectItems value="#{produttoriCondivisiController.produttoriLs}" var="produttore" itemLabel="#{produttore.nome} (id: #{produttore.id})" itemValue="#{produttore.id}" />
+										<p:column>
+											<p:graphicImage value="#{fotoController.resolvePath(fotoController.getFotoProduttoreDaIdProduttore(p))}#{fotoController.getFotonameUrl(fotoController.getFotoProduttoreDaIdProduttore(p), 1)}" height="#{fotoController.getHeightFromResolution(fotoController.getFotoProduttoreDaIdProduttore(p), 1, 40, 60)}" />
+										</p:column>
+										<p:column>
+											<h:outputText value="#{produttoriController.getProduttoreDaIdProduttore(p).nome} (id: #{p})" />
+										</p:column>
+									</p:selectOneMenu>
+									<p:commandButton id="toProduttoriButton" value="Aggiungi Produttore" action="#{navigationController.articoliToProduttori()}" icon="ui-icon-circle-plus" />
+								</p:column>
+								<h:outputText value="Modello" />
+								<p:inputText value="#{articoliController.articoloSel.modello}" maxlength="50" />
+								<h:outputText value="Descrizione AS400" />
+								<h:outputText value="#{articoliController.articoloSel.descrizioneAs400}" />
+								<h:outputText value="Descrizione" />
+								<p:column>
+									<p:inputTextarea value="#{articoliController.articoloSel.descrizione}" rows="5" cols="23" counter="counter" maxlength="200" counterTemplate="{0} caratteri" autoResize="false" />
+									<h:outputText id="counter" />
+								</p:column>
+								<h:outputText value="Tipo" />
+								<p:column>
+									<p:selectOneMenu id="menuSelTipo" value="#{articoliController.articoloSel.tipo}" var="t" filter="true" filterMatchMode="contains" style="max-width: 220px;">
+										<p:ajax update=":newForm:newTab:caratteristicheArticoliStessoTipoDataTable" />
+										<f:selectItem itemLabel="Seleziona Classe" itemValue="" />
+										<f:selectItems value="#{tipiCondivisiController.tipiLs}" var="tipo" itemLabel="#{tipo.nome} (id: #{tipo.id})" itemValue="#{tipo.id}" />
+										<p:column>
+											<p:graphicImage value="#{fotoController.resolvePath(fotoController.getFotoTipoDaIdTipo(t))}#{fotoController.getFotonameUrl(fotoController.getFotoTipoDaIdTipo(t), 1)}" height="#{fotoController.getHeightFromResolution(fotoController.getFotoTipoDaIdTipo(t), 1, 40, 60)}" />
+										</p:column>
+										<p:column>
+											<h:outputText value="#{tipiController.getTipoDaIdTipo(t).nome} - #{tipiController.getTipoDaIdTipo(t).descrizione} (id: #{t})" />
+										</p:column>
+									</p:selectOneMenu>
+									<p:commandButton id="toTipiButton" value="Aggiungi Tipo" action="#{navigationController.articoliToTipi()}" icon="ui-icon-circle-plus" />
+								</p:column>
+							</p:panelGrid>
+						</p:tab>
+						<p:tab title="Foto">
+							<p:panelGrid columns="4">
+								<f:facet name="header">
+									<h:outputText value="Foto" />
+								</f:facet>
+								<p:column>
+									<p:commandButton value="Carica foto" action="#{fotoController.popolaFotoLsDynPop()}" update=":newForm:newTab:fotoDataTable" icon="ui-icon-newwin" />
+									<p:outputPanel id="fotoMenuDisplay">
+										<p:dataTable id="fotoDataTable" var="f" value="#{fotoController.fotoLsDynPop}" selection="#{fotoController.fotoSel}" selectionMode="single" rowKey="#{f.id}" paginator="true" rows="7" dynamic="true" sortBy="#{f.id}" emptyMessage="Nessun entry per il criterio definito" widgetVar="fotoTable" filteredValue="#{fotoController.filteredFotoLs}">
+											<f:facet name="sourceCaption">Disponibili</f:facet>
+											<p:column>
+												<f:facet name="header">
+													<h:outputText value="Foto" />
+												</f:facet>
+												<p:graphicImage value="#{fotoController.resolvePath(f)}#{fotoController.getFotonameUrl(f, 1)}" height="#{fotoController.getHeightFromResolution(f, 1, 40, 60)}" />
+											</p:column>
+											<p:column sortBy="originale" sortFunction="#{fotoController.sortByStr}" filterBy="#{f.originale} #{f.id}" filterMatchMode="contains">
+												<f:facet name="header">
+													<h:outputText value="Nome (id)" />
+												</f:facet>
+												<h:outputText value="#{f.originale} (id: #{f.id})" />
+											</p:column>
+										</p:dataTable>
+									</p:outputPanel>
+									<p:commandButton id="toFotoButton" value="Aggiungi Foto" action="#{navigationController.articoliToFoto()}" icon="ui-icon-circle-plus" />
+								</p:column>
+								<p:column>
+									<p:commandButton id="aggiungiFotoArticoloButton" actionListener="#{articoliController.onAggiungiFotoArticoloButton}" update=":newForm:newTab:fotoArticoloDataTable,:newForm:newTab:caratteristicheArticoliSimiliDataTable" title="Aggiungi Foto" icon="ui-icon-arrowthick-1-e" />
+								</p:column>
+								<p:column>
+									<p:commandButton id="rimuoviFotoArticoloButton" actionListener="#{articoliController.onRimuoviFotoArticoloButton}" update=":newForm:newTab:fotoArticoloDataTable" title="Rimuovi Foto" icon="ui-icon-arrowthick-1-w" />
+									<p:separator />
+									<p:commandButton id="alzaFotoArticoloButton" actionListener="#{articoliController.onAlzaFotoArticoloButton}" update=":newForm:newTab:fotoArticoloDataTable" title="Alza" icon="ui-icon-arrowthick-1-n" />
+									<p:commandButton id="abbassaFotoArticoloButton" actionListener="#{articoliController.onAbbassaFotoArticoloButton}" update=":newForm:newTab:fotoArticoloDataTable" title="Abbassa" icon="ui-icon-arrowthick-1-s" />
+								</p:column>
+								<p:column>
+									<p:outputPanel id="fotoArticoloMenuDisplay">
+										<p:dataTable id="fotoArticoloDataTable" var="f" value="#{articoliController.fotoPerArticolo}" selection="#{articoliController.fotoPerArticoloSel}" selectionMode="single" rowKey="#{f.id}" paginator="true" rows="7" dynamic="true" style="min-width: 130px;">
+											<f:facet name="sourceCaption">Selezionate</f:facet>
+											<p:column>
+												<f:facet name="header">
+													<h:outputText value="Foto" />
+												</f:facet>
+												<p:graphicImage value="#{fotoController.resolvePath(f)}#{fotoController.getFotonameUrl(f, 1)}" height="#{fotoController.getHeightFromResolution(f, 1, 40, 60)}" />
+											</p:column>
+											<p:column>
+												<f:facet name="header">
+													<h:outputText value="Nome (id)" />
+												</f:facet>
+												<h:outputText value="#{f.originale} (id: #{f.id})" />
+											</p:column>
+										</p:dataTable>
+									</p:outputPanel>
+								</p:column>
+							</p:panelGrid>
+						</p:tab>
+						<p:tab title="Caratteristiche">
+							<p:panelGrid columns="2" styleClass="newPanel" id="newDisplayTab3">
+								<f:facet name="header">
+									<h:outputText value="Caratteristiche" />
+								</f:facet>
+								<p:column>
+									<h:outputText value="Proposte da fratelli" />
+									<p:dataTable id="caratteristicheArticoliSimiliDataTable" var="c" value="#{caratteristicheController.getCaratteristicheListPerArticoliSimili(articoliController.fotoPerArticolo)}" widgetVar="caratteristicheArticoliSimiliDataTable" rowKey="#{c.id}" paginator="true" rows="15" dynamic="true" style="min-width: 300px;" sortBy="#{c.classe} #{c.unitaMisura} #{c.scala} #{c.valore} #{c.descrizione}">
+										<f:facet name="header">
+											<p:outputPanel>
+												<h:outputText value="Ricerca in tutti i campi: " />
+												<p:inputText id="globalFilter" onkeyup="PF('caratteristicheArticoliSimiliDataTable').filter()" style="width:150px" placeholder="filtro" />
+											</p:outputPanel>
+										</f:facet>
+										<p:column filterBy="#{c.classe} #{c.unitaMisura} #{c.valore} #{c.descrizione}" filterMatchMode="contains" rendered="false" />
+										<p:column>
+											<f:facet name="header">
+												<h:outputText value="Classe" />
+											</f:facet>
+											<h:outputText value="#{c.classe}" />
+										</p:column>
+										<p:column>
+											<f:facet name="header">
+												<h:outputText value="Unità Misura" />
+											</f:facet>
+											<h:outputText value="#{c.unitaMisura}" />
+										</p:column>
+										<p:column>
+											<f:facet name="header">
+												<h:outputText value="Scala" />
+											</f:facet>
+											<h:outputText value="#{c.scala}" />
+										</p:column>
+										<p:column>
+											<f:facet name="header">
+												<h:outputText value="Qty" />
+											</f:facet>
+											<h:outputText value="#{c.qty}" />
+										</p:column>
+										<p:column>
+											<f:facet name="header">
+												<h:outputText value="Valore" />
+											</f:facet>
+											<h:outputText value="#{c.valore}" />
+										</p:column>
+										<p:column>
+											<f:facet name="header">
+												<h:outputText value="descrizione" />
+											</f:facet>
+											<h:outputText value="#{c.descrizione}" />
+										</p:column>
+										<p:column headerText="aggiungi" style="width:30px;text-align: center">
+											<p:commandButton action="#{caratteristicheController.aggiungiCaratteristicaAlloArticolo()}" update=":newForm:newTab:caratteristicheArticoloDataTable,:newForm:newTab:caratteristicheArticoliSimiliDataTable" icon="ui-icon-circle-plus" title="Aggiungi">
+												<f:setPropertyActionListener value="#{c}" target="#{caratteristicheController.caratteristicaDaAggiungere}" />
+											</p:commandButton>
+										</p:column>
+									</p:dataTable>
+									<h:outputText value="Proposte da tipo" />
+									<p:dataTable id="caratteristicheArticoliStessoTipoDataTable" var="c" value="#{caratteristicheController.getCaratteristicheListPerTipo(articoliController.articoloSel.tipo)}" widgetVar="caratteristicheArticoliStessoTipoDataTable" rowKey="#{c.id}" paginator="true" rows="7" dynamic="true">
+										<f:facet name="header">
+											<p:outputPanel>
+												<h:outputText value="Ricerca in tutti i campi: " />
+												<p:inputText id="globalFilter" onkeyup="PF('caratteristicheArticoliStessoTipoDataTable').filter()" style="width:150px" placeholder="filtro" />
+											</p:outputPanel>
+										</f:facet>
+										<p:column filterBy="#{c.classe} #{c.unitaMisura}" filterMatchMode="contains" rendered="false" />
+										<p:column>
+											<f:facet name="header">
+												<h:outputText value="Classe" />
+											</f:facet>
+											<h:outputText value="#{c.classe}" />
+										</p:column>
+										<p:column>
+											<f:facet name="header">
+												<h:outputText value="Unità Misura" />
+											</f:facet>
+											<h:outputText value="#{c.unitaMisura}" />
+										</p:column>
+										<p:column headerText="aggiungi" style="width:30px;text-align: center">
+											<p:commandButton action="#{caratteristicheController.aggiungiCaratteristicaAlloArticolo(true)}" update=":newForm:newTab:caratteristicheArticoloDataTable,:newForm:newTab:caratteristicheArticoliStessoTipoDataTable" icon="ui-icon-circle-plus" title="Aggiungi">
+												<f:setPropertyActionListener value="#{c}" target="#{caratteristicheController.caratteristicaDaAggiungere}" />
+											</p:commandButton>
+										</p:column>
+									</p:dataTable>
+								</p:column>
+								<p:column>
+									<h:outputText value="Caratteristiche Articolo" />
+									<h:panelGrid id="caratteristicheArticoloAggiungereDataTable" columns="7">
+										<h:outputText value="Classe" />
+										<h:outputText value="Unità Misura" />
+										<h:outputText value="Scala" />
+										<h:outputText value="Qty" />
+										<h:outputText value="Valore" />
+										<h:outputText value="Descrizione" />
+										<h:outputText value="" />
+										<p:autoComplete id="classeAutoCompl" minQueryLength="2" value="#{caratteristicheController.caratteristicaSel.classe}" completeMethod="#{caratteristicheController.caratteristicheClasseAutoCompleteLs}" effect="fade"  converter="toLowerCaseConverter" />
+										<p:autoComplete id="unitaMisAutoCompl" minQueryLength="0" value="#{caratteristicheController.caratteristicaSel.unitaMisura}" completeMethod="#{caratteristicheController.caratteristicheUnitaMisuraAutoCompleteLs}" effect="fade" converter="toLowerCaseConverter">
+											<f:attribute name="classeUnitaMisAutoCompl" value="#{caratteristicheController.caratteristicaSel.classe}" />
+										</p:autoComplete>
+										<p:inputText value="#{caratteristicheController.caratteristicaSel.scala}" />
+										<p:inputText value="#{caratteristicheController.caratteristicaSel.qty}" />
+										<p:inputText value="#{caratteristicheController.caratteristicaSel.valore}" maxlength="15" converter="toLowerCaseConverter" />
+										<p:inputText value="#{caratteristicheController.caratteristicaSel.descrizione}" maxlength="30" converter="toLowerCaseConverter" />
+										<p:commandButton action="#{caratteristicheController.aggiungiCaratteristicaAlloArticolo()}" update=":newForm:newTab:caratteristicheArticoloDataTable,:newForm:newTab:caratteristicheArticoloAggiungereDataTable" icon="ui-icon-circle-plus" title="Aggiungi">
+											<f:setPropertyActionListener value="#{caratteristicheController.caratteristicaSel}" target="#{caratteristicheController.caratteristicaDaAggiungere}" />
+										</p:commandButton>
+									</h:panelGrid>
+									<p:dataTable id="caratteristicheArticoloDataTable" var="c" value="#{caratteristicheController.caratteristicheArticoloSelLs}" rowKey="#{c.id}" paginator="true" rows="15" dynamic="true" editable="true" style="min-width: 400px;" widgetVar="caratteristicheArticoloDataTable" sortBy="#{c.classe} #{c.unitaMisura} #{c.scala} #{c.valore} #{c.descrizione}">
+										<p:ajax event="rowEdit" listener="#{caratteristicheController.onRowEdit}" update=":newForm:newTab:caratteristicheArticoloDataTable" />
+										<p:ajax event="rowEditCancel" listener="#{caratteristicheController.onRowCancel}" update=":newForm:newTab:caratteristicheArticoloDataTable" />
+										<f:facet name="header">
+											<p:outputPanel>
+												<h:outputText value="Ricerca in tutti i campi: " />
+												<p:inputText id="globalFilter" onkeyup="PF('caratteristicheArticoloDataTable').filter()" style="width:150px" placeholder="filtro" />
+											</p:outputPanel>
+										</f:facet>
+										<p:column filterBy="#{c.classe} #{c.unitaMisura} #{c.valore} #{c.descrizione}" filterMatchMode="contains" rendered="false" />
+										<p:column headerText="Classe">
+											<p:cellEditor>
+												<f:facet name="output">
+													<h:outputText value="#{c.classe}" />
+												</f:facet>
+												<f:facet name="input">
+													<p:inputText value="#{c.classe}" />
+												</f:facet>
+											</p:cellEditor>
+										</p:column>
+										<p:column headerText="Unità Misura">
+											<p:cellEditor>
+												<f:facet name="output">
+													<h:outputText value="#{c.unitaMisura}" />
+												</f:facet>
+												<f:facet name="input">
+													<p:inputText value="#{c.unitaMisura}" />
+												</f:facet>
+											</p:cellEditor>
+										</p:column>
+										<p:column headerText="Scala">
+											<p:cellEditor>
+												<f:facet name="output">
+													<h:outputText value="#{c.scala}" />
+												</f:facet>
+												<f:facet name="input">
+													<p:inputText value="#{c.scala}" />
+												</f:facet>
+											</p:cellEditor>
+										</p:column>
+										<p:column headerText="Qty">
+											<p:cellEditor>
+												<f:facet name="output">
+													<h:outputText value="#{c.qty}" />
+												</f:facet>
+												<f:facet name="input">
+													<p:inputText value="#{c.qty}" />
+												</f:facet>
+											</p:cellEditor>
+										</p:column>
+										<p:column headerText="Valore">
+											<p:cellEditor>
+												<f:facet name="output">
+													<h:outputText value="#{c.valore}" />
+												</f:facet>
+												<f:facet name="input">
+													<p:inputText value="#{c.valore}" />
+												</f:facet>
+											</p:cellEditor>
+										</p:column>
+										<p:column headerText="Descrizione">
+											<p:cellEditor>
+												<f:facet name="output">
+													<h:outputText value="#{c.descrizione}" />
+												</f:facet>
+												<f:facet name="input">
+													<p:inputText value="#{c.descrizione}" />
+												</f:facet>
+											</p:cellEditor>
+										</p:column>
+										<p:column style="width:32px">
+											<p:rowEditor />
+										</p:column>
+										<p:column headerText="rimuovi" style="width:30px;text-align: center">
+											<p:commandButton action="#{caratteristicheController.rimuoviCaratteristicaAlloArticolo()}" update=":newForm:newTab:caratteristicheArticoloDataTable" icon="ui-icon-trash" title="Cancella">
+												<f:setPropertyActionListener value="#{c}" target="#{caratteristicheController.caratteristicaDaEliminare}" />
+											</p:commandButton>
+										</p:column>
+									</p:dataTable>
+								</p:column>
+							</p:panelGrid>
+						</p:tab>
+					</p:tabView>
 				</h:form>
 			</p:dialog>
 
@@ -381,7 +573,7 @@
 							</p:toolbarGroup>
 							<p:toolbarGroup align="left">
 								<p:commandButton value="Aggiorna" action="#{articoliController.aggiorna}" update=":tblForm:tbl,:growlForm:growl" onclick="PF('updDialog').close()" icon="ui-icon-refresh" />
-								<p:commandButton value="Elimina" action="#{articoliController.elimina}" update=":tblForm:tbl,:growlForm:growl" icon="ui-icon-trash" >
+								<p:commandButton value="Elimina" action="#{articoliController.elimina}" update=":tblForm:tbl,:growlForm:growl" icon="ui-icon-trash">
 									<p:confirm header="Confirmation" message="Sei sicuro?" icon="ui-icon-alert" />
 								</p:commandButton>
 								<p:confirmDialog global="true" showEffect="fade" hideEffect="explode">
@@ -396,7 +588,7 @@
 							<h:outputText value="Codice" />
 							<h:outputText value="#{articoliController.articoloSel.codice}" />
 							<h:outputText value="Nome" />
-							<p:inputText value="#{articoliController.articoloSel.nome}"  maxlength="100" />
+							<p:inputText value="#{articoliController.articoloSel.nome}" maxlength="100" />
 							<h:outputText value="Marca" />
 							<p:column>
 								<p:selectOneMenu id="menuSelProd" value="#{articoliController.articoloSel.produttore}" var="p" filter="true" filterMatchMode="contains">
@@ -441,7 +633,7 @@
 										<h:outputText value="Foto" />
 									</f:facet>
 									<p:column>
-										<p:commandButton value="Carica foto" action="#{fotoController.popolaFotoLsDynPop()}" update=":updForm:fotoMenuDisplay" icon="ui-icon-newwin" />
+										<p:commandButton value="Carica foto" action="#{fotoController.popolaFotoLsDynPop()}" update=":updForm:fotoDataTable" icon="ui-icon-newwin" />
 										<p:outputPanel id="fotoMenuDisplay">
 											<p:dataTable id="fotoDataTable" var="f" value="#{fotoController.fotoLsDynPop}" selection="#{fotoController.fotoSel}" selectionMode="single" rowKey="#{f.id}" paginator="true" rows="7" dynamic="true" sortBy="#{f.id}" emptyMessage="Nessun entry per il criterio definito" widgetVar="fotoTable" filteredValue="#{fotoController.filteredFotoLs}">
 												<f:facet name="sourceCaption">Disponibili</f:facet>
@@ -462,13 +654,13 @@
 										<p:commandButton id="toFotoButton" value="Aggiungi Foto" action="#{navigationController.articoliToFoto()}" icon="ui-icon-circle-plus" />
 									</p:column>
 									<p:column>
-										<p:commandButton id="aggiungiFotoArticoloButton" actionListener="#{articoliController.onAggiungiFotoArticoloButton}" update=":updForm:fotoArticoloMenuDisplay" title="Aggiungi Foto" icon="ui-icon-arrowthick-1-e" />
+										<p:commandButton id="aggiungiFotoArticoloButton" actionListener="#{articoliController.onAggiungiFotoArticoloButton}" update=":updForm:fotoArticoloDataTable" title="Aggiungi Foto" icon="ui-icon-arrowthick-1-e" />
 									</p:column>
 									<p:column>
-										<p:commandButton id="rimuoviFotoArticoloButton" actionListener="#{articoliController.onRimuoviFotoArticoloButton}" update=":updForm:fotoArticoloMenuDisplay" title="Rimuovi Foto" icon="ui-icon-arrowthick-1-w" />
+										<p:commandButton id="rimuoviFotoArticoloButton" actionListener="#{articoliController.onRimuoviFotoArticoloButton}" update=":updForm:fotoArticoloDataTable" title="Rimuovi Foto" icon="ui-icon-arrowthick-1-w" />
 										<p:separator />
-										<p:commandButton id="alzaFotoArticoloButton" actionListener="#{articoliController.onAlzaFotoArticoloButton}" update=":updForm:fotoArticoloMenuDisplay" title="Alza" icon="ui-icon-arrowthick-1-n" />
-										<p:commandButton id="abbassaFotoArticoloButton" actionListener="#{articoliController.onAbbassaFotoArticoloButton}" update=":updForm:fotoArticoloMenuDisplay" title="Abbassa" icon="ui-icon-arrowthick-1-s" />
+										<p:commandButton id="alzaFotoArticoloButton" actionListener="#{articoliController.onAlzaFotoArticoloButton}" update=":updForm:fotoArticoloDataTable" title="Alza" icon="ui-icon-arrowthick-1-n" />
+										<p:commandButton id="abbassaFotoArticoloButton" actionListener="#{articoliController.onAbbassaFotoArticoloButton}" update=":updForm:fotoArticoloDataTable" title="Abbassa" icon="ui-icon-arrowthick-1-s" />
 									</p:column>
 									<p:column>
 										<p:outputPanel id="fotoArticoloMenuDisplay">

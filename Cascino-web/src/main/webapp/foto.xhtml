@@ -103,7 +103,7 @@
 							<p:column>
 								<p:graphicImage value="#{fotoController.resolvePath(fotoController.getFotoTipoDaIdTipo(idTipo))}#{fotoController.getFotonameUrl(fotoController.getFotoTipoDaIdTipo(idTipo), 1)}" height="#{fotoController.getHeightFromResolution(fotoController.getFotoTipoDaIdTipo(idTipo), 1, 60, 100)}" />
 							</p:column>
-						</p:dataTable>						
+						</p:dataTable>
 					</p:column>
 					<p:column filterBy="#{foto.grande}" filterMatchMode="contains">
 						<f:facet name="header">
@@ -251,12 +251,14 @@
 									<p:commandButton action="#{fotoController.aggiungiTagAllaFoto()}" update=":newForm:tagList,:newForm:tagAutoCompl" icon="ui-icon-circle-plus" title="Aggiungi" />
 								</h:panelGrid>
 								<h:panelGrid columns="1" style="max-width: 500px;">
-									<p:dataTable id="tagList" var="tag" value="#{fotoController.tagFotoSelLs}" >
+									<p:dataTable id="tagList" var="tag" value="#{fotoController.tagFotoSelLs}">
 										<p:column headerText="tag">
 											<h:outputText value="#{tag}" />
 										</p:column>
 										<p:column headerText="rimuovi" style="width:30px;text-align: center">
-											<p:commandButton action="#{fotoController.rimuoviTagAllaFoto()}" update=":newForm:tagList" icon="ui-icon-trash" title="Cancella"><f:setPropertyActionListener value="#{tag}" target="#{fotoController.tagDaEliminare}" /></p:commandButton>
+											<p:commandButton action="#{fotoController.rimuoviTagAllaFoto()}" update=":newForm:tagList" icon="ui-icon-trash" title="Cancella">
+												<f:setPropertyActionListener value="#{tag}" target="#{fotoController.tagDaEliminare}" />
+											</p:commandButton>
 										</p:column>
 									</p:dataTable>
 								</h:panelGrid>
@@ -316,7 +318,7 @@
 										<div style="background-color: #964B00">marrone</div>
 										<p:radioButton id="opt1_11" for="color1" itemIndex="11" />
 										<div style="color: #FF1493">indefinito</div>
-										</h:panelGrid>
+									</h:panelGrid>
 								</h:panelGrid>
 								<h:panelGrid id="color2panel" style="margin:10px;">
 									<h:outputText value="Colore Secondario" />
@@ -441,7 +443,7 @@
 									<f:selectItem itemLabel="LD" itemValue="ld" />
 									<f:selectItem itemLabel="LD wm" itemValue="ldwm" />
 								</p:selectOneRadio>
-		
+
 								<h:panelGrid columns="2" id="tipoFotoGrid">
 									<h:panelGrid columns="2">
 										<h:panelGrid columns="2" cellpadding="4">
@@ -464,22 +466,24 @@
 							</h:panelGrid>
 							<h:panelGrid columns="1" border="1">
 								<h:panelGrid columns="1">
-								<h:panelGrid columns="3" style="margin:10px;">
-									<h:outputText value="TAG" />
-									<p:autoComplete id="tagAutoCompl" minQueryLength="2" value="#{fotoController.tagDaAggiungere}" completeMethod="#{fotoController.tagAutoCompleteLs}" effect="fade" />
-									<p:commandButton action="#{fotoController.aggiungiTagAllaFoto()}" update=":updForm:tagList,:updForm:tagAutoCompl" icon="ui-icon-circle-plus" title="Aggiungi" />
+									<h:panelGrid columns="3" style="margin:10px;">
+										<h:outputText value="TAG" />
+										<p:autoComplete id="tagAutoCompl" minQueryLength="2" value="#{fotoController.tagDaAggiungere}" completeMethod="#{fotoController.tagAutoCompleteLs}" effect="fade" />
+										<p:commandButton action="#{fotoController.aggiungiTagAllaFoto()}" update=":updForm:tagList,:updForm:tagAutoCompl" icon="ui-icon-circle-plus" title="Aggiungi" />
+									</h:panelGrid>
+									<h:panelGrid columns="1" style="max-width: 500px;">
+										<p:dataTable id="tagList" var="tag" value="#{fotoController.tagFotoSelLs}">
+											<p:column headerText="tag">
+												<h:outputText value="#{tag}" />
+											</p:column>
+											<p:column headerText="rimuovi" style="width:30px;text-align: center">
+												<p:commandButton action="#{fotoController.rimuoviTagAllaFoto()}" update=":newForm:tagList" icon="ui-icon-trash" title="Cancella">
+													<f:setPropertyActionListener value="#{tag}" target="#{fotoController.tagDaEliminare}" />
+												</p:commandButton>
+											</p:column>
+										</p:dataTable>
+									</h:panelGrid>
 								</h:panelGrid>
-								<h:panelGrid columns="1" style="max-width: 500px;">
-									<p:dataTable id="tagList" var="tag" value="#{fotoController.tagFotoSelLs}" >
-										<p:column headerText="tag">
-											<h:outputText value="#{tag}" />
-										</p:column>
-										<p:column headerText="rimuovi" style="width:30px;text-align: center">
-											<p:commandButton action="#{fotoController.rimuoviTagAllaFoto()}" update=":newForm:tagList" icon="ui-icon-trash" title="Cancella"><f:setPropertyActionListener value="#{tag}" target="#{fotoController.tagDaEliminare}" /></p:commandButton>
-										</p:column>
-									</p:dataTable>
-								</h:panelGrid>	
-								</h:panelGrid>						
 								<h:panelGrid id="cosaMostraPanel" style="margin:10px;">
 									<h:outputText value="Tipo" />
 									<p:selectOneRadio id="cosaMostra" value="#{fotoController.fotoSel.cosaMostra}">
@@ -533,7 +537,7 @@
 										<div style="background-color: #964B00">marrone</div>
 										<p:radioButton id="opt1_11" for="color1" itemIndex="11" />
 										<div style="color: #FF1493">indefinito</div>
-										</h:panelGrid>
+									</h:panelGrid>
 								</h:panelGrid>
 								<h:panelGrid id="color2panel" style="margin:10px;">
 									<h:outputText value="Colore Secondario" />
@@ -644,7 +648,7 @@
 					</p:outputPanel>
 				</h:form>
 			</p:dialog>
-			
+
 		</ui:define>
 	</ui:composition>
 </h:body>

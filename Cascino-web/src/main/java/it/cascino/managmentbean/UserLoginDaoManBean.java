@@ -3,12 +3,12 @@ package it.cascino.managmentbean;
 import java.io.Serializable;
 import java.util.List;
 import it.cascino.dao.UserLoginDao;
-import it.cascino.model.Foto;
-import it.cascino.model.Produttori;
+//import it.cascino.model.Foto;
+//import it.cascino.model.Produttori;
 import it.cascino.model.Users;
 import it.cascino.model.Userspermissions;
 import it.cascino.model.Usersrolenames;
-import it.cascino.model.Usersroles;
+//import it.cascino.model.Usersroles;
 import it.cascino.util.Utility;
 import javax.faces.bean.SessionScoped;
 import javax.inject.Inject;
@@ -164,6 +164,7 @@ public class UserLoginDaoManBean implements UserLoginDao, Serializable{
 		return (user == null) ? "" : user.getCognome();
 	}
 	
+	@SuppressWarnings("unchecked")
 	public List<Usersrolenames> getRolesDaUser(String username){
 		// log.info("tmpDEBUGtmp: " + "> " + "getRolesDaUser(" + username + ")");
 		List<Usersrolenames> rolenames = null;
@@ -186,6 +187,7 @@ public class UserLoginDaoManBean implements UserLoginDao, Serializable{
 		return rolenames;
 	}
 	
+	@SuppressWarnings("unchecked")
 	public List<Userspermissions> getPermissionsDaUser(String username){
 		// log.info("tmpDEBUGtmp: " + "> " + "getPermissionsDaUser(" + username + ")");
 		List<Userspermissions> permissions = null;

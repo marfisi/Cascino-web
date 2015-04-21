@@ -2,16 +2,17 @@ package it.cascino.managmentbean;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.HashMap;
+//import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
+//import java.util.Map;
 import java.util.NoSuchElementException;
 import it.cascino.dao.ArticoliDao;
 import it.cascino.model.Articoli;
 import it.cascino.model.ArticoliFoto;
+import it.cascino.model.Caratteristiche;
 import it.cascino.model.Foto;
-import it.cascino.model.Produttori;
+//import it.cascino.model.Produttori;
 import it.cascino.util.Utility;
 import javax.faces.bean.SessionScoped;
 import javax.inject.Inject;
@@ -61,7 +62,7 @@ public class ArticoliDaoManBean implements ArticoliDao, Serializable{
 		return articoli;
 	}
 	
-	public void salva(Articoli articolo, List<Foto> fotoPerArticolo){
+	public void salva(Articoli articolo, List<Foto> fotoPerArticolo, List<Caratteristiche> caratteristichePerArticolo){
 		// log.info("tmpDEBUGtmp: " + "> " + "salva(" + articolo + ", " + fotoPerArticolo + ")");
 		try{
 			try{
@@ -74,6 +75,14 @@ public class ArticoliDaoManBean implements ArticoliDao, Serializable{
 				try{
 					if(!manageArticoliFoto(articolo.getId(), fotoPerArticolo)){
 						// entityManager.clear();
+						utx.rollback();
+					}
+				}catch(Exception e){
+					utx.rollback();
+					Utility.manageException(e, utx, log);
+				}
+				try{
+					if(!manageArticoliCaratteristiche(articolo.getId(), caratteristichePerArticolo)){
 						utx.rollback();
 					}
 				}catch(Exception e){
@@ -120,6 +129,7 @@ public class ArticoliDaoManBean implements ArticoliDao, Serializable{
 		// log.info("tmpDEBUGtmp: " + "< " + "aggiorna");
 	}
 	
+	@SuppressWarnings("unchecked")
 	private Boolean manageArticoliFoto(Integer idArticolo, List<Foto> fotoPerArticolo) throws SystemException{
 		// log.info("tmpDEBUGtmp: " + "> " + "manageArticoliFoto(" + idArticolo + ", " + fotoPerArticolo + ")");
 		ArticoliFoto articoloFoto = null;
@@ -174,7 +184,7 @@ public class ArticoliDaoManBean implements ArticoliDao, Serializable{
 		// dopo aver eliminato, gestisco le aggiunte e modifiche
 		iterator = fotoPerArticolo.iterator();
 		Integer ordinamento = 0;
-		query = entityManager.createNamedQuery("ArticoliFoto.findByIDArtIdFotoOrd", ArticoliFoto.class);
+		query = entityManager.createNamedQuery("ArticoliFoto.findByIdArtIdFotoOrd", ArticoliFoto.class);
 		query.setParameter("idArt", idArticolo);
 		while(iterator.hasNext()){
 			o = iterator.next();
@@ -198,7 +208,7 @@ public class ArticoliDaoManBean implements ArticoliDao, Serializable{
 			
 			// se non trovo corrispondenza, allora o e' cambiato qaulche dato tra foto e/o ordinamento o e' stata aggiunta una foto o eliminata
 			
-			query = entityManager.createNamedQuery("ArticoliFoto.findByIDArtIdFoto", ArticoliFoto.class);
+			query = entityManager.createNamedQuery("ArticoliFoto.findByIdArtIdFoto", ArticoliFoto.class);
 			query.setParameter("idArt", idArticolo);
 			
 			try{
@@ -236,6 +246,114 @@ public class ArticoliDaoManBean implements ArticoliDao, Serializable{
 		return true;
 	}
 	
+	@SuppressWarnings("unchecked")
+	private Boolean manageArticoliCaratteristiche(Integer idArticolo, List<Caratteristiche> caratteristichePerArticolo) throws SystemException{
+//		ArticoliFoto articoloFoto = null;
+		Caratteristiche o = null;
+		// try{
+		// try{
+		// utx.begin();
+		log.info("transaction:" + " " + utx.getStatus());
+		Iterator<Caratteristiche> iterator = caratteristichePerArticolo.iterator();
+		
+		// elimino le entry in tabella che non sono piu' in essere
+		String sql = "select * "
+		+ "from caratteristiche c "
+		+ "where c.articolo = :id "
+		+ "and c.id not in (:idCaratDaNonEliminare)";
+		Query query = entityManager.createNativeQuery(sql, Caratteristiche.class);
+		query.setParameter("id", idArticolo);
+		List<Integer> idCaratDaNonEliminare = new ArrayList<Integer>();
+		while(iterator.hasNext()){
+			o = iterator.next();
+			idCaratDaNonEliminare.add(o.getId());
+		}
+		query.setParameter("idCaratDaNonEliminare", (idCaratDaNonEliminare.isEmpty()?0:idCaratDaNonEliminare));
+		
+		List<Caratteristiche> caratteristicheDaEliminare = new ArrayList<Caratteristiche>();
+		try{
+			caratteristicheDaEliminare = (List<Caratteristiche>)query.getResultList();
+		}catch(NoResultException e){
+			caratteristicheDaEliminare = null;
+		}catch(Exception e){
+			caratteristicheDaEliminare = null;
+		}
+		if(!caratteristicheDaEliminare.isEmpty()){
+			Iterator<Caratteristiche> iteratorRem = caratteristicheDaEliminare.iterator();
+			Caratteristiche c = null;
+			while(iteratorRem.hasNext()){
+				try{
+					c = iteratorRem.next();
+				}catch(NoSuchElementException e){
+					Utility.manageException(e, utx, log);
+				}catch(Exception e){
+					Utility.manageException(e, utx, log);
+				}
+				log.info("elimina: " + c.getId() + ", " + c.getArticolo() + ", " + c.getClasse() + ", " + c.getUnitaMisura());
+				entityManager.remove(c);
+			}
+		}
+		
+		// dopo aver eliminato, gestisco le aggiunte e modifiche
+		iterator = caratteristichePerArticolo.iterator();
+//		query = entityManager.createNamedQuery("Caratteristiche.findByIdArticolo", Caratteristiche.class);
+//		query.setParameter("idArticolo", idArticolo);
+		while(iterator.hasNext()){
+			o = iterator.next();
+			
+			if(o.getId() == 0){
+				o.setId(null);
+			}
+			o.setArticolo(idArticolo);
+			entityManager.merge(o);
+			log.info("articolo " + o.getArticolo() + ", " + o.toString() + " aggiunto");
+//			
+//			try{
+//				articoloFoto = (Caratteristiche)query.getSingleResult();
+//			}catch(NoResultException e){
+//				articoloFoto = null;
+//			}catch(Exception e){
+//				articoloFoto = null;
+//			}
+//			
+//			// se trovo corrispondenza, significa che non e' cambiato nulla tra la lista e come gia' e' salvato, posso passare all'elemento successivo
+//			if(articoloFoto != null){
+//				log.info("articolo " + articoloFoto.getArticolo() + ", foto " + articoloFoto.getFoto() + ", ordinamento " + articoloFoto.getOrdinamento() + " gia' memorizzata");
+//				continue; // prossimo giro while
+//			}
+//			
+//			// se non trovo corrispondenza, allora o e' cambiato qaulche dato tra foto e/o ordinamento o e' stata aggiunta una foto o eliminata
+//			
+//			query = entityManager.createNamedQuery("ArticoliFoto.findByIdArtIdFoto", ArticoliFoto.class);
+//			query.setParameter("idArt", idArticolo);
+//			
+//			try{
+//				query.setParameter("idFoto", o.getId());
+//				articoloFoto = (ArticoliFoto)query.getSingleResult();
+//			}catch(NoResultException e){
+//				articoloFoto = null;
+//			}catch(Exception e){
+//				articoloFoto = null;
+//			}
+//			
+//			// se la trovo significa che e' cambiato solo l'ordine e faccio update
+//			if(articoloFoto != null){
+//				log.info("articolo " + articoloFoto.getArticolo() + ", foto " + articoloFoto.getFoto() + ", ordinamento (da " + articoloFoto.getOrdinamento() + " a " + ordinamento + ")");
+//				articoloFoto.setOrdinamento(ordinamento);
+//				entityManager.merge(articoloFoto);
+//				continue; // prossimo giro while
+//			}
+//			
+//			// se non la trovo significa che e' da aggiungere (insert)
+//			articoloFoto = new ArticoliFoto(null, idArticolo, null, o.getId(), ordinamento, null);
+//			entityManager.persist(articoloFoto);
+//			log.info("articolo " + articoloFoto.getArticolo() + ", foto " + articoloFoto.getFoto() + ", ordinamento " + articoloFoto.getOrdinamento() + " aggiunto");
+		}
+		
+		log.info("transaction:" + " " + utx.getStatus());
+		return true;
+	}
+	
 	public void elimina(Articoli articoloElimina){
 		// log.info("tmpDEBUGtmp: " + "> " + "elimina(" + articoloElimina + ")");
 		try{
@@ -246,7 +364,7 @@ public class ArticoliDaoManBean implements ArticoliDao, Serializable{
 				log.info("elimina: " + articolo.getId() + ", " + articolo.getCodice() + ", " + articolo.getNome() + ", " + articolo.getDescrizione());
 				// per la lista di foto, aggiorno articoli_foto	
 				try{
-					if(!manageArticoliFoto(articolo.getId(), new ArrayList<Foto>())){	// passo fotoPerArticolo = new ArrayList<Foto>(), per ottenere idFotoDaNonEliminare vuoto, quindi cancellare tutti i riferimenti
+					if(!manageArticoliFoto(articolo.getId(), new ArrayList<Foto>())){ // passo fotoPerArticolo = new ArrayList<Foto>(), per ottenere idFotoDaNonEliminare vuoto, quindi cancellare tutti i riferimenti
 						// entityManager.clear();
 						utx.rollback();
 					}

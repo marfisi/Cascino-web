@@ -4,7 +4,6 @@ import java.io.Serializable;
 import javax.inject.Inject;
 import javax.persistence.*;
 import org.jboss.logging.Logger;
-import org.sonatype.aether.util.StringUtils;
 import java.sql.Timestamp;
 
 /**

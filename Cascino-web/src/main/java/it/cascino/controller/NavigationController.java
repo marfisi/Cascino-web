@@ -2,10 +2,10 @@ package it.cascino.controller;
 
 import java.io.Serializable;
 import javax.enterprise.context.SessionScoped;
-import javax.faces.context.FacesContext;
-import javax.inject.Inject;
+//import javax.faces.context.FacesContext;
+//import javax.inject.Inject;
 import javax.inject.Named;
-import org.jboss.logging.Logger;
+//import org.jboss.logging.Logger;
 
 @Named
 @SessionScoped
@@ -18,11 +18,11 @@ public class NavigationController implements Serializable{
 	/**
 	 * Logger
 	 */
-	@Inject
-	private Logger log;
+//	@Inject
+//	private Logger log;
 	
-	@Inject
-	private FacesContext facesContext;
+//	@Inject
+//	private FacesContext facesContext;
 	
 	// private Boolean showLogIn = true;
 	private Boolean showHome = true;
@@ -128,4 +128,25 @@ public class NavigationController implements Serializable{
 		// log.info("tmpDEBUGtmp: " + "< " + "registrationToLogin");
 		return navigationRuleAction;
 	}
+	
+	public String articoliToProduttori(){
+		navigationRuleAction = "articoliToProduttori";
+		return navigationRuleAction;
+	}	
+	
+	public String produttoriToArticoli(){
+		navigationRuleAction = "produttoriToArticoli";
+		return navigationRuleAction;
+	}
+	
+	public String articoliToTipi(){
+		navigationRuleAction = "articoliToTipi";
+		return navigationRuleAction;
+	}
+	
+	public String articoliToFoto(){
+		navigationRuleAction = "articoliToFoto";
+		return navigationRuleAction;
+	}
+
 }

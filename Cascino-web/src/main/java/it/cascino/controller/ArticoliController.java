@@ -7,7 +7,6 @@ import it.cascino.model.Foto;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.io.File;
 import java.io.Serializable;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
@@ -48,6 +47,8 @@ public class ArticoliController implements Serializable{
 	FotoCondivisiController fotoCondivisiController;
 	@Inject
 	FotoController fotoController;
+	@Inject
+	CaratteristicheController caratteristicheController;
 	
 	// private List<Articoli> articoliLs;
 	private List<Articoli> filteredArticoliLs;
@@ -62,6 +63,8 @@ public class ArticoliController implements Serializable{
 	// private DualListModel<Foto> fotoPickList = new DualListModel<Foto>(new ArrayList<Foto>(), new ArrayList<Foto>());
 	// private Boolean fotoPLtargetModif = true;
 	private List<Foto> fotoPerArticolo = new ArrayList<Foto>();
+	
+//	private List<Caratteristiche> caratteristichePerArticolo = new ArrayList<Caratteristiche>();
 	
 	// ArticoliController(){
 	// // // log.info("tmpDEBUGtmp: " + "> " + "ArticoliController(" + ")");
@@ -88,7 +91,7 @@ public class ArticoliController implements Serializable{
 	// }
 	
 	public Articoli getArticoloSel(){
-		// // log.info("tmpDEBUGtmp: " + "> " + "getArticoloSel(" + ")");
+		  log.info("tmpDEBUGtmp: " + "> " + "getArticoloSel(" + ")");
 		// // log.info("tmpDEBUGtmp: " + "id: " + ((articoloSel != null) ? articoloSel.getId() : "null"));
 		if(articoloSel == null){
 			Articoli a = new Articoli();
@@ -100,7 +103,7 @@ public class ArticoliController implements Serializable{
 	}
 	
 	public void setArticoloSel(Articoli articoloSel){
-		// // log.info("tmpDEBUGtmp: " + "> " + "setArticoloSel(" + articoloSel + ")");
+		  log.info("tmpDEBUGtmp: " + "> " + "setArticoloSel(" + articoloSel + ")");
 		// // log.info("tmpDEBUGtmp: " + "id: " + ((articoloSel != null) ? articoloSel.getId() : "null") + " this.id: " + ((this.articoloSel != null) ? this.articoloSel.getId() : "null"));
 		// fotoPLtarget = new ArrayList<Foto>();
 		fotoPerArticolo = new ArrayList<Foto>();
@@ -118,6 +121,7 @@ public class ArticoliController implements Serializable{
 	
 	// chiamata quando faccio nuovo, per non avere i campi sporchi da una selezione che deriva dalla tabella
 	public void resetOnNewArticoloSel(){
+		 log.info("tmpDEBUGtmp: " + "> " + "resetOnNewArticoloSel(" + ")");
 		Articoli a = new Articoli();
 		a.setId(1);
 		articoloSel = a;
@@ -244,7 +248,7 @@ public class ArticoliController implements Serializable{
 			articoloSel.setDescrizioneAs400("da ereditare da AS400");
 		}
 		// articoliDao.salva(articoloSel, fotoPickList.getTarget());
-		articoliDao.salva(articoloSel, fotoPerArticolo);
+		articoliDao.salva(articoloSel, fotoPerArticolo, caratteristicheController.getCaratteristicheArticoloSelLs());
 		if(articoloSel != null){
 			esito = "Aggiunto articolo: " + articoloSel.getCodice();
 			showGrowlInsMessage();
