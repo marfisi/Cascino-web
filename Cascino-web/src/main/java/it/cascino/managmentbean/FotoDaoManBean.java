@@ -381,10 +381,11 @@ public class FotoDaoManBean implements FotoDao, Serializable{
 				utx.begin();
 				log.info("salva: " + foto.getId() + ", " + foto.getPath() + ", " + foto.getOriginale());
 				foto.setId(null);
-				if((foto.getColore() == null) || StringUtils.isEmpty(foto.getColore())){
-					foto.setColore("ind;ind");
-				}else{
-					foto.setColore(StringUtils.replace(foto.getColore(), "null", "ind"));
+				if((foto.getColore1() == null) || StringUtils.isEmpty(foto.getColore1())){
+					foto.setColore1("ind");
+				}
+				if((foto.getColore2() == null) || StringUtils.isEmpty(foto.getColore2())){
+					foto.setColore2("ind");
 				}
 				if((foto.getForma() == null) || StringUtils.isEmpty(foto.getForma())){
 					foto.setForma("ind");
@@ -551,10 +552,11 @@ public class FotoDaoManBean implements FotoDao, Serializable{
 			try{
 				utx.begin();
 				log.info("aggiorna: " + foto.getId() + ", " + foto.getPath() + ", " + foto.getOriginale());
-				if((foto.getColore() == null) || StringUtils.isEmpty(foto.getColore())){
-					foto.setColore("ind;ind");
-				}else{
-					foto.setColore(StringUtils.replace(foto.getColore(), "null", "ind"));
+				if((foto.getColore1() == null) || StringUtils.isEmpty(foto.getColore1())){
+					foto.setColore1("ind");
+				}
+				if((foto.getColore2() == null) || StringUtils.isEmpty(foto.getColore2())){
+					foto.setColore2("ind");
 				}
 				if((foto.getForma() == null) || StringUtils.isEmpty(foto.getForma())){
 					foto.setForma("ind");
@@ -849,7 +851,7 @@ public class FotoDaoManBean implements FotoDao, Serializable{
 			List<Foto> foto;
 			fotoLs = new ArrayList<Foto>();
 			if((f == null) || (f.getId() == null)){
-				fotoLs.add(new Foto(null, dirFoto, fotoNotDefined, null, null, null, null, null, null, null, null, null));
+				fotoLs.add(new Foto(null, dirFoto, fotoNotDefined, null, null, null, null, null, null, null, null, null, null));
 				return fotoLs;
 			}
 			try{
@@ -870,19 +872,19 @@ public class FotoDaoManBean implements FotoDao, Serializable{
 				o = iterator.next();
 				
 				if((o.getOriginale() != null) && (!o.getOriginale().isEmpty())){
-					fotoLs.add(new Foto(null, o.getPath(), o.getOriginale(), getSize(o, 1), null, getResolution(o, 1), null, null, null, null, null, null));
+					fotoLs.add(new Foto(null, o.getPath(), o.getOriginale(), getSize(o, 1), null, getResolution(o, 1), null, null, null, null, null, null, null));
 				}
 				if((o.getGrande() != null) && (!o.getGrande().isEmpty())){
-					fotoLs.add(new Foto(null, o.getPath(), o.getGrande(), getSize(o, 2), null, getResolution(o, 2), null, null, null, null, null, null));
+					fotoLs.add(new Foto(null, o.getPath(), o.getGrande(), getSize(o, 2), null, getResolution(o, 2), null, null, null, null, null, null, null));
 				}
 				if((o.getGrandeWatermark() != null) && (!o.getGrandeWatermark().isEmpty())){
-					fotoLs.add(new Foto(null, o.getPath(), o.getGrandeWatermark(), getSize(o, 3), null, getResolution(o, 3), null, null, null, null, null, null));
+					fotoLs.add(new Foto(null, o.getPath(), o.getGrandeWatermark(), getSize(o, 3), null, getResolution(o, 3), null, null, null, null, null, null, null));
 				}
 				if((o.getThumbnail() != null) && (!o.getThumbnail().isEmpty())){
-					fotoLs.add(new Foto(null, o.getPath(), o.getThumbnail(), getSize(o, 4), null, getResolution(o, 4), null, null, null, null, null, null));
+					fotoLs.add(new Foto(null, o.getPath(), o.getThumbnail(), getSize(o, 4), null, getResolution(o, 4), null, null, null, null, null, null, null));
 				}
 				if((o.getThumbnailWatermark() != null) && (!o.getThumbnailWatermark().isEmpty())){
-					fotoLs.add(new Foto(null, o.getPath(), o.getThumbnailWatermark(), getSize(o, 5), null, getResolution(o, 5), null, null, null, null, null, null));
+					fotoLs.add(new Foto(null, o.getPath(), o.getThumbnailWatermark(), getSize(o, 5), null, getResolution(o, 5), null, null, null, null, null, null, null));
 				}
 			}
 		}catch(Exception e){

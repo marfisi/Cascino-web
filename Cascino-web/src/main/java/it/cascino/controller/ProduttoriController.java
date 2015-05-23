@@ -1,7 +1,7 @@
 package it.cascino.controller;
 
 import it.cascino.dao.ProduttoriDao;
-//import it.cascino.model.Articoli;
+// import it.cascino.model.Articoli;
 import it.cascino.model.Produttori;
 import java.util.List;
 import java.io.Serializable;
@@ -40,16 +40,17 @@ public class ProduttoriController implements Serializable{
 	private List<Produttori> filteredProduttoriLs;
 	
 	private Produttori produttoreSel = new Produttori();
+	private Produttori produttoreNew = new Produttori();
 	
 	public Produttori getProduttoreSel(){
 		// log.info("tmpDEBUGtmp: " + "> " + "getProduttoreSel(" + ")");
 		// log.info("tmpDEBUGtmp: " + "id: " + ((produttoreSel != null) ? produttoreSel.getId() : "null"));
 		// log.info("tmpDEBUGtmp: " + "< " + "getProduttoreSel");
-		if(produttoreSel == null){
-			Produttori p = new Produttori();
-			p.setId(1);
-			produttoreSel = p;
-		}
+		// if(produttoreSel == null){
+		// Produttori p = new Produttori();
+		// p.setId(1);
+		// produttoreSel = p;
+		// }
 		return produttoreSel;
 	}
 	
@@ -60,8 +61,17 @@ public class ProduttoriController implements Serializable{
 		// log.info("tmpDEBUGtmp: " + "< " + "setProduttoreSel");
 	}
 	
+	public Produttori getProduttoreNew(){
+		return produttoreNew;
+	}
+	
+	public void setProduttoreNew(Produttori produttoreNew){
+		this.produttoreNew = produttoreNew;
+	}
+	
 	// chiamata quando faccio nuovo, per non avere i campi sporchi da una selezione che deriva dalla tabella
 	public void resetOnNewProduttoreSel(){
+//		log.info("tmpDEBUGtmp: " + "> " + "resetOnNew");
 		Produttori p = new Produttori();
 		p.setId(1);
 		produttoreSel = p;
@@ -84,16 +94,17 @@ public class ProduttoriController implements Serializable{
 	public void salva(){
 		// log.info("tmpDEBUGtmp: " + "> " + "salva(" + ")");
 		// log.info("tmpDEBUGtmp: " + "id: " + ((produttoreSel != null) ? produttoreSel.getId() : "null"));
-		produttoriDao.salva(produttoreSel);
-		if(produttoreSel != null){
-			esito = "Aggiunto produttore: " + produttoreSel.getNome();
+		produttoriDao.salva(produttoreNew);
+		if(produttoreNew != null){
+			esito = "Aggiunto produttore: " + produttoreNew.getNome();
 			showGrowlInsMessage();
 		}else{
-			esito = "non e' stato caricato il produttore!" + " (produttore: " + ((produttoreSel != null) ? produttoreSel.getId() : "null") + ")";
+			esito = "non e' stato caricato il produttore!" + " (produttore: " + ((produttoreNew != null) ? produttoreNew.getId() : "null") + ")";
 			showGrowlErrorMessage();
 		}
 		// aggiorno la lista condivisa
 		produttoriCondivisiController.aggiornaProduttoriLs();
+		produttoreNew = new Produttori();
 		// log.info("tmpDEBUGtmp: " + "< " + "salva");
 	}
 	
@@ -140,7 +151,7 @@ public class ProduttoriController implements Serializable{
 		facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Successo", message));
 		log.info(message);
 	}
-
+	
 	private void showGrowlUpdMessage(){
 		String message = "Aggiornato con successo - " + esito + " >" + produttoreSel + "<";
 		facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Successo", message));

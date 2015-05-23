@@ -43,7 +43,7 @@
 						<p:commandButton id="viewButton" value="View" update=":display" oncomplete="PF('viewDialog').show()" icon="ui-icon-search" />
 						<p:commandButton id="modifButton" value="Modifica" update=":updForm:updDisplay" oncomplete="PF('updDialog').show()" icon="ui-icon-pencil" />
 						<p:separator />
-						<p:commandButton id="newButton" value="Aggiungi" action="#{articoliController.resetOnNewArticoloSel()}" oncomplete="PF('newDialog').show()" icon="ui-icon-circle-plus" />
+						<p:commandButton id="newButton" value="Aggiungi" update=":newForm:newDisplay" action="#{articoliController.resetOnNewArticoloSel()}" oncomplete="PF('newDialog').show()" icon="ui-icon-circle-plus" />
 						<p:commandButton id="homeMngButton" value="Home Gestione" action="homeMng" icon="ui-icon-home" />
 					</p:toolbarGroup>
 				</p:toolbar>
@@ -270,14 +270,14 @@
 						<p:tab title="Info">
 							<p:panelGrid columns="6" styleClass="newPanel" id="newDisplayTab1">
 								<h:outputText value="ID" />
-								<h:outputText value="#{articoliController.articoloSel.id}" />
+								<h:outputText value="#{articoliController.articoloNew.id}" />
 								<h:outputText value="Codice" />
-								<p:autoComplete id="codiceAutoCompl" minQueryLength="3" value="#{articoliController.articoloSel.codice}" completeMethod="#{articoliController.articoliAutoCompleteLs}" effect="fade" />
+								<p:autoComplete id="codiceAutoCompl" minQueryLength="3" value="#{articoliController.articoloNew.codice}" completeMethod="#{articoliController.articoliAutoCompleteLs}" effect="fade" />
 								<h:outputText value="Nome" />
-								<p:inputText value="#{articoliController.articoloSel.nome}" maxlength="100" />
+								<p:inputText value="#{articoliController.articoloNew.nome}" maxlength="100" />
 								<h:outputText value="Marca" />
 								<p:column>
-									<p:selectOneMenu id="menuSelProd" value="#{articoliController.articoloSel.produttore}" var="p" filter="true" filterMatchMode="contains">
+									<p:selectOneMenu id="menuSelProd" value="#{articoliController.articoloNew.produttore}" var="p" filter="true" filterMatchMode="contains">
 										<f:selectItem itemLabel="Seleziona Marca" itemValue="" />
 										<f:selectItems value="#{produttoriCondivisiController.produttoriLs}" var="produttore" itemLabel="#{produttore.nome} (id: #{produttore.id})" itemValue="#{produttore.id}" />
 										<p:column>
@@ -290,17 +290,17 @@
 									<p:commandButton id="toProduttoriButton" value="Aggiungi Produttore" action="#{navigationController.articoliToProduttori()}" icon="ui-icon-circle-plus" />
 								</p:column>
 								<h:outputText value="Modello" />
-								<p:inputText value="#{articoliController.articoloSel.modello}" maxlength="50" />
+								<p:inputText value="#{articoliController.articoloNew.modello}" maxlength="50" />
 								<h:outputText value="Descrizione AS400" />
-								<h:outputText value="#{articoliController.articoloSel.descrizioneAs400}" />
+								<h:outputText value="#{articoliController.articoloNew.descrizioneAs400}" />
 								<h:outputText value="Descrizione" />
 								<p:column>
-									<p:inputTextarea value="#{articoliController.articoloSel.descrizione}" rows="5" cols="23" counter="counter" maxlength="200" counterTemplate="{0} caratteri" autoResize="false" />
+									<p:inputTextarea value="#{articoliController.articoloNew.descrizione}" rows="5" cols="23" counter="counter" maxlength="200" counterTemplate="{0} caratteri" autoResize="false" />
 									<h:outputText id="counter" />
 								</p:column>
 								<h:outputText value="Tipo" />
 								<p:column>
-									<p:selectOneMenu id="menuSelTipo" value="#{articoliController.articoloSel.tipo}" var="t" filter="true" filterMatchMode="contains" style="max-width: 220px;">
+									<p:selectOneMenu id="menuSelTipo" value="#{articoliController.articoloNew.tipo}" var="t" filter="true" filterMatchMode="contains" style="max-width: 220px;">
 										<p:ajax update=":newForm:newTab:caratteristicheArticoliStessoTipoDataTable" />
 										<f:selectItem itemLabel="Seleziona Classe" itemValue="" />
 										<f:selectItems value="#{tipiCondivisiController.tipiLs}" var="tipo" itemLabel="#{tipo.nome} (id: #{tipo.id})" itemValue="#{tipo.id}" />
@@ -429,7 +429,7 @@
 										</p:column>
 									</p:dataTable>
 									<h:outputText value="Proposte da tipo" />
-									<p:dataTable id="caratteristicheArticoliStessoTipoDataTable" var="c" value="#{caratteristicheController.getCaratteristicheListPerTipo(articoliController.articoloSel.tipo)}" widgetVar="caratteristicheArticoliStessoTipoDataTable" rowKey="#{c.id}" paginator="true" rows="7" dynamic="true">
+									<p:dataTable id="caratteristicheArticoliStessoTipoDataTable" var="c" value="#{caratteristicheController.getCaratteristicheListPerTipo(articoliController.articoloNew.tipo)}" widgetVar="caratteristicheArticoliStessoTipoDataTable" rowKey="#{c.id}" paginator="true" rows="7" dynamic="true">
 										<f:facet name="header">
 											<p:outputPanel>
 												<h:outputText value="Ricerca in tutti i campi: " />

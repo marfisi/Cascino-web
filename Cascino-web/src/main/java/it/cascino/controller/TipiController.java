@@ -44,15 +44,16 @@ public class TipiController implements Serializable{
 	private FotoController fotoController;  
 
 	private TreeNode nodoSel;
+	private TreeNode nodoNew = (TreeNode)new DefaultTreeNode(new Tipi(), null);
 	
 	public TreeNode getNodoSel(){
 		// log.info("tmpDEBUGtmp: " + "> " + "getNodoSel(" + ")");
 		// log.info("tmpDEBUGtmp: " + "id: " + ((nodoSel != null) ? ((Tipi)nodoSel.getData()).getId() : "null"));
-		if(nodoSel == null){
-			Tipi t = new Tipi();
-			t.setId(1);
-			nodoSel = (TreeNode)new DefaultTreeNode(t, null);
-		}
+//		if(nodoSel == null){
+//			Tipi t = new Tipi();
+//			t.setId(1);
+//			nodoSel = (TreeNode)new DefaultTreeNode(t, null);
+//		}
 		// log.info("tmpDEBUGtmp: " + "< " + "getNodoSel");
 		return nodoSel;
 	}
@@ -62,6 +63,14 @@ public class TipiController implements Serializable{
 		// log.info("tmpDEBUGtmp: " + "id: " + ((nodoSel != null) ? ((Tipi)nodoSel.getData()).getId() : "null"));
 		this.nodoSel = nodoSel;
 		// log.info("tmpDEBUGtmp: " + "< " + "setNodoSel");
+	}
+	
+	public TreeNode getNodoNew(){
+		return nodoNew;
+	}
+	
+	public void setNodoNew(TreeNode nodoNew){
+		this.nodoNew = nodoNew;
 	}
 	
 	// chiamata quando faccio nuovo, per non avere i campi sporchi da una selezione che deriva dalla tabella
@@ -86,16 +95,17 @@ public class TipiController implements Serializable{
 		// svuoto la lista delle foto
 		fotoController.svuotaFotoLsDynPop();
 		
-		tipiDao.salva(nodoSel);
-		if(nodoSel != null){
-			esito = "Aggiunto tipo: " + ((Tipi)nodoSel.getData()).getDescrizione();
+		tipiDao.salva(nodoNew);
+		if(nodoNew != null){
+			esito = "Aggiunto tipo: " + ((Tipi)nodoNew.getData()).getDescrizione();
 			showGrowlInsMessage();
 		}else{
-			esito = "non ho trovato il tipo!" + " (tipo: " + ((Tipi)nodoSel.getData()).getId() + ")";
+			esito = "non ho trovato il tipo!" + " (tipo: " + ((Tipi)nodoNew.getData()).getId() + ")";
 			showGrowlErrorMessage();
 		}
 		// aggiorno la lista condivisa
 		tipiCondivisiController.aggiornaTipiLs();
+		nodoNew = (TreeNode)new DefaultTreeNode(new Tipi(), null);
 		// log.info("tmpDEBUGtmp: " + "< " + "salva");
 	}
 	

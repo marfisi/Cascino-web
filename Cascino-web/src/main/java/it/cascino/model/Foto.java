@@ -32,7 +32,8 @@ public class Foto implements Serializable{
 	private String grandeWatermark;
 	private String thumbnail;
 	private String thumbnailWatermark;
-	private String colore;
+	private String colore1;
+	private String colore2;
 	private String forma;
 	private String cosaMostra; // es, P=prodotto, L=logo, S=scheda, A=altro, I=indefinito
 	private String tag;
@@ -41,7 +42,7 @@ public class Foto implements Serializable{
 	public Foto(){
 	}
 	
-	public Foto(Integer id, String path, String originale, String grande, String grandeWatermark, String thumbnail, String thumbnailWatermark, String colore, String forma, String cosaMostra, String tag, Timestamp updtime){
+	public Foto(Integer id, String path, String originale, String grande, String grandeWatermark, String thumbnail, String thumbnailWatermark, String colore1, String colore2, String forma, String cosaMostra, String tag, Timestamp updtime){
 		super();
 		this.id = id;
 		this.path = path;
@@ -50,7 +51,8 @@ public class Foto implements Serializable{
 		this.grandeWatermark = grandeWatermark;
 		this.thumbnail = thumbnail;
 		this.thumbnailWatermark = thumbnailWatermark;
-		this.colore = colore;
+		this.colore1 = colore1;
+		this.colore2 = colore2;
 		this.forma = forma;
 		this.cosaMostra = cosaMostra;
 		this.tag = tag;
@@ -118,12 +120,20 @@ public class Foto implements Serializable{
 		this.thumbnailWatermark = thumbnailWatermark;
 	}
 	
-	public String getColore(){
-		return colore;
+	public String getColore1(){
+		return colore1;
 	}
 
-	public void setColore(String colore){
-		this.colore = colore;
+	public void setColore1(String colore1){
+		this.colore1 = colore1;
+	}	
+	
+	public String getColore2(){
+		return colore2;
+	}
+
+	public void setColore2(String colore2){
+		this.colore2 = colore2;
 	}
 
 	public String getForma(){
@@ -178,7 +188,8 @@ public class Foto implements Serializable{
 			stringBuilder.append("grandeWatermark=" + grandeWatermark).append(", ");
 			stringBuilder.append("thumbnail=" + thumbnail).append(", ");
 			stringBuilder.append("thumbnailWatermark=" + thumbnailWatermark).append(", ");
-			stringBuilder.append("colore=" + colore).append(", ");
+			stringBuilder.append("colore1=" + colore1).append(", ");
+			stringBuilder.append("colore2=" + colore2).append(", ");
 			stringBuilder.append("forma=" + forma).append(", ");
 			stringBuilder.append("cosaMostra=" + cosaMostra).append(", ");
 			stringBuilder.append("tag=" + tag);
@@ -232,7 +243,8 @@ public class Foto implements Serializable{
 		result = prime * result + ((grandeWatermark == null) ? 0 : grandeWatermark.hashCode());
 		result = prime * result + ((thumbnail == null) ? 0 : thumbnail.hashCode());
 		result = prime * result + ((thumbnailWatermark == null) ? 0 : thumbnailWatermark.hashCode());
-		result = prime * result + ((colore == null) ? 0 : colore.hashCode());
+		result = prime * result + ((colore1 == null) ? 0 : colore1.hashCode());
+		result = prime * result + ((colore2 == null) ? 0 : colore2.hashCode());
 		result = prime * result + ((forma == null) ? 0 : forma.hashCode());
 		result = prime * result + ((cosaMostra == null) ? 0 : cosaMostra.hashCode());
 		result = prime * result + ((tag == null) ? 0 : tag.hashCode());

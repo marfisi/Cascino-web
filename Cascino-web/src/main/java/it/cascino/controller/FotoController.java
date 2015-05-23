@@ -49,6 +49,7 @@ public class FotoController implements Serializable{
 	private List<Foto> filteredFotoLs;
 	
 	private Foto fotoSel = new Foto();
+	private Foto fotoNew = new Foto();
 	
 	// contiene, per l'elemento selezionato, le foto originale, HD, HD wm, LD, LD wm in lista, per essere utilizzate nella gallery
 	private List<Foto> fotoPerSelLs;
@@ -66,8 +67,8 @@ public class FotoController implements Serializable{
 	private List<String> tagFotoSelLs = new ArrayList<String>();
 	
 	private String cosaMostra = "I";
-	private String color1 = "ind";
-	private String color2 = "ind";
+	private String colore1 = "ind";
+	private String colore2 = "ind";
 	private String forma = "ind";
 
 	public void onChangeTipoFoto(){
@@ -110,19 +111,19 @@ public class FotoController implements Serializable{
 	}
 	
 	public Foto getFotoSel(){
-		log.info("tmpDEBUGtmp: " + "> " + "getFotoSel(" + ")");
+//		log.info("tmpDEBUGtmp: " + "> " + "getFotoSel(" + ")");
 		// log.info("tmpDEBUGtmp: " + "id: " + ((fotoSel != null) ? fotoSel.getId() : "null"));
-		if(fotoSel == null){
-			Foto f = new Foto();
-			f.setId(1);
-			fotoSel = f;
-		}
+//		if(fotoSel == null){
+//			Foto f = new Foto();
+//			f.setId(1);
+//			fotoSel = f;
+//		}
 		// log.info("tmpDEBUGtmp: " + "< " + "getFotoSel");
 		return fotoSel;
 	}
 	
 	public void setFotoSel(Foto fotoSel){
-		log.info("tmpDEBUGtmp: " + "> " + "setFotoSel(" + fotoSel + ")");
+//		log.info("tmpDEBUGtmp: " + "> " + "setFotoSel(" + fotoSel + ")");
 		// log.info("tmpDEBUGtmp: " + "id: " + ((fotoSel != null) ? fotoSel.getId() : "null"));
 		if(fotoSel != null){
 			this.fotoSel = fotoSel;
@@ -130,17 +131,23 @@ public class FotoController implements Serializable{
 		// log.info("tmpDEBUGtmp: " + "< " + "setFotoSel");
 	}
 	
-	// chiamata quando faccio nuovo, per non avere i campi sporchi da una selezione che deriva dalla tabella
+	public Foto getFotoNew(){
+		return fotoNew;
+	}
+	
+	public void setFotoNew(Foto fotoNew){
+		this.fotoNew = fotoNew;
+	}
+	
+	// chiamata quando faccio nuovo, per non avere i campi sporchi
 	public void resetOnNewFotoSel(){
-		log.info("tmpDEBUGtmp: " + "> " + "resetOnNewFotoSel(" + ")");
-//		log.info("tmpDEBUGtmp: " + "id: " + ((fotoSel != null) ? fotoSel.getId() : "null"));
 		Foto f = new Foto();
 		f.setId(1);
-//		fotoSel = f;
-		setFotoSel(f);
-		// resetto anche le altre var
-//		getTagFotoSelLs();
-//		log.info("tmpDEBUGtmp: " + "< " + "resetOnNewFotoSel");
+		fotoSel = f;
+		cosaMostra = "I";
+		colore1 = "ind";
+		colore2 = "ind";
+		forma = "ind";
 	}
 	
 	public List<Foto> getFilteredFotoLs(){
@@ -160,7 +167,7 @@ public class FotoController implements Serializable{
 	public void salva(){
 		// log.info("tmpDEBUGtmp: " + "> " + "salva(" + ")");
 		// log.info("tmpDEBUGtmp: " + "id: " + ((fotoSel != null) ? fotoSel.getId() : "null"));
-		String risp = fotoDao.salva(fotoSel, fileUploadedLs);
+		String risp = fotoDao.salva(fotoNew, fileUploadedLs);
 		if(risp.startsWith("OK-")){
 			risp = risp.substring(3);
 			esito = risp;
@@ -172,6 +179,12 @@ public class FotoController implements Serializable{
 		fileUploadedLs.clear();
 		// aggiorno la lista condivisa
 		fotoCondivisiController.aggiornaFotoLs();
+		tagFotoSelLs = new ArrayList<String>();
+		fotoNew = new Foto();
+		cosaMostra = "I";
+		colore1 = "ind";
+		colore2 = "ind";
+		forma = "ind";
 		// log.info("tmpDEBUGtmp: " + "< " + "salva");
 	}
 	
@@ -617,60 +630,48 @@ public class FotoController implements Serializable{
 		getFotoSel().setCosaMostra(cosaMostra);
 	}
 	
-	public String getColor1(Foto foto){
-		return StringUtils.substringBefore(getColor(foto), ";");
+	public void onChangeCosaMostraNew(){
+		getFotoNew().setCosaMostra(cosaMostra);
 	}
 	
-	public String getColor2(Foto foto){
-		return StringUtils.substringAfter(getColor(foto), ";");
+	public String getColore1FromFoto(Foto foto){
+		return foto.getColore1();
 	}
 	
-	public String getColor(Foto foto){
-		return foto.getColore();
+	public String getColore2FromFoto(Foto foto){
+		return foto.getColore2();
+	}
+
+	public String getColore1(){
+		return colore1;
 	}
 	
-	public String getColor1(){
-		String colore = getFotoSel().getColore();
-		if(StringUtils.contains(colore, ";")){
-			colore = StringUtils.substringBefore(colore, ";");
-		}
-		color1 = colore;
-		return color1;
+	public void setColore1(String colore1){
+		this.colore1 = colore1;
 	}
 	
-	public void setColor1(String color1){
-		this.color1 = color1;
+	public void onChangeColore1(){
+		getFotoSel().setColore1(colore1);
 	}
 	
-	public void onChangeColor1(){
-		String colore = getFotoSel().getColore();
-		if(StringUtils.contains(colore, ";")){
-			colore = StringUtils.substringAfter(colore, ";");
-		}
-		colore = color1 + ";" + colore;
-		getFotoSel().setColore(colore);
+	public void onChangeColore1New(){
+		getFotoNew().setColore1(colore1);
 	}
 	
-	public String getColor2(){
-		String colore = getFotoSel().getColore();
-		if(StringUtils.contains(colore, ";")){
-			colore = StringUtils.substringAfter(colore, ";");
-		}
-		color2 = colore;
-		return color2;
+	public String getColore2(){
+		return colore2;
 	}
 	
-	public void setColor2(String color2){
-		this.color2 = color2;
+	public void setColore2(String colore2){
+		this.colore2 = colore2;
 	}
 	
-	public void onChangeColor2(){
-		String colore = getFotoSel().getColore();
-		if(StringUtils.contains(colore, ";")){
-			colore = StringUtils.substringBefore(colore, ";");
-		}
-		colore = colore + ";" + color2;
-		getFotoSel().setColore(colore);
+	public void onChangeColore2(){
+		getFotoSel().setColore2(colore2);
+	}
+	
+	public void onChangeColore2New(){
+		getFotoNew().setColore2(colore2);
 	}
 	
 	public String getForma(){
@@ -683,6 +684,10 @@ public class FotoController implements Serializable{
 	
 	public void onChangeForma(){
 		getFotoSel().setForma(forma);
+	}
+	
+	public void onChangeFormaNew(){
+		getFotoNew().setForma(forma);
 	}
 	
 	public List<String> tagAutoCompleteLs(String str){
@@ -715,28 +720,54 @@ public class FotoController implements Serializable{
 	}
 	
 	public void aggiungiTagAllaFoto(){
+		aggiungiTagAllaFoto(false);
+	}
+
+	public void aggiungiTagAllaFoto(boolean nuovo){
 		if(!(StringUtils.isEmpty(tagDaAggiungere))){
 			tagFotoSelLs.add(tagDaAggiungere);
-			String tagPerLaFoto = getFotoSel().getTag();
+			String tagPerLaFoto = "";
+			if(nuovo){
+				tagPerLaFoto = getFotoNew().getTag();
+			}else{
+				tagPerLaFoto = getFotoSel().getTag();
+			}
 			tagPerLaFoto = tagPerLaFoto + ";" + tagDaAggiungere;
 			if(StringUtils.startsWith(tagPerLaFoto, "null;")){
 				tagPerLaFoto = StringUtils.substring(tagPerLaFoto, 5);
 			}
-			getFotoSel().setTag(tagPerLaFoto);
+			if(nuovo){
+				getFotoNew().setTag(tagPerLaFoto);
+			}else{
+				getFotoSel().setTag(tagPerLaFoto);
+			}
 		}
 		tagDaAggiungere = "";
 		log.info("tmpDEBUGtmp: " + "< " + "aggiungiTagAllaFoto");
 	}
 
 	public void rimuoviTagAllaFoto(){
+		rimuoviTagAllaFoto(false);
+	}
+	
+	public void rimuoviTagAllaFoto(boolean nuovo){
 		if(!(StringUtils.isEmpty(tagDaEliminare))){
 			tagFotoSelLs.remove(tagDaEliminare);
-			String tagPerLaFoto = "#;" + getFotoSel().getTag() + ";#";
+			String tagPerLaFoto = "";
+			if(nuovo){
+				tagPerLaFoto = "#;" + getFotoNew().getTag() + ";#";
+			}else{
+				tagPerLaFoto = "#;" + getFotoSel().getTag() + ";#";
+			}
 			tagPerLaFoto = StringUtils.replace(tagPerLaFoto, tagDaEliminare + ";", "#");
 			tagPerLaFoto = StringUtils.replace(tagPerLaFoto, ";#", "#");
 			tagPerLaFoto = StringUtils.replace(tagPerLaFoto, "#;", "#");
 			tagPerLaFoto = StringUtils.remove(tagPerLaFoto, "#");
-			getFotoSel().setTag(tagPerLaFoto);
+			if(nuovo){
+				getFotoNew().setTag(tagPerLaFoto);
+			}else{
+				getFotoSel().setTag(tagPerLaFoto);
+			}
 		}
 		log.info("tmpDEBUGtmp: " + "< " + "rimuoviTagAllaFoto");
 	}
@@ -752,7 +783,18 @@ public class FotoController implements Serializable{
 		return tagFotoSelLs;
 	}
 	
-	public List<String> getTagFotoSelLs(Foto foto){
+	public List<String> getTagFotoNewLs(){
+		log.info("tmpDEBUGtmp: " + "> " + "getTagFotoSelLs(" + ")");
+		String tag = getFotoNew().getTag();
+		if(tag == null){
+			tag = "";
+		}
+		String tagAr[] = StringUtils.split(tag, ";");
+		tagFotoSelLs = new ArrayList<String>(Arrays.asList(tagAr));
+		return tagFotoSelLs;
+	}
+	
+	public List<String> getTagFotoSelFromFotoLs(Foto foto){
 		String tag = foto.getTag();
 		if(tag == null){
 			tag = "";
@@ -852,7 +894,7 @@ public class FotoController implements Serializable{
 			}
 		}
 		if(!(StringUtils.equals(c1, "ind"))){
-			String col1 = StringUtils.trim(getColor1(valueFoto));
+			String col1 = getColore1FromFoto(valueFoto);
 			if(StringUtils.equals(col1, "ind")){	// io cerco un colore specifico ma la foto l'ha indefinito
 				return false;
 			}
@@ -885,7 +927,7 @@ public class FotoController implements Serializable{
 			}
 		}
 		if(!(StringUtils.equals(c2, "ind"))){
-			String col2 = StringUtils.trim(getColor2(valueFoto));
+			String col2 = getColore2FromFoto(valueFoto);
 			if(StringUtils.equals(col2, "ind")){	// io cerco un colore specifico ma la foto l'ha indefinito
 				return false;
 			}
@@ -946,7 +988,6 @@ public class FotoController implements Serializable{
 				return filtroEsito;
 			}
 		}
-		
 		return filtroEsito;
 	}
 	

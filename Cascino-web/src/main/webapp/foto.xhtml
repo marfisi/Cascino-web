@@ -44,7 +44,7 @@
 						<p:commandButton id="viewButton" value="View" update=":contentGalleria" oncomplete="PF('viewDialog').show()" icon="ui-icon-search" />
 						<p:commandButton id="modifButton" value="Modifica" update=":updForm:updDisplay" oncomplete="PF('updDialog').show()" icon="ui-icon-pencil" />
 						<p:separator />
-						<p:commandButton id="newButton" value="Aggiungi" action="#{fotoController.resetOnNewFotoSel()}" oncomplete="PF('newDialog').show()" icon="ui-icon-circle-plus" />
+						<p:commandButton id="newButton" value="Aggiungi" update=":newForm:newDisplay" action="#{fotoController.resetOnNewFotoSel()}" oncomplete="PF('newDialog').show()" icon="ui-icon-circle-plus" />
 						<p:commandButton id="homeMngButton" value="Home Gestione" action="homeMng" icon="ui-icon-home" rendered="#{navigationController.showHome}" />
 					</p:toolbarGroup>
 				</p:toolbar>
@@ -80,14 +80,14 @@
 						<f:facet name="header">
 							<h:outputText value="caratteristiche" />
 						</f:facet>
-						<p:dataTable id="tagList" var="tag" value="#{fotoController.getTagFotoSelLs(foto)}" emptyMessage="Nessun tag specificato">
+						<p:dataTable id="tagList" var="tag" value="#{fotoController.getTagFotoSelFromFotoLs(foto)}" emptyMessage="Nessun tag specificato">
 							<p:column>
 								<h:outputText value="#{tag}" />
 							</p:column>
 						</p:dataTable>
 						<p:panelGrid columns="4" cellpadding="5">
-							<p:outputPanel id="col_prim" style="height: 40px; width: 40px;" styleClass="sfondo-#{fotoController.getColor1(foto)}" />
-							<p:outputPanel id="col_sec" style="height: 25px; width: 25px;" styleClass="sfondo-#{fotoController.getColor2(foto)}" />
+							<p:outputPanel id="col_prim" style="height: 40px; width: 40px;" styleClass="sfondo-#{fotoController.getColore1FromFoto(foto)}" />
+							<p:outputPanel id="col_sec" style="height: 25px; width: 25px;" styleClass="sfondo-#{fotoController.getColore2FromFoto(foto)}" />
 							<p:graphicImage value="./resources/gfx/foto/varie/#{foto.forma}.jpg" height="35" />
 							<h:outputText value="#{foto.cosaMostra}" />
 						</p:panelGrid>
@@ -235,28 +235,28 @@
 							<h:panelGrid columns="1">
 								<h:panelGrid columns="2">
 									<h:outputText value="Originale (obbligatoria)" />
-									<p:fileUpload fileUploadListener="#{fotoController.fileUploadOrig}" mode="advanced" dragDropSupport="true" update=":growlForm:growl" required="true" label="Seleziona" uploadLabel="Carica" cancelLabel="Annulla" invalidSizeMessage="File troppo grosso (limite 1 MB)" invalidFileMessage="Tipo file non consentito (solo: gif, jpeg, png)" fileLimitMessage="Puoi caricare un file alla volta" fileLimit="1" sizeLimit="1048576" allowTypes="/(\.|\/)(gif|jpe?g|png)$/" />
+									<p:fileUpload fileUploadListener="#{fotoController.fileUploadOrig}" mode="advanced" dragDropSupport="true" update=":growlForm:growl" required="true" label="Seleziona" uploadLabel="Carica" cancelLabel="Annulla" invalidSizeMessage="File troppo grosso (limite 500 KB)" invalidFileMessage="Tipo file non consentito (solo: gif, jpeg, png)" fileLimitMessage="Puoi caricare un file alla volta" fileLimit="1" sizeLimit="524288" allowTypes="/(\.|\/)(gif|jpe?g|png)$/" />
 									<h:outputText value="HD" />
-									<p:fileUpload fileUploadListener="#{fotoController.fileUploadHD}" mode="advanced" dragDropSupport="true" update=":growlForm:growl" required="false" label="Seleziona" uploadLabel="Carica" cancelLabel="Annulla" invalidSizeMessage="File troppo grosso (limite 1 MB)" invalidFileMessage="Tipo file non consentito (solo: gif, jpeg, png)" fileLimitMessage="Puoi caricare un file alla volta" fileLimit="1" sizeLimit="1048576" allowTypes="/(\.|\/)(gif|jpe?g|png)$/" />
+									<p:fileUpload fileUploadListener="#{fotoController.fileUploadHD}" mode="advanced" dragDropSupport="true" update=":growlForm:growl" required="false" label="Seleziona" uploadLabel="Carica" cancelLabel="Annulla" invalidSizeMessage="File troppo grosso (limite 500 KB)" invalidFileMessage="Tipo file non consentito (solo: gif, jpeg, png)" fileLimitMessage="Puoi caricare un file alla volta" fileLimit="1" sizeLimit="524288" allowTypes="/(\.|\/)(gif|jpe?g|png)$/" />
 									<h:outputText value="HD WM" />
-									<p:fileUpload fileUploadListener="#{fotoController.fileUploadHDWM}" mode="advanced" dragDropSupport="true" update=":growlForm:growl" required="false" label="Seleziona" uploadLabel="Carica" cancelLabel="Annulla" invalidSizeMessage="File troppo grosso (limite 1 MB)" invalidFileMessage="Tipo file non consentito (solo: gif, jpeg, png)" fileLimitMessage="Puoi caricare un file alla volta" fileLimit="1" sizeLimit="1048576" allowTypes="/(\.|\/)(gif|jpe?g|png)$/" />
+									<p:fileUpload fileUploadListener="#{fotoController.fileUploadHDWM}" mode="advanced" dragDropSupport="true" update=":growlForm:growl" required="false" label="Seleziona" uploadLabel="Carica" cancelLabel="Annulla" invalidSizeMessage="File troppo grosso (limite 500 KB)" invalidFileMessage="Tipo file non consentito (solo: gif, jpeg, png)" fileLimitMessage="Puoi caricare un file alla volta" fileLimit="1" sizeLimit="524288" allowTypes="/(\.|\/)(gif|jpe?g|png)$/" />
 									<h:outputText value="LD" />
-									<p:fileUpload fileUploadListener="#{fotoController.fileUploadLD}" mode="advanced" dragDropSupport="true" update=":growlForm:growl" required="false" label="Seleziona" uploadLabel="Carica" cancelLabel="Annulla" invalidSizeMessage="File troppo grosso (limite 1 MB)" invalidFileMessage="Tipo file non consentito (solo: gif, jpeg, png)" fileLimitMessage="Puoi caricare un file alla volta" fileLimit="1" sizeLimit="1048576" allowTypes="/(\.|\/)(gif|jpe?g|png)$/" />
+									<p:fileUpload fileUploadListener="#{fotoController.fileUploadLD}" mode="advanced" dragDropSupport="true" update=":growlForm:growl" required="false" label="Seleziona" uploadLabel="Carica" cancelLabel="Annulla" invalidSizeMessage="File troppo grosso (limite 500 KB)" invalidFileMessage="Tipo file non consentito (solo: gif, jpeg, png)" fileLimitMessage="Puoi caricare un file alla volta" fileLimit="1" sizeLimit="524288" allowTypes="/(\.|\/)(gif|jpe?g|png)$/" />
 									<h:outputText value="LD WM" />
-									<p:fileUpload fileUploadListener="#{fotoController.fileUploadLDWM}" mode="advanced" dragDropSupport="true" update=":growlForm:growl" required="false" label="Seleziona" uploadLabel="Carica" cancelLabel="Annulla" invalidSizeMessage="File troppo grosso (limite 1 MB)" invalidFileMessage="Tipo file non consentito (solo: gif, jpeg, png)" fileLimitMessage="Puoi caricare un file alla volta" fileLimit="1" sizeLimit="1048576" allowTypes="/(\.|\/)(gif|jpe?g|png)$/" />
+									<p:fileUpload fileUploadListener="#{fotoController.fileUploadLDWM}" mode="advanced" dragDropSupport="true" update=":growlForm:growl" required="false" label="Seleziona" uploadLabel="Carica" cancelLabel="Annulla" invalidSizeMessage="File troppo grosso (limite 500 KB)" invalidFileMessage="Tipo file non consentito (solo: gif, jpeg, png)" fileLimitMessage="Puoi caricare un file alla volta" fileLimit="1" sizeLimit="524288" allowTypes="/(\.|\/)(gif|jpe?g|png)$/" />
 								</h:panelGrid>
 								<h:panelGrid columns="3">
 									<h:outputText value="TAG" />
 									<p:autoComplete id="tagAutoCompl" minQueryLength="2" value="#{fotoController.tagDaAggiungere}" completeMethod="#{fotoController.tagAutoCompleteLs}" effect="fade" />
-									<p:commandButton action="#{fotoController.aggiungiTagAllaFoto()}" update=":newForm:tagList,:newForm:tagAutoCompl" icon="ui-icon-circle-plus" title="Aggiungi" />
+									<p:commandButton action="#{fotoController.aggiungiTagAllaFoto(true)}" update=":newForm:tagList,:newForm:tagAutoCompl" icon="ui-icon-circle-plus" title="Aggiungi" />
 								</h:panelGrid>
 								<h:panelGrid columns="1" style="max-width: 500px;">
-									<p:dataTable id="tagList" var="tag" value="#{fotoController.tagFotoSelLs}">
+									<p:dataTable id="tagList" var="tag" value="#{fotoController.tagFotoNewLs}">
 										<p:column headerText="tag">
 											<h:outputText value="#{tag}" />
 										</p:column>
 										<p:column headerText="rimuovi" style="width:30px;text-align: center">
-											<p:commandButton action="#{fotoController.rimuoviTagAllaFoto()}" update=":newForm:tagList" icon="ui-icon-trash" title="Cancella">
+											<p:commandButton action="#{fotoController.rimuoviTagAllaFoto(true)}" update=":newForm:tagList" icon="ui-icon-trash" title="Cancella">
 												<f:setPropertyActionListener value="#{tag}" target="#{fotoController.tagDaEliminare}" />
 											</p:commandButton>
 										</p:column>
@@ -268,7 +268,7 @@
 								<h:panelGrid id="cosaMostraPanel" style="margin:10px;">
 									<h:outputText value="Tipo" />
 									<p:selectOneRadio id="cosaMostra" value="#{fotoController.cosaMostra}">
-										<p:ajax event="change" listener="#{fotoController.onChangeCosaMostra}" />
+										<p:ajax event="change" listener="#{fotoController.onChangeCosaMostraNew}" />
 										<f:selectItem itemLabel="Prodotto" itemValue="P" />
 										<f:selectItem itemLabel="Logo" itemValue="L" />
 										<f:selectItem itemLabel="Scheda" itemValue="S" />
@@ -278,8 +278,8 @@
 								</h:panelGrid>
 								<h:panelGrid id="color1panel" style="margin:10px;">
 									<h:outputText value="Colore Principale" />
-									<p:selectOneRadio id="color1" value="#{fotoController.color1}" layout="custom">
-										<p:ajax event="change" listener="#{fotoController.onChangeColor1}" />
+									<p:selectOneRadio id="color1" value="#{fotoController.colore1}" layout="custom">
+										<p:ajax event="change" listener="#{fotoController.onChangeColore1New}" />
 										<f:selectItem itemLabel="nero" itemValue="000000" />
 										<f:selectItem itemLabel="bianco" itemValue="FFFFFF" />
 										<f:selectItem itemLabel="rosso" itemValue="FF0000" />
@@ -294,7 +294,7 @@
 										<f:selectItem itemLabel="indefinito" itemValue="ind" />
 									</p:selectOneRadio>
 									<h:panelGrid columns="8" cellpadding="5">
-										<p:radioButton id="opt1_0" for="color1" itemIndex="0" />
+										<p:radioButton id="opt1_0" for="color1" itemIndex="0" /> 
 										<div style="background-color: #000000">nero</div>
 										<p:radioButton id="opt1_1" for="color1" itemIndex="1" />
 										<div style="background-color: #FFFFFF">bianco</div>
@@ -322,8 +322,8 @@
 								</h:panelGrid>
 								<h:panelGrid id="color2panel" style="margin:10px;">
 									<h:outputText value="Colore Secondario" />
-									<p:selectOneRadio id="color2" value="#{fotoController.color2}" layout="custom">
-										<p:ajax event="change" listener="#{fotoController.onChangeColor2}" />
+									<p:selectOneRadio id="color2" value="#{fotoController.colore2}" layout="custom">
+										<p:ajax event="change" listener="#{fotoController.onChangeColore2New}" />
 										<f:selectItem itemLabel="nero" itemValue="000000" />
 										<f:selectItem itemLabel="bianco" itemValue="FFFFFF" />
 										<f:selectItem itemLabel="rosso" itemValue="FF0000" />
@@ -367,7 +367,7 @@
 								<h:panelGrid id="formaPanel" style="margin:10px;">
 									<h:outputText value="Forma" />
 									<p:selectOneRadio id="forma" value="#{fotoController.forma}" layout="custom">
-										<p:ajax event="change" listener="#{fotoController.onChangeForma}" />
+										<p:ajax event="change" listener="#{fotoController.onChangeFormaNew}" />
 										<f:selectItem itemLabel="squadrato" itemValue="squ" />
 										<f:selectItem itemLabel="tondeggiante" itemValue="ton" />
 										<f:selectItem itemLabel="angolare" itemValue="ang" />
@@ -497,8 +497,8 @@
 								</h:panelGrid>
 								<h:panelGrid id="color1panel" style="margin:10px;">
 									<h:outputText value="Colore Principale" />
-									<p:selectOneRadio id="color1" value="#{fotoController.color1}" layout="custom">
-										<p:ajax event="change" listener="#{fotoController.onChangeColor1}" />
+									<p:selectOneRadio id="color1" value="#{fotoController.fotoSel.colore1}" layout="custom">
+										<p:ajax event="change" listener="#{fotoController.onChangeColore1}" />
 										<f:selectItem itemLabel="nero" itemValue="000000" />
 										<f:selectItem itemLabel="bianco" itemValue="FFFFFF" />
 										<f:selectItem itemLabel="rosso" itemValue="FF0000" />
@@ -541,8 +541,8 @@
 								</h:panelGrid>
 								<h:panelGrid id="color2panel" style="margin:10px;">
 									<h:outputText value="Colore Secondario" />
-									<p:selectOneRadio id="color2" value="#{fotoController.color2}" layout="custom">
-										<p:ajax event="change" listener="#{fotoController.onChangeColor2}" />
+									<p:selectOneRadio id="color2" value="#{fotoController.fotoSel.colore2}" layout="custom">
+										<p:ajax event="change" listener="#{fotoController.onChangeColore2}" />
 										<f:selectItem itemLabel="nero" itemValue="000000" />
 										<f:selectItem itemLabel="bianco" itemValue="FFFFFF" />
 										<f:selectItem itemLabel="rosso" itemValue="FF0000" />
@@ -644,7 +644,7 @@
 								<p:commandButton value="Salva" onclick="PF('updDialogUpload').hide()" update=":updForm:tipoFotoGrid" process="@this" icon="ui-icon-disk" />
 							</p:toolbarGroup>
 						</p:toolbar>
-						<p:fileUpload fileUploadListener="#{fotoController.fileUploadUndef}" mode="advanced" dragDropSupport="true" update=":growlForm:growl" required="true" label="Seleziona" uploadLabel="Carica" cancelLabel="Annulla" invalidSizeMessage="File troppo grosso (limite 1 MB)" invalidFileMessage="Tipo file non consentito (solo: gif, jpeg, png)" sizeLimit="1048576" allowTypes="/(\.|\/)(gif|jpe?g|png)$/" />
+						<p:fileUpload fileUploadListener="#{fotoController.fileUploadUndef}" mode="advanced" dragDropSupport="true" update=":growlForm:growl" required="true" label="Seleziona" uploadLabel="Carica" cancelLabel="Annulla" invalidSizeMessage="File troppo grosso (limite 500 KB)" invalidFileMessage="Tipo file non consentito (solo: gif, jpeg, png)" sizeLimit="524288" allowTypes="/(\.|\/)(gif|jpe?g|png)$/" />
 					</p:outputPanel>
 				</h:form>
 			</p:dialog>

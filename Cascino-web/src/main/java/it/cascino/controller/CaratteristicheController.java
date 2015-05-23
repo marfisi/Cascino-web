@@ -50,6 +50,7 @@ public class CaratteristicheController implements Serializable{
 	private List<Caratteristiche> filteredCaratteristicheLs;
 	
 	private Caratteristiche caratteristicaSel = new Caratteristiche();
+	// private Caratteristiche caratteristicaNew = new Caratteristiche(); // non e' necessaria
 	
 	private Caratteristiche caratteristicaDaAggiungere;
 	private Caratteristiche caratteristicaDaEliminare;

@@ -43,7 +43,7 @@
 						<p:commandButton id="viewButton" value="View" update=":display" oncomplete="PF('viewDialog').show()" icon="ui-icon-search" />
 						<p:commandButton id="modifButton" value="Modifica" update=":updForm:updDisplay" oncomplete="PF('updDialog').show()" icon="ui-icon-pencil" />
 						<p:separator />
-						<p:commandButton id="newButton" value="Aggiungi" action="#{produttoriController.resetOnNewProduttoreSel()}" oncomplete="PF('newDialog').show()" icon="ui-icon-circle-plus" />
+						<p:commandButton id="newButton" value="Aggiungi" update=":newForm:newDisplay" action="#{produttoriController.resetOnNewProduttoreSel()}" oncomplete="PF('newDialog').show()" icon="ui-icon-circle-plus" />
 						<p:commandButton id="homeMngButton" value="Home Gestione" action="homeMng" icon="ui-icon-home" />
 					</p:toolbarGroup>
 				</p:toolbar>
@@ -162,17 +162,17 @@
 						</p:toolbar>
 						<p:panelGrid columns="4" styleClass="newPanel">
 							<h:outputText value="ID" />
-							<h:outputText value="#{produttoriController.produttoreSel.id}" />
+							<h:outputText value="#{produttoriController.produttoreNew.id}" />
 							<h:outputText value="Nome" />
-							<p:inputText value="#{produttoriController.produttoreSel.nome}" maxlength="80" />
+							<p:inputText value="#{produttoriController.produttoreNew.nome}" maxlength="80" />
 							<h:outputText value="Info" />
 							<p:column>
-								<p:inputTextarea value="#{produttoriController.produttoreSel.dati}" rows="5" cols="23" counter="counter" maxlength="300" counterTemplate="{0} caratteri" autoResize="false" />
+								<p:inputTextarea value="#{produttoriController.produttoreNew.dati}" rows="5" cols="23" counter="counter" maxlength="300" counterTemplate="{0} caratteri" autoResize="false" />
 								<h:outputText id="counter" />
 							</p:column>
 							<h:outputText value="Foto" />
 							<p:column>
-								<p:selectOneMenu id="menuSelFoto" value="#{produttoriController.produttoreSel.idFoto}" var="f" filter="true" filterMatchMode="contains">
+								<p:selectOneMenu id="menuSelFoto" value="#{produttoriController.produttoreNew.idFoto}" var="f" filter="true" filterMatchMode="contains">
 									<f:selectItem itemLabel="Seleziona Foto" itemValue="" />
 									<f:selectItems value="#{fotoCondivisiController.fotoMostraLeILs}" var="foto" itemLabel="#{foto.originale} (id: #{foto.id})" itemValue="#{foto.id}" />
 									<p:column>

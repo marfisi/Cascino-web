@@ -22,14 +22,11 @@ SET default_with_oids = false;
 CREATE TABLE caratteristiche (
     id integer NOT NULL,
     articolo integer NOT NULL,
-    classe character varying(15) NOT NULL,
-    unita_misura character varying(15) NOT NULL,
+    unita_misura character varying(10) NOT NULL,
     scala integer DEFAULT 1 NOT NULL,
     qty numeric(9,2) DEFAULT 1 NOT NULL,
-    valore character varying(15) DEFAULT 'n.d.'::character varying NOT NULL,
     descrizione character varying(30),
-    updtime timestamp with time zone,
-    CONSTRAINT caratteristiche_almeno_un_qty_valore_chk CHECK (((qty IS NOT NULL) OR (valore IS NOT NULL)))
+    updtime timestamp with time zone
 );
 
 

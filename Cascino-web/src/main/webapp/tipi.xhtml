@@ -43,7 +43,7 @@
 						<p:commandButton id="viewButton" value="View" update=":display" oncomplete="PF('viewDialog').show()" icon="ui-icon-search" />
 						<p:commandButton id="modifButton" value="Modifica" update=":updForm:updDisplay" oncomplete="PF('updDialog').show()" icon="ui-icon-pencil" />
 						<p:separator />
-						<p:commandButton id="newButton" value="Aggiungi" action="#{tipiController.resetOnNewNodoSel()}" oncomplete="PF('newDialog').show()" icon="ui-icon-circle-plus" />
+						<p:commandButton id="newButton" value="Aggiungi" update=":newForm:newDisplay" action="#{tipiController.resetOnNewNodoSel()}" oncomplete="PF('newDialog').show()" icon="ui-icon-circle-plus" />
 						<p:commandButton id="homeMngButton" value="Home Gestione" action="homeMng" icon="ui-icon-home" rendered="#{navigationController.showHome}" />
 					</p:toolbarGroup>
 				</p:toolbar>
@@ -180,15 +180,16 @@
 						</p:toolbar>
 						<h:panelGrid columns="2">
 							<h:outputText value="Nome" />
-							<p:inputText value="#{tipiController.nodoSel.data.nome}" maxlength="30" />
+							<p:inputText value="#{tipiController.nodoNew.data.nome}" maxlength="30" />
 							<h:outputText value="Descrizione" />
-							<p:inputTextarea value="#{tipiController.nodoSel.data.descrizione}" rows="5" cols="23" counter="counter" maxlength="200" counterTemplate="{0} caratteri" autoResize="false" />
-							<h:outputText id="blank" />
+							<p:inputTextarea value="#{tipiController.nodoNew.data.descrizione}" rows="5" cols="23" counter="counter" maxlength="200" counterTemplate="{0} caratteri" autoResize="false" />
+							<h:outputText   />
 							<h:outputText id="counter" />
 							<h:outputText value="Foto" />
 							<p:commandButton value="Carica foto" action="#{fotoController.popolaFotoLsDynPop()}" update=":newForm:fotoMenuDisplay" icon="ui-icon-newwin" />
+							<h:outputText  />
 							<p:outputPanel id="fotoMenuDisplay">
-								<p:selectOneMenu id="menuSelFoto" value="#{tipiController.nodoSel.data.idFoto}" var="f" filter="true" filterMatchMode="contains">
+								<p:selectOneMenu id="menuSelFoto" value="#{tipiController.nodoNew.data.idFoto}" var="f" filter="true" filterMatchMode="contains">
 									<f:selectItem itemLabel="Seleziona Foto" itemValue="" />
 									<f:selectItems value="#{fotoController.fotoLsDynPop}" var="foto" itemLabel="#{foto.originale} (id: #{foto.id})" itemValue="#{foto.id}" />
 									<p:column>
@@ -199,10 +200,10 @@
 									</p:column>
 								</p:selectOneMenu>
 							</p:outputPanel>
-							<h:outputText id="blank2" />
+							<h:outputText />
 							<p:commandButton id="toFotoButton" value="Aggiungi Foto" action="#{navigationController.tipiToFoto()}" icon="ui-icon-circle-plus" />
 							<h:outputText value="Classe" />
-							<p:selectOneMenu id="menuSelPadre" value="#{tipiController.nodoSel.data.tipoPadre}" converter="tipiConv" var="t" filter="true" filterMatchMode="contains">
+							<p:selectOneMenu id="menuSelPadre" value="#{tipiController.nodoNew.data.tipoPadre}" converter="tipiConv" var="t" filter="true" filterMatchMode="contains">
 								<f:selectItem itemLabel="Seleziona Classe Padre" itemValue="" />
 								<f:selectItems value="#{tipiCondivisiController.tipiLs}" var="tipo" itemLabel="#{tipo.nome} (id: #{tipo.id})" itemValue="#{tipo}" />
 								<p:column>

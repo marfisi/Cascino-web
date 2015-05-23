@@ -3,6 +3,7 @@ package it.cascino.controller;
 import it.cascino.dao.ArticoliDao;
 //import it.cascino.dao.FotoDao;
 import it.cascino.model.Articoli;
+import it.cascino.model.Caratteristiche;
 import it.cascino.model.Foto;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -56,6 +57,7 @@ public class ArticoliController implements Serializable{
 	// private List<Articoli> articoliAutoCompleteLs;
 	
 	private Articoli articoloSel = new Articoli();
+	private Articoli articoloNew = new Articoli();
 	
 	// private List<Foto> fotoPLsource = new ArrayList<Foto>();
 	// private List<Foto> fotoPLtarget = new ArrayList<Foto>();
@@ -91,19 +93,19 @@ public class ArticoliController implements Serializable{
 	// }
 	
 	public Articoli getArticoloSel(){
-		  log.info("tmpDEBUGtmp: " + "> " + "getArticoloSel(" + ")");
+		  log.info("tmpDEBUGtmp: " + "> " + "GetSel");
 		// // log.info("tmpDEBUGtmp: " + "id: " + ((articoloSel != null) ? articoloSel.getId() : "null"));
-		if(articoloSel == null){
-			Articoli a = new Articoli();
-			a.setId(1);
-			articoloSel = a;
-		}
+//		if(articoloSel == null){
+//			Articoli a = new Articoli();
+//			a.setId(1);
+//			articoloSel = a;
+//		}
 		// // log.info("tmpDEBUGtmp: " + "< " + "getArticoloSel");
 		return articoloSel;
 	}
 	
 	public void setArticoloSel(Articoli articoloSel){
-		  log.info("tmpDEBUGtmp: " + "> " + "setArticoloSel(" + articoloSel + ")");
+		  log.info("tmpDEBUGtmp: " + "> " + "SetSel");
 		// // log.info("tmpDEBUGtmp: " + "id: " + ((articoloSel != null) ? articoloSel.getId() : "null") + " this.id: " + ((this.articoloSel != null) ? this.articoloSel.getId() : "null"));
 		// fotoPLtarget = new ArrayList<Foto>();
 		fotoPerArticolo = new ArrayList<Foto>();
@@ -119,12 +121,22 @@ public class ArticoliController implements Serializable{
 		// // log.info("tmpDEBUGtmp: " + "< " + "setArticoloSel");
 	}
 	
+	public Articoli getArticoloNew(){
+		return articoloNew;
+	}
+	
+	public void setArticoloNew(Articoli articoloNew){
+		this.articoloNew = articoloNew;
+	}
+	
 	// chiamata quando faccio nuovo, per non avere i campi sporchi da una selezione che deriva dalla tabella
 	public void resetOnNewArticoloSel(){
-		 log.info("tmpDEBUGtmp: " + "> " + "resetOnNewArticoloSel(" + ")");
+		// log.info("tmpDEBUGtmp: " + "> " + "resetOnNew");
 		Articoli a = new Articoli();
 		a.setId(1);
 		articoloSel = a;
+		fotoPerArticolo = new ArrayList<Foto>();
+		caratteristicheController.setCaratteristicheArticoloSelLs(new ArrayList<Caratteristiche>());
 	}
 	
 	public List<Articoli> getFilteredArticoliLs(){
@@ -244,20 +256,21 @@ public class ArticoliController implements Serializable{
 		fotoController.svuotaFotoLsDynPop();
 		// svuotaFotoPLsource();
 		
-		if(articoloSel.getDescrizioneAs400() == null){
-			articoloSel.setDescrizioneAs400("da ereditare da AS400");
+		if(articoloNew.getDescrizioneAs400() == null){
+			articoloNew.setDescrizioneAs400("da ereditare da AS400");
 		}
 		// articoliDao.salva(articoloSel, fotoPickList.getTarget());
-		articoliDao.salva(articoloSel, fotoPerArticolo, caratteristicheController.getCaratteristicheArticoloSelLs());
-		if(articoloSel != null){
-			esito = "Aggiunto articolo: " + articoloSel.getCodice();
+		articoliDao.salva(articoloNew, fotoPerArticolo, caratteristicheController.getCaratteristicheArticoloSelLs());
+		if(articoloNew != null){
+			esito = "Aggiunto articolo: " + articoloNew.getCodice();
 			showGrowlInsMessage();
 		}else{
-			esito = "non e' stato caricato l'articolo!" + " (articolo: " + ((articoloSel != null) ? articoloSel.getId() : "null") + ")";
+			esito = "non e' stato caricato l'articolo!" + " (articolo: " + ((articoloNew != null) ? articoloNew.getId() : "null") + ")";
 			showGrowlErrorMessage();
 		}
 		// aggiorno la lista condivisa
 		articoliCondivisiController.aggiornaArticoliLs();
+		articoloNew = new Articoli();
 		// // log.info("tmpDEBUGtmp: " + "< " + "salva");
 	}
 	

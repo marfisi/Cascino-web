@@ -21,18 +21,17 @@ SET default_with_oids = false;
 
 CREATE TABLE foto (
     id integer NOT NULL,
-    path character varying(100) DEFAULT 'c:\dev\foto'::character varying,
+    path character varying(100) DEFAULT '.\'::character varying,
     originale character varying(100) NOT NULL,
     grande character varying(100),
     grande_watermark character varying(100),
     thumbnail character varying(100),
     thumbnail_watermark character varying(100),
-    colore1 character varying(6) DEFAULT 'ind'::character varying,
-    colore2 character varying(6) DEFAULT 'ind'::character varying
+    updtime timestamp with time zone,
+    colore character varying(20) DEFAULT 'ind;ind'::character varying,
     forma character varying(3) DEFAULT 'ind'::character varying,
     cosa_mostra character varying(1) DEFAULT 'I'::character varying,
-    tag character varying(200),
-    updtime timestamp with time zone,
+    tag character varying(200)
 );
 
 
@@ -70,7 +69,8 @@ ALTER TABLE ONLY foto ALTER COLUMN id SET DEFAULT nextval('foto_id_seq'::regclas
 -- Data for Name: foto; Type: TABLE DATA; Schema: cascino_schema; Owner: cascino_user_db
 --
 
-INSERT INTO foto VALUES (1, 'c:\dev\foto', 'n.d..jpg', 'n.d..jpg', 'n.d..jpg', 'n.d..jpg', 'n.d..jpg', 'ind', 'ind', 'ind', 'I', NULL, '2014-10-31 10:46:23.197+01');
+INSERT INTO foto VALUES (1, 'c:\dev\foto', 'n.d..jpg', 'n.d..jpg', 'n.d..jpg', 'n.d..jpg', 'n.d..jpg', '2014-05-21 11:43:59.038+02', 'ind;ind', 'ind', 'ind', 'I', '');
+
 
 --
 -- Name: foto_id_seq; Type: SEQUENCE SET; Schema: cascino_schema; Owner: cascino_user_db
