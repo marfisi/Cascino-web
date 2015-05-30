@@ -1,6 +1,7 @@
 package it.cascino.controller;
 
 import it.cascino.dao.FotoDao;
+import it.cascino.dao.TipiDao;
 import it.cascino.model.Foto;
 import it.cascino.util.securety.shiro.ShiroSecured;
 import java.util.ArrayList;
@@ -40,7 +41,10 @@ public class FotoController implements Serializable{
 	
 	@Inject
 	private FotoDao fotoDao;
-	
+
+	@Inject
+	private TipiDao tipiDao;
+
 	private String esito;
 	
 	@Inject
@@ -338,7 +342,7 @@ public class FotoController implements Serializable{
 	}
 	
 	private void showGrowlInsMessage(){
-		String message = "Inserito con successo - " + esito + " >" + fotoSel + "<";
+		String message = "Inserito con successo - " + esito + " >" + fotoNew + "<";
 		facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Successo", message));
 		log.info(message);
 	}
@@ -814,7 +818,7 @@ public class FotoController implements Serializable{
 		try{
 			filterNumb = (filter == null) ? null : Integer.parseInt(filter.toString().trim().toUpperCase(locale));
 		}catch(NumberFormatException e){
-			return true;
+			filterNumb = tipiDao.getIdTipoDaLikeNomeTipo(filter.toString().trim().toUpperCase(locale));
 		}
 		if(filterNumb == null){
 			return true;

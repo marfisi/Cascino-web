@@ -79,6 +79,7 @@
 					<p:column sortBy="originale" sortFunction="#{fotoController.sortByStr}" filterBy="#{foto}" filterFunction="#{fotoController.filterPerCaratteristiche}">
 						<f:facet name="header">
 							<h:outputText value="caratteristiche" />
+							<h:outputText value=" (ex: tag1,tag2-c.nero-c2.bianco-f.triang-t.p)" />
 						</f:facet>
 						<p:dataTable id="tagList" var="tag" value="#{fotoController.getTagFotoSelFromFotoLs(foto)}" emptyMessage="Nessun tag specificato">
 							<p:column>

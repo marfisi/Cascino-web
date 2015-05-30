@@ -336,7 +336,7 @@ public class ArticoliController implements Serializable{
 	}
 	
 	private void showGrowlInsMessage(){
-		String message = "Inserito con successo - " + esito + " >" + articoloSel + "<";
+		String message = "Inserito con successo - " + esito + " >" + articoloNew + "<";
 		facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Successo", message));
 		log.info(message);
 	}

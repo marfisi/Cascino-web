@@ -156,4 +156,26 @@ public class TipiDaoManBean implements TipiDao, Serializable{
 		// log.info("tmpDEBUGtmp: " + "< " + "getTipoDaIdTipo");
 		return tipo;
 	}
+	
+	public Integer getIdTipoDaLikeNomeTipo(String nomeTipo){
+		Integer idTipo = null;
+		try{
+			try{
+				utx.begin();
+				String sql = "select min(id) " +
+				"from tipi " +
+				"where upper(nome) like :str";
+				Query query = entityManager.createNativeQuery(sql);
+				query.setParameter("str", "%" + nomeTipo.toUpperCase().trim() + "%");
+				idTipo = (Integer)query.getSingleResult();
+			}catch(NoResultException e){
+				idTipo = null;
+			}
+			utx.commit();
+		}catch(Exception e){
+			Utility.manageException(e, utx, log);
+		}
+		// log.info("tmpDEBUGtmp: " + "< " + "getNomeTipoDaIdArticolo");
+		return idTipo;		
+	}
 }

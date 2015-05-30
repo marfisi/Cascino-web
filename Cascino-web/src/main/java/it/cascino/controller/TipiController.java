@@ -165,7 +165,7 @@ public class TipiController implements Serializable{
 	}
 	
 	private void showGrowlInsMessage(){
-		String message = "Inserito con successo - " + esito + " >" + nodoSel + "<";
+		String message = "Inserito con successo - " + esito + " >" + nodoNew + "<";
 		facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Successo", message));
 		log.info(message);
 	}
@@ -241,5 +241,20 @@ public class TipiController implements Serializable{
 		}
 		// log.info("tmpDEBUGtmp: " + "< " + "getTipoDaIdTipo");
 		return tipo;
+	}
+	
+	public Integer getIdTipoDaLikeNomeTipo(String nomeTipo){
+		Integer idTipo = 0;
+		idTipo = tipiDao.getIdTipoDaLikeNomeTipo(nomeTipo);
+		if(idTipo != null){
+			esito = "tipo " + idTipo;
+			showGrowlInfoMessage(esito);
+		}else{
+			esito = "non e' stato trovato il tipo!" + " (nome: " + nomeTipo + ")";
+			showGrowlErrorMessage();
+		}
+		// log.info("tmpDEBUGtmp: " + "< " + "getTipoDaIdTipo");
+		return idTipo;
+		
 	}
 }

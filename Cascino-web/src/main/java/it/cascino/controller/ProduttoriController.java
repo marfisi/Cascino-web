@@ -57,7 +57,9 @@ public class ProduttoriController implements Serializable{
 	public void setProduttoreSel(Produttori produttoreSel){
 		// log.info("tmpDEBUGtmp: " + "> " + "setProduttoreSel(" + produttoreSel + ")");
 		// log.info("tmpDEBUGtmp: " + "id: " + ((produttoreSel != null) ? produttoreSel.getId() : "null"));
-		this.produttoreSel = produttoreSel;
+		if(produttoreSel != null){
+			this.produttoreSel = produttoreSel;
+		}
 		// log.info("tmpDEBUGtmp: " + "< " + "setProduttoreSel");
 	}
 	
@@ -159,7 +161,7 @@ public class ProduttoriController implements Serializable{
 	}
 	
 	private void showGrowlInsMessage(){
-		String message = "Inserito con successo - " + esito + " >" + produttoreSel + "<";
+		String message = "Inserito con successo - " + esito + " >" + produttoreNew + "<";
 		facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Successo", message));
 		log.info(message);
 	}
