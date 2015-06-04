@@ -63,7 +63,7 @@ public class ArticoliDaoManBean implements ArticoliDao, Serializable{
 	}
 	
 	public void salva(Articoli articolo, List<Foto> fotoPerArticolo, List<Caratteristiche> caratteristichePerArticolo){
-		// log.info("tmpDEBUGtmp: " + "> " + "salva(" + articolo + ", " + fotoPerArticolo + ")");
+//		 log.info("tmpDEBUGtmp: " + "> " + "salva(" + articolo + ", " + fotoPerArticolo + ", " + caratteristichePerArticolo + ")");
 		try{
 			try{
 				utx.begin();
@@ -100,8 +100,8 @@ public class ArticoliDaoManBean implements ArticoliDao, Serializable{
 		// log.info("tmpDEBUGtmp: " + "< " + "salva");
 	}
 	
-	public void aggiorna(Articoli articolo, List<Foto> fotoPerArticolo){
-		// log.info("tmpDEBUGtmp: " + "> " + "aggiorna(" + articolo + ", " + fotoPerArticolo + ")");
+	public void aggiorna(Articoli articolo, List<Foto> fotoPerArticolo, List<Caratteristiche> caratteristichePerArticolo){
+		// log.info("tmpDEBUGtmp: " + "> " + "aggiorna(" + articolo + ", " + fotoPerArticolo + ", " + caratteristichePerArticolo + ")");
 		try{
 			try{
 				utx.begin();
@@ -112,6 +112,14 @@ public class ArticoliDaoManBean implements ArticoliDao, Serializable{
 				try{
 					if(!manageArticoliFoto(articolo.getId(), fotoPerArticolo)){
 						// entityManager.clear();
+						utx.rollback();
+					}
+				}catch(Exception e){
+					utx.rollback();
+					Utility.manageException(e, utx, log);
+				}
+				try{
+					if(!manageArticoliCaratteristiche(articolo.getId(), caratteristichePerArticolo)){
 						utx.rollback();
 					}
 				}catch(Exception e){
@@ -268,7 +276,7 @@ public class ArticoliDaoManBean implements ArticoliDao, Serializable{
 			o = iterator.next();
 			idCaratDaNonEliminare.add(o.getId());
 		}
-		query.setParameter("idCaratDaNonEliminare", (idCaratDaNonEliminare.isEmpty()?0:idCaratDaNonEliminare));
+		query.setParameter("idCaratDaNonEliminare", (idCaratDaNonEliminare.isEmpty() ? 0 : idCaratDaNonEliminare));
 		
 		List<Caratteristiche> caratteristicheDaEliminare = new ArrayList<Caratteristiche>();
 		try{

@@ -68,7 +68,9 @@ public class ProduttoriController implements Serializable{
 	}
 	
 	public void setProduttoreNew(Produttori produttoreNew){
-		this.produttoreNew = produttoreNew;
+		if(produttoreNew != null){
+			this.produttoreNew = produttoreNew;
+		}		
 	}
 	
 	// chiamata quando faccio nuovo, per non avere i campi sporchi da una selezione che deriva dalla tabella

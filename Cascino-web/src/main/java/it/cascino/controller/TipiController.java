@@ -61,7 +61,9 @@ public class TipiController implements Serializable{
 	public void setNodoSel(TreeNode nodoSel){
 		// log.info("tmpDEBUGtmp: " + "> " + "setNodoSel(" + nodoSel + ")");
 		// log.info("tmpDEBUGtmp: " + "id: " + ((nodoSel != null) ? ((Tipi)nodoSel.getData()).getId() : "null"));
-		this.nodoSel = nodoSel;
+		if(nodoSel != null){
+			this.nodoSel = nodoSel;
+		}
 		// log.info("tmpDEBUGtmp: " + "< " + "setNodoSel");
 	}
 	
@@ -70,7 +72,9 @@ public class TipiController implements Serializable{
 	}
 	
 	public void setNodoNew(TreeNode nodoNew){
-		this.nodoNew = nodoNew;
+		if(nodoNew != null){
+			this.nodoNew = nodoNew;
+		}
 	}
 	
 	// chiamata quando faccio nuovo, per non avere i campi sporchi da una selezione che deriva dalla tabella

@@ -813,7 +813,7 @@
 													<h:outputText value="#{c.classe}" />
 												</f:facet>
 												<f:facet name="input">
-													<p:inputText value="#{c.classe}" />
+													<p:inputText value="#{c.classe}" converter="toLowerCaseConverter" />
 												</f:facet>
 											</p:cellEditor>
 										</p:column>
@@ -823,7 +823,7 @@
 													<h:outputText value="#{c.unitaMisura}" />
 												</f:facet>
 												<f:facet name="input">
-													<p:inputText value="#{c.unitaMisura}" />
+													<p:inputText value="#{c.unitaMisura}" converter="toLowerCaseConverter" />
 												</f:facet>
 											</p:cellEditor>
 										</p:column>
@@ -853,7 +853,7 @@
 													<h:outputText value="#{c.valore}" />
 												</f:facet>
 												<f:facet name="input">
-													<p:inputText value="#{c.valore}" />
+													<p:inputText value="#{c.valore}" converter="toLowerCaseConverter" />
 												</f:facet>
 											</p:cellEditor>
 										</p:column>
@@ -863,7 +863,7 @@
 													<h:outputText value="#{c.descrizione}" />
 												</f:facet>
 												<f:facet name="input">
-													<p:inputText value="#{c.descrizione}" />
+													<p:inputText value="#{c.descrizione}" converter="toLowerCaseConverter" />
 												</f:facet>
 											</p:cellEditor>
 										</p:column>

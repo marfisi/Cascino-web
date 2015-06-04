@@ -22,8 +22,8 @@ SET default_with_oids = false;
 CREATE TABLE caratteristiche (
     id integer NOT NULL,
     articolo integer NOT NULL,
-    classe character varying(15) NOT NULL,
-    unita_misura character varying(15) NOT NULL,
+    classe character varying(20) NOT NULL,
+    unita_misura character varying(20) NOT NULL,
     scala integer DEFAULT 1 NOT NULL,
     qty numeric(9,2) DEFAULT 1 NOT NULL,
     valore character varying(15) DEFAULT 'n.d.'::character varying NOT NULL,

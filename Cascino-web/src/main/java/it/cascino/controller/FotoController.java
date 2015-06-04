@@ -140,7 +140,9 @@ public class FotoController implements Serializable{
 	}
 	
 	public void setFotoNew(Foto fotoNew){
-		this.fotoNew = fotoNew;
+		if(fotoNew != null){
+			this.fotoNew = fotoNew;
+		}
 	}
 	
 	// chiamata quando faccio nuovo, per non avere i campi sporchi

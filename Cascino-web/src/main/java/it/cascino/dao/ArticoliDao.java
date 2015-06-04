@@ -8,7 +8,7 @@ import it.cascino.model.Caratteristiche;
 public interface ArticoliDao{
 	void salva(Articoli t,  List<Foto> fotoPerArticolo,  List<Caratteristiche> caratteristichePerArticolo);
 	
-	void aggiorna(Articoli t,  List<Foto> fotoPerArticolo);
+	void aggiorna(Articoli t,  List<Foto> fotoPerArticolo,  List<Caratteristiche> caratteristichePerArticolo);
 	
 	void elimina(Articoli t);
 	

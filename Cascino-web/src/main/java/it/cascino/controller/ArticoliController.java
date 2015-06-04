@@ -115,6 +115,7 @@ public class ArticoliController implements Serializable{
 //			if(this.articoloSel.getId() != articoloSel.getId()){
 			// fotoPLtarget = fotoController.getFotoArticoloOrdLsDaIdArticolo(articoloSel.getId());
 			fotoPerArticolo = fotoController.getFotoArticoloOrdLsDaIdArticolo(articoloSel.getId());
+			caratteristicheController.setCaratteristicheArticoloSelLs(caratteristicheController.getCaratteristicheListPerArticolo(articoloSel.getId()));
 //			}
 		}
 		// fotoPickList = new DualListModel<Foto>(fotoPLsource, fotoPLtarget);
@@ -126,7 +127,11 @@ public class ArticoliController implements Serializable{
 	}
 	
 	public void setArticoloNew(Articoli articoloNew){
-		this.articoloNew = articoloNew;
+		fotoPerArticolo = new ArrayList<Foto>();
+		caratteristicheController.setCaratteristicheArticoloSelLs(new ArrayList<Caratteristiche>());
+		if(articoloNew != null){
+			this.articoloNew = articoloNew;
+		}
 	}
 	
 	// chiamata quando faccio nuovo, per non avere i campi sporchi da una selezione che deriva dalla tabella
@@ -271,6 +276,7 @@ public class ArticoliController implements Serializable{
 		// aggiorno la lista condivisa
 		articoliCondivisiController.aggiornaArticoliLs();
 		articoloNew = new Articoli();
+		caratteristicheController.setCaratteristicheArticoloSelLs(new ArrayList<Caratteristiche>());
 		// // log.info("tmpDEBUGtmp: " + "< " + "salva");
 	}
 	
@@ -283,7 +289,7 @@ public class ArticoliController implements Serializable{
 		// svuotaFotoPLsource();
 		
 		// articoliDao.aggiorna(articoloSel, fotoPickList.getTarget());
-		articoliDao.aggiorna(articoloSel, fotoPerArticolo);
+		articoliDao.aggiorna(articoloSel, fotoPerArticolo, caratteristicheController.getCaratteristicheArticoloSelLs());
 		if(articoloSel != null){
 			esito = "Aggiornato articolo: " + articoloSel.getCodice();
 			showGrowlUpdMessage();
