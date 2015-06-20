@@ -185,13 +185,13 @@ public class ProduttoriController implements Serializable{
 		// log.info("tmpDEBUGtmp: " + "id: " + ((produttoreSel != null) ? produttoreSel.getId() : "null"));
 		String nomeProduttore = "";
 		nomeProduttore = produttoriDao.getNomeProduttoreDaIdArticolo(idArticolo);
-		if(nomeProduttore != null){
-			esito = "produttore " + nomeProduttore;
-			showGrowlInfoMessage(esito);
-		}else{
-			esito = "non e' stato trovato il produttore!" + " (articolo: " + idArticolo + ")";
-			showGrowlErrorMessage();
-		}
+//		if(nomeProduttore != null){
+//			esito = "produttore " + nomeProduttore;
+//			showGrowlInfoMessage(esito);
+//		}else{
+//			esito = "non e' stato trovato il produttore!" + " (articolo: " + idArticolo + ")";
+//			showGrowlErrorMessage();
+//		}
 		// log.info("tmpDEBUGtmp: " + "< " + "getNomeProduttoreDaIdArticolo");
 		return nomeProduttore;
 	}

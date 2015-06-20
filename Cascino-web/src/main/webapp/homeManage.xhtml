@@ -58,7 +58,7 @@
 							<p:commandButton value="Foto" action="mngToFoto" styleClass="foto" />
 						</p:column>
 						<p:column colspan="2" style="font-weight: bold;">
-							<p:commandButton value="Risorse" action="mngToRisorse" styleClass="risorse" />
+							<p:commandButton value="Allegati" action="mngToAllegati" styleClass="allegati" />
 						</p:column>
 						<p:column colspan="2" style="font-weight: bold;">
 							<p:commandButton value="Tipi" action="mngToTipi" styleClass="tipi" />
@@ -131,15 +131,18 @@
 							<p:commandButton value="Articoli" action="#{articoliCondivisiController.aggiornaArticoliLs()}" styleClass="articoli" />
 						</p:column>
 						<p:column colspan="2" style="font-weight: bold;">
-							<p:commandButton value="Foto" action="#{fotoCondivisiController.aggiornaFotoLs()}" styleClass="foto" />
+							<p:commandButton value="Allegati" action="#{allegatiCondivisiController.aggiornaAllegatiLs()}" styleClass="allegati" />
 						</p:column>
 						<p:column colspan="2" style="font-weight: bold;">
-							<p:commandButton value="Tipi" action="#{tipiCondivisiController.aggiornaTipiLs()}" styleClass="tipi" />
+							<p:commandButton value="Foto" action="#{fotoCondivisiController.aggiornaFotoLs()}" styleClass="foto" />
 						</p:column>
 					</p:row>
 					<p:row>
 						<p:column colspan="2" style="font-weight: bold;">
 							<p:commandButton value="Produttori" action="#{produttoriCondivisiController.aggiornaProduttoriLs()}" styleClass="produttori" />
+						</p:column>
+						<p:column colspan="2" style="font-weight: bold;">
+							<p:commandButton value="Tipi" action="#{tipiCondivisiController.aggiornaTipiLs()}" styleClass="tipi" />
 						</p:column>
 					</p:row>
 				</p:panelGrid>

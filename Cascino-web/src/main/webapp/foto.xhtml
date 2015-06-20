@@ -66,7 +66,7 @@
 							<p:inputText id="globalFilter" onkeyup="fotoTable.filter()" style="width:150px" />
 						</p:outputPanel>
 					</f:facet>
-					<p:column sortBy="originale" sortFunction="#{fotoController.sortByStr}" filterBy="#{foto.originale}" filterMatchMode="contains">
+					<p:column sortBy="originale" sortFunction="#{fotoCondivisiController.sortByStr}" filterBy="#{foto.originale}" filterMatchMode="contains">
 						<f:facet name="header">
 							<h:outputText value="Originale" />
 						</f:facet>
@@ -76,7 +76,7 @@
 							<h:outputText value="#{fotoController.size(foto, 1)} - #{fotoController.resolution(foto, 1)}" />
 						</h:panelGrid>
 					</p:column>
-					<p:column sortBy="originale" sortFunction="#{fotoController.sortByStr}" filterBy="#{foto}" filterFunction="#{fotoController.filterPerCaratteristiche}">
+					<p:column sortBy="originale" sortFunction="#{fotoCondivisiController.sortByStr}" filterBy="#{foto}" filterFunction="#{fotoController.filterPerCaratteristiche}">
 						<f:facet name="header">
 							<h:outputText value="caratteristiche" />
 							<h:outputText value=" (ex: tag1,tag2-c.nero-c2.bianco-f.triang-t.p)" />
@@ -146,13 +146,13 @@
 							<h:outputText value="#{fotoController.size(foto, 5)} - #{fotoController.resolution(foto, 5)}" />
 						</h:panelGrid>
 					</p:column>
-					<!--  p:column sortBy="path" sortFunction="#{fotoController.sortByStrIC}" filterBy="#{foto.path}" filterMatchMode="contains">
+					<!--  p:column sortBy="path" sortFunction="#{fotoCondivisiController.sortByStrIC}" filterBy="#{foto.path}" filterMatchMode="contains">
 						<f:facet name="header">
 							<h:outputText value="Path" />
 						</f:facet>
 						<h:outputText value="#{foto.path}" />
 					</p:column-->
-					<p:column sortBy="id" sortFunction="#{fotoController.sortByNum}" filterBy="#{foto.id}" filterMatchMode="contains">
+					<p:column sortBy="id" sortFunction="#{fotoCondivisiController.sortByNum}" filterBy="#{foto.id}" filterMatchMode="contains">
 						<f:facet name="header">
 							<h:outputText value="ID" />
 						</f:facet>

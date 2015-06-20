@@ -332,7 +332,7 @@
 												</f:facet>
 												<p:graphicImage value="#{fotoController.resolvePath(f)}#{fotoController.getFotonameUrl(f, 1)}" height="#{fotoController.getHeightFromResolution(f, 1, 40, 60)}" />
 											</p:column>
-											<p:column sortBy="originale" sortFunction="#{fotoController.sortByStr}" filterBy="#{f.originale} #{f.id}" filterMatchMode="contains">
+											<p:column sortBy="originale" sortFunction="#{fotoCondivisiController.sortByStr}" filterBy="#{f.originale} #{f.id}" filterMatchMode="contains">
 												<f:facet name="header">
 													<h:outputText value="Nome (id)" />
 												</f:facet>
@@ -650,7 +650,7 @@
 												</f:facet>
 												<p:graphicImage value="#{fotoController.resolvePath(f)}#{fotoController.getFotonameUrl(f, 1)}" height="#{fotoController.getHeightFromResolution(f, 1, 40, 60)}" />
 											</p:column>
-											<p:column sortBy="originale" sortFunction="#{fotoController.sortByStr}" filterBy="#{f.originale} #{f.id}" filterMatchMode="contains">
+											<p:column sortBy="originale" sortFunction="#{fotoCondivisiController.sortByStr}" filterBy="#{f.originale} #{f.id}" filterMatchMode="contains">
 												<f:facet name="header">
 													<h:outputText value="Nome (id)" />
 												</f:facet>

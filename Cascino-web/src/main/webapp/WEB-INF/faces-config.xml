@@ -73,8 +73,8 @@
 			<redirect />
 		</navigation-case>
 		<navigation-case>
-			<from-outcome>mngToRisorse</from-outcome>
-			<to-view-id>/tipi.xhtml</to-view-id>
+			<from-outcome>mngToAllegati</from-outcome>
+			<to-view-id>/allegati.xhtml</to-view-id>
 			<redirect />
 		</navigation-case>
 		<navigation-case>

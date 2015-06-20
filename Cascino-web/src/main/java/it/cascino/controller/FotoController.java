@@ -367,50 +367,50 @@ public class FotoController implements Serializable{
 		log.error(message);
 	}
 	
-	public int sortByNum(Object obj1, Object obj2){
-		// log.info("tmpDEBUGtmp: " + "> " + "sortByNum(" + obj1 + ", " + obj2 + ")");
-		// log.info("tmpDEBUGtmp: " + "id: " + ((fotoSel != null) ? fotoSel.getId() : "null"));
-		Integer o1 = (Integer)obj1;
-		Integer o2 = (Integer)obj2;
-		// log.info("sortById: " + o1 + "-" + o2);
-		// log.info("tmpDEBUGtmp: " + "< " + "sortByNum");
-		if(o1 < o2){
-			return -1;
-		}else if(o1 > o2){
-			return 1;
-		}
-		return 0;
-	}
-	
-	public int sortByStr(Object obj1, Object obj2){
-		// log.info("tmpDEBUGtmp: " + "> " + "sortByStr(" + obj1 + ", " + obj2 + ")");
-		// log.info("tmpDEBUGtmp: " + "id: " + ((fotoSel != null) ? fotoSel.getId() : "null"));
-		String o1 = (String)obj1;
-		String o2 = (String)obj2;
-		// log.info("sortByname: " + o1 + "-" + o2);
-		// log.info("tmpDEBUGtmp: " + "< " + "sortByStr");
-		if(o1.compareTo(o2) < 0){
-			return -1;
-		}else if(o1.compareTo(o2) > 0){
-			return 1;
-		}
-		return 0;
-	}
-	
-	public int sortByStrIC(Object obj1, Object obj2){
-		// log.info("tmpDEBUGtmp: " + "> " + "sortByStrIC(" + obj1 + ", " + obj2 + ")");
-		// log.info("tmpDEBUGtmp: " + "id: " + ((fotoSel != null) ? fotoSel.getId() : "null"));
-		String o1 = (String)obj1;
-		String o2 = (String)obj2;
-		// log.info("sortBynameIC: " + o1 + "-" + o2);
-		// log.info("tmpDEBUGtmp: " + "< " + "sortByStrIC");
-		if(o1.compareToIgnoreCase(o2) < 0){
-			return -1;
-		}else if(o1.compareToIgnoreCase(o2) > 0){
-			return 1;
-		}
-		return 0;
-	}
+//	public int sortByNum(Object obj1, Object obj2){
+//		// log.info("tmpDEBUGtmp: " + "> " + "sortByNum(" + obj1 + ", " + obj2 + ")");
+//		// log.info("tmpDEBUGtmp: " + "id: " + ((fotoSel != null) ? fotoSel.getId() : "null"));
+//		Integer o1 = (Integer)obj1;
+//		Integer o2 = (Integer)obj2;
+//		// log.info("sortById: " + o1 + "-" + o2);
+//		// log.info("tmpDEBUGtmp: " + "< " + "sortByNum");
+//		if(o1 < o2){
+//			return -1;
+//		}else if(o1 > o2){
+//			return 1;
+//		}
+//		return 0;
+//	}
+//	
+//	public int sortByStr(Object obj1, Object obj2){
+//		// log.info("tmpDEBUGtmp: " + "> " + "sortByStr(" + obj1 + ", " + obj2 + ")");
+//		// log.info("tmpDEBUGtmp: " + "id: " + ((fotoSel != null) ? fotoSel.getId() : "null"));
+//		String o1 = (String)obj1;
+//		String o2 = (String)obj2;
+//		// log.info("sortByname: " + o1 + "-" + o2);
+//		// log.info("tmpDEBUGtmp: " + "< " + "sortByStr");
+//		if(o1.compareTo(o2) < 0){
+//			return -1;
+//		}else if(o1.compareTo(o2) > 0){
+//			return 1;
+//		}
+//		return 0;
+//	}
+//	
+//	public int sortByStrIC(Object obj1, Object obj2){
+//		// log.info("tmpDEBUGtmp: " + "> " + "sortByStrIC(" + obj1 + ", " + obj2 + ")");
+//		// log.info("tmpDEBUGtmp: " + "id: " + ((fotoSel != null) ? fotoSel.getId() : "null"));
+//		String o1 = (String)obj1;
+//		String o2 = (String)obj2;
+//		// log.info("sortBynameIC: " + o1 + "-" + o2);
+//		// log.info("tmpDEBUGtmp: " + "< " + "sortByStrIC");
+//		if(o1.compareToIgnoreCase(o2) < 0){
+//			return -1;
+//		}else if(o1.compareToIgnoreCase(o2) > 0){
+//			return 1;
+//		}
+//		return 0;
+//	}
 	
 	public String size(Foto f, int t){
 		// log.info("tmpDEBUGtmp: " + "> " + "size(" + f + ", " + t + ")");
@@ -816,14 +816,18 @@ public class FotoController implements Serializable{
 	
 	public boolean filterPerTipoDelloArticolo(Object value, Object filter, Locale locale){
 		// log.info("tmpDEBUGtmp: " + "> " + "filterArticoloCodice(" + value + ", " + filter + ", " + locale + ")");
-		Integer filterNumb = null;
+		List<Integer> filterNumb = new ArrayList<Integer>();
+		String filterStr = filter.toString().trim().toUpperCase(locale);
+		if((filter == null) || StringUtils.isEmpty(filterStr)){
+			return true;
+		}
 		try{
-			filterNumb = (filter == null) ? null : Integer.parseInt(filter.toString().trim().toUpperCase(locale));
+			filterNumb.add(Integer.parseInt(filterStr));
 		}catch(NumberFormatException e){
-			filterNumb = tipiDao.getIdTipoDaLikeNomeTipo(filter.toString().trim().toUpperCase(locale));
+			filterNumb = tipiDao.getIdTipoDaLikeNomeTipo(filterStr);
 		}
 		if(filterNumb == null){
-			return true;
+			return false;
 		}
 		if(value == null){
 			return false;
@@ -834,11 +838,15 @@ public class FotoController implements Serializable{
 		Iterator<Integer> iterTipoLs = idTipoLs.iterator();
 		while(iterTipoLs.hasNext()){
 			Integer idTipo = iterTipoLs.next();
-			if(filterNumb.equals(idTipo)){
-				return true;
-			}
-			if(fotoDao.getTipoDiscendeDaTipo(idTipo, filterNumb)){
-				return true;
+			Iterator<Integer> iterFilterNumb = filterNumb.iterator();
+			while(iterFilterNumb.hasNext()){
+				Integer idFilterNumb = iterFilterNumb.next();
+				if(idFilterNumb.equals(idTipo)){
+					return true;
+				}
+				if(tipiDao.getTipoDiscendeDaTipo(idTipo, idFilterNumb)){
+					return true;
+				}
 			}
 		}
 		return false;

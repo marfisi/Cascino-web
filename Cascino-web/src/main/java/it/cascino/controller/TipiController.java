@@ -247,18 +247,18 @@ public class TipiController implements Serializable{
 		return tipo;
 	}
 	
-	public Integer getIdTipoDaLikeNomeTipo(String nomeTipo){
-		Integer idTipo = 0;
-		idTipo = tipiDao.getIdTipoDaLikeNomeTipo(nomeTipo);
-		if(idTipo != null){
-			esito = "tipo " + idTipo;
-			showGrowlInfoMessage(esito);
-		}else{
-			esito = "non e' stato trovato il tipo!" + " (nome: " + nomeTipo + ")";
-			showGrowlErrorMessage();
-		}
-		// log.info("tmpDEBUGtmp: " + "< " + "getTipoDaIdTipo");
-		return idTipo;
-		
-	}
+	// serve a qualcuno? c'è dentro la chiamata a getIdTipoDaLikeNomeTipo che ora torna una list non più un solo id
+//	public Integer getIdTipoDaLikeNomeTipo(String nomeTipo){
+//		Integer idTipo = 0;
+//		idTipo = tipiDao.getIdTipoDaLikeNomeTipo(nomeTipo);
+//		if(idTipo != null){
+//			esito = "tipo " + idTipo;
+//			showGrowlInfoMessage(esito);
+//		}else{
+//			esito = "non e' stato trovato il tipo!" + " (nome: " + nomeTipo + ")";
+//			showGrowlErrorMessage();
+//		}
+//		// log.info("tmpDEBUGtmp: " + "< " + "getTipoDaIdTipo");
+//		return idTipo;		
+//	}
 }

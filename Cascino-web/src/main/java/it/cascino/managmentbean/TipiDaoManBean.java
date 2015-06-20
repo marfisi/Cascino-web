@@ -157,17 +157,40 @@ public class TipiDaoManBean implements TipiDao, Serializable{
 		return tipo;
 	}
 	
-	public Integer getIdTipoDaLikeNomeTipo(String nomeTipo){
-		Integer idTipo = null;
+//	public Integer getIdTipoDaLikeNomeTipo(String nomeTipo){
+//		Integer idTipo = null;
+//		try{
+//			try{
+//				utx.begin();
+//				String sql = "select min(id) " +
+//				"from tipi " +
+//				"where upper(nome) like :str";
+//				Query query = entityManager.createNativeQuery(sql);
+//				query.setParameter("str", "%" + nomeTipo.toUpperCase().trim() + "%");
+//				idTipo = (Integer)query.getSingleResult();
+//			}catch(NoResultException e){
+//				idTipo = null;
+//			}
+//			utx.commit();
+//		}catch(Exception e){
+//			Utility.manageException(e, utx, log);
+//		}
+//		// log.info("tmpDEBUGtmp: " + "< " + "getNomeTipoDaIdArticolo");
+//		return idTipo;		
+//	}
+	
+	@SuppressWarnings("unchecked")
+	public List<Integer> getIdTipoDaLikeNomeTipo(String nomeTipo){
+		List<Integer> idTipo = null;
 		try{
 			try{
 				utx.begin();
-				String sql = "select min(id) " +
+				String sql = "select id " +
 				"from tipi " +
 				"where upper(nome) like :str";
 				Query query = entityManager.createNativeQuery(sql);
 				query.setParameter("str", "%" + nomeTipo.toUpperCase().trim() + "%");
-				idTipo = (Integer)query.getSingleResult();
+				idTipo = (List<Integer>)query.getResultList();
 			}catch(NoResultException e){
 				idTipo = null;
 			}
@@ -177,5 +200,33 @@ public class TipiDaoManBean implements TipiDao, Serializable{
 		}
 		// log.info("tmpDEBUGtmp: " + "< " + "getNomeTipoDaIdArticolo");
 		return idTipo;		
+	}
+		
+	public Boolean getTipoDiscendeDaTipo(Integer idTipo, Integer idTipoPadre){
+		if(idTipo.equals(1)){
+			return false;
+		}
+		Integer idTipoGenitore = null;
+		try{
+			try{
+				utx.begin();
+				String sql = "select padre " +
+				"from tipi " +
+				"where id = :id";
+				Query query = entityManager.createNativeQuery(sql);
+				query.setParameter("id", idTipo);
+				idTipoGenitore = (Integer)query.getSingleResult();
+			}catch(NoResultException e){
+				idTipoGenitore = null;
+			}
+			utx.commit();
+		}catch(Exception e){
+			Utility.manageException(e, utx, log);
+		}
+		if(idTipoGenitore.equals(idTipoPadre)){
+			return true;
+		}
+		// ricorsiva
+		return getTipoDiscendeDaTipo(idTipoGenitore, idTipoPadre);
 	}
 }

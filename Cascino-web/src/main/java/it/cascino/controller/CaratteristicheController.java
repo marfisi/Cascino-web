@@ -3,10 +3,7 @@ package it.cascino.controller;
 import it.cascino.dao.CaratteristicheDao;
 import it.cascino.model.Caratteristiche;
 import it.cascino.model.Foto;
-// import it.cascino.model.Foto;
 import java.util.ArrayList;
-import java.util.Arrays;
-// import java.util.Iterator;
 import java.util.List;
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -14,11 +11,8 @@ import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
-// import javax.faces.event.ActionEvent;
 import javax.inject.Inject;
 import javax.inject.Named;
-import org.apache.commons.lang3.StringUtils;
-// import org.apache.commons.lang3.StringUtils;
 import org.jboss.logging.Logger;
 import org.primefaces.event.RowEditEvent;
 
@@ -47,7 +41,7 @@ public class CaratteristicheController implements Serializable{
 	@Inject
 	private CaratteristicheCondivisiController caratteristicheCondivisiController;
 	
-	private List<Caratteristiche> filteredCaratteristicheLs;
+//	private List<Caratteristiche> filteredCaratteristicheLs;
 	
 	private Caratteristiche caratteristicaSel = new Caratteristiche();
 	// private Caratteristiche caratteristicaNew = new Caratteristiche(); // non e' necessaria

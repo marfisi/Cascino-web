@@ -6,8 +6,9 @@
    PATH="/homeManage.xhtml" model-entity="JSFProcessItem">
    <PROCESS-ITEM-OUTPUT ID="mngToFoto::#foto.xhtml" NAME="output"
     PATH="/foto.xhtml" TARGET="rules:#foto.xhtml" TITLE="mngToFoto" model-entity="JSFProcessItemOutput"/>
-   <PROCESS-ITEM-OUTPUT ID="mngToRisorse::#tipi.xhtml" NAME="output1"
-    PATH="/tipi.xhtml" TARGET="rules:#tipi.xhtml" TITLE="mngToRisorse" model-entity="JSFProcessItemOutput"/>
+   <PROCESS-ITEM-OUTPUT ID="mngToAllegati::#allegati.xhtml"
+    NAME="output1" PATH="/allegati.xhtml" TARGET="rules:#allegati.xhtml"
+    TITLE="mngToAllegati" model-entity="JSFProcessItemOutput"/>
    <PROCESS-ITEM-OUTPUT ID="mngToTipi::#tipi.xhtml" NAME="output2"
     PATH="/tipi.xhtml" TARGET="rules:#tipi.xhtml" TITLE="mngToTipi" model-entity="JSFProcessItemOutput"/>
    <PROCESS-ITEM-OUTPUT ID="mngToArticoli::#articoli.xhtml"
@@ -78,4 +79,6 @@
     TITLE="homeMng" model-entity="JSFProcessItemOutput"/>
   </PROCESS-ITEM>
  </PROCESS-ITEM>
+ <PROCESS-ITEM NAME="rules:#allegati.xhtml" PATH="/allegati.xhtml"
+  SHAPE="800,273,0,0" model-entity="JSFProcessGroup"/>
 </PROCESS>

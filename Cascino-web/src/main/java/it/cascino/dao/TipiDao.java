@@ -17,5 +17,7 @@ public interface TipiDao{
 	
 	String getNomeTipoDaIdArticolo(Integer idArticolo);
 	
-	Integer getIdTipoDaLikeNomeTipo(String nomeTipo);
+	List<Integer> getIdTipoDaLikeNomeTipo(String nomeTipo);
+	
+	Boolean getTipoDiscendeDaTipo(Integer idTipo, Integer idTipoPadre);
 }

@@ -62,8 +62,6 @@ public interface FotoDao{
 	Foto getFotoTipoDaIdArticolo(Integer idArticolo);
 	
 	List<Integer> getTipoLsDaIdFoto(Integer idFoto);
-	
-	Boolean getTipoDiscendeDaTipo(Integer idTipo, Integer idTipoPadre);
 	// ***** fine Tipi *****
 	
 	// ***** inizio Produttori *****

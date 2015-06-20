@@ -134,5 +134,4 @@ public class TipiCondivisiController implements Serializable{
 		}
 		return 0;
 	}
-
 }

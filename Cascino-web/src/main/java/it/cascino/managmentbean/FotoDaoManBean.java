@@ -1138,60 +1138,6 @@ public class FotoDaoManBean implements FotoDao, Serializable{
 		}
 		return idTipiLs;
 	}
-	
-	public Boolean getTipoDiscendeDaTipo(Integer idTipo, Integer idTipoPadre){
-		if(idTipo.equals(1)){
-			return false;
-		}
-		Integer idTipoGenitore = null;
-		try{
-			try{
-				utx.begin();
-				String sql = "select padre " +
-				"from tipi " +
-				"where id = :id";
-				Query query = entityManager.createNativeQuery(sql);
-				query.setParameter("id", idTipo);
-				idTipoGenitore = (Integer)query.getSingleResult();
-			}catch(NoResultException e){
-				idTipoGenitore = null;
-			}
-			utx.commit();
-		}catch(Exception e){
-			Utility.manageException(e, utx, log);
-		}
-		if(idTipoGenitore.equals(idTipoPadre)){
-			return true;
-		}
-		// ricorsiva
-		return getTipoDiscendeDaTipo(idTipoGenitore, idTipoPadre);
-//		List<String> idEidPadre = null;
-//		try{
-//			try{
-//				utx.begin();
-//				String sql = "select concat_ws(';', id::text, padre::text) AS conc " +
-//				"from tipi";
-//				Query query = entityManager.createNativeQuery(sql);
-//				idEidPadre = (List<String>)query.getResultList();
-//			}catch(NoResultException e){
-//				idEidPadre = null;
-//			}
-//			utx.commit();
-//		}catch(Exception e){
-//			Utility.manageException(e, utx, log);
-//		}
-//		
-//		String idEidPadreArr[] = idEidPadre.toArray(new String[idEidPadre.size()]);
-//		for(int i = 0; i < idEidPadreArr.length; i++){
-//			String idEidPadreRow[] = StringUtils.split(idEidPadreArr[i], ";");
-//			
-//			
-//			
-//			if(myart == null){
-//				continue;
-//			}
-//		
-		}
 	// ***** fine Tipi *****
 	
 	// ***** inizio Produttori *****

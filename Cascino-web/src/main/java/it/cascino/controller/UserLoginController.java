@@ -189,6 +189,7 @@ public class UserLoginController implements Serializable{
 		log.info(message);
 	}
 	
+	@SuppressWarnings("unused")
 	private void showGrowlUpdMessage(){
 		String message = "Aggiornato con successo - " + esito + " >" + userSel + "<";
 		facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Successo", message));
@@ -201,6 +202,7 @@ public class UserLoginController implements Serializable{
 		log.info(message);
 	}
 	
+	@SuppressWarnings("unused")
 	private void showGrowlDelMessage(){
 		String message = "Eliminato con successo - " + esito + " >" + userSel + "<";
 		facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Successo", message));

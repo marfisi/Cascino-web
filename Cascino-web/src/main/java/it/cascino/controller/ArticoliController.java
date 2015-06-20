@@ -330,6 +330,7 @@ public class ArticoliController implements Serializable{
 		return esito;
 	}
 	
+	@SuppressWarnings("unused")
 	private void showGrowlInfoMessage(String message){
 		facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Successo", message));
 		log.info(message);
