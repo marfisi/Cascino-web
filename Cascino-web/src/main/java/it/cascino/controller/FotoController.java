@@ -191,6 +191,7 @@ public class FotoController implements Serializable{
 		colore1 = "ind";
 		colore2 = "ind";
 		forma = "ind";
+		svuotaFotoLsDynPop();
 		// log.info("tmpDEBUGtmp: " + "< " + "salva");
 	}
 	
@@ -265,6 +266,7 @@ public class FotoController implements Serializable{
 		fileUploadedLs.clear();
 		// aggiorno la lista condivisa
 		fotoCondivisiController.aggiornaFotoLs();
+		svuotaFotoLsDynPop();
 		// log.info("tmpDEBUGtmp: " + "< " + "aggiorna");
 	}
 	
@@ -283,6 +285,7 @@ public class FotoController implements Serializable{
 		}
 		// aggiorno la lista condivisa
 		fotoCondivisiController.aggiornaFotoLs();
+		svuotaFotoLsDynPop();
 		// log.info("tmpDEBUGtmp: " + "< " + "elimina");
 	}
 	

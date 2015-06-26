@@ -3,21 +3,27 @@ package it.cascino.controller;
 import it.cascino.dao.AllegatiDao;
 import it.cascino.dao.TipiDao;
 import it.cascino.model.Allegati;
+import it.cascino.model.Articoli;
 import it.cascino.util.securety.shiro.ShiroSecured;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
+import java.io.InputStream;
 import java.io.Serializable;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
+import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.servlet.ServletContext;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.jboss.logging.Logger;
 import org.primefaces.event.FileUploadEvent;
+import org.primefaces.model.DefaultStreamedContent;
+import org.primefaces.model.StreamedContent;
 import org.primefaces.model.UploadedFile;
 
 @Named
@@ -43,7 +49,7 @@ public class AllegatiController implements Serializable{
 	
 	@Inject
 	private TipiDao tipiDao;
-
+	
 	private String esito;
 	
 	@Inject
@@ -111,6 +117,7 @@ public class AllegatiController implements Serializable{
 		// aggiorno la lista condivisa
 		allegatiCondivisiController.aggiornaAllegatiLs();
 		allegatoNew = new Allegati();
+		svuotaAllegatiLsDynPop();
 		// log.info("tmpDEBUGtmp: " + "< " + "salva");
 	}
 	
@@ -179,6 +186,7 @@ public class AllegatiController implements Serializable{
 		fileUploadedLs.clear();
 		// aggiorno la lista condivisa
 		allegatiCondivisiController.aggiornaAllegatiLs();
+		svuotaAllegatiLsDynPop();
 		// log.info("tmpDEBUGtmp: " + "< " + "aggiorna");
 	}
 	
@@ -196,6 +204,7 @@ public class AllegatiController implements Serializable{
 		}
 		// aggiorno la lista condivisa
 		allegatiCondivisiController.aggiornaAllegatiLs();
+		svuotaAllegatiLsDynPop();
 		// log.info("tmpDEBUGtmp: " + "< " + "elimina");
 	}
 	
@@ -265,24 +274,24 @@ public class AllegatiController implements Serializable{
 		log.error(message);
 	}
 	
-//	public String size(Allegati a, int t){
-//		// log.info("tmpDEBUGtmp: " + "> " + "size(" + f + ", " + t + ")");
-//		// log.info("tmpDEBUGtmp: " + "< " + "size");
-//		return size(a, t, 0);
-//	}
-//	
-//	public String size(Allegati a, int t, int u){
-//		// log.info("tmpDEBUGtmp: " + "> " + "size(" + f + ", " + t + ", " + u + ")");
-//		if(t == 0){
-//			t = 1; // -------------;
-//		}
-//		String size = allegatiDao.getSize(a, t, fileUploadedLs, u);
-//		// log.info("tmpDEBUGtmp: " + "< " + "size");
-//		return size;
-//	}
+	// public String size(Allegati a, int t){
+	// // log.info("tmpDEBUGtmp: " + "> " + "size(" + f + ", " + t + ")");
+	// // log.info("tmpDEBUGtmp: " + "< " + "size");
+	// return size(a, t, 0);
+	// }
+	//
+	// public String size(Allegati a, int t, int u){
+	// // log.info("tmpDEBUGtmp: " + "> " + "size(" + f + ", " + t + ", " + u + ")");
+	// if(t == 0){
+	// t = 1; // -------------;
+	// }
+	// String size = allegatiDao.getSize(a, t, fileUploadedLs, u);
+	// // log.info("tmpDEBUGtmp: " + "< " + "size");
+	// return size;
+	// }
 	
 	public String size(Allegati a){
-//		String size = allegatiDao.getSize(a, t, fileUploadedLs, u);
+		// String size = allegatiDao.getSize(a, t, fileUploadedLs, u);
 		String size = allegatiDao.getSize(a, 1, fileUploadedLs, 0);
 		return size;
 	}
@@ -327,7 +336,7 @@ public class AllegatiController implements Serializable{
 	
 	public void fileUploadUndef(FileUploadEvent event){
 		String type = "";
-		type = ".orig";//-------------------------
+		type = ".orig";// -------------------------
 		log.info("fileUploadUndef - " + type);
 		
 		fileUpload(event, type);
@@ -343,14 +352,14 @@ public class AllegatiController implements Serializable{
 		showGrowlInfoMessage(event.getFile().getFileName() + " upload terminato");
 	}
 	
-//	public Boolean canDelete(){
-//		// log.info("tmpDEBUGtmp: " + "> " + "canDelete(" + ")");
-//		if(tipoFoNum == 1){
-//			return false;
-//		}
-//		// log.info("tmpDEBUGtmp: " + "< " + "canDelete");
-//		return true;
-//	}
+	// public Boolean canDelete(){
+	// // log.info("tmpDEBUGtmp: " + "> " + "canDelete(" + ")");
+	// if(tipoFoNum == 1){
+	// return false;
+	// }
+	// // log.info("tmpDEBUGtmp: " + "< " + "canDelete");
+	// return true;
+	// }
 	
 	public List<Allegati> getAllegatiLsDynPop(){
 		if(allegatiLsDynPop == null){
@@ -363,8 +372,11 @@ public class AllegatiController implements Serializable{
 		this.allegatiLsDynPop = allegatiLsDynPop;
 	}
 	
+//	public void popolaAllegatiLsDynPop(Integer idArticolo){
+//		allegatiLsDynPop = getAllegatiArticoloOrdLsDaIdArticolo(idArticolo); // allegatiCondivisiController.getAllegatiLs();// ---------
+//	}
 	public void popolaAllegatiLsDynPop(){
-		allegatiLsDynPop = allegatiCondivisiController.getAllegatiLs();//---------
+		allegatiLsDynPop = allegatiCondivisiController.getAllegatiLs();
 	}
 	
 	public void svuotaAllegatiLsDynPop(){
@@ -413,4 +425,51 @@ public class AllegatiController implements Serializable{
 		List<Integer> idTipoLs = allegatiDao.getTipoLsDaIdAllegato(idAllegato);
 		return idTipoLs;
 	}
+	
+	public Allegati getAllegatiArticoloDaIdArticolo(Integer idArticolo){
+		Allegati allegatiArticolo = new Allegati();
+		allegatiArticolo = allegatiDao.getAllegatiArticoloDaIdArticolo(idArticolo);
+		if(allegatiArticolo != null){
+			esito = "selezionato allegato " + allegatiArticolo.getId() + " per articolo: " + idArticolo;
+			showGrowlInfoMessage(esito);
+		}else{
+			esito = "non e' stato trovato l'allegato!" + " (articolo: " + idArticolo + ")";
+			showGrowlErrorMessage();
+		}
+		return allegatiArticolo;
+	}
+	
+	public List<Allegati> getAllegatiArticoloOrdLsDaIdArticolo(Integer idArticolo){
+		// log.info("tmpDEBUGtmp: " + "> " + "getFotoArticoloOrdLsDaIdArticolo(" + idArticolo + ")");
+		// log.info("tmpDEBUGtmp: " + "id: " + ((fotoSel != null) ? fotoSel.getId() : "null"));
+		List<Allegati> allegatiArticolo = new ArrayList<Allegati>();
+		allegatiArticolo = allegatiDao.getAllegatiArticoloOrdLsDaIdArticolo(idArticolo);
+		if(allegatiArticolo != null){
+			esito = "selezionati " + allegatiArticolo.size() + " allegati per articolo: " + idArticolo;
+			showGrowlInfoMessage(esito);
+		}else{
+			esito = "non e' stato trovato l'allegato!" + " (articolo: " + idArticolo + ")";
+			showGrowlErrorMessage();
+		}
+		return allegatiArticolo;
+	}
+	
+	private StreamedContent fileAllegatoDownload;
+	
+	public StreamedContent getFileAllegatoDownload(String filename){
+		ExternalContext a1 = facesContext.getExternalContext();
+		ServletContext a2 = (ServletContext)a1.getContext();
+		InputStream stream = a2.getResourceAsStream("/resources/allegati/" + filename);
+		fileAllegatoDownload = new DefaultStreamedContent(stream, "application/octet-stream", filename);
+		return fileAllegatoDownload;
+	}
+	
+//	public StreamedContent getFileAllegatoDownload(Integer idArticolo){
+//		List<Allegati> articoli = getAllegatiArticoloOrdLsDaIdArticolo(idArticolo);
+//		ExternalContext a1 = facesContext.getExternalContext();
+//		ServletContext a2 = (ServletContext)a1.getContext();
+//		InputStream stream = a2.getResourceAsStream("/resources/allegati/" + filename);
+//		fileAllegatoDownload = new DefaultStreamedContent(stream, "application/pdf", filename);
+//		return fileAllegatoDownload;
+//	}
 }

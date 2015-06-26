@@ -604,4 +604,34 @@ public class AllegatiDaoManBean implements AllegatiDao, Serializable{
 		}
 		return idTipiLs;
 	}
+	
+	public Allegati getAllegatiArticoloDaIdArticolo(Integer idArticolo){
+		return (getAllegatiArticoloOrdLsDaIdArticolo(idArticolo).size() > 0) ? getAllegatiArticoloOrdLsDaIdArticolo(idArticolo).get(0) : null;
+	}
+	
+	@SuppressWarnings("unchecked")
+	public List<Allegati> getAllegatiArticoloOrdLsDaIdArticolo(Integer idArticolo){
+		List<Allegati> allegati = null;
+		try{
+			try{
+				utx.begin();
+				String sql = "select a.* " +
+				"from ( " +
+				"select row_number() OVER () AS rownum, selord.allegato " +
+				"from (select allegato " +
+				"from articoli_allegati aa join articoli art on aa.articolo = art.id " +
+				"where articolo = :id " +
+				"order by ordinamento, aa.updtime desc) as selord) as selordjoin left join allegati a on selordjoin.allegato = a.id";
+				Query query = entityManager.createNativeQuery(sql, Allegati.class); // Native
+				query.setParameter("id", idArticolo);
+				allegati = (List<Allegati>)query.getResultList();
+			}catch(NoResultException e){
+				allegati = null;
+			}
+			utx.commit();
+		}catch(Exception e){
+			Utility.manageException(e, utx, log);
+		}
+		return allegati;
+	}
 }

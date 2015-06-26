@@ -37,4 +37,8 @@ public interface AllegatiDao{
 	Allegati getAllegatoDaIdAllegato(Integer idAllegato);
 	
 	List<Integer> getTipoLsDaIdAllegato(Integer idAllegato);
+	
+	Allegati getAllegatiArticoloDaIdArticolo(Integer idArticolo);
+	
+	List<Allegati> getAllegatiArticoloOrdLsDaIdArticolo(Integer idArticolo);
 }

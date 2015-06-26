@@ -9,9 +9,11 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import it.cascino.dao.ArticoliDao;
 import it.cascino.model.Articoli;
+import it.cascino.model.ArticoliAllegati;
 import it.cascino.model.ArticoliFoto;
 import it.cascino.model.Caratteristiche;
 import it.cascino.model.Foto;
+import it.cascino.model.Allegati;
 //import it.cascino.model.Produttori;
 import it.cascino.util.Utility;
 import javax.faces.bean.SessionScoped;
@@ -62,8 +64,7 @@ public class ArticoliDaoManBean implements ArticoliDao, Serializable{
 		return articoli;
 	}
 	
-	public void salva(Articoli articolo, List<Foto> fotoPerArticolo, List<Caratteristiche> caratteristichePerArticolo){
-//		 log.info("tmpDEBUGtmp: " + "> " + "salva(" + articolo + ", " + fotoPerArticolo + ", " + caratteristichePerArticolo + ")");
+	public void salva(Articoli articolo, List<Foto> fotoPerArticolo, List<Caratteristiche> caratteristichePerArticolo, List<Allegati> allegatiPerArticolo){
 		try{
 			try{
 				utx.begin();
@@ -89,6 +90,14 @@ public class ArticoliDaoManBean implements ArticoliDao, Serializable{
 					utx.rollback();
 					Utility.manageException(e, utx, log);
 				}
+				try{
+					if(!manageArticoliAllegati(articolo.getId(), allegatiPerArticolo)){
+						utx.rollback();
+					}
+				}catch(Exception e){
+					utx.rollback();
+					Utility.manageException(e, utx, log);
+				}
 				log.info("transaction:" + " " + utx.getStatus());
 			}finally{
 				log.info("transaction:" + " " + utx.getStatus());
@@ -97,10 +106,9 @@ public class ArticoliDaoManBean implements ArticoliDao, Serializable{
 		}catch(Exception e){
 			Utility.manageException(e, utx, log);
 		}
-		// log.info("tmpDEBUGtmp: " + "< " + "salva");
 	}
 	
-	public void aggiorna(Articoli articolo, List<Foto> fotoPerArticolo, List<Caratteristiche> caratteristichePerArticolo){
+	public void aggiorna(Articoli articolo, List<Foto> fotoPerArticolo, List<Caratteristiche> caratteristichePerArticolo, List<Allegati> allegatiPerArticolo){
 		// log.info("tmpDEBUGtmp: " + "> " + "aggiorna(" + articolo + ", " + fotoPerArticolo + ", " + caratteristichePerArticolo + ")");
 		try{
 			try{
@@ -126,6 +134,14 @@ public class ArticoliDaoManBean implements ArticoliDao, Serializable{
 					utx.rollback();
 					Utility.manageException(e, utx, log);
 				}
+				try{
+					if(!manageArticoliAllegati(articolo.getId(), allegatiPerArticolo)){
+						utx.rollback();
+					}
+				}catch(Exception e){
+					utx.rollback();
+					Utility.manageException(e, utx, log);
+				}
 				log.info("transaction:" + " " + utx.getStatus());
 			}finally{
 				log.info("transaction:" + " " + utx.getStatus());
@@ -136,15 +152,59 @@ public class ArticoliDaoManBean implements ArticoliDao, Serializable{
 		}
 		// log.info("tmpDEBUGtmp: " + "< " + "aggiorna");
 	}
+		
+	public void elimina(Articoli articoloElimina){
+		// log.info("tmpDEBUGtmp: " + "> " + "elimina(" + articoloElimina + ")");
+		try{
+			try{
+				utx.begin();
+				log.info("transaction:" + " " + utx.getStatus());
+				Articoli articolo = entityManager.find(Articoli.class, articoloElimina.getId());
+				log.info("elimina: " + articolo.getId() + ", " + articolo.getCodice() + ", " + articolo.getNome() + ", " + articolo.getDescrizione());
+				// per la lista di foto, aggiorno articoli_foto	
+				try{
+					if(!manageArticoliFoto(articolo.getId(), new ArrayList<Foto>())){ // passo fotoPerArticolo = new ArrayList<Foto>(), per ottenere idFotoDaNonEliminare vuoto, quindi cancellare tutti i riferimenti
+						// entityManager.clear();
+						utx.rollback();
+					}
+				}catch(Exception e){
+					utx.rollback();
+					Utility.manageException(e, utx, log);
+				}
+				try{
+					if(!manageArticoliCaratteristiche(articolo.getId(), new ArrayList<Caratteristiche>())){ // passo caratteristichePerArticolo = new ArrayList<Caratteristiche>(), per ottenere idCaratDaNonEliminare vuoto, quindi cancellare tutti i riferimenti
+						utx.rollback();
+					}
+				}catch(Exception e){
+					utx.rollback();
+					Utility.manageException(e, utx, log);
+				}
+				try{
+					if(!manageArticoliAllegati(articolo.getId(), new ArrayList<Allegati>())){ // passo allegatiPerArticolo = new ArrayList<Allegati>(), per ottenere idAllegatiDaNonEliminare vuoto, quindi cancellare tutti i riferimenti
+						utx.rollback();
+					}
+				}catch(Exception e){
+					utx.rollback();
+					Utility.manageException(e, utx, log);
+				}
+				log.info("transaction:" + " " + utx.getStatus());
+				entityManager.remove(articolo);
+				log.info("transaction:" + " " + utx.getStatus());
+			}finally{
+				log.info("transaction:" + " " + utx.getStatus());
+				utx.commit();
+			}
+		}catch(Exception e){
+			Utility.manageException(e, utx, log);
+		}
+		// log.info("tmpDEBUGtmp: " + "< " + "elimina");
+	}
 	
 	@SuppressWarnings("unchecked")
 	private Boolean manageArticoliFoto(Integer idArticolo, List<Foto> fotoPerArticolo) throws SystemException{
 		// log.info("tmpDEBUGtmp: " + "> " + "manageArticoliFoto(" + idArticolo + ", " + fotoPerArticolo + ")");
 		ArticoliFoto articoloFoto = null;
 		Foto o = null;
-		// try{
-		// try{
-		// utx.begin();
 		log.info("transaction:" + " " + utx.getStatus());
 		Iterator<Foto> iterator = fotoPerArticolo.iterator();
 		
@@ -160,7 +220,7 @@ public class ArticoliDaoManBean implements ArticoliDao, Serializable{
 			o = iterator.next();
 			idFotoDaNonEliminare.add(o.getId());
 		}
-		query.setParameter("idFotoDaNonEliminare", (idFotoDaNonEliminare.isEmpty()?0:idFotoDaNonEliminare));
+		query.setParameter("idFotoDaNonEliminare", (idFotoDaNonEliminare.isEmpty() ? 0 : idFotoDaNonEliminare));
 		
 		List<ArticoliFoto> articoliFotoDaEliminare = new ArrayList<ArticoliFoto>();
 		try{
@@ -214,7 +274,7 @@ public class ArticoliDaoManBean implements ArticoliDao, Serializable{
 				continue; // prossimo giro while
 			}
 			
-			// se non trovo corrispondenza, allora o e' cambiato qaulche dato tra foto e/o ordinamento o e' stata aggiunta una foto o eliminata
+			// se non trovo corrispondenza, allora o e' cambiato qualche dato tra foto e/o ordinamento o e' stata aggiunta una foto o eliminata
 			
 			query = entityManager.createNamedQuery("ArticoliFoto.findByIdArtIdFoto", ArticoliFoto.class);
 			query.setParameter("idArt", idArticolo);
@@ -243,24 +303,12 @@ public class ArticoliDaoManBean implements ArticoliDao, Serializable{
 		}
 		
 		log.info("transaction:" + " " + utx.getStatus());
-		// }finally{
-		// log.info("transaction:" + " " + utx.getStatus());
-		// utx.commit();
-		// }
-		// }catch(Exception e){
-		// Utility.manageException(e, utx, log);
-		// }
-		// log.info("tmpDEBUGtmp: " + "< " + "manageArticoliFoto");
 		return true;
 	}
 	
 	@SuppressWarnings("unchecked")
 	private Boolean manageArticoliCaratteristiche(Integer idArticolo, List<Caratteristiche> caratteristichePerArticolo) throws SystemException{
-//		ArticoliFoto articoloFoto = null;
 		Caratteristiche o = null;
-		// try{
-		// try{
-		// utx.begin();
 		log.info("transaction:" + " " + utx.getStatus());
 		Iterator<Caratteristiche> iterator = caratteristichePerArticolo.iterator();
 		
@@ -304,8 +352,6 @@ public class ArticoliDaoManBean implements ArticoliDao, Serializable{
 		
 		// dopo aver eliminato, gestisco le aggiunte e modifiche
 		iterator = caratteristichePerArticolo.iterator();
-//		query = entityManager.createNamedQuery("Caratteristiche.findByIdArticolo", Caratteristiche.class);
-//		query.setParameter("idArticolo", idArticolo);
 		while(iterator.hasNext()){
 			o = iterator.next();
 			
@@ -315,82 +361,114 @@ public class ArticoliDaoManBean implements ArticoliDao, Serializable{
 			o.setArticolo(idArticolo);
 			entityManager.merge(o);
 			log.info("articolo " + o.getArticolo() + ", " + o.toString() + " aggiunto");
-//			
-//			try{
-//				articoloFoto = (Caratteristiche)query.getSingleResult();
-//			}catch(NoResultException e){
-//				articoloFoto = null;
-//			}catch(Exception e){
-//				articoloFoto = null;
-//			}
-//			
-//			// se trovo corrispondenza, significa che non e' cambiato nulla tra la lista e come gia' e' salvato, posso passare all'elemento successivo
-//			if(articoloFoto != null){
-//				log.info("articolo " + articoloFoto.getArticolo() + ", foto " + articoloFoto.getFoto() + ", ordinamento " + articoloFoto.getOrdinamento() + " gia' memorizzata");
-//				continue; // prossimo giro while
-//			}
-//			
-//			// se non trovo corrispondenza, allora o e' cambiato qaulche dato tra foto e/o ordinamento o e' stata aggiunta una foto o eliminata
-//			
-//			query = entityManager.createNamedQuery("ArticoliFoto.findByIdArtIdFoto", ArticoliFoto.class);
-//			query.setParameter("idArt", idArticolo);
-//			
-//			try{
-//				query.setParameter("idFoto", o.getId());
-//				articoloFoto = (ArticoliFoto)query.getSingleResult();
-//			}catch(NoResultException e){
-//				articoloFoto = null;
-//			}catch(Exception e){
-//				articoloFoto = null;
-//			}
-//			
-//			// se la trovo significa che e' cambiato solo l'ordine e faccio update
-//			if(articoloFoto != null){
-//				log.info("articolo " + articoloFoto.getArticolo() + ", foto " + articoloFoto.getFoto() + ", ordinamento (da " + articoloFoto.getOrdinamento() + " a " + ordinamento + ")");
-//				articoloFoto.setOrdinamento(ordinamento);
-//				entityManager.merge(articoloFoto);
-//				continue; // prossimo giro while
-//			}
-//			
-//			// se non la trovo significa che e' da aggiungere (insert)
-//			articoloFoto = new ArticoliFoto(null, idArticolo, null, o.getId(), ordinamento, null);
-//			entityManager.persist(articoloFoto);
-//			log.info("articolo " + articoloFoto.getArticolo() + ", foto " + articoloFoto.getFoto() + ", ordinamento " + articoloFoto.getOrdinamento() + " aggiunto");
 		}
 		
 		log.info("transaction:" + " " + utx.getStatus());
 		return true;
 	}
 	
-	public void elimina(Articoli articoloElimina){
-		// log.info("tmpDEBUGtmp: " + "> " + "elimina(" + articoloElimina + ")");
+	@SuppressWarnings("unchecked")
+	private Boolean manageArticoliAllegati(Integer idArticolo, List<Allegati> allegatiPerArticolo) throws SystemException{
+		ArticoliAllegati articoliAllegati = null;
+		Allegati o = null;
+		log.info("transaction:" + " " + utx.getStatus());
+		Iterator<Allegati> iterator = allegatiPerArticolo.iterator();
+		
+		// elimino le entry in tabella che non sono piu' in essere
+		String sql = "select * "
+		+ "from articoli_allegati a "
+		+ "where a.articolo = :id "
+		+ "and a.allegato not in (:idAllegatiDaNonEliminare)";
+		Query query = entityManager.createNativeQuery(sql, ArticoliFoto.class);
+		query.setParameter("id", idArticolo);
+		List<Integer> idAllegatiDaNonEliminare = new ArrayList<Integer>();
+		while(iterator.hasNext()){
+			o = iterator.next();
+			idAllegatiDaNonEliminare.add(o.getId());
+		}
+		query.setParameter("idAllegatiDaNonEliminare", (idAllegatiDaNonEliminare.isEmpty() ? 0 : idAllegatiDaNonEliminare));
+		
+		List<ArticoliAllegati> articoliAllegatiDaEliminare = new ArrayList<ArticoliAllegati>();
 		try{
-			try{
-				utx.begin();
-				log.info("transaction:" + " " + utx.getStatus());
-				Articoli articolo = entityManager.find(Articoli.class, articoloElimina.getId());
-				log.info("elimina: " + articolo.getId() + ", " + articolo.getCodice() + ", " + articolo.getNome() + ", " + articolo.getDescrizione());
-				// per la lista di foto, aggiorno articoli_foto	
+			articoliAllegatiDaEliminare = (List<ArticoliAllegati>)query.getResultList();
+		}catch(NoResultException e){
+			articoliAllegatiDaEliminare = null;
+		}catch(Exception e){
+			articoliAllegatiDaEliminare = null;
+		}
+		if(!articoliAllegatiDaEliminare.isEmpty()){
+			Iterator<ArticoliAllegati> iteratorRem = articoliAllegatiDaEliminare.iterator();
+			ArticoliAllegati aa = null;
+			// Object tmp = null;
+			while(iteratorRem.hasNext()){
 				try{
-					if(!manageArticoliFoto(articolo.getId(), new ArrayList<Foto>())){ // passo fotoPerArticolo = new ArrayList<Foto>(), per ottenere idFotoDaNonEliminare vuoto, quindi cancellare tutti i riferimenti
-						// entityManager.clear();
-						utx.rollback();
-					}
+					// tmp = iteratorRem.next();
+					aa = iteratorRem.next();
+				}catch(NoSuchElementException e){
+					Utility.manageException(e, utx, log);
 				}catch(Exception e){
-					utx.rollback();
 					Utility.manageException(e, utx, log);
 				}
-				log.info("transaction:" + " " + utx.getStatus());
-				entityManager.remove(articolo);
-				log.info("transaction:" + " " + utx.getStatus());
-			}finally{
-				log.info("transaction:" + " " + utx.getStatus());
-				utx.commit();
+				log.info("elimina: " + aa.getId() + ", " + aa.getArticolo() + ", " + aa.getAllegato() + ", " + aa.getOrdinamento());
+				entityManager.remove(aa);
 			}
-		}catch(Exception e){
-			Utility.manageException(e, utx, log);
 		}
-		// log.info("tmpDEBUGtmp: " + "< " + "elimina");
+		
+		// dopo aver eliminato, gestisco le aggiunte e modifiche
+		iterator = allegatiPerArticolo.iterator();
+		Integer ordinamento = 0;
+		query = entityManager.createNamedQuery("ArticoliAllegati.findByIdArtIdAllegatoOrd", ArticoliAllegati.class);
+		query.setParameter("idArt", idArticolo);
+		while(iterator.hasNext()){
+			o = iterator.next();
+			ordinamento++;
+			
+			try{
+				query.setParameter("idAllegato", o.getId());
+				query.setParameter("ord", ordinamento);
+				articoliAllegati = (ArticoliAllegati)query.getSingleResult();
+			}catch(NoResultException e){
+				articoliAllegati = null;
+			}catch(Exception e){
+				articoliAllegati = null;
+			}
+			
+			// se trovo corrispondenza, significa che non e' cambiato nulla tra la lista e come gia' e' salvato, posso passare all'elemento successivo
+			if(articoliAllegati != null){
+				log.info("articolo " + articoliAllegati.getArticolo() + ", allegato " + articoliAllegati.getAllegato() + ", ordinamento " + articoliAllegati.getOrdinamento() + " gia' memorizzata");
+				continue; // prossimo giro while
+			}
+			
+			// se non trovo corrispondenza, allora o e' cambiato qualche dato tra allegato e/o ordinamento o e' stata aggiunta un allegato o eliminato
+			
+			query = entityManager.createNamedQuery("ArticoliAllegati.findByIdArtIdAllegato", ArticoliAllegati.class);
+			query.setParameter("idArt", idArticolo);
+			
+			try{
+				query.setParameter("idAllegato", o.getId());
+				articoliAllegati = (ArticoliAllegati)query.getSingleResult();
+			}catch(NoResultException e){
+				articoliAllegati = null;
+			}catch(Exception e){
+				articoliAllegati = null;
+			}
+			
+			// se la trovo significa che e' cambiato solo l'ordine e faccio update
+			if(articoliAllegati != null){
+				log.info("articolo " + articoliAllegati.getArticolo() + ", allegato " + articoliAllegati.getAllegato() + ", ordinamento (da " + articoliAllegati.getOrdinamento() + " a " + ordinamento + ")");
+				articoliAllegati.setOrdinamento(ordinamento);
+				entityManager.merge(articoliAllegati);
+				continue; // prossimo giro while
+			}
+			
+			// se non la trovo significa che e' da aggiungere (insert)
+			articoliAllegati = new ArticoliAllegati(null, idArticolo, null, o.getId(), ordinamento, null);
+			entityManager.persist(articoliAllegati);
+			log.info("articolo " + articoliAllegati.getArticolo() + ", allegato " + articoliAllegati.getAllegato() + ", ordinamento " + articoliAllegati.getOrdinamento() + " aggiunto");
+		}
+		
+		log.info("transaction:" + " " + utx.getStatus());
+		return true;
 	}
 	
 	@SuppressWarnings("unchecked")

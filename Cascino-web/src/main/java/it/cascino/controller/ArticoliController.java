@@ -1,6 +1,7 @@
 package it.cascino.controller;
 
 import it.cascino.dao.ArticoliDao;
+import it.cascino.model.Allegati;
 //import it.cascino.dao.FotoDao;
 import it.cascino.model.Articoli;
 import it.cascino.model.Caratteristiche;
@@ -50,6 +51,10 @@ public class ArticoliController implements Serializable{
 	FotoController fotoController;
 	@Inject
 	CaratteristicheController caratteristicheController;
+	@Inject
+	AllegatiCondivisiController allegatiCondivisiController;
+	@Inject
+	AllegatiController allegatiController;
 	
 	// private List<Articoli> articoliLs;
 	private List<Articoli> filteredArticoliLs;
@@ -65,6 +70,7 @@ public class ArticoliController implements Serializable{
 	// private DualListModel<Foto> fotoPickList = new DualListModel<Foto>(new ArrayList<Foto>(), new ArrayList<Foto>());
 	// private Boolean fotoPLtargetModif = true;
 	private List<Foto> fotoPerArticolo = new ArrayList<Foto>();
+	private List<Allegati> allegatiPerArticolo = new ArrayList<Allegati>();
 	
 //	private List<Caratteristiche> caratteristichePerArticolo = new ArrayList<Caratteristiche>();
 	
@@ -109,12 +115,14 @@ public class ArticoliController implements Serializable{
 		// // log.info("tmpDEBUGtmp: " + "id: " + ((articoloSel != null) ? articoloSel.getId() : "null") + " this.id: " + ((this.articoloSel != null) ? this.articoloSel.getId() : "null"));
 		// fotoPLtarget = new ArrayList<Foto>();
 		fotoPerArticolo = new ArrayList<Foto>();
+		allegatiPerArticolo = new ArrayList<Allegati>();
 		if(articoloSel != null){
 			this.articoloSel = articoloSel;
 			// aggiorno le variabili che dipendono dell'articolo selezionato
 //			if(this.articoloSel.getId() != articoloSel.getId()){
 			// fotoPLtarget = fotoController.getFotoArticoloOrdLsDaIdArticolo(articoloSel.getId());
 			fotoPerArticolo = fotoController.getFotoArticoloOrdLsDaIdArticolo(articoloSel.getId());
+			allegatiPerArticolo = allegatiController.getAllegatiArticoloOrdLsDaIdArticolo(articoloSel.getId());
 			caratteristicheController.setCaratteristicheArticoloSelLs(caratteristicheController.getCaratteristicheListPerArticolo(articoloSel.getId()));
 //			}
 		}
@@ -128,6 +136,7 @@ public class ArticoliController implements Serializable{
 	
 	public void setArticoloNew(Articoli articoloNew){
 		fotoPerArticolo = new ArrayList<Foto>();
+		allegatiPerArticolo = new ArrayList<Allegati>();
 		caratteristicheController.setCaratteristicheArticoloSelLs(new ArrayList<Caratteristiche>());
 		if(articoloNew != null){
 			this.articoloNew = articoloNew;
@@ -141,6 +150,7 @@ public class ArticoliController implements Serializable{
 		a.setId(1);
 		articoloSel = a;
 		fotoPerArticolo = new ArrayList<Foto>();
+		allegatiPerArticolo = new ArrayList<Allegati>();
 		caratteristicheController.setCaratteristicheArticoloSelLs(new ArrayList<Caratteristiche>());
 	}
 	
@@ -159,17 +169,19 @@ public class ArticoliController implements Serializable{
 	}
 	
 	public List<Foto> getFotoPerArticolo(){
-		// // log.info("tmpDEBUGtmp: " + "> " + "getFotoPerArticolo(" + ")");
-		// // log.info("tmpDEBUGtmp: " + "id: " + ((articoloSel != null) ? articoloSel.getId() : "null"));
-		// // log.info("tmpDEBUGtmp: " + "< " + "getFotoPerArticolo");
 		return fotoPerArticolo;
 	}
 	
 	public void setFotoPerArticolo(List<Foto> fotoPerArticolo){
-		// // log.info("tmpDEBUGtmp: " + "> " + "setFotoPerArticolo(" + fotoPerArticolo + ")");
-		// // log.info("tmpDEBUGtmp: " + "id: " + ((articoloSel != null) ? articoloSel.getId() : "null"));
 		this.fotoPerArticolo = fotoPerArticolo;
-		// // log.info("tmpDEBUGtmp: " + "< " + "setFotoPerArticolo");
+	}
+	
+	public List<Allegati> getAllegatiPerArticolo(){
+		return allegatiPerArticolo;
+	}
+	
+	public void setAllegatiPerArticolo(List<Allegati> allegatiPerArticolo){
+		this.allegatiPerArticolo = allegatiPerArticolo;
 	}
 	
 	// public DualListModel<Foto> getFotoPickList(){
@@ -265,7 +277,7 @@ public class ArticoliController implements Serializable{
 			articoloNew.setDescrizioneAs400("da ereditare da AS400");
 		}
 		// articoliDao.salva(articoloSel, fotoPickList.getTarget());
-		articoliDao.salva(articoloNew, fotoPerArticolo, caratteristicheController.getCaratteristicheArticoloSelLs());
+		articoliDao.salva(articoloNew, fotoPerArticolo, caratteristicheController.getCaratteristicheArticoloSelLs(), allegatiPerArticolo);
 		if(articoloNew != null){
 			esito = "Aggiunto articolo: " + articoloNew.getCodice();
 			showGrowlInsMessage();
@@ -289,7 +301,7 @@ public class ArticoliController implements Serializable{
 		// svuotaFotoPLsource();
 		
 		// articoliDao.aggiorna(articoloSel, fotoPickList.getTarget());
-		articoliDao.aggiorna(articoloSel, fotoPerArticolo, caratteristicheController.getCaratteristicheArticoloSelLs());
+		articoliDao.aggiorna(articoloSel, fotoPerArticolo, caratteristicheController.getCaratteristicheArticoloSelLs(), allegatiPerArticolo);
 		if(articoloSel != null){
 			esito = "Aggiornato articolo: " + articoloSel.getCodice();
 			showGrowlUpdMessage();
@@ -452,7 +464,7 @@ public class ArticoliController implements Serializable{
 			Iterator<Foto> iterF = fotoPerArticolo.iterator();
 			while(iterF.hasNext()){
 				Foto fd = iterF.next();
-				if(fd.getId().intValue() == fsid.intValue()){
+				if(fd.getId().equals(fsid)){
 					giaIns = true;
 					break;
 				}
@@ -491,8 +503,66 @@ public class ArticoliController implements Serializable{
 		if(indiceFoto < fotoPerArticolo.size()-1){
 			Foto fotoSwap =  fotoPerArticolo.get(indiceFoto + 1);
 			fotoPerArticolo.set(indiceFoto +1, fotoPerArticoloSel);
-			fotoPerArticolo.set(indiceFoto , fotoSwap);
+			fotoPerArticolo.set(indiceFoto, fotoSwap);
 		}
 		// log.info("tmpDEBUGtmp: " + "< " + "onAbbassaFotoArticoloButton");
+	}
+	
+	private Allegati allegatiPerArticoloSel = new Allegati();
+
+	public Allegati getAllegatiPerArticoloSel(){
+		if(allegatiPerArticoloSel == null){
+			Allegati a = new Allegati();
+			a.setId(1);
+			allegatiPerArticoloSel = a;
+		}
+		return allegatiPerArticoloSel;
+	}
+	
+	public void setAllegatiPerArticoloSel(Allegati allegatiPerArticoloSel){
+		if(allegatiPerArticoloSel != null){
+			this.allegatiPerArticoloSel = allegatiPerArticoloSel;
+		}
+	}
+	
+	public void onAggiungiAllegatoArticoloButton(ActionEvent actionEvent){
+		boolean giaIns = false;
+		Integer asid = allegatiController.getAllegatoSel().getId();
+		if((allegatiController.getAllegatoSel() != null)&&(asid != 1)){
+			// controllare se e' gia' in lista
+			Iterator<Allegati> iterA = allegatiPerArticolo.iterator();
+			while(iterA.hasNext()){
+				Allegati ad = iterA.next();
+				if(ad.getId().equals(asid)){
+					giaIns = true;
+					break;
+				}
+			}
+			if(giaIns == false){
+				allegatiPerArticolo.add(allegatiController.getAllegatoSel());
+			}
+		}
+	}
+	
+	public void onRimuoviAllegatoArticoloButton(ActionEvent actionEvent){
+		allegatiPerArticolo.remove(allegatiPerArticoloSel);
+	}
+	
+	public void onAlzaAllegatoArticoloButton(ActionEvent actionEvent){
+		int indiceAllegato = allegatiPerArticolo.indexOf(allegatiPerArticoloSel);
+		if(indiceAllegato > 0){
+			Allegati allegatoSwap =  allegatiPerArticolo.get(indiceAllegato - 1);
+			allegatiPerArticolo.set(indiceAllegato - 1, allegatiPerArticoloSel);
+			allegatiPerArticolo.set(indiceAllegato, allegatoSwap);
+		}
+	}
+	
+	public void onAbbassaAllegatoArticoloButton(ActionEvent actionEvent){
+		int indiceAllegato = allegatiPerArticolo.indexOf(allegatiPerArticoloSel);
+		if(indiceAllegato < allegatiPerArticolo.size()-1){
+			Allegati allegatoSwap =  allegatiPerArticolo.get(indiceAllegato + 1);
+			allegatiPerArticolo.set(indiceAllegato +1, allegatiPerArticoloSel);
+			allegatiPerArticolo.set(indiceAllegato , allegatoSwap);
+		}
 	}
 }
