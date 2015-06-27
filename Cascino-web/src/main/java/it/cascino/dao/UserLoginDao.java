@@ -12,7 +12,7 @@ public interface UserLoginDao{
 	
 	void elimina(Users u);
 	
-	Boolean canAccess(String u, String p);
+//	Boolean canAccess(String u, String p);
 	
 	String getNomeDaUser(String u);
 

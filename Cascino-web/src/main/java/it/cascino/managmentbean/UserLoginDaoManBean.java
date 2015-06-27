@@ -17,7 +17,6 @@ import javax.persistence.NoResultException;
 import javax.persistence.Query;
 import javax.transaction.UserTransaction;
 import org.jboss.logging.Logger;
-import org.jboss.logging.MDC;
 
 @SessionScoped
 public class UserLoginDaoManBean implements UserLoginDao, Serializable{
@@ -97,32 +96,38 @@ public class UserLoginDaoManBean implements UserLoginDao, Serializable{
 		// log.info("tmpDEBUGtmp: " + "< " + "Userloginrole");
 	}
 	
-	public Boolean canAccess(String user, String password){
-		// log.info("tmpDEBUGtmp: " + "> " + "canAccess(" + user + ", " + password + ")");
-		Boolean canAccess = false;
-		try{
-			try{
-				utx.begin();
-				// String sql = "select count(u) FROM Userloginrole u Where u.login = :user and u.password = :password";
-				// Query query = entityManager.createQuery(sql);
-				Query query = entityManager.createNamedQuery("Userloginrole.countByLoginPsw");
-				query.setParameter("user", user);
-				query.setParameter("password", password);
-				canAccess = ((((Long)query.getSingleResult()) == 1) ? true : false);
-				if(canAccess){
-					MDC.put("user-id", user);
-					MDC.put("user-ipAdd", "1.2.3.4");
-				}
-			}catch(NoResultException e){
-				canAccess = false;
-			}
-			utx.commit();
-		}catch(Exception e){
-			Utility.manageException(e, utx, log);
-		}
-		// log.info("tmpDEBUGtmp: " + "< " + "canAccess");
-		return canAccess;
-	}
+//	public Boolean canAccess(String user, String password){
+//		// log.info("tmpDEBUGtmp: " + "> " + "canAccess(" + user + ", " + password + ")");
+//		Boolean canAccess = false;
+//		try{
+//			try{
+//				utx.begin();
+//				// String sql = "select count(u) FROM Userloginrole u Where u.login = :user and u.password = :password";
+//				// Query query = entityManager.createQuery(sql);
+//				Query query = entityManager.createNamedQuery("Userloginrole.countByLoginPsw");
+//				query.setParameter("user", user);
+//				query.setParameter("password", password);
+//				canAccess = ((((Long)query.getSingleResult()) == 1) ? true : false);
+//				if(canAccess){
+//					MDC.put("user-id", user);
+//					MDC.put("user-ipAdd", "1.2.3.4");
+//					HttpServletRequest request = (HttpServletRequest)facesContext.getCurrentInstance().getExternalContext().getRequest();
+//					String ipAddress = request.getHeader("X-FORWARDED-FOR");
+//					if (ipAddress == null) {
+//						ipAddress = request.getRemoteAddr();
+//					}
+//					MDC.put("user-ipAdd", ipAddress);
+//				}
+//			}catch(NoResultException e){
+//				canAccess = false;
+//			}
+//			utx.commit();
+//		}catch(Exception e){
+//			Utility.manageException(e, utx, log);
+//		}
+//		// log.info("tmpDEBUGtmp: " + "< " + "canAccess");
+//		return canAccess;
+//	}
 	
 	public String getNomeDaUser(String username){
 		// log.info("tmpDEBUGtmp: " + "> " + "getNomeDaUser(" + username + ")");

@@ -14,6 +14,7 @@ import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.servlet.http.HttpServletRequest;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.ShiroException;
@@ -27,6 +28,7 @@ import org.apache.shiro.subject.Subject;
 import org.jboss.logging.Logger;
 // import org.omnifaces.util.Faces;
 // import org.omnifaces.util.Messages;
+import org.jboss.logging.MDC;
 
 @Named
 @SessionScoped
@@ -256,6 +258,13 @@ public class UserLoginController implements Serializable{
 	public Boolean login(){
 		// log.info("tmpDEBUGtmp: " + "> " + "login(" + ")");
 		try{
+			HttpServletRequest request = (HttpServletRequest)facesContext.getCurrentInstance().getExternalContext().getRequest();
+			String ipAddress = request.getHeader("X-FORWARDED-FOR");
+			if (ipAddress == null) {
+				ipAddress = request.getRemoteAddr();
+			}
+			MDC.put("user-ipAdd", ipAddress);
+			
 			if(subject == null){
 				subject = SecurityUtils.getSubject();
 			}
@@ -263,6 +272,7 @@ public class UserLoginController implements Serializable{
 		}catch(ShiroException e){
 			return false;
 		}
+		MDC.put("user-id", user);
 		// log.info("tmpDEBUGtmp: " + "< " + "login");
 		return true;
 	}
