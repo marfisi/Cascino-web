@@ -514,4 +514,40 @@ public class ArticoliDaoManBean implements ArticoliDao, Serializable{
 	// // log.info("tmpDEBUGtmp: " + "< " + "getProduttoriAutoCompleteLs");
 	// return articoli;
 	// }
+	
+	public Articoli getArticoloDaIdArticolo(Integer idArticolo){
+		Articoli articolo = null;
+		try{
+			try{
+				utx.begin();
+				Query query = entityManager.createNamedQuery("Articoli.findById");
+				query.setParameter("id", idArticolo);
+				articolo = (Articoli)query.getSingleResult();
+			}catch(NoResultException e){
+				articolo = null;
+			}
+			utx.commit();
+		}catch(Exception e){
+			Utility.manageException(e, utx, log);
+		}
+		return articolo;
+	}
+
+	public Articoli getArticoloDaCodiceArticolo(String codiceArticolo){
+		Articoli articolo = null;
+		try{
+			try{
+				utx.begin();
+				Query query = entityManager.createNamedQuery("Articoli.findByCodice");
+				query.setParameter("codice", codiceArticolo);
+				articolo = (Articoli)query.getSingleResult();
+			}catch(NoResultException e){
+				articolo = null;
+			}
+			utx.commit();
+		}catch(Exception e){
+			Utility.manageException(e, utx, log);
+		}
+		return articolo;
+	}
 }

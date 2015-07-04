@@ -6,6 +6,7 @@ import it.cascino.model.Allegati;
 import it.cascino.model.Articoli;
 import it.cascino.model.Caratteristiche;
 import it.cascino.model.Foto;
+import it.cascino.model.Produttori;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -564,5 +565,31 @@ public class ArticoliController implements Serializable{
 			allegatiPerArticolo.set(indiceAllegato +1, allegatiPerArticoloSel);
 			allegatiPerArticolo.set(indiceAllegato , allegatoSwap);
 		}
+	}
+	
+	public Articoli getArticoloDaIdArticolo(Integer idArticolo){
+		Articoli articolo = new Articoli();
+		articolo = articoliDao.getArticoloDaIdArticolo(idArticolo);
+		if(articolo != null){
+			esito = "articolo " + articolo;
+			showGrowlInfoMessage(esito);
+		}else{
+			esito = "non e' stato trovato l'articolo!" + " (id: " + idArticolo + ")";
+			showGrowlErrorMessage();
+		}
+		return articolo;
+	}
+
+	public Articoli getArticoloDaCodiceArticolo(String codiceArticolo){
+		Articoli articolo = new Articoli();
+		articolo = articoliDao.getArticoloDaCodiceArticolo(codiceArticolo);
+		if(articolo != null){
+			esito = "articolo " + articolo;
+			showGrowlInfoMessage(esito);
+		}else{
+			esito = "non e' stato trovato l'articolo!" + " (codice: " + codiceArticolo + ")";
+			showGrowlErrorMessage();
+		}
+		return articolo;
 	}
 }

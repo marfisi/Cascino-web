@@ -5,6 +5,26 @@
 	<ui:composition template="template.xhtml">
 		<ui:define name="head">
 			<h:outputStylesheet library="css" name="mostraInfoArticolo.css" />
+
+			<script type="text/javascript">
+				function start() {
+					PF('statusDialog').show();
+				}
+				 
+				function stop() {
+					PF('statusDialog').hide();
+				}
+
+				function startDownloadTutti(){
+					var buttons = $(".bottoneDownload");
+					$(buttons).each(function(){
+						$(this).click();
+						alert($(this).Text);
+						$(this).hide();
+					});
+				}
+			</script>
+			
 		</ui:define>
 
 		<ui:define name="content">
@@ -12,32 +32,183 @@
 				<p:growl id="growl" showDetail="true" life="4000" />
 			</h:form>
 
-			<h:form id="loginForm">
-				<p:panelGrid style="margin-top:20px">
+			<h:form id="infoForm">
+				<p:commandButton value="Aggiorna" action="#{mostraInfoArticoloReqSController.recuperaCodiceArticolo()}" update=":infoForm" icon="ui-icon-refresh" />
+				<h:outputText value="#{mostraInfoArticoloReqSController.dummy}" />
+				<p:panelGrid columns="2" style="margin-top:20px">
 					<f:facet name="header">
 						<p:row>
-							<p:column colspan="2">ARTICOLO</p:column>
+							<p:column colspan="2">
+								<h:outputText value="#{mostraInfoArticoloSesSController.articolo.codice}" />
+							</p:column>
 						</p:row>
 					</f:facet>
-					<p:row>
+					<p:column>
+						<h:outputText value="Nome" />
+					</p:column>
+					<p:column>
+						<h:outputText value="#{mostraInfoArticoloSesSController.articolo.nome}" />
+					</p:column>
+					<p:column>
+						<h:outputText value="Modello" />
+					</p:column>
+					<p:column>
+						<h:outputText value="#{mostraInfoArticoloSesSController.articolo.modello}" />
+					</p:column>
+					<p:column>
+						<h:outputText value="Marca" />
+					</p:column>
+					<p:column>
 						<p:column>
-							<h:outputText value="Codice Articolo" />
+							<h:outputText value="#{produttoriController.getNomeProduttoreDaIdArticolo(mostraInfoArticoloSesSController.articolo.id)} (id: #{mostraInfoArticoloSesSController.articolo.produttore})" />
 						</p:column>
 						<p:column>
-							<h:outputText value="#{mostraInfoArticoloController.codiceArticolo}" />
+							<p:graphicImage value="#{fotoController.resolvePath(fotoController.getFotoProduttoreDaIdArticolo(mostraInfoArticoloSesSController.articolo.id))}#{fotoController.getFotonameUrl(fotoController.getFotoProduttoreDaIdArticolo(mostraInfoArticoloSesSController.articolo.id), 1)}" height="#{fotoController.getHeightFromResolution(fotoController.getFotoProduttoreDaIdArticolo(articolo.id), 1, 60, 100)}" />
 						</p:column>
-					</p:row>
-					<p:row>
+					</p:column>
+					<p:column>
+						<h:outputText value="Descrizione" />
+					</p:column>
+					<p:column>
+						<h:outputText value="#{mostraInfoArticoloSesSController.articolo.descrizione}" />
+					</p:column>
+					<p:column>
+						<h:outputText value="Descrizione AS400" />
+					</p:column>
+					<p:column>
+						<h:outputText value="#{mostraInfoArticoloSesSController.articolo.descrizioneAs400}" />
+					</p:column>	
+					<p:column>
+						<h:outputText value="Tipo" />
+					</p:column>
+					<p:column>
 						<p:column>
-							<h:outputText value="Codice Articolo BUONO" />
+							<h:outputText value="#{tipiController.getNomeTipoDaIdArticolo(mostraInfoArticoloSesSController.articolo.id)} (id: #{mostraInfoArticoloSesSController.articolo.tipo})" />
 						</p:column>
 						<p:column>
-							<h:outputText value="#{mostraInfoArticoloController.recuperaCodiceArticolo()}" />
+							<p:graphicImage value="#{fotoController.resolvePath(fotoController.getFotoTipoDaIdArticolo(mostraInfoArticoloSesSController.articolo.id))}#{fotoController.getFotonameUrl(fotoController.getFotoTipoDaIdArticolo(mostraInfoArticoloSesSController.articolo.id), 1)}" height="#{fotoController.getHeightFromResolution(fotoController.getFotoTipoDaIdArticolo(mostraInfoArticoloSesSController.articolo.id), 1, 80, 180)}" />
 						</p:column>
-					</p:row>
+					</p:column>
+					<p:column>
+						<h:outputText value="Foto" />
+					</p:column>
+					<p:column>
+						<p:outputPanel id="fotoArticoloPanel">
+							<p:dataTable id="fotoArticoloDataTable" var="f" value="#{fotoController.getFotoArticoloOrdLsDaIdArticolo(mostraInfoArticoloSesSController.articolo.id)}" rowKey="#{f.id}" selection="#{fotoController.fotoSel}" selectionMode="single" >
+								<p:ajax event="rowDblselect" update=":zoomDialog" oncomplete="PF('zoomDialog').show()" />
+								<p:column>
+									<f:facet name="header">
+										<h:outputText value="Foto" />
+									</f:facet>
+									<p:graphicImage value="#{fotoController.resolvePath(f)}#{fotoController.getFotonameUrl(f, 1)}" height="#{fotoController.getHeightFromResolution(f, 1, 250, 250)}" />
+								</p:column>
+								<p:column>
+									<f:facet name="header">
+										<h:outputText value="Nome (id)" />
+									</f:facet>
+									<h:outputText value="#{f.originale} (id: #{f.id})" />
+								</p:column>
+								<p:column>
+									<p:link outcome="#{fotoController.resolvePath(f)}#{fotoController.getFotonameUrl(f, 1)}" value="Zoom" target="_blank" />
+								</p:column>
+								<p:column>
+									<p:commandButton value="Zoom" onclick="PF('zoomDialog').show()" update=":zoomDialog" icon="ui-icon-circle-zoomin" />
+								</p:column>
+							</p:dataTable>
+						</p:outputPanel>
+					</p:column>
+					<p:column>
+						<h:outputText value="Caratteristiche" />
+					</p:column>
+					<p:column>
+						<p:outputPanel id="caratteristicheArticoloPanel">
+							<p:dataTable id="caratteristicheArticoloDataTable" var="c" value="#{caratteristicheController.getCaratteristicheListPerArticolo(mostraInfoArticoloSesSController.articolo.id)}" rowKey="#{c.id}" paginator="true" rows="15" dynamic="true" sortBy="#{c.classe} #{c.unitaMisura} #{c.scala} #{c.valore} #{c.descrizione}">
+								<f:facet name="header">
+									<p:outputPanel>
+										<h:outputText value="Ricerca in tutti i campi: " />
+										<p:inputText id="globalFilter" onkeyup="PF('caratteristicheArticoloDataTable').filter()" style="width:150px" placeholder="filtro" />
+									</p:outputPanel>
+								</f:facet>
+								<p:column filterBy="#{c.classe} #{c.unitaMisura} #{c.valore} #{c.descrizione}" filterMatchMode="contains" rendered="false" />
+								<p:column>
+									<f:facet name="header">
+										<h:outputText value="Classe" />
+									</f:facet>
+									<h:outputText value="#{c.classe}" />
+								</p:column>
+								<p:column>
+									<f:facet name="header">
+										<h:outputText value="Unita' misura" />
+									</f:facet>
+									<h:outputText value="#{c.unitaMisura}" />
+								</p:column>
+								<p:column>
+									<f:facet name="header">
+										<h:outputText value="Scala" />
+									</f:facet>
+									<h:outputText value="#{c.scala}" />
+								</p:column>
+								<p:column>
+									<f:facet name="header">
+										<h:outputText value="Qty" />
+									</f:facet>
+									<h:outputText value="#{c.qty}" />
+								</p:column>
+								<p:column>
+									<f:facet name="header">
+										<h:outputText value="Valore" />
+									</f:facet>
+									<h:outputText value="#{c.valore}" />
+								</p:column>
+								<p:column>
+									<f:facet name="header">
+										<h:outputText value="Descrizione" />
+									</f:facet>
+									<h:outputText value="#{c.descrizione}" />
+								</p:column>
+							</p:dataTable>
+						</p:outputPanel>
+					</p:column>
+					<p:column>
+						<h:outputText value="Allegati" />
+					</p:column>
+					<p:column>
+						<p:outputPanel id="allegatiArticoloPanel">
+							<p:dataTable id="allegatiDataTable" var="allegato" value="#{allegatiController.getAllegatiArticoloOrdLsDaIdArticolo(mostraInfoArticoloSesSController.articolo.id)}" rowKey="#{allegato.id}" paginator="true" rows="7" dynamic="true" sortBy="#{allegato.id}" emptyMessage="Nessun entry per il criterio definito" >
+								<f:facet name="sourceCaption">Disponibili</f:facet>
+								<p:column sortBy="nome" sortFunction="#{allegatiCondivisiController.sortByStr}" filterBy="#{allegato.nome} #{allegato.id}" filterMatchMode="contains">
+									<f:facet name="header">
+										<h:outputText value="Nome (id)" />
+									</f:facet>
+									<h:outputText value="#{allegato.nome} (id: #{allegato.id})" />
+								</p:column>
+								<p:column sortBy="descrizione" sortFunction="#{allegatiCondivisiController.sortByStrIC}" filterBy="#{allegato.descrizione}" filterMatchMode="contains">
+									<f:facet name="header">
+										<h:outputText value="Descrizione" />
+									</f:facet>
+									<h:outputText value="#{allegato.descrizione}" />
+								</p:column>
+								<p:column>
+									<f:facet name="header">
+										<h:outputText value="Download" />
+									</f:facet>
+									<p:commandButton value="Download" ajax="false" onclick="PrimeFaces.monitorDownload(start, stop);$(this).hide()" icon="ui-icon-circle-arrow-s" styleClass="bottoneDownload">
+										<p:fileDownload value="#{allegatiController.getFileAllegatoDownload(allegato.nome)}" />
+									</p:commandButton>
+								</p:column>
+							</p:dataTable>
+						</p:outputPanel>
+					</p:column>
 				</p:panelGrid>
 			</h:form>
-
+			
+			<p:dialog modal="true" widgetVar="statusDialog" header="Status" draggable="false" closable="false" resizable="false">
+				<p:graphicImage name="/gfx/foto/varie/loader.gif" />
+			</p:dialog>
+			
+			<p:dialog id="zoomDialog" header="Zoom" widgetVar="zoomFoto" showEffect="scale" hideEffect="puff" modal="true" height="410" width="410">
+				<p:graphicImage value="#{fotoController.resolvePath(fotoController.fotoSel)}#{fotoController.getFotonameUrl(fotoController.fotoSel, 1)}" height="#{fotoController.getHeightFromResolution(fotoController.fotoSel, 1, 400, 400)}" />
+			</p:dialog>
 		</ui:define>
 	</ui:composition>
 </h:body>

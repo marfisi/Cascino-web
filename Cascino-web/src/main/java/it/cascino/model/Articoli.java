@@ -14,7 +14,8 @@ import java.sql.Timestamp;
 @NamedQueries({
 	@NamedQuery(name = "Articoli.findAll", query = "SELECT a FROM Articoli a"),
 	@NamedQuery(name = "Articoli.findAllOrderCod", query = "SELECT a FROM Articoli a order by a.codice asc"),
-	@NamedQuery(name = "Articoli.findById", query = "SELECT a FROM Articoli a WHERE a.id = :id")
+	@NamedQuery(name = "Articoli.findById", query = "SELECT a FROM Articoli a WHERE a.id = :id"),
+	@NamedQuery(name = "Articoli.findByCodice", query = "SELECT a FROM Articoli a WHERE a.codice = :codice")
 })
 public class Articoli implements Serializable{
 	private static final long serialVersionUID = 1L;

@@ -5,6 +5,26 @@
 	<ui:composition template="template.xhtml">
 		<ui:define name="head">
 			<h:outputStylesheet library="css" name="articoli.css" />
+			
+			<script type="text/javascript">
+				function start() {
+					PF('statusDialog').show();
+				}
+				 
+				function stop() {
+					PF('statusDialog').hide();
+				}
+
+				function startDownloadTutti(){
+					var buttons = $(".bottoneDownload");
+					$(buttons).each(function(){
+						$(this).click();
+						alert($(this).Text);
+						$(this).hide();
+					});
+				}
+			</script>
+			
 		</ui:define>
 
 		<ui:define name="content">
@@ -869,7 +889,7 @@
 										</p:column>
 										<p:column>
 											<f:facet name="header">
-												<h:outputText value="descrizione" />
+												<h:outputText value="Descrizione" />
 											</f:facet>
 											<h:outputText value="#{c.descrizione}" />
 										</p:column>
@@ -1090,25 +1110,6 @@
 			<p:dialog modal="true" widgetVar="statusDialog" header="Status" draggable="false" closable="false" resizable="false">
 				<p:graphicImage name="/gfx/foto/varie/loader.gif" />
 			</p:dialog>
-			 
-			<script type="text/javascript">
-				function start() {
-					PF('statusDialog').show();
-				}
-				 
-				function stop() {
-					PF('statusDialog').hide();
-				}
-
-				function startDownloadTutti(){
-					var buttons = $(".bottoneDownload");
-					$(buttons).each(function(){
-						$(this).click();
-						alert($(this).Text);
-						$(this).hide();
-					});
-				}
-			</script>
 		</ui:define>
 	</ui:composition>
 </h:body>

@@ -18,4 +18,8 @@ public interface ArticoliDao{
 	List<String> getArticoliAutoCompleteLs(String str);
 	
 	// List<String> getProduttoriAutoCompleteLs(String str);
+	
+	Articoli getArticoloDaIdArticolo(Integer idArticolo);
+
+	Articoli getArticoloDaCodiceArticolo(String codiceArticolo);
 }
