@@ -33,8 +33,7 @@
 			</h:form>
 
 			<h:form id="infoForm">
-				<p:commandButton value="Aggiorna" action="#{mostraInfoArticoloReqSController.recuperaCodiceArticolo()}" update=":infoForm" icon="ui-icon-refresh" />
-				<h:outputText value="#{mostraInfoArticoloReqSController.dummy}" />
+				<h:outputText value="#{mostraInfoArticoloReqSController.recuperaCodiceArticolo()}" />
 				<p:panelGrid columns="2" style="margin-top:20px">
 					<f:facet name="header">
 						<p:row>
@@ -94,8 +93,8 @@
 					</p:column>
 					<p:column>
 						<p:outputPanel id="fotoArticoloPanel">
-							<p:dataTable id="fotoArticoloDataTable" var="f" value="#{fotoController.getFotoArticoloOrdLsDaIdArticolo(mostraInfoArticoloSesSController.articolo.id)}" rowKey="#{f.id}" selection="#{fotoController.fotoSel}" selectionMode="single" >
-								<p:ajax event="rowDblselect" update=":zoomDialog" oncomplete="PF('zoomDialog').show()" />
+							<p:dataTable id="fotoArticoloDataTable" var="f" value="#{fotoController.getFotoArticoloOrdLsDaIdArticolo(mostraInfoArticoloSesSController.articolo.id)}" rowKey="#{f.id}" selection="#{fotoController.fotoSel}" selectionMode="single" dynamic="true"  >
+								<p:ajax event="rowDblselect" oncomplete="PF('zoomFoto').show()" update=":zoomPanel" />
 								<p:column>
 									<f:facet name="header">
 										<h:outputText value="Foto" />
@@ -109,10 +108,9 @@
 									<h:outputText value="#{f.originale} (id: #{f.id})" />
 								</p:column>
 								<p:column>
-									<p:link outcome="#{fotoController.resolvePath(f)}#{fotoController.getFotonameUrl(f, 1)}" value="Zoom" target="_blank" />
-								</p:column>
-								<p:column>
-									<p:commandButton value="Zoom" onclick="PF('zoomDialog').show()" update=":zoomDialog" icon="ui-icon-circle-zoomin" />
+									<p:commandButton value="Zoom" onclick="PF('zoomFoto').show()" update=":zoomPanel" icon="ui-icon-circle-zoomin" >
+										<f:setPropertyActionListener value="#{f}" target="#{fotoController.fotoSel}" />
+									</p:commandButton>
 								</p:column>
 							</p:dataTable>
 						</p:outputPanel>
@@ -122,7 +120,7 @@
 					</p:column>
 					<p:column>
 						<p:outputPanel id="caratteristicheArticoloPanel">
-							<p:dataTable id="caratteristicheArticoloDataTable" var="c" value="#{caratteristicheController.getCaratteristicheListPerArticolo(mostraInfoArticoloSesSController.articolo.id)}" rowKey="#{c.id}" paginator="true" rows="15" dynamic="true" sortBy="#{c.classe} #{c.unitaMisura} #{c.scala} #{c.valore} #{c.descrizione}">
+							<p:dataTable id="caratteristicheArticoloDataTable" var="c" value="#{caratteristicheController.getCaratteristicheListPerArticolo(mostraInfoArticoloSesSController.articolo.id)}" widgetVar="caratteristicheArticoloDataTable" rowKey="#{c.id}" paginator="true" rows="15" dynamic="true" sortBy="#{c.classe} #{c.unitaMisura} #{c.scala} #{c.valore} #{c.descrizione}">
 								<f:facet name="header">
 									<p:outputPanel>
 										<h:outputText value="Ricerca in tutti i campi: " />
@@ -199,6 +197,144 @@
 							</p:dataTable>
 						</p:outputPanel>
 					</p:column>
+					<p:column>
+						<h:outputText value="Fratelli (di foto)" />
+					</p:column>
+					<p:column>
+						<p:outputPanel id="fratelliArticoloPanel">
+							<p:dataTable id="fratelliDataTable" var="af" value="#{articoliController.getArticoliFratelliLsDaCodiceFoto((fotoController.getFotoArticoloOrdLsDaIdArticolo(mostraInfoArticoloSesSController.articolo.id).size() == 0) ? null : fotoController.getFotoArticoloOrdLsDaIdArticolo(mostraInfoArticoloSesSController.articolo.id).get(0).id)}" rowKey="#{af.id}" paginator="true" rows="7" dynamic="true" sortBy="#{af.id}" emptyMessage="Nessun entry per il criterio definito" >
+								<p:column>
+									<f:facet name="header">
+										<h:outputText value="Codice" />
+									</f:facet>
+									<p:link value="#{af.codice}" target="_blank">
+										<f:param name="codArt" value="#{af.codice}" />
+									</p:link>
+								</p:column>
+								<p:column>
+									<f:facet name="header">
+										<h:outputText value="Nome" />
+									</f:facet>
+									<h:outputText value="#{af.nome}" />
+								</p:column>
+								<p:column>
+									<f:facet name="header">
+										<h:outputText value="Descrizione AS400" />
+									</f:facet>
+									<h:outputText value="#{af.descrizioneAs400}" />
+								</p:column>
+								<p:column>
+									<f:facet name="header">
+										<h:outputText value="Descrizione" />
+									</f:facet>
+									<h:outputText value="#{af.descrizione}" />
+								</p:column>
+								<p:column>
+									<f:facet name="header">
+										<h:outputText value="Marca" />
+									</f:facet>
+									<p:column>
+										<h:outputText value="#{produttoriController.getNomeProduttoreDaIdArticolo(af.id)} (id: #{af.produttore})" />
+									</p:column>
+									<p:column>
+										<p:graphicImage value="#{fotoController.resolvePath(fotoController.getFotoProduttoreDaIdArticolo(af.id))}#{fotoController.getFotonameUrl(fotoController.getFotoProduttoreDaIdArticolo(af.id), 1)}" height="#{fotoController.getHeightFromResolution(fotoController.getFotoProduttoreDaIdArticolo(af.id), 1, 40, 100)}" />
+									</p:column>
+								</p:column>
+								<p:column>
+									<f:facet name="header">
+										<h:outputText value="Modello" />
+									</f:facet>
+									<h:outputText value="#{af.modello}" />
+								</p:column>
+								<p:column>
+									<f:facet name="header">
+										<h:outputText value="Tipo" />
+									</f:facet>
+									<p:column>
+										<h:outputText value="#{tipiController.getNomeTipoDaIdArticolo(af.id)} (id: #{af.tipo})" />
+									</p:column>
+									<p:column>
+										<p:graphicImage value="#{fotoController.resolvePath(fotoController.getFotoTipoDaIdArticolo(af.id))}#{fotoController.getFotonameUrl(fotoController.getFotoTipoDaIdArticolo(af.id), 1)}" height="#{fotoController.getHeightFromResolution(fotoController.getFotoTipoDaIdArticolo(af.id), 1, 40, 60)}" />
+									</p:column>
+								</p:column>
+								<p:column>
+									<f:facet name="header">
+										<h:outputText value="ID" />
+									</f:facet>
+									<h:outputText value="#{af.id}" />
+								</p:column>
+							</p:dataTable>
+						</p:outputPanel>
+					</p:column>
+					<p:column>
+						<h:outputText value="Articoli" />
+					</p:column>
+					<p:column>
+						<p:outputPanel id="nextArticoliPanel">
+							<p:dataTable id="nexArticoliDataTable" var="af" value="#{articoliController.getArticoliSuccessiviLsDaCodiceFoto(mostraInfoArticoloSesSController.articolo.codice, 10)}" rowKey="#{af.id}" dynamic="true" sortBy="#{af.codice}" emptyMessage="Nessun entry per il criterio definito" >
+								<p:column>
+									<f:facet name="header">
+										<h:outputText value="Codice" />
+									</f:facet>
+									<p:link value="#{af.codice}" target="_blank">
+										<f:param name="codArt" value="#{af.codice}" />
+									</p:link>
+								</p:column>
+								<p:column>
+									<f:facet name="header">
+										<h:outputText value="Nome" />
+									</f:facet>
+									<h:outputText value="#{af.nome}" />
+								</p:column>
+								<p:column>
+									<f:facet name="header">
+										<h:outputText value="Descrizione AS400" />
+									</f:facet>
+									<h:outputText value="#{af.descrizioneAs400}" />
+								</p:column>
+								<p:column>
+									<f:facet name="header">
+										<h:outputText value="Descrizione" />
+									</f:facet>
+									<h:outputText value="#{af.descrizione}" />
+								</p:column>
+								<p:column>
+									<f:facet name="header">
+										<h:outputText value="Marca" />
+									</f:facet>
+									<p:column>
+										<h:outputText value="#{produttoriController.getNomeProduttoreDaIdArticolo(af.id)} (id: #{af.produttore})" />
+									</p:column>
+									<p:column>
+										<p:graphicImage value="#{fotoController.resolvePath(fotoController.getFotoProduttoreDaIdArticolo(af.id))}#{fotoController.getFotonameUrl(fotoController.getFotoProduttoreDaIdArticolo(af.id), 1)}" height="#{fotoController.getHeightFromResolution(fotoController.getFotoProduttoreDaIdArticolo(af.id), 1, 40, 100)}" />
+									</p:column>
+								</p:column>
+								<p:column>
+									<f:facet name="header">
+										<h:outputText value="Modello" />
+									</f:facet>
+									<h:outputText value="#{af.modello}" />
+								</p:column>
+								<p:column>
+									<f:facet name="header">
+										<h:outputText value="Tipo" />
+									</f:facet>
+									<p:column>
+										<h:outputText value="#{tipiController.getNomeTipoDaIdArticolo(af.id)} (id: #{af.tipo})" />
+									</p:column>
+									<p:column>
+										<p:graphicImage value="#{fotoController.resolvePath(fotoController.getFotoTipoDaIdArticolo(af.id))}#{fotoController.getFotonameUrl(fotoController.getFotoTipoDaIdArticolo(af.id), 1)}" height="#{fotoController.getHeightFromResolution(fotoController.getFotoTipoDaIdArticolo(af.id), 1, 40, 60)}" />
+									</p:column>
+								</p:column>
+								<p:column>
+									<f:facet name="header">
+										<h:outputText value="ID" />
+									</f:facet>
+									<h:outputText value="#{af.id}" />
+								</p:column>
+							</p:dataTable>
+						</p:outputPanel>
+					</p:column>
 				</p:panelGrid>
 			</h:form>
 			
@@ -206,8 +342,10 @@
 				<p:graphicImage name="/gfx/foto/varie/loader.gif" />
 			</p:dialog>
 			
-			<p:dialog id="zoomDialog" header="Zoom" widgetVar="zoomFoto" showEffect="scale" hideEffect="puff" modal="true" height="410" width="410">
-				<p:graphicImage value="#{fotoController.resolvePath(fotoController.fotoSel)}#{fotoController.getFotonameUrl(fotoController.fotoSel, 1)}" height="#{fotoController.getHeightFromResolution(fotoController.fotoSel, 1, 400, 400)}" />
+			<p:dialog id="zoomDialog" header="Zoom" widgetVar="zoomFoto" showEffect="scale" hideEffect="puff" modal="true" height="520" width="520" >
+				<p:panel id="zoomPanel">
+					<p:graphicImage value="#{fotoController.resolvePath(fotoController.fotoSel)}#{fotoController.getFotonameUrl(fotoController.fotoSel, 1)}" height="#{fotoController.getHeightFromResolution(fotoController.fotoSel, 1, 500, 500)}" styleClass="zoomFoto" />
+				</p:panel>
 			</p:dialog>
 		</ui:define>
 	</ui:composition>

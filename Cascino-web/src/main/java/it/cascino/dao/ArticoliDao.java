@@ -22,4 +22,8 @@ public interface ArticoliDao{
 	Articoli getArticoloDaIdArticolo(Integer idArticolo);
 
 	Articoli getArticoloDaCodiceArticolo(String codiceArticolo);
+	
+	List<Articoli> getArticoliFratelliLsDaCodiceFoto(Integer idFoto);
+	
+	List<Articoli> getArticoliSuccessiviLsDaCodiceFoto(String codiceArticolo, Integer size);
 }

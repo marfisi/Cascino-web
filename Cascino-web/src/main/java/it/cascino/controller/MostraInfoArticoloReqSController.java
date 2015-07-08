@@ -33,8 +33,6 @@ public class MostraInfoArticoloReqSController implements Serializable{
 	@Inject
 	MostraInfoArticoloSesSController mostraInfoArticoloSesSController;
 	
-	private String dummy;
-	
 	@PostConstruct
 	public void recuperaCodiceArticolo(){
 		String codArt = getRequest().getParameter("codArt");// .toUpperCase().trim();
@@ -52,14 +50,6 @@ public class MostraInfoArticoloReqSController implements Serializable{
 	private HttpServletResponse getResponse(){
 		response = (HttpServletResponse)facesContext.getCurrentInstance().getExternalContext().getResponse();
 		return response;
-	}
-
-	public String getDummy(){
-		return dummy;
-	}
-
-	public void setDummy(String dummy){
-		this.dummy = dummy;
 	}
 	
 	//

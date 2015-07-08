@@ -34,7 +34,12 @@ public class MostraInfoArticoloSesSController implements Serializable{
 	}
 
 	public void setArticolo(Articoli articolo){
-		this.articolo = articolo;
+		if(articolo != null){
+			this.articolo = articolo;
+		}else{
+			this.articolo = new Articoli(1, null, null, null, null, null, null, null, null, null);
+		}
+		
 	}
 	
 	public void initArticolo(String codArt){

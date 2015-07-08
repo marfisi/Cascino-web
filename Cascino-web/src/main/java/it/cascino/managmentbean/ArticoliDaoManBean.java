@@ -23,6 +23,7 @@ import javax.persistence.NoResultException;
 import javax.persistence.Query;
 import javax.transaction.SystemException;
 import javax.transaction.UserTransaction;
+import org.apache.commons.lang3.StringUtils;
 import org.jboss.logging.Logger;
 
 @SessionScoped
@@ -549,5 +550,56 @@ public class ArticoliDaoManBean implements ArticoliDao, Serializable{
 			Utility.manageException(e, utx, log);
 		}
 		return articolo;
+	}
+	
+	@SuppressWarnings("unchecked")
+	public List<Articoli> getArticoliFratelliLsDaCodiceFoto(Integer idFoto){
+		List<Articoli> articoli = null;
+		try{
+			try{
+				utx.begin();
+				String sql = "select a.* " +
+				"from articoli a inner join articoli_foto af on a.id = af.articolo " +
+				"where af.foto = :idFoto";
+				Query query = entityManager.createNativeQuery(sql, Articoli.class);
+				query.setParameter("idFoto", idFoto);
+				articoli = (List<Articoli>)query.getResultList();
+			}catch(NoResultException e){
+				articoli = null;
+			}
+			utx.commit();
+		}catch(Exception e){
+			Utility.manageException(e, utx, log);
+		}
+		return articoli;
+	}
+	
+	@SuppressWarnings("unchecked")
+	public List<Articoli> getArticoliSuccessiviLsDaCodiceFoto(String codiceArticolo, Integer size){
+		List<Articoli> articoli = null;
+		if(codiceArticolo.isEmpty()){
+			return articoli;
+		}
+		try{
+			try{
+				utx.begin();
+				String sql = "select * " +
+				"from articoli " +
+				"where codice >= :codice " +
+				"order by codice";
+				Query query = entityManager.createNativeQuery(sql, Articoli.class);
+				query.setParameter("codice", StringUtils.upperCase(codiceArticolo));
+				articoli = (List<Articoli>)query.getResultList();
+				if(articoli.size() > size){
+					articoli = articoli.subList(0, size);
+				}
+			}catch(NoResultException e){
+				articoli = null;
+			}
+			utx.commit();
+		}catch(Exception e){
+			Utility.manageException(e, utx, log);
+		}
+		return articoli;
 	}
 }

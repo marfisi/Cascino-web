@@ -592,4 +592,30 @@ public class ArticoliController implements Serializable{
 		}
 		return articolo;
 	}
+	
+	public List<Articoli> getArticoliFratelliLsDaCodiceFoto(Integer idFoto){
+		List<Articoli> articoliFratelli = new ArrayList<Articoli>();
+		articoliFratelli = articoliDao.getArticoliFratelliLsDaCodiceFoto(idFoto);
+		if(articoliFratelli != null){
+			esito = "selezionati " + articoliFratelli.size() + " articoli fratelli per la foto: " + idFoto;
+			showGrowlInfoMessage(esito);
+		}else{
+			esito = "non e' stata trovato l'articolo!" + " (foto: " + idFoto + ")";
+			showGrowlErrorMessage();
+		}
+		return articoliFratelli;		
+	}
+	
+	public List<Articoli> getArticoliSuccessiviLsDaCodiceFoto(String codiceArticolo, Integer size){
+		List<Articoli> articoliSuccessivi = new ArrayList<Articoli>();
+		articoliSuccessivi = articoliDao.getArticoliSuccessiviLsDaCodiceFoto(codiceArticolo, size);
+		if(articoliSuccessivi != null){
+			esito = "selezionati " + articoliSuccessivi.size() + " articoli successivi: " + codiceArticolo;
+			showGrowlInfoMessage(esito);
+		}else{
+			esito = "non e' stata trovato l'articolo!" + " (articolo: " + codiceArticolo + ")";
+			showGrowlErrorMessage();
+		}
+		return articoliSuccessivi;		
+	}
 }
