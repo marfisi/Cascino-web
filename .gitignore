@@ -5,5 +5,4 @@
 *.war
 *.ear
 
-Cascino-web/backup
-Cascino-web/src/main/webapp/resources
+Cascino-web/src/main/webapp/resources/gfx

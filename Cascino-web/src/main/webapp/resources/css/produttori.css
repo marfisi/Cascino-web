@@ -1,0 +1,8 @@
+.ui-toolbar .ui-toolbar-group-left {
+	float: none;
+}
+
+#tblForm\:homeMngButton {
+	display: inline;
+	float: right;
+}

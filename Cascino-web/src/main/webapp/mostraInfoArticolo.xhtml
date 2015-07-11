@@ -92,27 +92,20 @@
 						<h:outputText value="Foto" />
 					</p:column>
 					<p:column>
-						<p:outputPanel id="fotoArticoloPanel">
-							<p:dataTable id="fotoArticoloDataTable" var="f" value="#{fotoController.getFotoArticoloOrdLsDaIdArticolo(mostraInfoArticoloSesSController.articolo.id)}" rowKey="#{f.id}" selection="#{fotoController.fotoSel}" selectionMode="single" dynamic="true"  >
-								<p:ajax event="rowDblselect" oncomplete="PF('zoomFoto').show()" update=":zoomPanel" />
-								<p:column>
-									<f:facet name="header">
-										<h:outputText value="Foto" />
-									</f:facet>
-									<p:graphicImage value="#{fotoController.resolvePath(f)}#{fotoController.getFotonameUrl(f, 1)}" height="#{fotoController.getHeightFromResolution(f, 1, 250, 250)}" />
-								</p:column>
-								<p:column>
-									<f:facet name="header">
-										<h:outputText value="Nome (id)" />
-									</f:facet>
-									<h:outputText value="#{f.originale} (id: #{f.id})" />
-								</p:column>
-								<p:column>
-									<p:commandButton value="Zoom" onclick="PF('zoomFoto').show()" update=":zoomPanel" icon="ui-icon-circle-zoomin" >
-										<f:setPropertyActionListener value="#{f}" target="#{fotoController.fotoSel}" />
-									</p:commandButton>
-								</p:column>
-							</p:dataTable>
+						<p:outputPanel id="fotoArticoloPanel" styleClass="fotoArticoloPanel">
+							<p:dataGrid id="fotoArticoloDataGrid" var="f" value="#{fotoController.getFotoArticoloOrdLsDaIdArticolo(mostraInfoArticoloSesSController.articolo.id)}" rowKey="#{f.id}" columns="4" layout="grid" rows="12" paginator="true" emptyMessage="Nessun entry per il criterio definito" dynamic="true">
+        						<f:facet name="header">
+									<h:outputText value="Foto" />
+								</f:facet>
+								<p:panel style="text-align:center" >
+									<h:panelGrid columns="1" style="width:100%">
+										<p:commandLink oncomplete="PF('zoomFoto').show()" update=":zoomPanel" styleClass="zoomLink" >
+											<p:graphicImage value="#{fotoController.resolvePath(f)}#{fotoController.getFotonameUrl(f, 1)}" height="#{fotoController.getHeightFromResolution(f, 1, 250, 250)}" oncomplete="PF('zoomFoto').show()" update=":zoomPanel" />
+											<f:setPropertyActionListener value="#{f}" target="#{fotoController.fotoSel}" />
+										</p:commandLink>
+									</h:panelGrid>
+								</p:panel>
+							</p:dataGrid>
 						</p:outputPanel>
 					</p:column>
 					<p:column>
@@ -300,6 +293,13 @@
 								</p:column>
 								<p:column>
 									<f:facet name="header">
+										<h:outputText value="Foto" />
+									</f:facet>
+									<p:graphicImage value="#{fotoController.resolvePath(fotoController.getFotoArticoloDaIdArticolo(af.id))}#{fotoController.getFotonameUrl(fotoController.getFotoArticoloDaIdArticolo(af.id), 1)}" height="#{fotoController.getHeightFromResolution(fotoController.getFotoArticoloDaIdArticolo(af.id), 1, 120, 120)}" />
+									<h:outputText value="[# #{fotoController.getFotoArticoloOrdLsDaIdArticolo(af.id).size()} (id: #{fotoController.getFotoArticoloDaIdArticolo(af.id).id})]" />
+								</p:column>
+								<p:column>
+									<f:facet name="header">
 										<h:outputText value="Marca" />
 									</f:facet>
 									<p:column>
@@ -342,9 +342,9 @@
 				<p:graphicImage name="/gfx/foto/varie/loader.gif" />
 			</p:dialog>
 			
-			<p:dialog id="zoomDialog" header="Zoom" widgetVar="zoomFoto" showEffect="scale" hideEffect="puff" modal="true" height="520" width="520" >
+			<p:dialog id="zoomDialog" header="Zoom" widgetVar="zoomFoto" showEffect="scale" hideEffect="puff" modal="true" height="600" width="600" styleClass="zoomFoto" >
 				<p:panel id="zoomPanel">
-					<p:graphicImage value="#{fotoController.resolvePath(fotoController.fotoSel)}#{fotoController.getFotonameUrl(fotoController.fotoSel, 1)}" height="#{fotoController.getHeightFromResolution(fotoController.fotoSel, 1, 500, 500)}" styleClass="zoomFoto" />
+					<p:graphicImage value="#{fotoController.resolvePath(fotoController.fotoSel)}#{fotoController.getFotonameUrl(fotoController.fotoSel, 1)}" height="#{fotoController.getHeightFromResolution(fotoController.fotoSel, 1, 570, 570)}" styleClass="zoomFoto" />
 				</p:panel>
 			</p:dialog>
 		</ui:define>
