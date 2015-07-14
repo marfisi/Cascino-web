@@ -8,7 +8,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import org.jboss.logging.Logger;
+//import org.jboss.logging.Logger;
 
 @Named
 @RequestScoped
@@ -21,8 +21,8 @@ public class MostraInfoArticoloReqSController implements Serializable{
 	/**
 	 * Logger
 	 */
-	@Inject
-	private Logger log;
+//	@Inject
+//	private Logger log;
 	
 	@Inject
 	private FacesContext facesContext;
@@ -31,14 +31,14 @@ public class MostraInfoArticoloReqSController implements Serializable{
 	private HttpServletResponse response;
 	
 	@Inject
-	MostraInfoArticoloSesSController mostraInfoArticoloSesSController;
+	MostraInfoArticoloViwSController mostraInfoArticoloViwSController;
 	
 	@PostConstruct
 	public void recuperaCodiceArticolo(){
 		String codArt = getRequest().getParameter("codArt");// .toUpperCase().trim();
 		if((codArt != null) && (!(codArt.isEmpty()))){
 			codArt = codArt.toUpperCase().trim();
-			mostraInfoArticoloSesSController.initArticolo(codArt);
+			mostraInfoArticoloViwSController.initArticolo(codArt);
 		}
 	}
 	

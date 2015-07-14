@@ -2,14 +2,16 @@ package it.cascino.controller;
 
 import it.cascino.model.Articoli;
 import java.io.Serializable;
-import javax.enterprise.context.SessionScoped;
+//import javax.enterprise.context.SessionScoped;
+import javax.faces.view.ViewScoped; // non esiste  javax.enterprise.context.ViewScoped
 import javax.inject.Inject;
 import javax.inject.Named;
 import org.jboss.logging.Logger;
 
 @Named
-@SessionScoped
-public class MostraInfoArticoloSesSController implements Serializable{
+//@SessionScoped
+@ViewScoped
+public class MostraInfoArticoloViwSController implements Serializable{
 	/**
 	 * 
 	 */
@@ -20,9 +22,6 @@ public class MostraInfoArticoloSesSController implements Serializable{
 	 */
 	@Inject
 	private Logger log;
-	
-
-//	private String codiceArticolo;
 	
 	private Articoli articolo;
 	
@@ -48,19 +47,5 @@ public class MostraInfoArticoloSesSController implements Serializable{
 			setArticolo(articoliController.getArticoloDaCodiceArticolo(codArt));
 		}
 		log.info("codiceArticolo: " + articolo.getCodice());
-	}
-	
-	
-//	
-//	private Integer idFotoZoom;
-//	
-//	public Integer getIdFotoZoom(){
-//		return idFotoZoom;
-//	}
-//
-//	public void setIdFotoZoom(Integer idFotoZoom){
-//		this.idFotoZoom = idFotoZoom;
-//	}
-
-	
+	}	
 }
