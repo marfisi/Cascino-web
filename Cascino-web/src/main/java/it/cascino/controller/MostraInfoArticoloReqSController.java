@@ -42,25 +42,15 @@ public class MostraInfoArticoloReqSController implements Serializable{
 		}
 	}
 	
+	@SuppressWarnings("static-access")
 	private HttpServletRequest getRequest(){
 		request = (HttpServletRequest)facesContext.getCurrentInstance().getExternalContext().getRequest();
 		return request;
 	}
 	
+	@SuppressWarnings({"static-access", "unused"})
 	private HttpServletResponse getResponse(){
 		response = (HttpServletResponse)facesContext.getCurrentInstance().getExternalContext().getResponse();
 		return response;
-	}
-	
-	//
-	// private Integer idFotoZoom;
-	//
-	// public Integer getIdFotoZoom(){
-	// return idFotoZoom;
-	// }
-	//
-	// public void setIdFotoZoom(Integer idFotoZoom){
-	// this.idFotoZoom = idFotoZoom;
-	// }
-	
+	}	
 }

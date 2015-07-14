@@ -93,7 +93,7 @@
 					</p:column>
 					<p:column>
 						<p:outputPanel id="fotoArticoloPanel" styleClass="fotoArticoloPanel">
-							<p:dataGrid id="fotoArticoloDataGrid" var="f" value="#{fotoController.getFotoArticoloOrdLsDaIdArticolo(mostraInfoArticoloSesSController.articolo.id)}" rowKey="#{f.id}" columns="4" layout="grid" rows="12" paginator="true" emptyMessage="Nessun entry per il criterio definito" dynamic="true">
+							<p:dataGrid id="fotoArticoloDataGrid" var="f" value="#{fotoController.getFotoArticoloOrdLsDaIdArticolo(mostraInfoArticoloSesSController.articolo.id)}" rowKey="#{f.id}" selection="#{fotoController.fotoSel}" selectionMode="single" columns="4" layout="grid" rows="12" paginator="true" emptyMessage="Nessun entry per il criterio definito"   >
         						<f:facet name="header">
 									<h:outputText value="Foto" />
 								</f:facet>
