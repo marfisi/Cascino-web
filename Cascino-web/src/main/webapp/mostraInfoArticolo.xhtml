@@ -55,6 +55,13 @@
 						<h:outputText value="#{mostraInfoArticoloViwSController.articolo.modello}" />
 					</p:column>
 					<p:column>
+						<h:outputText value="Ingrosso" />
+					</p:column>
+					<p:column>
+						<p:graphicImage value="#{(pgArticoliIngrossoController.getSeArticoloIngrossoDaIdArticolo(mostraInfoArticoloViwSController.articolo.id) == 'INGROSSO') ? './resources/gfx/foto/varie/catalogo.png' : null}" height="60px"/>
+						<h:outputText value="#{pgArticoliIngrossoController.getSeArticoloIngrossoDaIdArticolo(mostraInfoArticoloViwSController.articolo.id)}" />
+					</p:column>
+					<p:column>
 						<h:outputText value="Marca" />
 					</p:column>
 					<p:column>

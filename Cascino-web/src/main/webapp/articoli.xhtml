@@ -150,6 +150,13 @@
 							<p:graphicImage value="#{fotoController.resolvePath(fotoController.getFotoTipoDaIdArticolo(articolo.id))}#{fotoController.getFotonameUrl(fotoController.getFotoTipoDaIdArticolo(articolo.id), 1)}" height="#{fotoController.getHeightFromResolution(fotoController.getFotoTipoDaIdArticolo(articolo.id), 1, 40, 60)}" />
 						</p:column>
 					</p:column>
+					<p:column filterBy="#{pgArticoliIngrossoController.getSeArticoloIngrossoDaIdArticolo(articolo.id)}" filterMatchMode="contains">
+						<f:facet name="header">
+							<h:outputText value="Ingrosso" />
+						</f:facet>
+						<p:graphicImage value="#{(pgArticoliIngrossoController.getSeArticoloIngrossoDaIdArticolo(articolo.id) == 'INGROSSO') ? './resources/gfx/foto/varie/catalogo.png' : null}" height="60px"/>
+						<h:outputText value="#{pgArticoliIngrossoController.getSeArticoloIngrossoDaIdArticolo(articolo.id)}" />
+					</p:column>
 					<p:column sortBy="id" sortFunction="#{articoliCondivisiController.sortByNum}" filterBy="#{articolo.id}" filterMatchMode="contains">
 						<f:facet name="header">
 							<h:outputText value="ID" />
