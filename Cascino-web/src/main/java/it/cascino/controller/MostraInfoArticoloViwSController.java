@@ -2,6 +2,7 @@ package it.cascino.controller;
 
 import it.cascino.model.Articoli;
 import java.io.Serializable;
+import javax.enterprise.context.SessionScoped;
 //import javax.enterprise.context.SessionScoped;
 import javax.faces.view.ViewScoped; // non esiste  javax.enterprise.context.ViewScoped
 import javax.inject.Inject;
@@ -9,8 +10,8 @@ import javax.inject.Named;
 import org.jboss.logging.Logger;
 
 @Named
-//@SessionScoped
-@ViewScoped
+@SessionScoped
+//@ViewScoped
 public class MostraInfoArticoloViwSController implements Serializable{
 	/**
 	 * 
@@ -38,7 +39,6 @@ public class MostraInfoArticoloViwSController implements Serializable{
 		}else{
 			this.articolo = new Articoli(1, null, null, null, null, null, null, null, null, null);
 		}
-		
 	}
 	
 	public void initArticolo(String codArt){

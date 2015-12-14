@@ -106,6 +106,12 @@
 							</p:column>
 						</p:dataTable>
 					</p:column>
+					<p:column>
+						<f:facet name="header">
+							<h:outputText value="Referenze" />
+						</f:facet>
+						<h:outputText value="# #{articoliController.getArticoliFratelliLsDaCodiceFoto(foto.id).size()} (id: #{(articoliController.getArticoliFratelliLsDaCodiceFoto(foto.id).size() == 0) ? null : articoliController.getArticoliFratelliLsDaCodiceFoto(foto.id).get(0).id})" />
+					</p:column>
 					<p:column filterBy="#{foto.grande}" filterMatchMode="contains">
 						<f:facet name="header">
 							<h:outputText value="HD" />
