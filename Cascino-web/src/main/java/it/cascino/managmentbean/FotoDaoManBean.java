@@ -3,6 +3,7 @@ package it.cascino.managmentbean;
 import it.cascino.dao.FotoDao;
 import it.cascino.model.Foto;
 import it.cascino.util.CommonsUtility;
+import it.cascino.util.DatabasePostgresqlDS;
 import it.cascino.util.Utility;
 import java.awt.image.BufferedImage;
 import java.awt.image.Raster;
@@ -45,6 +46,7 @@ public class FotoDaoManBean implements FotoDao, Serializable{
 	@Inject
 	private Logger log;
 	
+	@DatabasePostgresqlDS
 	@Inject
 	private EntityManager entityManager;
 	

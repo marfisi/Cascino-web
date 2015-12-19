@@ -8,6 +8,7 @@ import it.cascino.dao.UserLoginDao;
 import it.cascino.model.Users;
 import it.cascino.model.Userspermissions;
 import it.cascino.model.Usersrolenames;
+import it.cascino.util.DatabasePostgresqlDS;
 //import it.cascino.model.Usersroles;
 import it.cascino.util.Utility;
 import javax.faces.bean.SessionScoped;
@@ -31,6 +32,7 @@ public class UserLoginDaoManBean implements UserLoginDao, Serializable{
 	@Inject
 	private Logger log;
 	
+	@DatabasePostgresqlDS
 	@Inject
 	private EntityManager entityManager;
 	

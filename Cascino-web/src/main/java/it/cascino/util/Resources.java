@@ -9,6 +9,7 @@
 package it.cascino.util;
 
 import javax.enterprise.context.RequestScoped;
+//import javax.enterprise.inject.Alternative;
 import javax.enterprise.inject.Produces;
 import javax.enterprise.inject.spi.InjectionPoint;
 import javax.faces.context.FacesContext;
@@ -33,8 +34,17 @@ public class Resources{
 	// use @SuppressWarnings to tell IDE to ignore warnings about field not being referenced directly
 //	@SuppressWarnings("unused")
 	@Produces
-	@PersistenceContext
-	private EntityManager em;
+//	@Alternative
+	@PersistenceContext(unitName = "Postgresql")
+    @DatabasePostgresqlDS
+	private EntityManager emPg;
+	
+	@Produces
+//	@Alternative
+	@PersistenceContext(unitName = "DB2AS400")
+    @DatabaseDB2AS400DS
+	private EntityManager emAs;
+
 	
 	// @PersistenceUnit(unitName = "primary")
 	// protected static EntityManagerFactory emf;

@@ -3,6 +3,7 @@ package it.cascino.managmentbean;
 import java.io.Serializable;
 import java.util.List;
 import it.cascino.model.PgArticoliIngrosso;
+import it.cascino.util.DatabasePostgresqlDS;
 import it.cascino.util.Utility;
 import it.cascino.dao.PgArticoliIngrossoDao;
 import javax.faces.bean.SessionScoped;
@@ -26,6 +27,7 @@ public class PgArticoliIngrossoDaoMng implements PgArticoliIngrossoDao, Serializ
 	@Inject
 	private Logger log;
 	
+	@DatabasePostgresqlDS
 	@Inject
 	private EntityManager entityManager;
 	

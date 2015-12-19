@@ -14,6 +14,7 @@ import it.cascino.model.ArticoliFoto;
 import it.cascino.model.Caratteristiche;
 import it.cascino.model.Foto;
 import it.cascino.model.Allegati;
+import it.cascino.util.DatabasePostgresqlDS;
 //import it.cascino.model.Produttori;
 import it.cascino.util.Utility;
 import javax.faces.bean.SessionScoped;
@@ -39,6 +40,7 @@ public class ArticoliDaoManBean implements ArticoliDao, Serializable{
 	@Inject
 	private Logger log;
 	
+	@DatabasePostgresqlDS
 	@Inject
 	private EntityManager entityManager;
 	

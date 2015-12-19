@@ -6,7 +6,7 @@ import java.io.Serializable;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
-import org.jboss.logging.Logger;
+//import org.jboss.logging.Logger;
 
 @Named
 @SessionScoped
@@ -19,8 +19,8 @@ public class PgArticoliIngrossoController implements Serializable{
 	/**
 	 * Logger
 	 */
-	@Inject
-	private Logger log;
+//	@Inject
+//	private Logger log;
 	
 	@Inject
 	private PgArticoliIngrossoDao pgArticoliIngrossoDao;	

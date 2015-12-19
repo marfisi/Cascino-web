@@ -3,6 +3,7 @@ package it.cascino.managmentbean;
 import it.cascino.dao.AllegatiDao;
 import it.cascino.model.Allegati;
 import it.cascino.util.CommonsUtility;
+import it.cascino.util.DatabasePostgresqlDS;
 import it.cascino.util.Utility;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -38,6 +39,7 @@ public class AllegatiDaoManBean implements AllegatiDao, Serializable{
 	@Inject
 	private Logger log;
 	
+	@DatabasePostgresqlDS
 	@Inject
 	private EntityManager entityManager;
 	

@@ -12,6 +12,7 @@ import java.util.List;
 import it.cascino.dao.CaratteristicheDao;
 import it.cascino.model.Caratteristiche;
 import it.cascino.model.Foto;
+import it.cascino.util.DatabasePostgresqlDS;
 import it.cascino.util.Utility;
 import javax.faces.bean.SessionScoped;
 import javax.inject.Inject;
@@ -35,6 +36,7 @@ public class CaratteristicheDaoManBean implements CaratteristicheDao, Serializab
 	@Inject
 	private Logger log;
 	
+	@DatabasePostgresqlDS
 	@Inject
 	private EntityManager entityManager;
 	

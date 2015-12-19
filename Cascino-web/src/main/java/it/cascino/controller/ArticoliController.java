@@ -2,11 +2,9 @@ package it.cascino.controller;
 
 import it.cascino.dao.ArticoliDao;
 import it.cascino.model.Allegati;
-//import it.cascino.dao.FotoDao;
 import it.cascino.model.Articoli;
 import it.cascino.model.Caratteristiche;
 import it.cascino.model.Foto;
-import it.cascino.model.Produttori;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -343,7 +341,7 @@ public class ArticoliController implements Serializable{
 		return esito;
 	}
 	
-	@SuppressWarnings("unused")
+//	@SuppressWarnings("unused")
 	private void showGrowlInfoMessage(String message){
 		facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Successo", message));
 		log.info(message);

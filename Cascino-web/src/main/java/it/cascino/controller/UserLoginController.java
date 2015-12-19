@@ -255,6 +255,7 @@ public class UserLoginController implements Serializable{
 		// log.info("tmpDEBUGtmp: " + "< " + "setCanAccess");
 	}
 	
+	@SuppressWarnings("static-access")
 	public Boolean login(){
 		// log.info("tmpDEBUGtmp: " + "> " + "login(" + ")");
 		try{

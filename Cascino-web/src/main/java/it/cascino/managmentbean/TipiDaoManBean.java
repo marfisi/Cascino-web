@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.List;
 import it.cascino.dao.TipiDao;
 import it.cascino.model.Tipi;
+import it.cascino.util.DatabasePostgresqlDS;
 import it.cascino.util.Utility;
 import javax.faces.bean.SessionScoped;
 import javax.inject.Inject;
@@ -27,6 +28,7 @@ public class TipiDaoManBean implements TipiDao, Serializable{
 	@Inject
 	private Logger log;
 	
+	@DatabasePostgresqlDS
 	@Inject
 	private EntityManager entityManager;
 	

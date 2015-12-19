@@ -3,7 +3,6 @@ package it.cascino.controller;
 import it.cascino.dao.AllegatiDao;
 import it.cascino.dao.TipiDao;
 import it.cascino.model.Allegati;
-import it.cascino.model.Articoli;
 import it.cascino.util.securety.shiro.ShiroSecured;
 import java.util.ArrayList;
 import java.util.Iterator;

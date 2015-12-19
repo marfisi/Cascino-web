@@ -38,7 +38,7 @@
 					<f:facet name="header">
 						<p:row>
 							<p:column colspan="2">
-								<h:outputText value="#{mostraInfoArticoloViwSController.articolo.codice}" />
+								<h:outputText value="#{mostraInfoArticoloViwSController.articoloPg.codice}" />
 							</p:column>
 						</p:row>
 					</f:facet>
@@ -46,53 +46,53 @@
 						<h:outputText value="Nome" />
 					</p:column>
 					<p:column>
-						<h:outputText value="#{mostraInfoArticoloViwSController.articolo.nome}" />
+						<h:outputText value="#{mostraInfoArticoloViwSController.articoloPg.nome}" />
 					</p:column>
 					<p:column>
 						<h:outputText value="Modello" />
 					</p:column>
 					<p:column>
-						<h:outputText value="#{mostraInfoArticoloViwSController.articolo.modello}" />
+						<h:outputText value="#{mostraInfoArticoloViwSController.articoloPg.modello}" />
 					</p:column>
 					<p:column>
 						<h:outputText value="Ingrosso" />
 					</p:column>
 					<p:column>
-						<p:graphicImage value="#{(pgArticoliIngrossoController.getSeArticoloIngrossoDaIdArticolo(mostraInfoArticoloViwSController.articolo.id) == 'INGROSSO') ? './resources/gfx/foto/varie/catalogo.png' : null}" height="60px"/>
-						<h:outputText value="#{pgArticoliIngrossoController.getSeArticoloIngrossoDaIdArticolo(mostraInfoArticoloViwSController.articolo.id)}" />
+						<p:graphicImage value="#{(pgArticoliIngrossoController.getSeArticoloIngrossoDaIdArticolo(mostraInfoArticoloViwSController.articoloPg.id) == 'INGROSSO') ? './resources/gfx/foto/varie/catalogo.png' : null}" height="60px"/>
+						<h:outputText value="#{pgArticoliIngrossoController.getSeArticoloIngrossoDaIdArticolo(mostraInfoArticoloViwSController.articoloPg.id)}" />
 					</p:column>
 					<p:column>
 						<h:outputText value="Marca" />
 					</p:column>
 					<p:column>
 						<p:column>
-							<h:outputText value="#{produttoriController.getNomeProduttoreDaIdArticolo(mostraInfoArticoloViwSController.articolo.id)} (id: #{mostraInfoArticoloViwSController.articolo.produttore})" />
+							<h:outputText value="#{produttoriController.getNomeProduttoreDaIdArticolo(mostraInfoArticoloViwSController.articoloPg.id)} (id: #{mostraInfoArticoloViwSController.articoloPg.produttore})" />
 						</p:column>
 						<p:column>
-							<p:graphicImage value="#{fotoController.resolvePath(fotoController.getFotoProduttoreDaIdArticolo(mostraInfoArticoloViwSController.articolo.id))}#{fotoController.getFotonameUrl(fotoController.getFotoProduttoreDaIdArticolo(mostraInfoArticoloViwSController.articolo.id), 1)}" height="#{fotoController.getHeightFromResolution(fotoController.getFotoProduttoreDaIdArticolo(articolo.id), 1, 60, 100)}" />
+							<p:graphicImage value="#{fotoController.resolvePath(fotoController.getFotoProduttoreDaIdArticolo(mostraInfoArticoloViwSController.articoloPg.id))}#{fotoController.getFotonameUrl(fotoController.getFotoProduttoreDaIdArticolo(mostraInfoArticoloViwSController.articoloPg.id), 1)}" height="#{fotoController.getHeightFromResolution(fotoController.getFotoProduttoreDaIdArticolo(articoloPg.id), 1, 60, 100)}" />
 						</p:column>
 					</p:column>
 					<p:column>
 						<h:outputText value="Descrizione" />
 					</p:column>
 					<p:column>
-						<h:outputText value="#{mostraInfoArticoloViwSController.articolo.descrizione}" />
+						<h:outputText value="#{mostraInfoArticoloViwSController.articoloPg.descrizione}" />
 					</p:column>
 					<p:column>
 						<h:outputText value="Descrizione AS400" />
 					</p:column>
 					<p:column>
-						<h:outputText value="#{mostraInfoArticoloViwSController.articolo.descrizioneAs400}" />
+						<h:outputText value="#{mostraInfoArticoloViwSController.articoloPg.descrizioneAs400}" />
 					</p:column>	
 					<p:column>
 						<h:outputText value="Tipo" />
 					</p:column>
 					<p:column>
 						<p:column>
-							<h:outputText value="#{tipiController.getNomeTipoDaIdArticolo(mostraInfoArticoloViwSController.articolo.id)} (id: #{mostraInfoArticoloViwSController.articolo.tipo})" />
+							<h:outputText value="#{tipiController.getNomeTipoDaIdArticolo(mostraInfoArticoloViwSController.articoloPg.id)} (id: #{mostraInfoArticoloViwSController.articoloPg.tipo})" />
 						</p:column>
 						<p:column>
-							<p:graphicImage value="#{fotoController.resolvePath(fotoController.getFotoTipoDaIdArticolo(mostraInfoArticoloViwSController.articolo.id))}#{fotoController.getFotonameUrl(fotoController.getFotoTipoDaIdArticolo(mostraInfoArticoloViwSController.articolo.id), 1)}" height="#{fotoController.getHeightFromResolution(fotoController.getFotoTipoDaIdArticolo(mostraInfoArticoloViwSController.articolo.id), 1, 80, 180)}" />
+							<p:graphicImage value="#{fotoController.resolvePath(fotoController.getFotoTipoDaIdArticolo(mostraInfoArticoloViwSController.articoloPg.id))}#{fotoController.getFotonameUrl(fotoController.getFotoTipoDaIdArticolo(mostraInfoArticoloViwSController.articoloPg.id), 1)}" height="#{fotoController.getHeightFromResolution(fotoController.getFotoTipoDaIdArticolo(mostraInfoArticoloViwSController.articoloPg.id), 1, 80, 180)}" />
 						</p:column>
 					</p:column>
 					<p:column>
@@ -100,7 +100,7 @@
 					</p:column>
 					<p:column>
 						<p:outputPanel id="fotoArticoloPanel" styleClass="fotoArticoloPanel">
-							<p:dataGrid id="fotoArticoloDataGrid" var="f" value="#{fotoController.getFotoArticoloOrdLsDaIdArticolo(mostraInfoArticoloViwSController.articolo.id)}" rowKey="#{f.id}" selection="#{fotoController.fotoSel}" selectionMode="single" columns="4" layout="grid" rows="12" paginator="true" emptyMessage="Nessun entry per il criterio definito"   >
+							<p:dataGrid id="fotoArticoloDataGrid" var="f" value="#{fotoController.getFotoArticoloOrdLsDaIdArticolo(mostraInfoArticoloViwSController.articoloPg.id)}" rowKey="#{f.id}" selection="#{fotoController.fotoSel}" selectionMode="single" columns="4" layout="grid" rows="12" paginator="true" emptyMessage="Nessun entry per il criterio definito"   >
         						<f:facet name="header">
 									<h:outputText value="Foto" />
 								</f:facet>
@@ -120,7 +120,7 @@
 					</p:column>
 					<p:column>
 						<p:outputPanel id="caratteristicheArticoloPanel">
-							<p:dataTable id="caratteristicheArticoloDataTable" var="c" value="#{caratteristicheController.getCaratteristicheListPerArticolo(mostraInfoArticoloViwSController.articolo.id)}" widgetVar="caratteristicheArticoloDataTable" rowKey="#{c.id}" paginator="true" rows="15" dynamic="true" sortBy="#{c.classe} #{c.unitaMisura} #{c.scala} #{c.valore} #{c.descrizione}">
+							<p:dataTable id="caratteristicheArticoloDataTable" var="c" value="#{caratteristicheController.getCaratteristicheListPerArticolo(mostraInfoArticoloViwSController.articoloPg.id)}" widgetVar="caratteristicheArticoloDataTable" rowKey="#{c.id}" paginator="true" rows="15" dynamic="true" sortBy="#{c.classe} #{c.unitaMisura} #{c.scala} #{c.valore} #{c.descrizione}">
 								<f:facet name="header">
 									<p:outputPanel>
 										<h:outputText value="Ricerca in tutti i campi: " />
@@ -172,7 +172,7 @@
 					</p:column>
 					<p:column>
 						<p:outputPanel id="allegatiArticoloPanel">
-							<p:dataTable id="allegatiDataTable" var="allegato" value="#{allegatiController.getAllegatiArticoloOrdLsDaIdArticolo(mostraInfoArticoloViwSController.articolo.id)}" rowKey="#{allegato.id}" paginator="true" rows="7" dynamic="true" sortBy="#{allegato.id}" emptyMessage="Nessun entry per il criterio definito" >
+							<p:dataTable id="allegatiDataTable" var="allegato" value="#{allegatiController.getAllegatiArticoloOrdLsDaIdArticolo(mostraInfoArticoloViwSController.articoloPg.id)}" rowKey="#{allegato.id}" paginator="true" rows="7" dynamic="true" sortBy="#{allegato.id}" emptyMessage="Nessun entry per il criterio definito" >
 								<f:facet name="sourceCaption">Disponibili</f:facet>
 								<p:column sortBy="nome" sortFunction="#{allegatiCondivisiController.sortByStr}" filterBy="#{allegato.nome} #{allegato.id}" filterMatchMode="contains">
 									<f:facet name="header">
@@ -202,7 +202,7 @@
 					</p:column>
 					<p:column>
 						<p:outputPanel id="fratelliArticoloPanel">
-							<p:dataTable id="fratelliDataTable" var="af" value="#{articoliController.getArticoliFratelliLsDaCodiceFoto((fotoController.getFotoArticoloOrdLsDaIdArticolo(mostraInfoArticoloViwSController.articolo.id).size() == 0) ? null : fotoController.getFotoArticoloOrdLsDaIdArticolo(mostraInfoArticoloViwSController.articolo.id).get(0).id)}" rowKey="#{af.id}" paginator="true" rows="7" dynamic="true" sortBy="#{af.id}" emptyMessage="Nessun entry per il criterio definito" >
+							<p:dataTable id="fratelliDataTable" var="af" value="#{articoliController.getArticoliFratelliLsDaCodiceFoto((fotoController.getFotoArticoloOrdLsDaIdArticolo(mostraInfoArticoloViwSController.articoloPg.id).size() == 0) ? null : fotoController.getFotoArticoloOrdLsDaIdArticolo(mostraInfoArticoloViwSController.articoloPg.id).get(0).id)}" rowKey="#{af.id}" paginator="true" rows="7" dynamic="true" sortBy="#{af.id}" emptyMessage="Nessun entry per il criterio definito" >
 								<p:column>
 									<f:facet name="header">
 										<h:outputText value="Codice" />
@@ -271,7 +271,7 @@
 					</p:column>
 					<p:column>
 						<p:outputPanel id="nextArticoliPanel">
-							<p:dataTable id="nexArticoliDataTable" var="af" value="#{articoliController.getArticoliSuccessiviLsDaCodiceFoto(mostraInfoArticoloViwSController.articolo.codice, 10)}" rowKey="#{af.id}" dynamic="true" sortBy="#{af.codice}" emptyMessage="Nessun entry per il criterio definito" >
+							<p:dataTable id="nexArticoliDataTable" var="af" value="#{articoliController.getArticoliSuccessiviLsDaCodiceFoto(mostraInfoArticoloViwSController.articoloPg.codice, 10)}" rowKey="#{af.id}" dynamic="true" sortBy="#{af.codice}" emptyMessage="Nessun entry per il criterio definito" >
 								<p:column>
 									<f:facet name="header">
 										<h:outputText value="Codice" />

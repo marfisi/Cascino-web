@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.List;
 import it.cascino.dao.ProduttoriDao;
 import it.cascino.model.Produttori;
+import it.cascino.util.DatabasePostgresqlDS;
 import it.cascino.util.Utility;
 import javax.faces.bean.SessionScoped;
 import javax.inject.Inject;
@@ -26,6 +27,7 @@ public class ProduttoriDaoManBean implements ProduttoriDao, Serializable{
 	@Inject
 	private Logger log;
 	
+	@DatabasePostgresqlDS
 	@Inject
 	private EntityManager entityManager;
 	
