@@ -30,7 +30,7 @@ public class AsAnmag0fDaoMng implements AsAnmag0fDao, Serializable{
 	
 	@DatabaseDB2AS400DS
 	@Inject
-	private EntityManager emAs;
+	private EntityManager emAS;
 	
 	@Inject
 	private UserTransaction utx;
@@ -41,7 +41,7 @@ public class AsAnmag0fDaoMng implements AsAnmag0fDao, Serializable{
 		try{
 			try{
 				utx.begin();
-				Query query = emAs.createNamedQuery("AsAnmag0f.findAll");
+				Query query = emAS.createNamedQuery("AsAnmag0f.findAll");
 				cod = (List<AsAnmag0f>)query.getResultList();
 			}catch(NoResultException e){
 				cod = null;
@@ -103,7 +103,7 @@ public class AsAnmag0fDaoMng implements AsAnmag0fDao, Serializable{
 		try{
 			try{
 				utx.begin();
-				Query query = emAs.createNamedQuery("AsAnmag0f.findByMcoda");
+				Query query = emAS.createNamedQuery("AsAnmag0f.findByMcoda");
 				query.setParameter("mcoda", mcoda);
 				cod = (AsAnmag0f)query.getSingleResult();
 			}catch(NoResultException e){

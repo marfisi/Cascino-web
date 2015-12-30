@@ -35,313 +35,558 @@
 			<h:form id="infoForm">
 				<h:outputText value="#{mostraInfoArticoloReqSController.recuperaCodiceArticolo()}" />
 				<p:panelGrid columns="2" style="margin-top:20px">
-					<f:facet name="header">
-						<p:row>
-							<p:column colspan="2">
-								<h:outputText value="#{mostraInfoArticoloViwSController.articoloPg.codice}" />
+					<p:panelGrid columns="2" style="margin-top:20px">
+						<f:facet name="header">
+							<p:row>
+								<p:column colspan="2">
+									<h:outputText value="#{mostraInfoArticoloViwSController.articoloPg.codice}" />
+								</p:column>
+							</p:row>
+						</f:facet>
+						<p:column>
+							<h:outputText value="Nome" />
+						</p:column>
+						<p:column>
+							<h:outputText value="#{mostraInfoArticoloViwSController.articoloPg.nome}" />
+						</p:column>
+						<p:column>
+							<h:outputText value="Modello" />
+						</p:column>
+						<p:column>
+							<h:outputText value="#{mostraInfoArticoloViwSController.articoloPg.modello}" />
+						</p:column>
+						<p:column>
+							<h:outputText value="Ingrosso" />
+						</p:column>
+						<p:column>
+							<p:graphicImage value="#{(pgArticoliIngrossoController.getSeArticoloIngrossoDaIdArticolo(mostraInfoArticoloViwSController.articoloPg.id) == 'INGROSSO') ? './resources/gfx/foto/varie/catalogo.png' : null}" height="60px"/>
+							<h:outputText value="#{pgArticoliIngrossoController.getSeArticoloIngrossoDaIdArticolo(mostraInfoArticoloViwSController.articoloPg.id)}" />
+						</p:column>
+						<p:column>
+							<h:outputText value="Marca" />
+						</p:column>
+						<p:column>
+							<p:column>
+								<h:outputText value="#{produttoriController.getNomeProduttoreDaIdArticolo(mostraInfoArticoloViwSController.articoloPg.id)} (id: #{mostraInfoArticoloViwSController.articoloPg.produttore})" />
 							</p:column>
-						</p:row>
-					</f:facet>
-					<p:column>
-						<h:outputText value="Nome" />
-					</p:column>
-					<p:column>
-						<h:outputText value="#{mostraInfoArticoloViwSController.articoloPg.nome}" />
-					</p:column>
-					<p:column>
-						<h:outputText value="Modello" />
-					</p:column>
-					<p:column>
-						<h:outputText value="#{mostraInfoArticoloViwSController.articoloPg.modello}" />
-					</p:column>
-					<p:column>
-						<h:outputText value="Ingrosso" />
-					</p:column>
-					<p:column>
-						<p:graphicImage value="#{(pgArticoliIngrossoController.getSeArticoloIngrossoDaIdArticolo(mostraInfoArticoloViwSController.articoloPg.id) == 'INGROSSO') ? './resources/gfx/foto/varie/catalogo.png' : null}" height="60px"/>
-						<h:outputText value="#{pgArticoliIngrossoController.getSeArticoloIngrossoDaIdArticolo(mostraInfoArticoloViwSController.articoloPg.id)}" />
-					</p:column>
-					<p:column>
-						<h:outputText value="Marca" />
-					</p:column>
-					<p:column>
-						<p:column>
-							<h:outputText value="#{produttoriController.getNomeProduttoreDaIdArticolo(mostraInfoArticoloViwSController.articoloPg.id)} (id: #{mostraInfoArticoloViwSController.articoloPg.produttore})" />
+							<p:column>
+								<p:graphicImage value="#{fotoController.resolvePath(fotoController.getFotoProduttoreDaIdArticolo(mostraInfoArticoloViwSController.articoloPg.id))}#{fotoController.getFotonameUrl(fotoController.getFotoProduttoreDaIdArticolo(mostraInfoArticoloViwSController.articoloPg.id), 1)}" height="#{fotoController.getHeightFromResolution(fotoController.getFotoProduttoreDaIdArticolo(articoloPg.id), 1, 60, 100)}" />
+							</p:column>
 						</p:column>
 						<p:column>
-							<p:graphicImage value="#{fotoController.resolvePath(fotoController.getFotoProduttoreDaIdArticolo(mostraInfoArticoloViwSController.articoloPg.id))}#{fotoController.getFotonameUrl(fotoController.getFotoProduttoreDaIdArticolo(mostraInfoArticoloViwSController.articoloPg.id), 1)}" height="#{fotoController.getHeightFromResolution(fotoController.getFotoProduttoreDaIdArticolo(articoloPg.id), 1, 60, 100)}" />
-						</p:column>
-					</p:column>
-					<p:column>
-						<h:outputText value="Descrizione" />
-					</p:column>
-					<p:column>
-						<h:outputText value="#{mostraInfoArticoloViwSController.articoloPg.descrizione}" />
-					</p:column>
-					<p:column>
-						<h:outputText value="Descrizione AS400" />
-					</p:column>
-					<p:column>
-						<h:outputText value="#{mostraInfoArticoloViwSController.articoloPg.descrizioneAs400}" />
-					</p:column>	
-					<p:column>
-						<h:outputText value="Tipo" />
-					</p:column>
-					<p:column>
-						<p:column>
-							<h:outputText value="#{tipiController.getNomeTipoDaIdArticolo(mostraInfoArticoloViwSController.articoloPg.id)} (id: #{mostraInfoArticoloViwSController.articoloPg.tipo})" />
+							<h:outputText value="Descrizione" />
 						</p:column>
 						<p:column>
-							<p:graphicImage value="#{fotoController.resolvePath(fotoController.getFotoTipoDaIdArticolo(mostraInfoArticoloViwSController.articoloPg.id))}#{fotoController.getFotonameUrl(fotoController.getFotoTipoDaIdArticolo(mostraInfoArticoloViwSController.articoloPg.id), 1)}" height="#{fotoController.getHeightFromResolution(fotoController.getFotoTipoDaIdArticolo(mostraInfoArticoloViwSController.articoloPg.id), 1, 80, 180)}" />
+							<h:outputText value="#{mostraInfoArticoloViwSController.articoloPg.descrizione}" />
 						</p:column>
-					</p:column>
-					<p:column>
-						<h:outputText value="Foto" />
-					</p:column>
-					<p:column>
-						<p:outputPanel id="fotoArticoloPanel" styleClass="fotoArticoloPanel">
-							<p:dataGrid id="fotoArticoloDataGrid" var="f" value="#{fotoController.getFotoArticoloOrdLsDaIdArticolo(mostraInfoArticoloViwSController.articoloPg.id)}" rowKey="#{f.id}" selection="#{fotoController.fotoSel}" selectionMode="single" columns="4" layout="grid" rows="12" paginator="true" emptyMessage="Nessun entry per il criterio definito"   >
-        						<f:facet name="header">
-									<h:outputText value="Foto" />
-								</f:facet>
-								<p:panel style="text-align:center" >
-									<h:panelGrid columns="1" style="width:100%">
-										<p:commandLink oncomplete="PF('zoomFoto').show()" update=":zoomPanel" styleClass="zoomLink" >
-											<p:graphicImage value="#{fotoController.resolvePath(f)}#{fotoController.getFotonameUrl(f, 1)}" height="#{fotoController.getHeightFromResolution(f, 1, 250, 250)}" oncomplete="PF('zoomFoto').show()" update=":zoomPanel" />
-											<f:setPropertyActionListener value="#{f}" target="#{fotoController.fotoSel}" />
-										</p:commandLink>
-									</h:panelGrid>
-								</p:panel>
-							</p:dataGrid>
-						</p:outputPanel>
-					</p:column>
-					<p:column>
-						<h:outputText value="Caratteristiche" />
-					</p:column>
-					<p:column>
-						<p:outputPanel id="caratteristicheArticoloPanel">
-							<p:dataTable id="caratteristicheArticoloDataTable" var="c" value="#{caratteristicheController.getCaratteristicheListPerArticolo(mostraInfoArticoloViwSController.articoloPg.id)}" widgetVar="caratteristicheArticoloDataTable" rowKey="#{c.id}" paginator="true" rows="15" dynamic="true" sortBy="#{c.classe} #{c.unitaMisura} #{c.scala} #{c.valore} #{c.descrizione}">
-								<f:facet name="header">
-									<p:outputPanel>
-										<h:outputText value="Ricerca in tutti i campi: " />
-										<p:inputText id="globalFilter" onkeyup="PF('caratteristicheArticoloDataTable').filter()" style="width:150px" placeholder="filtro" />
-									</p:outputPanel>
-								</f:facet>
-								<p:column filterBy="#{c.classe} #{c.unitaMisura} #{c.valore} #{c.descrizione}" filterMatchMode="contains" rendered="false" />
-								<p:column>
-									<f:facet name="header">
-										<h:outputText value="Classe" />
-									</f:facet>
-									<h:outputText value="#{c.classe}" />
-								</p:column>
-								<p:column>
-									<f:facet name="header">
-										<h:outputText value="Unita' misura" />
-									</f:facet>
-									<h:outputText value="#{c.unitaMisura}" />
-								</p:column>
-								<p:column>
-									<f:facet name="header">
-										<h:outputText value="Scala" />
-									</f:facet>
-									<h:outputText value="#{c.scala}" />
-								</p:column>
-								<p:column>
-									<f:facet name="header">
-										<h:outputText value="Qty" />
-									</f:facet>
-									<h:outputText value="#{c.qty}" />
-								</p:column>
-								<p:column>
-									<f:facet name="header">
-										<h:outputText value="Valore" />
-									</f:facet>
-									<h:outputText value="#{c.valore}" />
-								</p:column>
-								<p:column>
-									<f:facet name="header">
-										<h:outputText value="Descrizione" />
-									</f:facet>
-									<h:outputText value="#{c.descrizione}" />
-								</p:column>
-							</p:dataTable>
-						</p:outputPanel>
-					</p:column>
-					<p:column>
-						<h:outputText value="Allegati" />
-					</p:column>
-					<p:column>
-						<p:outputPanel id="allegatiArticoloPanel">
-							<p:dataTable id="allegatiDataTable" var="allegato" value="#{allegatiController.getAllegatiArticoloOrdLsDaIdArticolo(mostraInfoArticoloViwSController.articoloPg.id)}" rowKey="#{allegato.id}" paginator="true" rows="7" dynamic="true" sortBy="#{allegato.id}" emptyMessage="Nessun entry per il criterio definito" >
-								<f:facet name="sourceCaption">Disponibili</f:facet>
-								<p:column sortBy="nome" sortFunction="#{allegatiCondivisiController.sortByStr}" filterBy="#{allegato.nome} #{allegato.id}" filterMatchMode="contains">
-									<f:facet name="header">
-										<h:outputText value="Nome (id)" />
-									</f:facet>
-									<h:outputText value="#{allegato.nome} (id: #{allegato.id})" />
-								</p:column>
-								<p:column sortBy="descrizione" sortFunction="#{allegatiCondivisiController.sortByStrIC}" filterBy="#{allegato.descrizione}" filterMatchMode="contains">
-									<f:facet name="header">
-										<h:outputText value="Descrizione" />
-									</f:facet>
-									<h:outputText value="#{allegato.descrizione}" />
-								</p:column>
-								<p:column>
-									<f:facet name="header">
-										<h:outputText value="Download" />
-									</f:facet>
-									<p:commandButton value="Download" ajax="false" onclick="PrimeFaces.monitorDownload(start, stop);$(this).hide()" icon="ui-icon-circle-arrow-s" styleClass="bottoneDownload">
-										<p:fileDownload value="#{allegatiController.getFileAllegatoDownload(allegato.nome)}" />
-									</p:commandButton>
-								</p:column>
-							</p:dataTable>
-						</p:outputPanel>
-					</p:column>
-					<p:column>
-						<h:outputText value="Fratelli (di foto)" />
-					</p:column>
-					<p:column>
-						<p:outputPanel id="fratelliArticoloPanel">
-							<p:dataTable id="fratelliDataTable" var="af" value="#{articoliController.getArticoliFratelliLsDaCodiceFoto((fotoController.getFotoArticoloOrdLsDaIdArticolo(mostraInfoArticoloViwSController.articoloPg.id).size() == 0) ? null : fotoController.getFotoArticoloOrdLsDaIdArticolo(mostraInfoArticoloViwSController.articoloPg.id).get(0).id)}" rowKey="#{af.id}" paginator="true" rows="7" dynamic="true" sortBy="#{af.id}" emptyMessage="Nessun entry per il criterio definito" >
-								<p:column>
-									<f:facet name="header">
-										<h:outputText value="Codice" />
-									</f:facet>
-									<p:link value="#{af.codice}" target="_blank">
-										<f:param name="codArt" value="#{af.codice}" />
-									</p:link>
-								</p:column>
-								<p:column>
-									<f:facet name="header">
-										<h:outputText value="Nome" />
-									</f:facet>
-									<h:outputText value="#{af.nome}" />
-								</p:column>
-								<p:column>
-									<f:facet name="header">
-										<h:outputText value="Descrizione AS400" />
-									</f:facet>
-									<h:outputText value="#{af.descrizioneAs400}" />
-								</p:column>
-								<p:column>
-									<f:facet name="header">
-										<h:outputText value="Descrizione" />
-									</f:facet>
-									<h:outputText value="#{af.descrizione}" />
-								</p:column>
-								<p:column>
-									<f:facet name="header">
-										<h:outputText value="Marca" />
-									</f:facet>
-									<p:column>
-										<h:outputText value="#{produttoriController.getNomeProduttoreDaIdArticolo(af.id)} (id: #{af.produttore})" />
-									</p:column>
-									<p:column>
-										<p:graphicImage value="#{fotoController.resolvePath(fotoController.getFotoProduttoreDaIdArticolo(af.id))}#{fotoController.getFotonameUrl(fotoController.getFotoProduttoreDaIdArticolo(af.id), 1)}" height="#{fotoController.getHeightFromResolution(fotoController.getFotoProduttoreDaIdArticolo(af.id), 1, 40, 100)}" />
-									</p:column>
-								</p:column>
-								<p:column>
-									<f:facet name="header">
-										<h:outputText value="Modello" />
-									</f:facet>
-									<h:outputText value="#{af.modello}" />
-								</p:column>
-								<p:column>
-									<f:facet name="header">
-										<h:outputText value="Tipo" />
-									</f:facet>
-									<p:column>
-										<h:outputText value="#{tipiController.getNomeTipoDaIdArticolo(af.id)} (id: #{af.tipo})" />
-									</p:column>
-									<p:column>
-										<p:graphicImage value="#{fotoController.resolvePath(fotoController.getFotoTipoDaIdArticolo(af.id))}#{fotoController.getFotonameUrl(fotoController.getFotoTipoDaIdArticolo(af.id), 1)}" height="#{fotoController.getHeightFromResolution(fotoController.getFotoTipoDaIdArticolo(af.id), 1, 40, 60)}" />
-									</p:column>
-								</p:column>
-								<p:column>
-									<f:facet name="header">
-										<h:outputText value="ID" />
-									</f:facet>
-									<h:outputText value="#{af.id}" />
-								</p:column>
-							</p:dataTable>
-						</p:outputPanel>
-					</p:column>
-					<p:column>
-						<h:outputText value="Articoli" />
-					</p:column>
-					<p:column>
-						<p:outputPanel id="nextArticoliPanel">
-							<p:dataTable id="nexArticoliDataTable" var="af" value="#{articoliController.getArticoliSuccessiviLsDaCodiceFoto(mostraInfoArticoloViwSController.articoloPg.codice, 10)}" rowKey="#{af.id}" dynamic="true" sortBy="#{af.codice}" emptyMessage="Nessun entry per il criterio definito" >
-								<p:column>
-									<f:facet name="header">
-										<h:outputText value="Codice" />
-									</f:facet>
-									<p:link value="#{af.codice}" target="_blank">
-										<f:param name="codArt" value="#{af.codice}" />
-									</p:link>
-								</p:column>
-								<p:column>
-									<f:facet name="header">
-										<h:outputText value="Nome" />
-									</f:facet>
-									<h:outputText value="#{af.nome}" />
-								</p:column>
-								<p:column>
-									<f:facet name="header">
-										<h:outputText value="Descrizione AS400" />
-									</f:facet>
-									<h:outputText value="#{af.descrizioneAs400}" />
-								</p:column>
-								<p:column>
-									<f:facet name="header">
-										<h:outputText value="Descrizione" />
-									</f:facet>
-									<h:outputText value="#{af.descrizione}" />
-								</p:column>
-								<p:column>
-									<f:facet name="header">
+						<p:column>
+							<h:outputText value="Descrizione AS400" />
+						</p:column>
+						<p:column>
+							<h:outputText value="#{mostraInfoArticoloViwSController.articoloPg.descrizioneAs400}" />
+						</p:column>	
+						<p:column>
+							<h:outputText value="Tipo" />
+						</p:column>
+						<p:column>
+							<p:column>
+								<h:outputText value="#{tipiController.getNomeTipoDaIdArticolo(mostraInfoArticoloViwSController.articoloPg.id)} (id: #{mostraInfoArticoloViwSController.articoloPg.tipo})" />
+							</p:column>
+							<p:column>
+								<p:graphicImage value="#{fotoController.resolvePath(fotoController.getFotoTipoDaIdArticolo(mostraInfoArticoloViwSController.articoloPg.id))}#{fotoController.getFotonameUrl(fotoController.getFotoTipoDaIdArticolo(mostraInfoArticoloViwSController.articoloPg.id), 1)}" height="#{fotoController.getHeightFromResolution(fotoController.getFotoTipoDaIdArticolo(mostraInfoArticoloViwSController.articoloPg.id), 1, 80, 180)}" />
+							</p:column>
+						</p:column>
+						<p:column>
+							<h:outputText value="Foto" />
+						</p:column>
+						<p:column>
+							<p:outputPanel id="fotoArticoloPanel" styleClass="fotoArticoloPanel">
+								<p:dataGrid id="fotoArticoloDataGrid" var="f" value="#{fotoController.getFotoArticoloOrdLsDaIdArticolo(mostraInfoArticoloViwSController.articoloPg.id)}" rowKey="#{f.id}" selection="#{fotoController.fotoSel}" selectionMode="single" columns="4" layout="grid" rows="12" paginator="true" emptyMessage="Nessun entry per il criterio definito"   >
+	        						<f:facet name="header">
 										<h:outputText value="Foto" />
 									</f:facet>
-									<p:graphicImage value="#{fotoController.resolvePath(fotoController.getFotoArticoloDaIdArticolo(af.id))}#{fotoController.getFotonameUrl(fotoController.getFotoArticoloDaIdArticolo(af.id), 1)}" height="#{fotoController.getHeightFromResolution(fotoController.getFotoArticoloDaIdArticolo(af.id), 1, 120, 120)}" />
-									<h:outputText value="[# #{fotoController.getFotoArticoloOrdLsDaIdArticolo(af.id).size()} (id: #{fotoController.getFotoArticoloDaIdArticolo(af.id).id})]" />
-								</p:column>
-								<p:column>
+									<p:panel style="text-align:center" >
+										<h:panelGrid columns="1" style="width:100%">
+											<p:commandLink oncomplete="PF('zoomFoto').show()" update=":zoomPanel" styleClass="zoomLink" >
+												<p:graphicImage value="#{fotoController.resolvePath(f)}#{fotoController.getFotonameUrl(f, 1)}" height="#{fotoController.getHeightFromResolution(f, 1, 250, 250)}" oncomplete="PF('zoomFoto').show()" update=":zoomPanel" />
+												<f:setPropertyActionListener value="#{f}" target="#{fotoController.fotoSel}" />
+											</p:commandLink>
+										</h:panelGrid>
+									</p:panel>
+								</p:dataGrid>
+							</p:outputPanel>
+						</p:column>
+						<p:column>
+							<h:outputText value="Caratteristiche" />
+						</p:column>
+						<p:column>
+							<p:outputPanel id="caratteristicheArticoloPanel">
+								<p:dataTable id="caratteristicheArticoloDataTable" var="c" value="#{caratteristicheController.getCaratteristicheListPerArticolo(mostraInfoArticoloViwSController.articoloPg.id)}" widgetVar="caratteristicheArticoloDataTable" rowKey="#{c.id}" paginator="true" rows="15" dynamic="true" sortBy="#{c.classe} #{c.unitaMisura} #{c.scala} #{c.valore} #{c.descrizione}">
 									<f:facet name="header">
-										<h:outputText value="Marca" />
+										<p:outputPanel>
+											<h:outputText value="Ricerca in tutti i campi: " />
+											<p:inputText id="globalFilter" onkeyup="PF('caratteristicheArticoloDataTable').filter()" style="width:150px" placeholder="filtro" />
+										</p:outputPanel>
 									</f:facet>
+									<p:column filterBy="#{c.classe} #{c.unitaMisura} #{c.valore} #{c.descrizione}" filterMatchMode="contains" rendered="false" />
 									<p:column>
-										<h:outputText value="#{produttoriController.getNomeProduttoreDaIdArticolo(af.id)} (id: #{af.produttore})" />
+										<f:facet name="header">
+											<h:outputText value="Classe" />
+										</f:facet>
+										<h:outputText value="#{c.classe}" />
 									</p:column>
 									<p:column>
-										<p:graphicImage value="#{fotoController.resolvePath(fotoController.getFotoProduttoreDaIdArticolo(af.id))}#{fotoController.getFotonameUrl(fotoController.getFotoProduttoreDaIdArticolo(af.id), 1)}" height="#{fotoController.getHeightFromResolution(fotoController.getFotoProduttoreDaIdArticolo(af.id), 1, 40, 100)}" />
-									</p:column>
-								</p:column>
-								<p:column>
-									<f:facet name="header">
-										<h:outputText value="Modello" />
-									</f:facet>
-									<h:outputText value="#{af.modello}" />
-								</p:column>
-								<p:column>
-									<f:facet name="header">
-										<h:outputText value="Tipo" />
-									</f:facet>
-									<p:column>
-										<h:outputText value="#{tipiController.getNomeTipoDaIdArticolo(af.id)} (id: #{af.tipo})" />
+										<f:facet name="header">
+											<h:outputText value="Unita' misura" />
+										</f:facet>
+										<h:outputText value="#{c.unitaMisura}" />
 									</p:column>
 									<p:column>
-										<p:graphicImage value="#{fotoController.resolvePath(fotoController.getFotoTipoDaIdArticolo(af.id))}#{fotoController.getFotonameUrl(fotoController.getFotoTipoDaIdArticolo(af.id), 1)}" height="#{fotoController.getHeightFromResolution(fotoController.getFotoTipoDaIdArticolo(af.id), 1, 40, 60)}" />
+										<f:facet name="header">
+											<h:outputText value="Scala" />
+										</f:facet>
+										<h:outputText value="#{c.scala}" />
 									</p:column>
+									<p:column>
+										<f:facet name="header">
+											<h:outputText value="Qty" />
+										</f:facet>
+										<h:outputText value="#{c.qty}" />
+									</p:column>
+									<p:column>
+										<f:facet name="header">
+											<h:outputText value="Valore" />
+										</f:facet>
+										<h:outputText value="#{c.valore}" />
+									</p:column>
+									<p:column>
+										<f:facet name="header">
+											<h:outputText value="Descrizione" />
+										</f:facet>
+										<h:outputText value="#{c.descrizione}" />
+									</p:column>
+								</p:dataTable>
+							</p:outputPanel>
+						</p:column>
+						<p:column>
+							<h:outputText value="Allegati" />
+						</p:column>
+						<p:column>
+							<p:outputPanel id="allegatiArticoloPanel">
+								<p:dataTable id="allegatiDataTable" var="allegato" value="#{allegatiController.getAllegatiArticoloOrdLsDaIdArticolo(mostraInfoArticoloViwSController.articoloPg.id)}" rowKey="#{allegato.id}" paginator="true" rows="7" dynamic="true" sortBy="#{allegato.id}" emptyMessage="Nessun entry per il criterio definito" >
+									<f:facet name="sourceCaption">Disponibili</f:facet>
+									<p:column sortBy="nome" sortFunction="#{allegatiCondivisiController.sortByStr}" filterBy="#{allegato.nome} #{allegato.id}" filterMatchMode="contains">
+										<f:facet name="header">
+											<h:outputText value="Nome (id)" />
+										</f:facet>
+										<h:outputText value="#{allegato.nome} (id: #{allegato.id})" />
+									</p:column>
+									<p:column sortBy="descrizione" sortFunction="#{allegatiCondivisiController.sortByStrIC}" filterBy="#{allegato.descrizione}" filterMatchMode="contains">
+										<f:facet name="header">
+											<h:outputText value="Descrizione" />
+										</f:facet>
+										<h:outputText value="#{allegato.descrizione}" />
+									</p:column>
+									<p:column>
+										<f:facet name="header">
+											<h:outputText value="Download" />
+										</f:facet>
+										<p:commandButton value="Download" ajax="false" onclick="PrimeFaces.monitorDownload(start, stop);$(this).hide()" icon="ui-icon-circle-arrow-s" styleClass="bottoneDownload">
+											<p:fileDownload value="#{allegatiController.getFileAllegatoDownload(allegato.nome)}" />
+										</p:commandButton>
+									</p:column>
+								</p:dataTable>
+							</p:outputPanel>
+						</p:column>
+						<p:column>
+							<h:outputText value="Fratelli (di foto)" />
+						</p:column>
+						<p:column>
+							<p:outputPanel id="fratelliArticoloPanel">
+								<p:dataTable id="fratelliDataTable" var="af" value="#{articoliController.getArticoliFratelliLsDaCodiceFoto((fotoController.getFotoArticoloOrdLsDaIdArticolo(mostraInfoArticoloViwSController.articoloPg.id).size() == 0) ? null : fotoController.getFotoArticoloOrdLsDaIdArticolo(mostraInfoArticoloViwSController.articoloPg.id).get(0).id)}" rowKey="#{af.id}" paginator="true" rows="7" dynamic="true" sortBy="#{af.id}" emptyMessage="Nessun entry per il criterio definito" >
+									<p:column>
+										<f:facet name="header">
+											<h:outputText value="Codice" />
+										</f:facet>
+										<p:link value="#{af.codice}" target="_blank">
+											<f:param name="codArt" value="#{af.codice}" />
+										</p:link>
+									</p:column>
+									<p:column>
+										<f:facet name="header">
+											<h:outputText value="Nome" />
+										</f:facet>
+										<h:outputText value="#{af.nome}" />
+									</p:column>
+									<p:column>
+										<f:facet name="header">
+											<h:outputText value="Descrizione AS400" />
+										</f:facet>
+										<h:outputText value="#{af.descrizioneAs400}" />
+									</p:column>
+									<p:column>
+										<f:facet name="header">
+											<h:outputText value="Descrizione" />
+										</f:facet>
+										<h:outputText value="#{af.descrizione}" />
+									</p:column>
+									<p:column>
+										<f:facet name="header">
+											<h:outputText value="Marca" />
+										</f:facet>
+										<p:column>
+											<h:outputText value="#{produttoriController.getNomeProduttoreDaIdArticolo(af.id)} (id: #{af.produttore})" />
+										</p:column>
+										<p:column>
+											<p:graphicImage value="#{fotoController.resolvePath(fotoController.getFotoProduttoreDaIdArticolo(af.id))}#{fotoController.getFotonameUrl(fotoController.getFotoProduttoreDaIdArticolo(af.id), 1)}" height="#{fotoController.getHeightFromResolution(fotoController.getFotoProduttoreDaIdArticolo(af.id), 1, 40, 100)}" />
+										</p:column>
+									</p:column>
+									<p:column>
+										<f:facet name="header">
+											<h:outputText value="Modello" />
+										</f:facet>
+										<h:outputText value="#{af.modello}" />
+									</p:column>
+									<p:column>
+										<f:facet name="header">
+											<h:outputText value="Tipo" />
+										</f:facet>
+										<p:column>
+											<h:outputText value="#{tipiController.getNomeTipoDaIdArticolo(af.id)} (id: #{af.tipo})" />
+										</p:column>
+										<p:column>
+											<p:graphicImage value="#{fotoController.resolvePath(fotoController.getFotoTipoDaIdArticolo(af.id))}#{fotoController.getFotonameUrl(fotoController.getFotoTipoDaIdArticolo(af.id), 1)}" height="#{fotoController.getHeightFromResolution(fotoController.getFotoTipoDaIdArticolo(af.id), 1, 40, 60)}" />
+										</p:column>
+									</p:column>
+									<p:column>
+										<f:facet name="header">
+											<h:outputText value="ID" />
+										</f:facet>
+										<h:outputText value="#{af.id}" />
+									</p:column>
+								</p:dataTable>
+							</p:outputPanel>
+						</p:column>
+						<p:column>
+							<h:outputText value="Articoli" />
+						</p:column>
+						<p:column>
+							<p:outputPanel id="nextArticoliPanel">
+								<p:dataTable id="nexArticoliDataTable" var="af" value="#{articoliController.getArticoliSuccessiviLsDaCodiceFoto(mostraInfoArticoloViwSController.articoloPg.codice, 10)}" rowKey="#{af.id}" dynamic="true" sortBy="#{af.codice}" emptyMessage="Nessun entry per il criterio definito" >
+									<p:column>
+										<f:facet name="header">
+											<h:outputText value="Codice" />
+										</f:facet>
+										<p:link value="#{af.codice}" target="_blank">
+											<f:param name="codArt" value="#{af.codice}" />
+										</p:link>
+									</p:column>
+									<p:column>
+										<f:facet name="header">
+											<h:outputText value="Nome" />
+										</f:facet>
+										<h:outputText value="#{af.nome}" />
+									</p:column>
+									<p:column>
+										<f:facet name="header">
+											<h:outputText value="Descrizione AS400" />
+										</f:facet>
+										<h:outputText value="#{af.descrizioneAs400}" />
+									</p:column>
+									<p:column>
+										<f:facet name="header">
+											<h:outputText value="Descrizione" />
+										</f:facet>
+										<h:outputText value="#{af.descrizione}" />
+									</p:column>
+									<p:column>
+										<f:facet name="header">
+											<h:outputText value="Foto" />
+										</f:facet>
+										<p:graphicImage value="#{fotoController.resolvePath(fotoController.getFotoArticoloDaIdArticolo(af.id))}#{fotoController.getFotonameUrl(fotoController.getFotoArticoloDaIdArticolo(af.id), 1)}" height="#{fotoController.getHeightFromResolution(fotoController.getFotoArticoloDaIdArticolo(af.id), 1, 120, 120)}" />
+										<h:outputText value="[# #{fotoController.getFotoArticoloOrdLsDaIdArticolo(af.id).size()} (id: #{fotoController.getFotoArticoloDaIdArticolo(af.id).id})]" />
+									</p:column>
+									<p:column>
+										<f:facet name="header">
+											<h:outputText value="Marca" />
+										</f:facet>
+										<p:column>
+											<h:outputText value="#{produttoriController.getNomeProduttoreDaIdArticolo(af.id)} (id: #{af.produttore})" />
+										</p:column>
+										<p:column>
+											<p:graphicImage value="#{fotoController.resolvePath(fotoController.getFotoProduttoreDaIdArticolo(af.id))}#{fotoController.getFotonameUrl(fotoController.getFotoProduttoreDaIdArticolo(af.id), 1)}" height="#{fotoController.getHeightFromResolution(fotoController.getFotoProduttoreDaIdArticolo(af.id), 1, 40, 100)}" />
+										</p:column>
+									</p:column>
+									<p:column>
+										<f:facet name="header">
+											<h:outputText value="Modello" />
+										</f:facet>
+										<h:outputText value="#{af.modello}" />
+									</p:column>
+									<p:column>
+										<f:facet name="header">
+											<h:outputText value="Tipo" />
+										</f:facet>
+										<p:column>
+											<h:outputText value="#{tipiController.getNomeTipoDaIdArticolo(af.id)} (id: #{af.tipo})" />
+										</p:column>
+										<p:column>
+											<p:graphicImage value="#{fotoController.resolvePath(fotoController.getFotoTipoDaIdArticolo(af.id))}#{fotoController.getFotonameUrl(fotoController.getFotoTipoDaIdArticolo(af.id), 1)}" height="#{fotoController.getHeightFromResolution(fotoController.getFotoTipoDaIdArticolo(af.id), 1, 40, 60)}" />
+										</p:column>
+									</p:column>
+									<p:column>
+										<f:facet name="header">
+											<h:outputText value="ID" />
+										</f:facet>
+										<h:outputText value="#{af.id}" />
+									</p:column>
+								</p:dataTable>
+							</p:outputPanel>
+						</p:column>
+					</p:panelGrid>
+
+					<p:panelGrid columns="2" style="margin-top:20px" rendered="#{not empty mostraInfoArticoloViwSController.articoloIdro}">
+						<f:facet name="header">
+							<p:row>
+								<p:column colspan="2">
+									<h:outputText value="IdroLab" />
 								</p:column>
-								<p:column>
-									<f:facet name="header">
-										<h:outputText value="ID" />
+							</p:row>
+						</f:facet>
+						<p:column>
+							<h:outputText value="Nome" />
+						</p:column>
+						<p:column>
+							<p:panelGrid columns="1">
+								<h:outputText value="cod. fornitore: #{mostraInfoArticoloViwSController.articoloAs.mcofo} - cod. articolo: #{mostraInfoArticoloViwSController.articoloAs.mcoaf} " />
+								<h:outputText value="cod. articolo fornitore: #{mostraInfoArticoloViwSController.articoloIdro.artCodiceproduttore}" />
+								<h:outputText value="Attenzione! - Cod. articolo fornitore AS400 e IdroLab non coincidono" rendered="#{mostraInfoArticoloViwSController.articoloAs.mcoaf.trim() != mostraInfoArticoloViwSController.articoloIdro.artCodiceproduttore.trim()}" style="color: red;" />
+							</p:panelGrid>
+						</p:column>
+						<p:column>
+							<h:outputText value="Marca" />
+						</p:column>
+						<p:column>
+							<h:outputText value="#{mostraInfoArticoloViwSController.articoloIdro.marDescrizione} " />
+							<h:outputText value="#{mostraInfoArticoloViwSController.articoloIdro.marCodice} " />
+							<h:outputText value="#{mostraInfoArticoloViwSController.articoloIdro.marCodiceAngaisa} " />
+							<h:outputText value="#{mostraInfoArticoloViwSController.articoloIdro.proRagionesociale} " />
+							<h:outputText value="#{mostraInfoArticoloViwSController.articoloIdro.proCodice} " />
+							<h:outputText value="#{mostraInfoArticoloViwSController.articoloIdro.proCodiceB2BAngaisa}" />
+						</p:column>
+						<p:column>
+							<h:outputText value="Descrizione" />
+						</p:column>
+						<p:column>
+							<h:outputText value="#{mostraInfoArticoloViwSController.articoloIdro.artDescrizioneridotta}" />
+						</p:column>
+						<p:column>
+							<h:outputText value="Desc Dettagliata" />
+						</p:column>
+						<p:column>
+							<h:outputText value="#{mostraInfoArticoloViwSController.articoloIdro.artDescrizioneestesa}" />
+						</p:column>
+						<p:column>
+							<h:outputText value="?????" />
+						</p:column>
+						<p:panelGrid columns="2">
+							<p:column>
+								<h:outputText value="Catsc?????" />
+							</p:column>
+							<p:column>
+								<h:outputText value="#{mostraInfoArticoloViwSController.articoloIdro.artCatsc}" />
+							</p:column>
+							<p:column>
+								<h:outputText value="Modello" />
+							</p:column>
+							<p:column>
+								<h:outputText value="#{mostraInfoArticoloViwSController.articoloIdro.artModello}" />
+							</p:column>
+							<p:column>
+								<h:outputText value="Codice art." />
+							</p:column>
+							<p:column>
+								<h:outputText value="#{mostraInfoArticoloViwSController.articoloIdro.artCodice}" />
+							</p:column>	
+						</p:panelGrid>
+						<p:column>
+							<h:outputText value="Tipo" />
+						</p:column>
+						<p:panelGrid columns="2">
+							<p:column>
+								<h:outputText value="Settore" />
+							</p:column>
+							<p:column>
+								<h:outputText value="#{mostraInfoArticoloViwSController.articoloIdro.setDescrizione} (id: #{mostraInfoArticoloViwSController.articoloIdro.setCodice})" />
+							</p:column>
+							<p:column>
+								<h:outputText value="Macro Famiglia" />
+							</p:column>
+							<p:column>
+								<h:outputText value="#{mostraInfoArticoloViwSController.articoloIdro.macDescrizione} (id: #{mostraInfoArticoloViwSController.articoloIdro.macCodice})" />
+							</p:column>
+							<p:column>
+								<h:outputText value="Famiglia" />
+							</p:column>
+							<p:column>
+								<h:outputText value="#{mostraInfoArticoloViwSController.articoloIdro.famDescrizione} (id: #{mostraInfoArticoloViwSController.articoloIdro.famCodice})" />
+							</p:column>
+						</p:panelGrid>
+						<p:column>
+							<h:outputText value="Foto" />
+						</p:column>
+						<p:column>
+							<p:outputPanel id="fotoArticoloPanelIdroLab" styleClass="fotoArticoloPanel">
+								<p:dataGrid id="fotoArticoloDataGridIdroLab" var="f" value="#{mostraInfoArticoloViwSController.articoloIdroLinkFotoAllegatiLs}" rowKey="#{f}" selection="#{mostraInfoArticoloViwSController.articoloIdroLinkFotoAllegatiSel}" selectionMode="single" columns="2" layout="grid" rows="3" paginator="true" emptyMessage="Nessun entry per il criterio definito"   >
+	        						<f:facet name="header">
+										<h:outputText value="Foto" />
 									</f:facet>
-									<h:outputText value="#{af.id}" />
-								</p:column>
-							</p:dataTable>
-						</p:outputPanel>
-					</p:column>
+									<p:panel style="text-align:center" >
+										<h:panelGrid columns="1" style="width:100%">
+											<p:commandLink oncomplete="PF('zoomFotoIdroLab').show()" update=":zoomPanelIdroLab" styleClass="zoomLink" >
+												<p:graphicImage value="#{f}" height="200" oncomplete="PF('zoomFotoIdroLab').show()" update=":zoomPanelIdroLab" />
+												<f:setPropertyActionListener value="#{f}" target="#{mostraInfoArticoloViwSController.articoloIdroLinkFotoAllegatiSel}" />
+											</p:commandLink>
+										</h:panelGrid>
+									</p:panel>
+								</p:dataGrid>
+							</p:outputPanel>
+						</p:column>
+						<p:column>
+							<h:outputText value="Codice Barre / QR" />
+						</p:column>
+						<p:column>
+							<h:outputText value="#{mostraInfoArticoloViwSController.articoloIdro.artCodiceabarre}" />
+							<p:panelGrid columns="2">
+								<p:barcode value="#{mostraInfoArticoloViwSController.articoloIdro.artCodiceabarre}" type="ean13"/>
+								<p:barcode value="#{mostraInfoArticoloViwSController.articoloIdro.artCodiceabarre}" type="qr"/>
+							</p:panelGrid>
+						</p:column>
+						<p:column>
+							<h:outputText value="Prezzo Listino" />
+						</p:column>
+						<p:column>
+							<p:panelGrid columns="1">
+								<h:outputText value="Attuale: #{mostraInfoArticoloViwSController.articoloIdro.lisPrezzoeuro1} (iva: #{mostraInfoArticoloViwSController.articoloIdro.ivaCodice}%) - Data Listino: #{mostraInfoArticoloViwSController.articoloIdro.lisDatalistino} - Data Validita': - #{mostraInfoArticoloViwSController.articoloIdro.lisDatavalidita}" />
+								<h:outputText value="Precedente: #{mostraInfoArticoloViwSController.articoloIdro.lisPrezzoeuroprec} - Data Validita': - #{mostraInfoArticoloViwSController.articoloIdro.lisDatavaliditaprec}" />
+							</p:panelGrid>
+						</p:column>
+						<p:column>
+							<h:outputText value="Caratteristiche" />
+						</p:column>
+						<p:panelGrid columns="2">
+							<p:column>
+								<h:outputText value="Dimensioni" />
+							</p:column>
+							<p:column>
+								<h:outputText value="#{mostraInfoArticoloViwSController.articoloIdro.artDimensioni}" />
+							</p:column>
+							<p:column>
+								<h:outputText value="Colore" />
+							</p:column>
+							<p:column>
+								<h:outputText value="#{mostraInfoArticoloViwSController.articoloIdro.artColore}" />
+							</p:column>
+							<p:column>
+								<h:outputText value="Peso" />
+							</p:column>
+							<p:column>
+								<h:outputText value="#{mostraInfoArticoloViwSController.articoloIdro.artPeso}" />
+							</p:column>
+							<p:column>
+								<h:outputText value="Caratteristiche" />
+							</p:column>
+							<p:column>
+								<h:outputText value="#{mostraInfoArticoloViwSController.articoloIdro.artCaratteristiche}" />
+							</p:column>
+							<p:column>
+								<h:outputText value="Materiale" />
+							</p:column>
+							<p:column>
+								<h:outputText value="#{mostraInfoArticoloViwSController.articoloIdro.artMateriale}" />
+							</p:column>
+						</p:panelGrid>
+						<p:column>
+							<h:outputText value="Allegati" />
+						</p:column>
+						<p:column>
+							<p:outputPanel id="articoloIdroAllegatoArticoloPanel">
+								<p:dataTable id="articoloIdroAllegatoArticoloDataTable" var="a" value="#{mostraInfoArticoloViwSController.articoloIdroAllegatoArticoloLs}" widgetVar="articoloIdroAllegatoArticoloDataTable" rowKey="#{a.pdfNome}" paginator="true" rows="15" dynamic="true" >
+									<f:facet name="header">
+										<h:outputText value="Per Articolo" />
+									</f:facet>
+									<p:column>
+										<f:facet name="header">
+											<h:outputText value="Nome" />
+										</f:facet>
+										<h:outputText value="#{a.pdfNome}" />
+									</p:column>
+									<p:column>
+										<f:facet name="header">
+											<h:outputText value="Download" />
+										</f:facet>
+										<p:button target="_blank" href="#{a.allegatoLink}" value="Download" icon="ui-icon-circle-arrow-s" />
+									</p:column>
+									<p:column>
+										<f:facet name="header">
+											<h:outputText value="Dimensioni" />
+										</f:facet>
+										<h:outputText value="#{mostraInfoArticoloViwSController.sizeByteToMByte(a.pdfDimensione)} MB" />
+									</p:column>
+								</p:dataTable>
+							</p:outputPanel>
+							<p:outputPanel id="articoloIdroAllegatoLineaPanel">
+								<p:dataTable id="articoloIdroAllegatoLineaDataTable" var="a" value="#{mostraInfoArticoloViwSController.articoloIdroAllegatoLineaLs}" widgetVar="articoloIdroAllegatoLineaDataTable" rowKey="#{a.allegatoNome}" paginator="true" rows="15" dynamic="true" >
+									<f:facet name="header">
+										<h:outputText value="Per Linea" />
+									</f:facet>
+									<p:column>
+										<f:facet name="header">
+											<h:outputText value="Nome" />
+										</f:facet>
+										<h:outputText value="#{a.allegatoNome}" />
+									</p:column>
+									<p:column>
+										<f:facet name="header">
+											<h:outputText value="Download" />
+										</f:facet>
+										<p:button target="_blank" href="#{a.allegatoLink}" value="Download" icon="ui-icon-circle-arrow-s" />
+									</p:column>
+									<p:column>
+										<f:facet name="header">
+											<h:outputText value="Dimensioni" />
+										</f:facet>
+										<h:outputText value="#{mostraInfoArticoloViwSController.sizeByteToMByte(a.allegatoDimensione)} MB" />
+									</p:column>
+								</p:dataTable>
+							</p:outputPanel>
+							<p:outputPanel id="articoloIdroAllegatoModelloPanel">
+								<p:dataTable id="articoloIdroAllegatoModelloDataTable" var="a" value="#{mostraInfoArticoloViwSController.articoloIdroAllegatoModelloLs}" widgetVar="articoloIdroAllegatoModelloDataTable" rowKey="#{a.allegatoNome}" paginator="true" rows="15" dynamic="true" >
+									<f:facet name="header">
+										<h:outputText value="Per Modello" />
+									</f:facet>
+									<p:column>
+										<f:facet name="header">
+											<h:outputText value="Nome" />
+										</f:facet>
+										<h:outputText value="#{a.allegatoNome}" />
+									</p:column>
+									<p:column>
+										<f:facet name="header">
+											<h:outputText value="Download" />
+										</f:facet>
+										<p:button target="_blank" href="#{a.allegatoLink}" value="Download" icon="ui-icon-circle-arrow-s" />
+									</p:column>
+									<p:column>
+										<f:facet name="header">
+											<h:outputText value="Dimensioni" />
+										</f:facet>
+										<h:outputText value="#{mostraInfoArticoloViwSController.sizeByteToMByte(a.allegatoDimensione)} MB" />
+									</p:column>
+								</p:dataTable>
+							</p:outputPanel>
+						</p:column>
+					</p:panelGrid>
 				</p:panelGrid>
 			</h:form>
 			
@@ -352,6 +597,11 @@
 			<p:dialog id="zoomDialog" header="Zoom" widgetVar="zoomFoto" showEffect="scale" hideEffect="puff" modal="true" height="650" width="650" styleClass="zoomFoto" >
 				<p:panel id="zoomPanel">
 					<p:graphicImage value="#{fotoController.resolvePath(fotoController.fotoSel)}#{fotoController.getFotonameUrl(fotoController.fotoSel, 1)}" height="#{fotoController.getHeightFromResolution(fotoController.fotoSel, 1, 590, 590)}" styleClass="zoomFoto" />
+				</p:panel>
+			</p:dialog>
+			<p:dialog id="zoomDialogIdroLab" header="Zoom" widgetVar="zoomFotoIdroLab" showEffect="scale" hideEffect="puff" modal="true" height="650" width="650" styleClass="zoomFoto" >
+				<p:panel id="zoomPanelIdroLab">
+					<p:graphicImage value="#{mostraInfoArticoloViwSController.articoloIdroLinkFotoAllegatiSel}" height="500" styleClass="zoomFoto" />
 				</p:panel>
 			</p:dialog>
 		</ui:define>
