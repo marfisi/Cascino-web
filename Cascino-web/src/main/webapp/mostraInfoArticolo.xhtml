@@ -34,8 +34,8 @@
 
 			<h:form id="infoForm">
 				<h:outputText value="#{mostraInfoArticoloReqSController.recuperaCodiceArticolo()}" />
-				<p:panelGrid columns="2" style="margin-top:20px">
-					<p:panelGrid columns="2" style="margin-top:20px">
+				<p:panelGrid columns="2" style="margin-top:20px" styleClass="testcss">
+					<p:panelGrid columns="2" style="margin-top:20px;">
 						<f:facet name="header">
 							<p:row>
 								<p:column colspan="2">
@@ -345,7 +345,7 @@
 						</p:column>
 					</p:panelGrid>
 
-					<p:panelGrid columns="2" style="margin-top:20px" rendered="#{not empty mostraInfoArticoloViwSController.articoloIdro}">
+					<p:panelGrid columns="2" style="margin-top:20px;"  rendered="#{not empty mostraInfoArticoloViwSController.articoloIdro}">
 						<f:facet name="header">
 							<p:row>
 								<p:column colspan="2">

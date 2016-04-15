@@ -109,7 +109,7 @@
 					</f:facet>
 				</p:panelGrid>
 			</h:form>
-			
+
 			<h:form id="mngListeForm" rendered="#{userLoginController.canView('admin', 'r')}">
 				<p:panelGrid style="margin-top:20px">
 					<f:facet name="header">
@@ -145,6 +145,22 @@
 					<p:row>
 						<p:column colspan="2" style="font-weight: bold;">
 							<p:commandButton value="Produttori" action="#{produttoriCondivisiController.aggiornaProduttoriLs()}" styleClass="produttori" />
+						</p:column>
+					</p:row>
+					<p:row>
+						<p:column colspan="5" styleClass="ui-widget-header">
+							Integra Articoli e Info da Ingrosso
+						</p:column>
+						<p:column>
+							<p:spacer height="0" />
+						</p:column>
+					</p:row>
+					<p:row>
+						<p:column colspan="2" style="font-weight: bold;">
+							<p:commandButton value="Aggiungi articoli" action="#{asAnmag0fCondivisiController.aggiungiArticoliIngrossoSuPG()}" />
+						</p:column>
+						<p:column colspan="2" style="font-weight: bold;">
+							<p:commandButton value="Aggiorna descrizione da AS" action="#{asAnmag0fCondivisiController.aggiornaDescrizioneArticoliDaAs()}" />
 						</p:column>
 					</p:row>
 				</p:panelGrid>

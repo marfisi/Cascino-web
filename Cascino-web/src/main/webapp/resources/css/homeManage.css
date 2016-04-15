@@ -1,43 +1,53 @@
-form#mngForm, form#mngListeForm{
+form#mngForm, form#mngListeForm {
 	font-size: 2em;
 	max-width: 33%;
 	margin: 40px auto 0px auto;
 }
 
-form#mngListeForm{
+form#mngListeForm {
 	font-size: 1.5em;
 }
 
-.ui-button.ui-widget.ui-state-default.ui-corner-all.ui-button-text-only.foto {
-	background-image: url('#{request.contextPath}/resources/gfx/foto/varie/foto.jpg');
+.ui-button.ui-widget.ui-state-default.ui-corner-all.ui-button-text-only.foto
+	{
+	background-image:
+		url('#{request.contextPath}/resources/gfx/foto/varie/foto.jpg');
 	background-size: contain;
 	background-repeat: no-repeat;
 	background-position: right center;
 }
 
-.ui-button.ui-widget.ui-state-default.ui-corner-all.ui-button-text-only.allegati {
-	background-image: url('#{request.contextPath}/resources/gfx/foto/varie/allegati.jpg');
+.ui-button.ui-widget.ui-state-default.ui-corner-all.ui-button-text-only.allegati
+	{
+	background-image:
+		url('#{request.contextPath}/resources/gfx/foto/varie/allegati.jpg');
 	background-size: contain;
 	background-repeat: no-repeat;
 	background-position: right center;
 }
 
-.ui-button.ui-widget.ui-state-default.ui-corner-all.ui-button-text-only.tipi {
-	background-image: url('#{request.contextPath}/resources/gfx/foto/varie/tipi.jpg');
+.ui-button.ui-widget.ui-state-default.ui-corner-all.ui-button-text-only.tipi
+	{
+	background-image:
+		url('#{request.contextPath}/resources/gfx/foto/varie/tipi.jpg');
 	background-size: contain;
 	background-repeat: no-repeat;
 	background-position: right center;
 }
 
-.ui-button.ui-widget.ui-state-default.ui-corner-all.ui-button-text-only.articoli {
-	background-image: url('#{request.contextPath}/resources/gfx/foto/varie/articoli.jpg');
+.ui-button.ui-widget.ui-state-default.ui-corner-all.ui-button-text-only.articoli
+	{
+	background-image:
+		url('#{request.contextPath}/resources/gfx/foto/varie/articoli.jpg');
 	background-size: contain;
 	background-repeat: no-repeat;
 	background-position: right center;
 }
 
-.ui-button.ui-widget.ui-state-default.ui-corner-all.ui-button-text-only.produttori {
-	background-image: url('#{request.contextPath}/resources/gfx/foto/varie/produttori.jpg');
+.ui-button.ui-widget.ui-state-default.ui-corner-all.ui-button-text-only.produttori
+	{
+	background-image:
+		url('#{request.contextPath}/resources/gfx/foto/varie/produttori.jpg');
 	background-size: contain;
 	background-repeat: no-repeat;
 	background-position: right center;

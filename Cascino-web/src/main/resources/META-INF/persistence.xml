@@ -19,16 +19,18 @@
 		<properties>
 			<property name="hibernate.connection.pool_size" value="1" />
 			<property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQLDialect" />
-			<property name="cache.provider_class" value="org.hibernate.cache.internal.NoCacheProvider" />
+			<property name="cache.provider_class"
+				value="org.hibernate.cache.internal.NoCacheProvider" />
 		</properties>
 	</persistence-unit>
-	
+
 	<persistence-unit name="DB2AS400">
 		<jta-data-source>java:jboss/datasources/AS400DS</jta-data-source>
 		<properties>
 			<property name="hibernate.connection.pool_size" value="1" />
 			<property name="hibernate.dialect" value="org.hibernate.dialect.DB2400Dialect" />
-			<property name="cache.provider_class" value="org.hibernate.cache.internal.NoCacheProvider" />
+			<property name="cache.provider_class"
+				value="org.hibernate.cache.internal.NoCacheProvider" />
 		</properties>
 	</persistence-unit>
 </persistence>

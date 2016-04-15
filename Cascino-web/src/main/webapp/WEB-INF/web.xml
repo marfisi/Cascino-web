@@ -11,7 +11,7 @@
 	xmlns="http://xmlns.jcp.org/xml/ns/javaee"
 	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
 	version="3.1">
-	
+
 	<context-param>
 		<param-name>javax.faces.DATETIMECONVERTER_DEFAULT_TIMEZONE_IS_SYSTEM_TIMEZONE</param-name>
 		<param-value>true</param-value>
@@ -33,21 +33,16 @@
 		<dispatcher>ERROR</dispatcher>
 	</filter-mapping>
 	<session-config>
-        <session-timeout>
-            60 <!-- minutes -->
-        </session-timeout>
-    </session-config>
+		<session-timeout>
+			60<!-- minutes -->
+		</session-timeout>
+	</session-config>
 	<welcome-file-list>
 		<welcome-file>index.xhtml</welcome-file>
 	</welcome-file-list>
-	<!-- error-page>
-		<error-code>401</error-code>
-		<location>/WEB-INF/errorpages/unauthorized.xhtml</location>
-	</error-page>
-	<error-page>
-		<error-code>500</error-code>
-		<location>/WEB-INF/errorpages/unauthorized.xhtml</location>
-	</error-page-->
+	<!-- error-page> <error-code>401</error-code> <location>/WEB-INF/errorpages/unauthorized.xhtml</location> 
+		</error-page> <error-page> <error-code>500</error-code> <location>/WEB-INF/errorpages/unauthorized.xhtml</location> 
+		</error-page -->
 	<error-page>
 		<exception-type>org.apache.shiro.authz.AuthorizationException</exception-type>
 		<location>/WEB-INF/errorpages/unauthorized.xhtml</location>
@@ -98,13 +93,13 @@
 		<servlet-name>Faces Servlet</servlet-name>
 		<url-pattern>/faces/*</url-pattern>
 	</servlet-mapping>
-	
+
 	<filter>
-  <filter-name>PrimeFaces FileUpload Filter</filter-name>
-  <filter-class>org.primefaces.webapp.filter.FileUploadFilter</filter-class>
-</filter>
-<filter-mapping>
-  <filter-name>PrimeFaces FileUpload Filter</filter-name>
-  <servlet-name>Faces Servlet</servlet-name>
-</filter-mapping>
+		<filter-name>PrimeFaces FileUpload Filter</filter-name>
+		<filter-class>org.primefaces.webapp.filter.FileUploadFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>PrimeFaces FileUpload Filter</filter-name>
+		<servlet-name>Faces Servlet</servlet-name>
+	</filter-mapping>
 </web-app>

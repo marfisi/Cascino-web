@@ -1,5 +1,7 @@
 package it.cascino.idrolab.model;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import org.apache.commons.lang3.StringUtils;
 
 public class Filtro{
@@ -176,7 +178,13 @@ public class Filtro{
 		stringBuilder.append((adata != null) ? "adata=" + adata + parSep : "");
 		stringBuilder.append((tutte != null) ? "tutte=" + tutte + parSep : "");
 		stringBuilder.append((obs != null) ? "obs=" + obs + parSep : "");
-		return StringUtils.substring(stringBuilder.toString(), 0, stringBuilder.length() - 1);
+		String s = StringUtils.substring(stringBuilder.toString(), 0, stringBuilder.length() - 1);
+		try{
+			s = URLEncoder.encode(StringUtils.replace(StringUtils.replace(s, "/", "|"), ".", ";"), "UTF-8");
+		}catch(UnsupportedEncodingException e){
+			s = "";
+		}
+		return s;
 	}
 	
 	@Override

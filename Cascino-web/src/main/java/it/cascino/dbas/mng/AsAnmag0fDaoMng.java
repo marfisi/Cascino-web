@@ -115,4 +115,23 @@ public class AsAnmag0fDaoMng implements AsAnmag0fDao, Serializable{
 		}
 		return cod;
 	}
+	
+	@SuppressWarnings("unchecked")
+	public List<AsAnmag0f> getArticoliIngrosso(){
+		List<AsAnmag0f> cod = null;
+		try{
+			try{
+				utx.begin();
+				Query query = emAS.createNamedQuery("AsAnmag0f.findAllIngrosso");
+				cod = (List<AsAnmag0f>)query.getResultList();
+			}catch(NoResultException e){
+				cod = null;
+			}
+			utx.commit();
+		}catch(Exception e){
+			Utility.manageException(e, utx, log);
+		}
+		return cod;
+	}
+
 }

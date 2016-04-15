@@ -19,3 +19,6 @@ a.zoomLink:hover {
 	background: rgba(192, 192, 192, 0.2);
 }
 
+.testcss>tbody>tr>td {
+	vertical-align: top;
+}

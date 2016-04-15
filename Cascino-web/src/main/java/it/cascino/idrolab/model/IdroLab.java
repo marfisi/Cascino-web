@@ -131,19 +131,25 @@ public class IdroLab implements Serializable{
 		while(iter_terminiLs.hasNext()){
 			 termini =  termini + iter_terminiLs.next() + " ";
 		}
+		return encodeUrl(StringUtils.normalizeSpace(termini));
+	}
+	
+	private String encodeUrl(String str){
+		String s = "";
 		try{
-			termini = URLEncoder.encode(StringUtils.normalizeSpace(termini), "UTF-8");
-		}catch(UnsupportedEncodingException e1){
-//			log.fatal(e1.toString());
+			s = StringUtils.replace(StringUtils.replace(str, "/", "|"), ".", ";");
+			s = URLEncoder.encode(s, "UTF-8");
+		}catch(UnsupportedEncodingException e){
+			s = "";
 		}
-		return termini;
+		return s;
 	}
 	
 	public it.cascino.idrolab.model.ws1_19.Articolo getArticoloPerCodArtWS1(String siglaMarca, String codiceArticolo){
 		it.cascino.idrolab.model.ws1_19.Articolo articolo = null;
 //		log.info("[ " + "getArticoloPerCodArtWS1");
 		try{
-			webResource = client.resource(urlWs + "articoli/" + siglaMarca + "/" + codiceArticolo + ".xml");
+			webResource = client.resource(urlWs + "articoli/" + siglaMarca + "/" + encodeUrl(codiceArticolo) + ".xml");
 			
 			manageCallWS();
 			
@@ -216,7 +222,7 @@ public class IdroLab implements Serializable{
 	public void getArticoloPrezzoWS3(String siglaMarca, String codiceArticolo){
 //		log.info("[ " + "getArticoloPrezzoWS3");
 		try{
-			webResource = client.resource(urlWs + "prezzi/" + siglaMarca + "/" + codiceArticolo + ".xml");
+			webResource = client.resource(urlWs + "prezzi/" + siglaMarca + "/" + encodeUrl(codiceArticolo) + ".xml");
 			
 			manageCallWS();
 			
@@ -279,7 +285,7 @@ public class IdroLab implements Serializable{
 	public void getListinoRidottoWS5(String siglaMarca, Filtro filtro){
 //		log.info("[ " + "getListinoRidottoWS5");
 		try{
-			webResource = client.resource(urlWs + "listino_prezzi/" + siglaMarca + ".xml" + filtro.filterToUrl());
+			webResource = client.resource(urlWs + "listino_prezzi/" + encodeUrl(siglaMarca) + ".xml" + filtro.filterToUrl());
 			
 			manageCallWS();
 			

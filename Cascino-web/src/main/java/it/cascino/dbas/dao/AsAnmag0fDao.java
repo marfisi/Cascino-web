@@ -13,4 +13,6 @@ public interface AsAnmag0fDao{
 //	void elimina(AsAnmag0f a);
 
 	AsAnmag0f getArticoloDaMcoda(String mcoda);
+	
+	List<AsAnmag0f> getArticoliIngrosso();
 }

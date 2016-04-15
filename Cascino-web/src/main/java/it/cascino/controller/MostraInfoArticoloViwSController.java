@@ -1,22 +1,5 @@
 package it.cascino.controller;
 
-import it.cascino.dbas.dao.AsAnmag0fDao;
-import it.cascino.dbas.model.AsAnmag0f;
-import it.cascino.idrolab.model.IdroLab;
-import it.cascino.idrolab.model.ws13_14_15_16_17_18.Articolo;
-import it.cascino.idrolab.model.ws13_14_15_16_17_18.Ricerca;
-import it.cascino.idrolab.model.ws20.AllegatiArticolo;
-import it.cascino.idrolab.model.ws20.AllegatiLinea;
-import it.cascino.idrolab.model.ws20.AllegatiModello;
-import it.cascino.idrolab.model.ws20.AllegatoArticolo;
-import it.cascino.idrolab.model.ws20.AllegatoLinea;
-import it.cascino.idrolab.model.ws20.AllegatoModello;
-import it.cascino.idrolab.model.ws20.Linea;
-import it.cascino.idrolab.model.ws20.ListaallegatiArticolo;
-import it.cascino.idrolab.dbpg.dao.PgMarcheDao;
-import it.cascino.idrolab.dbpg.model.PgMarche;
-import it.cascino.idrolab.model.Filtro;
-import it.cascino.model.Articoli;
 import java.io.Serializable;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -29,6 +12,23 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import org.apache.commons.lang3.StringUtils;
 import org.jboss.logging.Logger;
+import it.cascino.dbas.dao.AsAnmag0fDao;
+import it.cascino.dbas.model.AsAnmag0f;
+import it.cascino.idrolab.dbpg.dao.PgMarcheDao;
+import it.cascino.idrolab.dbpg.model.PgMarche;
+import it.cascino.idrolab.model.Filtro;
+import it.cascino.idrolab.model.IdroLab;
+import it.cascino.idrolab.model.ws13_14_15_16_17_18.Articolo;
+import it.cascino.idrolab.model.ws13_14_15_16_17_18.Ricerca;
+import it.cascino.idrolab.model.ws20.AllegatiArticolo;
+import it.cascino.idrolab.model.ws20.AllegatiLinea;
+import it.cascino.idrolab.model.ws20.AllegatiModello;
+import it.cascino.idrolab.model.ws20.AllegatoArticolo;
+import it.cascino.idrolab.model.ws20.AllegatoLinea;
+import it.cascino.idrolab.model.ws20.AllegatoModello;
+import it.cascino.idrolab.model.ws20.Linea;
+import it.cascino.idrolab.model.ws20.ListaallegatiArticolo;
+import it.cascino.model.Articoli;
 
 @Named
 @SessionScoped
@@ -195,7 +195,7 @@ public class MostraInfoArticoloViwSController implements Serializable{
 			
 			Ricerca ricerca = idroLab.getArticoliPerPorzioneCodArtWS17(siglaMarca, terminiLs, filtro);
 			Articolo artWS17 =  null;
-			if(!(ricerca.getArticolo().isEmpty())){
+			if((ricerca != null) && (!(ricerca.getArticolo().isEmpty()))){
 				artWS17 =  ricerca.getArticolo().get(0);
 			}
 			if(artWS17 != null){

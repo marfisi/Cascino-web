@@ -8,7 +8,10 @@
 }
 
 .newPanel tr, .newPanel td {
-	border: 3px; // none !important;
+	border: 3px;
+	//
+	none
+	!important;
 }
 
 body {
