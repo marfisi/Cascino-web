@@ -220,13 +220,13 @@ public class TipiController implements Serializable{
 		// log.info("tmpDEBUGtmp: " + "id: " + ((nodoSel != null) ? ((Tipi)nodoSel.getData()).getId() : "null"));
 		String nomeTipo = "";
 		nomeTipo = tipiDao.getNomeTipoDaIdArticolo(idArticolo);
-		if(nomeTipo != null){
+		/*if(nomeTipo != null){
 			esito = "tipo " + nomeTipo + " per articolo: " + idArticolo;;
 			showGrowlInfoMessage(esito);
 		}else{
 			esito = "non e' stato trovato il tipo!" + " (articolo: " + idArticolo + ")";
 			showGrowlErrorMessage();
-		}
+		}*/
 		// log.info("tmpDEBUGtmp: " + "< " + "getNomeTipoDaIdArticolo");
 		return nomeTipo;
 	}

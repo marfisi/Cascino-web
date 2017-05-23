@@ -12,9 +12,9 @@ import org.jboss.logging.Logger;
 */
 @Entity(name="Anmag0f")
 @NamedQueries({
-	@NamedQuery(name = "AsAnmag0f.findAll", query = "SELECT a FROM Anmag0f a WHERE a.atama != 'A'"),
-	@NamedQuery(name = "AsAnmag0f.findByMcoda", query = "SELECT a FROM Anmag0f a WHERE a.atama != 'A' and a.mcoda = :mcoda "),
-	@NamedQuery(name = "AsAnmag0f.findAllIngrosso", query = "SELECT a FROM Anmag0f a WHERE a.atama != 'A' and ((a.mdepi = 1) or (a.mdepi = 3))")
+	@NamedQuery(name = "AsAnmag0f.findAll", query = "SELECT a FROM Anmag0f a WHERE a.atama != 'A' and a.atama != 'S'"),
+	@NamedQuery(name = "AsAnmag0f.findByMcoda", query = "SELECT a FROM Anmag0f a WHERE a.atama != 'A' and a.atama != 'S' and a.mcoda = :mcoda "),
+	@NamedQuery(name = "AsAnmag0f.findAllIngrosso", query = "SELECT a FROM Anmag0f a WHERE a.atama != 'A' and a.atama != 'S' and ((a.mdepi = 1) or (a.mdepi = 3))")
 })
 public class AsAnmag0f implements Serializable{
 	private static final long serialVersionUID = 1L;

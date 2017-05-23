@@ -75,7 +75,7 @@
 				</p:toolbar>
 				<p:sticky target="tbNavigation" />
 
-				<p:dataTable id="tbl" var="articolo" value="#{articoliCondivisiController.articoliLs}" selection="#{articoliController.articoloSel}" selectionMode="single" rowKey="#{articolo.id}" update=":updDisplay" oncomplete="PF('updDialog').show()" paginator="true" rows="15" dynamic="true" sortBy="#{articolo.codice}" emptyMessage="Nessun entry per il criterio definito" widgetVar="articoliTable" filteredValue="#{articoliController.filteredArticoliLs}" paginatorTemplate="Pagina {CurrentPageReport} Vai a pagina: {JumpToPageDropdown} &nbsp; {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} &nbsp; Righe: {RowsPerPageDropdown}" rowsPerPageTemplate="5,10,15,20,50,75,100">
+				<p:dataTable id="tbl" var="articolo" value="#{articoliCondivisiController.articoliLs}" selection="#{articoliController.articoloSel}" selectionMode="single" rowKey="#{articolo.id}" update=":updDisplay" oncomplete="PF('updDialog').show()" paginator="true" rows="50" dynamic="true" sortBy="#{articolo.codice}" emptyMessage="Nessun entry per il criterio definito" widgetVar="articoliTable" filteredValue="#{articoliController.filteredArticoliLs}" paginatorTemplate="Pagina {CurrentPageReport} Vai a pagina: {JumpToPageDropdown} &nbsp; {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} &nbsp; Righe: {RowsPerPageDropdown}" rowsPerPageTemplate="5,10,15,20,50,75,100">
 
 					<p:ajax event="rowDblselect" update=":viewForm:display" oncomplete="PF('viewDialog').show()" />
 
@@ -85,7 +85,7 @@
 							<p:inputText id="globalFilter" onkeyup="articoliTable.filter()" style="width:150px" />
 						</p:outputPanel>
 					</f:facet>
-					<p:column sortBy="codice" sortFunction="#{articoliCondivisiController.sortByStr}" filterBy="#{articolo.codice}" filterFunction="#{articoliCondivisiController.filterArticoloCodice}">
+					<p:column sortBy="codice" sortFunction="#{articoliCondivisiController.sortByStr}" filterBy="#{articolo.codice}" filterFunction="#{articoliCondivisiController.filterArticoloCodice}" filterDelay="500">
 						<f:facet name="header">
 							<h:outputText value="Codice" />
 						</f:facet>
@@ -139,7 +139,7 @@
 						</f:facet>
 						<h:outputText value="#{articolo.modello}" />
 					</p:column>
-					<p:column>
+					<p:column  filterBy="#{tipiController.getNomeTipoDaIdArticolo(articolo.id)} #{articolo.tipo}" filterMatchMode="contains">
 						<f:facet name="header">
 							<h:outputText value="Tipo" />
 						</f:facet>
@@ -251,7 +251,6 @@
 								</f:facet>
 								<p:column>
 									<p:galleria id="contentGalleria" var="foto" value="#{articoliController.fotoPerArticolo}" panelWidth="450" panelHeight="380" frameWidth="50" frameHeight="50">
-										<p:graphicImage id="fotoImage" value="#{fotoController.resolvePath(foto)}#{fotoController.getFotonameUrl(foto, 1)}" />
 										<f:facet name="content">
 											<h:panelGrid columns="1" cellpadding="5">
 												<f:facet name="header">
