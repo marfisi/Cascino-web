@@ -15,4 +15,8 @@ public interface AsAnmag0fDao{
 	AsAnmag0f getArticoloDaMcoda(String mcoda);
 	
 	List<AsAnmag0f> getArticoliIngrosso();
+	
+	List<AsAnmag0f> getArticoliDaMcomp(String mcomp);
+	
+	Boolean getSeArticoloHaQuestoMcomp(String mcoda, String mcomp);
 }

@@ -89,7 +89,8 @@
 		</navigation-case>
 		<navigation-case>
 			<from-outcome>mngToProduttori</from-outcome>
-			<to-view-id>/produttori.xhtml</to-view-id>
+			<!-- to-view-id>/produttori.xhtml</to-view-id -->
+			<to-view-id>/gruart.xhtml</to-view-id>
 			<redirect />
 		</navigation-case>
 	</navigation-rule>

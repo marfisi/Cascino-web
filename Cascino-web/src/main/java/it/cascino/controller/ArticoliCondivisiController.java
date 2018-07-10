@@ -63,7 +63,7 @@ public class ArticoliCondivisiController implements Serializable{
 		// log.info("tmpDEBUGtmp: " + "> " + "sortByNum(" + obj1 + ", " + obj2 + ")");
 		Integer o1 = (Integer)obj1;
 		Integer o2 = (Integer)obj2;
-		log.info("sortById: " + o1 + "-" + o2);
+//		log.info("sortById: " + o1 + "-" + o2);
 		// log.info("tmpDEBUGtmp: " + "< " + "sortByNum");
 		if(o1 < o2){
 			return -1;
@@ -77,7 +77,7 @@ public class ArticoliCondivisiController implements Serializable{
 		// log.info("tmpDEBUGtmp: " + "> " + "sortByStr(" + obj1 + ", " + obj2 + ")");
 		String o1 = (String)obj1;
 		String o2 = (String)obj2;
-		log.info("sortByname: " + o1 + "-" + o2);
+//		log.info("sortByname: " + o1 + "-" + o2);
 		// log.info("tmpDEBUGtmp: " + "< " + "sortByStr");
 		if(o1.compareTo(o2) < 0){
 			return -1;
@@ -91,7 +91,7 @@ public class ArticoliCondivisiController implements Serializable{
 		// log.info("tmpDEBUGtmp: " + "> " + "sortByStrIC(" + obj1 + ", " + obj2 + ")");
 		String o1 = (String)obj1;
 		String o2 = (String)obj2;
-		log.info("sortBynameIC: " + o1 + "-" + o2);
+//		log.info("sortBynameIC: " + o1 + "-" + o2);
 		// log.info("tmpDEBUGtmp: " + "< " + "sortByStrIC");
 		if(o1.compareToIgnoreCase(o2) < 0){
 			return -1;

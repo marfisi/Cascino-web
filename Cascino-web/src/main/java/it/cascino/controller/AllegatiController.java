@@ -1,15 +1,11 @@
 package it.cascino.controller;
 
-import it.cascino.dao.AllegatiDao;
-import it.cascino.dao.TipiDao;
-import it.cascino.model.Allegati;
-import it.cascino.util.securety.shiro.ShiroSecured;
+import java.io.InputStream;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
-import java.io.InputStream;
-import java.io.Serializable;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.ExternalContext;
@@ -24,6 +20,10 @@ import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.StreamedContent;
 import org.primefaces.model.UploadedFile;
+import it.cascino.dao.AllegatiDao;
+import it.cascino.dao.TipiDao;
+import it.cascino.model.Allegati;
+import it.cascino.util.securety.shiro.ShiroSecured;
 
 @Named
 @SessionScoped

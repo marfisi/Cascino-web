@@ -1,8 +1,5 @@
 package it.cascino.controller;
 
-import it.cascino.dao.TipiDao;
-//import it.cascino.model.Articoli;
-import it.cascino.model.Tipi;
 import java.io.Serializable;
 import java.util.Iterator;
 //import java.util.List;
@@ -14,6 +11,9 @@ import javax.inject.Named;
 import org.jboss.logging.Logger;
 import org.primefaces.model.DefaultTreeNode;
 import org.primefaces.model.TreeNode;
+import it.cascino.dao.TipiDao;
+//import it.cascino.model.Articoli;
+import it.cascino.model.Tipi;
 
 @Named
 @SessionScoped

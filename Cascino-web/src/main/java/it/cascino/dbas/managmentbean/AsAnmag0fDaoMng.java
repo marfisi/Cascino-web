@@ -1,21 +1,18 @@
-package it.cascino.dbas.mng;
+package it.cascino.dbas.managmentbean;
 
 import java.io.Serializable;
 import java.util.List;
-import it.cascino.dbas.model.AsAnmag0f;
-import it.cascino.util.DatabaseDB2AS400DS;
-//import it.cascino.util.DatabasePostgresqlDS;
-import it.cascino.util.Utility;
-import it.cascino.dbas.dao.AsAnmag0fDao;
-import javax.faces.bean.SessionScoped;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.Query;
 import javax.transaction.UserTransaction;
 import org.jboss.logging.Logger;
+import it.cascino.dbas.dao.AsAnmag0fDao;
+import it.cascino.dbas.model.AsAnmag0f;
+import it.cascino.util.DatabaseDB2AS400DS;
+import it.cascino.util.Utility;
 
-@SessionScoped
 public class AsAnmag0fDaoMng implements AsAnmag0fDao, Serializable{
 	/**
 	 * 
@@ -37,20 +34,20 @@ public class AsAnmag0fDaoMng implements AsAnmag0fDao, Serializable{
 	
 	@SuppressWarnings("unchecked")
 	public List<AsAnmag0f> getAll(){
-		List<AsAnmag0f> cod = null;
+		List<AsAnmag0f> o = null;
 		try{
 			try{
 				utx.begin();
 				Query query = emAS.createNamedQuery("AsAnmag0f.findAll");
-				cod = (List<AsAnmag0f>)query.getResultList();
+				o = (List<AsAnmag0f>)query.getResultList();
 			}catch(NoResultException e){
-				cod = null;
+				o = null;
 			}
 			utx.commit();
 		}catch(Exception e){
 			Utility.manageException(e, utx, log);
 		}
-		return cod;
+		return o;
 	}
 	
 //	public void salva(AsAnmag0f a){
@@ -59,12 +56,12 @@ public class AsAnmag0fDaoMng implements AsAnmag0fDao, Serializable{
 //				utx.begin();
 //				// precodice.setId(null);
 //				log.info("salva: " + a.toString());
-//				em.persist(a);
+//				emAS.persist(a);
 //			}finally{
 //				utx.commit();
 //			}
 //		}catch(Exception e){
-//			Utility.manageException(e, utx, log);
+//			log.fatal(e.toString());
 //		}
 //	}
 //	
@@ -73,13 +70,13 @@ public class AsAnmag0fDaoMng implements AsAnmag0fDao, Serializable{
 //			try{
 //				utx.begin();
 //				log.info("aggiorna: " + a.toString());
-//				em.merge(a);
+//				emAS.merge(a);
 //			}finally{
 //				utx.commit();
 //			}
-	//	}catch(Exception e){
-	//	Utility.manageException(e, utx, log);
-	//}
+//		}catch(Exception e){
+//			log.fatal(e.toString());
+//		}
 //	}
 //	
 //	public void elimina(AsAnmag0f aElimina){
@@ -87,51 +84,88 @@ public class AsAnmag0fDaoMng implements AsAnmag0fDao, Serializable{
 //		try{
 //			try{
 //				utx.begin();
-//				AsAnmag0f a = em.find(AsAnmag0f.class, aElimina.getMcoda());
+//				AsAnmag0f a = emAS.find(AsAnmag0f.class, aElimina.getMcoda());
 //				log.info("elimina: " + a.toString());
 //				em.remove(a);
 //			}finally{
 //				utx.commit();
 //			}
-//	}catch(Exception e){
-//	Utility.manageException(e, utx, log);
-//}
+//		}catch(Exception e){
+//			log.fatal(e.toString());
+//		}
 //	}
 	
 	public AsAnmag0f getArticoloDaMcoda(String mcoda){
-		AsAnmag0f cod = null;
+		AsAnmag0f o = null;
 		try{
 			try{
 				utx.begin();
 				Query query = emAS.createNamedQuery("AsAnmag0f.findByMcoda");
 				query.setParameter("mcoda", mcoda);
-				cod = (AsAnmag0f)query.getSingleResult();
+				o = (AsAnmag0f)query.getSingleResult();
 			}catch(NoResultException e){
-				cod = null;
+				o = null;
 			}
 			utx.commit();
 		}catch(Exception e){
 			Utility.manageException(e, utx, log);
 		}
-		return cod;
+		return o;
 	}
 	
 	@SuppressWarnings("unchecked")
 	public List<AsAnmag0f> getArticoliIngrosso(){
-		List<AsAnmag0f> cod = null;
+		List<AsAnmag0f> o = null;
 		try{
 			try{
 				utx.begin();
 				Query query = emAS.createNamedQuery("AsAnmag0f.findAllIngrosso");
-				cod = (List<AsAnmag0f>)query.getResultList();
+				o = (List<AsAnmag0f>)query.getResultList();
 			}catch(NoResultException e){
-				cod = null;
+				o = null;
 			}
 			utx.commit();
 		}catch(Exception e){
 			Utility.manageException(e, utx, log);
 		}
-		return cod;
+		return o;
+	}
+	
+	@SuppressWarnings("unchecked")
+	public List<AsAnmag0f> getArticoliDaMcomp(String mcomp){
+		List<AsAnmag0f> o = null;
+		try{
+			try{
+				utx.begin();
+				Query query = emAS.createNamedQuery("AsAnmag0f.findByMcomp");
+				query.setParameter("mcomp", mcomp);
+				o = (List<AsAnmag0f>)query.getResultList();
+			}catch(NoResultException e){
+				o = null;
+			}
+			utx.commit();
+		}catch(Exception e){
+			Utility.manageException(e, utx, log);
+		}
+		return o;
 	}
 
+	public Boolean getSeArticoloHaQuestoMcomp(String mcoda, String mcomp){
+		Boolean o = false;
+		try{
+			try{
+				utx.begin();
+				Query query = emAS.createNamedQuery("AsAnmag0f.seArticoloHaQuestoMcomp");
+				query.setParameter("mcoda", mcoda + "%");
+				query.setParameter("mcomp", mcomp);
+				o = (((Long)query.getSingleResult()).intValue() == 0) ? false : true;
+			}catch(NoResultException e){
+				o = false;
+			}
+			utx.commit();
+		}catch(Exception e){
+			Utility.manageException(e, utx, log);
+		}
+		return o;
+	}
 }

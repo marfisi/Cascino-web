@@ -6,8 +6,6 @@ import it.cascino.dao.CaratteristicheDao;
 import it.cascino.dao.FotoDao;
 import it.cascino.dbas.dao.AsAnmag0fDao;
 import it.cascino.dbas.model.AsAnmag0f;
-import it.cascino.managmentbean.ArticoliDaoManBean;
-import it.cascino.dbas.mng.AsAnmag0fDaoMng;
 import it.cascino.model.Allegati;
 import it.cascino.model.Articoli;
 import it.cascino.model.Caratteristiche;

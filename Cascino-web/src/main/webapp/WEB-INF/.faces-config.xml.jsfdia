@@ -14,9 +14,9 @@
    <PROCESS-ITEM-OUTPUT ID="mngToArticoli::#articoli.xhtml"
     NAME="output3" PATH="/articoli.xhtml" TARGET="rules:#articoli.xhtml"
     TITLE="mngToArticoli" model-entity="JSFProcessItemOutput"/>
-   <PROCESS-ITEM-OUTPUT ID="mngToProduttori::#produttori.xhtml"
-    NAME="output4" PATH="/produttori.xhtml"
-    TARGET="rules:#produttori.xhtml" TITLE="mngToProduttori" model-entity="JSFProcessItemOutput"/>
+   <PROCESS-ITEM-OUTPUT ID="mngToProduttori::#gruart.xhtml"
+    NAME="output4" PATH="/gruart.xhtml" TARGET="rules:#gruart.xhtml"
+    TITLE="mngToProduttori" model-entity="JSFProcessItemOutput"/>
   </PROCESS-ITEM>
  </PROCESS-ITEM>
  <PROCESS-ITEM NAME="rules:#login.xhtml" PATH="/login.xhtml"
@@ -62,8 +62,6 @@
  </PROCESS-ITEM>
  <PROCESS-ITEM NAME="rules:#articoli.xhtml" PATH="/articoli.xhtml"
   SHAPE="992,257,0,0" model-entity="JSFProcessGroup"/>
- <PROCESS-ITEM NAME="rules:#produttori.xhtml" PATH="/produttori.xhtml"
-  SHAPE="992,401,0,0" model-entity="JSFProcessGroup"/>
  <PROCESS-ITEM NAME="rules:#*:1" PATH="/*" SHAPE="272,33,0,0" model-entity="JSFProcessGroup">
   <PROCESS-ITEM ID="rules:#*:1" NAME="item" PATH="/*" model-entity="JSFProcessItem">
    <PROCESS-ITEM-OUTPUT
@@ -80,5 +78,7 @@
   </PROCESS-ITEM>
  </PROCESS-ITEM>
  <PROCESS-ITEM NAME="rules:#allegati.xhtml" PATH="/allegati.xhtml"
+  SHAPE="800,273,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM NAME="rules:#gruart.xhtml" PATH="/gruart.xhtml"
   SHAPE="800,273,0,0" model-entity="JSFProcessGroup"/>
 </PROCESS>
