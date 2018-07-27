@@ -13,4 +13,6 @@ public interface AsAnmar0fDao{
 //	void elimina(AsAnmar0f a);
 
 	AsAnmar0f getGruppoDaMcomp(String mcomp);
+	
+	String getStringaMcompDaArticolo(String mcoda);
 }

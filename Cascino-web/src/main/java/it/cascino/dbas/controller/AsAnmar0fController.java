@@ -3,17 +3,19 @@ package it.cascino.dbas.controller;
 import it.cascino.dbas.dao.AsAnmar0fDao;
 //import it.cascino.model.Articoli;
 import it.cascino.dbas.model.AsAnmar0f;
-import it.cascino.model.Foto;
 import java.awt.image.BufferedImage;
 import java.awt.image.Raster;
 import java.io.File;
 import java.io.IOException;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
-import javax.faces.application.FacesMessage;
-import javax.faces.context.FacesContext;
+import javax.faces.event.AjaxBehaviorEvent;
+//import javax.faces.application.FacesMessage;
+//import javax.faces.context.FacesContext;
 import javax.imageio.ImageIO;
 import javax.imageio.ImageReader;
 import javax.imageio.stream.ImageInputStream;
@@ -36,17 +38,18 @@ public class AsAnmar0fController implements Serializable{
 	@Inject
 	private Logger log;
 	
-	@Inject
-	private FacesContext facesContext;
+//	@Inject
+//	private FacesContext facesContext;
 	
 	@Inject
 	private AsAnmar0fDao asAnmar0fDao;
 	
-	private String esito;
-	
+//	private String esito;
+//	
 	@Inject
 	private AsAnmar0fCondivisiController asAnmar0fCondivisiController; 
 	
+	private List<AsAnmar0f> asAnmar0fLs;
 	private List<AsAnmar0f> filteredAsAnmar0fLs;
 
 	private AsAnmar0f asAnmar0fSel = new AsAnmar0f();
@@ -54,8 +57,25 @@ public class AsAnmar0fController implements Serializable{
 	
 	private final String dirFoto = "c:\\dev\\foto\\";	// "./resources/gfx/foto/";
 	
+	private String testoArticoloFiltro;
+	
+	public List<AsAnmar0f> getAsAnmar0fLs(){
+		return asAnmar0fLs;
+	}
+	
+	public void setAsAnmar0fLs(List<AsAnmar0f> asAnmar0fLs){
+		this.asAnmar0fLs = asAnmar0fLs;
+	}
+	
 	public AsAnmar0f getAsAnmar0fSel(){
 		return asAnmar0fSel;
+	}
+	
+	@PostConstruct
+	public void aggiornaAsAnmar0fLs(){
+//		asAnmar0fCondivisiController.aggiornaAsAnmar0fLs();
+//		setAsAnmar0fLs(asAnmar0fCondivisiController.getAsAnmar0fLs());
+		setAsAnmar0fLs(new ArrayList<AsAnmar0f>(asAnmar0fCondivisiController.getAsAnmar0fLs()));
 	}
 	
 	public void setAsAnmar0fSel(AsAnmar0f asAnmar0fSel){
@@ -98,41 +118,41 @@ public class AsAnmar0fController implements Serializable{
 		this.filteredAsAnmar0fLs = filteredAsAnmar0fLs;
 	}
 	
-	public String getEsito(){
-		// log.info("tmpDEBUGtmp: " + "> " + "getEsito(" + ")");
-		// log.info("tmpDEBUGtmp: " + "id: " + ((nodoSel != null) ? ((AsAnmar0f)nodoSel.getData()).getId() : "null"));
-		// log.info("tmpDEBUGtmp: " + "< " + "getEsito");
-		return esito;
-	}
-	
-	private void showGrowlInfoMessage(String message){
-		facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Successo", message));
-		log.info(message);
-	}
-	
-	private void showGrowlUpdMessage(){
-		String message = "Aggiornato con successo - " + esito + " >" + asAnmar0fSel + "<";
-		facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Successo", message));
-		log.info(message);
-	}
-	
-	private void showGrowlInsMessage(){
-		String message = "Inserito con successo - " + esito + " >" + asAnmar0fNew + "<";
-		facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Successo", message));
-		log.info(message);
-	}
-	
-	private void showGrowlDelMessage(){
-		String message = "Eliminato con successo - " + esito + " >" + asAnmar0fSel + "<";
-		facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Successo", message));
-		log.info(message);
-	}
-	
-	private void showGrowlErrorMessage(){
-		String message = "Operazione fallita - " + esito + " >" + asAnmar0fSel + "<";
-		facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Errore", message));
-		log.error(message);
-	}
+//	public String getEsito(){
+//		// log.info("tmpDEBUGtmp: " + "> " + "getEsito(" + ")");
+//		// log.info("tmpDEBUGtmp: " + "id: " + ((nodoSel != null) ? ((AsAnmar0f)nodoSel.getData()).getId() : "null"));
+//		// log.info("tmpDEBUGtmp: " + "< " + "getEsito");
+//		return esito;
+//	}
+//	
+//	private void showGrowlInfoMessage(String message){
+//		facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Successo", message));
+//		log.info(message);
+//	}
+//	
+//	private void showGrowlUpdMessage(){
+//		String message = "Aggiornato con successo - " + esito + " >" + asAnmar0fSel + "<";
+//		facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Successo", message));
+//		log.info(message);
+//	}
+//	
+//	private void showGrowlInsMessage(){
+//		String message = "Inserito con successo - " + esito + " >" + asAnmar0fNew + "<";
+//		facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Successo", message));
+//		log.info(message);
+//	}
+//	
+//	private void showGrowlDelMessage(){
+//		String message = "Eliminato con successo - " + esito + " >" + asAnmar0fSel + "<";
+//		facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Successo", message));
+//		log.info(message);
+//	}
+//	
+//	private void showGrowlErrorMessage(){
+//		String message = "Operazione fallita - " + esito + " >" + asAnmar0fSel + "<";
+//		facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Errore", message));
+//		log.error(message);
+//	}
 	
 	public String trimString(String str){
 		return StringUtils.trim(str);
@@ -218,4 +238,62 @@ public class AsAnmar0fController implements Serializable{
 		// log.info("tmpDEBUGtmp: " + "< " + "getHeightFromResolution");
 		return height;
 	}
+	
+	public AsAnmar0f getGruppoDaMcomp(String mcomp){
+		return asAnmar0fDao.getGruppoDaMcomp(mcomp);
+	}
+	
+//	public void filterListener(FilterEvent filterEvent){
+//		  log.info(filterEvent.toString());
+//		  log.info(filterEvent.getSource().toString());
+//		  log.info(asAnmar0fCondivisiController.getAsAnmar0fLs().size());
+//		  
+//		  setFilteredAsAnmar0fLs(asAnmar0fCondivisiController.getAsAnmar0fLs().subList(0, 10));
+//	
+//		  
+//		  log.info(filteredAsAnmar0fLs.size());
+//	}
+		
+	public void filtraArticoli(){
+		setAsAnmar0fLs(new ArrayList<AsAnmar0f>(asAnmar0fCondivisiController.getAsAnmar0fLs()));
+		
+		log.info("filtro: " + getTestoArticoloFiltro());
+
+		if(StringUtils.isBlank(getTestoArticoloFiltro())){
+			return;
+		}
+		log.info(getAsAnmar0fLs().size());
+		
+//		setTestoArticoloFiltro("TX180");
+		String mcompString = asAnmar0fDao.getStringaMcompDaArticolo(getTestoArticoloFiltro());
+		log.info("filtro: " + mcompString);
+		
+		AsAnmar0f asAnmar0f = null;
+		Iterator<AsAnmar0f> iter_asAnmar0f = getAsAnmar0fLs().iterator();
+		while(iter_asAnmar0f.hasNext()){
+			asAnmar0f = iter_asAnmar0f.next();
+			if(!(StringUtils.contains(mcompString, asAnmar0f.getMcomp()))){
+				iter_asAnmar0f.remove();
+			}
+		}
+		log.info(getAsAnmar0fLs().size());
+		log.info(asAnmar0fCondivisiController.getAsAnmar0fLs().size());
+	}
+	
+	public void filtraArticoliCancella(){
+		//setAsAnmar0fLs(asAnmar0fCondivisiController.getAsAnmar0fLs());
+		aggiornaAsAnmar0fLs();
+		setTestoArticoloFiltro(null);
+		log.info(getAsAnmar0fLs().size());
+		log.info(asAnmar0fCondivisiController.getAsAnmar0fLs().size());
+	}
+	
+	public String getTestoArticoloFiltro(){
+		return testoArticoloFiltro;
+	}
+
+	public void setTestoArticoloFiltro(String testoArticoloFiltro){
+		this.testoArticoloFiltro = testoArticoloFiltro;
+	}
+
 }

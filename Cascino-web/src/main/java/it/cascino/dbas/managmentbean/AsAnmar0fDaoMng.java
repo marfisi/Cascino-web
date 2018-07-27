@@ -1,12 +1,14 @@
 package it.cascino.dbas.managmentbean;
 
 import java.io.Serializable;
+import java.util.Iterator;
 import java.util.List;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.Query;
 import javax.transaction.UserTransaction;
+import org.apache.commons.lang3.StringUtils;
 import org.jboss.logging.Logger;
 import it.cascino.dbas.dao.AsAnmar0fDao;
 import it.cascino.dbas.model.AsAnmar0f;
@@ -111,5 +113,34 @@ public class AsAnmar0fDaoMng implements AsAnmar0fDao, Serializable{
 			Utility.manageException(e, utx, log);
 		}
 		return o;
+	}
+	
+	@SuppressWarnings("unchecked")
+	public String getStringaMcompDaArticolo(String mcoda){
+		List<AsAnmar0f> o = null;
+		String mcodaStr = "";
+		try{
+			try{
+				utx.begin();
+				Query query = emAS.createNamedQuery("AsAnmar0f.findByCodart");
+				query.setParameter("mcoda", StringUtils.upperCase(mcoda) + "%");
+				o = (List<AsAnmar0f>)query.getResultList();
+			}catch(NoResultException e){
+				o = null;
+				mcodaStr = "";
+			}
+			utx.commit();
+		}catch(Exception e){
+			Utility.manageException(e, utx, log);
+		}
+		
+		AsAnmar0f asAnmar0f = null;
+		Iterator<AsAnmar0f> iter_asAnmar0f = o.iterator();
+		while(iter_asAnmar0f.hasNext()){
+			asAnmar0f = iter_asAnmar0f.next();
+			mcodaStr = StringUtils.join(mcodaStr, " - ", asAnmar0f.getMcomp());
+		}
+		return mcodaStr;
+		
 	}
 }

@@ -13,7 +13,8 @@ import org.jboss.logging.Logger;
 @Entity(name="Anmar0f")
 @NamedQueries({
 	@NamedQuery(name = "AsAnmar0f.findAll", query = "SELECT a FROM Anmar0f a order by a.mcomp asc"),
-	@NamedQuery(name = "AsAnmar0f.findByMcomp", query = "SELECT a FROM Anmar0f a WHERE a.mcomp = :mcomp")
+	@NamedQuery(name = "AsAnmar0f.findByMcomp", query = "SELECT a FROM Anmar0f a WHERE a.mcomp = :mcomp"),
+	@NamedQuery(name = "AsAnmar0f.findByCodart", query = "SELECT a FROM Anmar0f a WHERE a.mcomp in (select b.mcomp FROM Anmag0f b WHERE b.atama != 'S' and b.mcoda like :mcoda)")
 })
 public class AsAnmar0f implements Serializable{
 	private static final long serialVersionUID = 1L;

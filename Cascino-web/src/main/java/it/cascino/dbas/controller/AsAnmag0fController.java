@@ -8,12 +8,12 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import javax.enterprise.context.SessionScoped;
-import javax.faces.application.FacesMessage;
-import javax.faces.context.FacesContext;
+//import javax.faces.application.FacesMessage;
+//import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 import org.apache.commons.lang3.StringUtils;
-import org.jboss.logging.Logger;
+//import org.jboss.logging.Logger;
 
 @Named
 @SessionScoped
@@ -26,19 +26,19 @@ public class AsAnmag0fController implements Serializable{
 	/**
 	 * Logger
 	 */
-	@Inject
-	private Logger log;
-	
-	@Inject
-	private FacesContext facesContext;
+//	@Inject
+//	private Logger log;
+//	
+//	@Inject
+//	private FacesContext facesContext;
 	
 	@Inject
 	private AsAnmag0fDao asAnmag0fDao;
 	
-	private String esito;
+//	private String esito;
 	
-	@Inject
-	private AsAnmag0fCondivisiController asAnmag0fCondivisiController; 
+//	@Inject
+//	private AsAnmag0fCondivisiController asAnmag0fCondivisiController; 
 	
 	private List<AsAnmag0f> filteredAsAnmag0fLs;
 
@@ -89,41 +89,41 @@ public class AsAnmag0fController implements Serializable{
 		this.filteredAsAnmag0fLs = filteredAsAnmag0fLs;
 	}
 	
-	public String getEsito(){
-		// log.info("tmpDEBUGtmp: " + "> " + "getEsito(" + ")");
-		// log.info("tmpDEBUGtmp: " + "id: " + ((nodoSel != null) ? ((AsAnmag0f)nodoSel.getData()).getId() : "null"));
-		// log.info("tmpDEBUGtmp: " + "< " + "getEsito");
-		return esito;
-	}
-	
-	private void showGrowlInfoMessage(String message){
-		facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Successo", message));
-		log.info(message);
-	}
-	
-	private void showGrowlUpdMessage(){
-		String message = "Aggiornato con successo - " + esito + " >" + asAnmag0fSel + "<";
-		facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Successo", message));
-		log.info(message);
-	}
-	
-	private void showGrowlInsMessage(){
-		String message = "Inserito con successo - " + esito + " >" + asAnmag0fNew + "<";
-		facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Successo", message));
-		log.info(message);
-	}
-	
-	private void showGrowlDelMessage(){
-		String message = "Eliminato con successo - " + esito + " >" + asAnmag0fSel + "<";
-		facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Successo", message));
-		log.info(message);
-	}
-	
-	private void showGrowlErrorMessage(){
-		String message = "Operazione fallita - " + esito + " >" + asAnmag0fSel + "<";
-		facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Errore", message));
-		log.error(message);
-	}
+//	public String getEsito(){
+//		// log.info("tmpDEBUGtmp: " + "> " + "getEsito(" + ")");
+//		// log.info("tmpDEBUGtmp: " + "id: " + ((nodoSel != null) ? ((AsAnmag0f)nodoSel.getData()).getId() : "null"));
+//		// log.info("tmpDEBUGtmp: " + "< " + "getEsito");
+//		return esito;
+//	}
+//	
+//	private void showGrowlInfoMessage(String message){
+//		facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Successo", message));
+//		log.info(message);
+//	}
+//	
+//	private void showGrowlUpdMessage(){
+//		String message = "Aggiornato con successo - " + esito + " >" + asAnmag0fSel + "<";
+//		facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Successo", message));
+//		log.info(message);
+//	}
+//	
+//	private void showGrowlInsMessage(){
+//		String message = "Inserito con successo - " + esito + " >" + asAnmag0fNew + "<";
+//		facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Successo", message));
+//		log.info(message);
+//	}
+//	
+//	private void showGrowlDelMessage(){
+//		String message = "Eliminato con successo - " + esito + " >" + asAnmag0fSel + "<";
+//		facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Successo", message));
+//		log.info(message);
+//	}
+//	
+//	private void showGrowlErrorMessage(){
+//		String message = "Operazione fallita - " + esito + " >" + asAnmag0fSel + "<";
+//		facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Errore", message));
+//		log.error(message);
+//	}
 	
 	public List<AsAnmag0f> getArticoliDaMcomp(String mcomp){
 		return asAnmag0fDao.getArticoliDaMcomp(mcomp);

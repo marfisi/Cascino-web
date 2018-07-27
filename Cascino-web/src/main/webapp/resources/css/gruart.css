@@ -13,3 +13,16 @@
 	none
 	!important;
 }
+
+.tabRig tbody td {
+	padding: 1px !important;
+}
+
+table img {
+	display: block;
+	margin: 0 auto;
+}
+
+div.ui-datatable-tablewrapper {
+    text-shadow: none;
+}

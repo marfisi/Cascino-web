@@ -6,12 +6,12 @@ import it.cascino.dbas.model.AsTabe20f;
 import java.io.Serializable;
 import java.util.List;
 import javax.enterprise.context.SessionScoped;
-import javax.faces.application.FacesMessage;
-import javax.faces.context.FacesContext;
+//import javax.faces.application.FacesMessage;
+//import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 import org.apache.commons.lang3.StringUtils;
-import org.jboss.logging.Logger;
+//import org.jboss.logging.Logger;
 
 @Named
 @SessionScoped
@@ -24,16 +24,16 @@ public class AsTabe20fController implements Serializable{
 	/**
 	 * Logger
 	 */
-	@Inject
-	private Logger log;
-	
-	@Inject
-	private FacesContext facesContext;
+//	@Inject
+//	private Logger log;
+//	
+//	@Inject
+//	private FacesContext facesContext;
 	
 	@Inject
 	private AsTabe20fDao asTabe20fDao;
 	
-	private String esito;
+//	private String esito;
 	
 //	@Inject
 //	private AsTabe20fCondivisiController asTabe20fCondivisiController; 
@@ -87,41 +87,41 @@ public class AsTabe20fController implements Serializable{
 		this.filteredAsTabe20fLs = filteredAsTabe20fLs;
 	}
 	
-	public String getEsito(){
-		// log.info("tmpDEBUGtmp: " + "> " + "getEsito(" + ")");
-		// log.info("tmpDEBUGtmp: " + "id: " + ((nodoSel != null) ? ((AsTabe20f)nodoSel.getData()).getId() : "null"));
-		// log.info("tmpDEBUGtmp: " + "< " + "getEsito");
-		return esito;
-	}
-	
-	private void showGrowlInfoMessage(String message){
-		facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Successo", message));
-		log.info(message);
-	}
-	
-	private void showGrowlUpdMessage(){
-		String message = "Aggiornato con successo - " + esito + " >" + asTabe20fSel + "<";
-		facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Successo", message));
-		log.info(message);
-	}
-	
-	private void showGrowlInsMessage(){
-		String message = "Inserito con successo - " + esito + " >" + asTabe20fNew + "<";
-		facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Successo", message));
-		log.info(message);
-	}
-	
-	private void showGrowlDelMessage(){
-		String message = "Eliminato con successo - " + esito + " >" + asTabe20fSel + "<";
-		facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Successo", message));
-		log.info(message);
-	}
-	
-	private void showGrowlErrorMessage(){
-		String message = "Operazione fallita - " + esito + " >" + asTabe20fSel + "<";
-		facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Errore", message));
-		log.error(message);
-	}
+//	public String getEsito(){
+//		// log.info("tmpDEBUGtmp: " + "> " + "getEsito(" + ")");
+//		// log.info("tmpDEBUGtmp: " + "id: " + ((nodoSel != null) ? ((AsTabe20f)nodoSel.getData()).getId() : "null"));
+//		// log.info("tmpDEBUGtmp: " + "< " + "getEsito");
+//		return esito;
+//	}
+//	
+//	private void showGrowlInfoMessage(String message){
+//		facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Successo", message));
+//		log.info(message);
+//	}
+//	
+//	private void showGrowlUpdMessage(){
+//		String message = "Aggiornato con successo - " + esito + " >" + asTabe20fSel + "<";
+//		facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Successo", message));
+//		log.info(message);
+//	}
+//	
+//	private void showGrowlInsMessage(){
+//		String message = "Inserito con successo - " + esito + " >" + asTabe20fNew + "<";
+//		facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Successo", message));
+//		log.info(message);
+//	}
+//	
+//	private void showGrowlDelMessage(){
+//		String message = "Eliminato con successo - " + esito + " >" + asTabe20fSel + "<";
+//		facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Successo", message));
+//		log.info(message);
+//	}
+//	
+//	private void showGrowlErrorMessage(){
+//		String message = "Operazione fallita - " + esito + " >" + asTabe20fSel + "<";
+//		facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Errore", message));
+//		log.error(message);
+//	}
 	
 	public AsTabe20f getMarchio(String tbele){
 		return asTabe20fDao.getMarchio(tbele);

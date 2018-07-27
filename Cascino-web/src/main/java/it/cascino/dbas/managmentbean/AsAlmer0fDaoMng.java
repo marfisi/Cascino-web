@@ -7,11 +7,9 @@ import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.Query;
 import javax.transaction.UserTransaction;
-import org.jboss.logging.Logger;
 import it.cascino.dbas.dao.AsAlmer0fDao;
 import it.cascino.dbas.model.AsAlmer0f;
 import it.cascino.util.DatabaseDB2AS400DS;
-import it.cascino.util.Utility;
 
 public class AsAlmer0fDaoMng implements AsAlmer0fDao, Serializable{
 	/**
