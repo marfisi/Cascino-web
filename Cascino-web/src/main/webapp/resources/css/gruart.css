@@ -26,3 +26,8 @@ table img {
 div.ui-datatable-tablewrapper {
     text-shadow: none;
 }
+
+table td {
+	padding-left: 2px !important;
+	padding-right: 2px !important;
+}

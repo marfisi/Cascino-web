@@ -58,19 +58,19 @@
 						</p:outputPanel>	
 					</f:facet>
 					<!-- p:column sortBy="codice" sortFunction="#{asAnmar0fCondivisiController.sortByStr}" filterBy="#{articolo.codice}" filterFunction="#{articoliCondivisiController.filterArticoloCodice}" filterDelay="500" style="width: 5%;" -->
-					<p:column id="mcompCol" sortBy="#{grupart.mcomp}" sortFunction="#{asAnmar0fCondivisiController.sortByStr}" filterBy="#{grupart.mcomp}" filterMatchMode="contains" style="width: 5%;">
+					<p:column id="mcompCol" sortBy="#{grupart.mcomp}" sortFunction="#{asAnmar0fCondivisiController.sortByStr}" filterBy="#{grupart.mcomp}" filterMatchMode="contains" style="width: 3%;">
 						<f:facet name="header">
 							<h:outputText value="Codice" />
 						</f:facet>
 						<h:outputText value="#{grupart.mcomp}" />
 					</p:column>
-					<p:column sortBy="#{grupart.mdes1}" sortFunction="#{asAnmar0fCondivisiController.sortByStrIC}" filterBy="#{grupart.mdes1}" filterMatchMode="contains" style="width: 10%;">
+					<p:column sortBy="#{grupart.mdes1}" sortFunction="#{asAnmar0fCondivisiController.sortByStrIC}" filterBy="#{grupart.mdes1}" filterMatchMode="contains" style="width: 8%;">
 						<f:facet name="header">
 							<h:outputText value="Descrizione" />
 						</f:facet>
 						<h:outputText value="#{grupart.mdes1}" />
 					</p:column>
-					<p:column sortBy="#{grupart.mdes2}" sortFunction="#{asAnmar0fCondivisiController.sortByStrIC}" filterBy="#{grupart.mdes2}#{grupart.mdes3}" filterMatchMode="contains" style="width: 15%;">
+					<p:column sortBy="#{grupart.mdes2}" sortFunction="#{asAnmar0fCondivisiController.sortByStrIC}" filterBy="#{grupart.mdes2}#{grupart.mdes3}" filterMatchMode="contains" style="width: 9%;">
 						<f:facet name="header">
 							<h:outputText value="Descrizione Lunga" />
 						</f:facet>
@@ -92,7 +92,7 @@
 
 					<!-- p:column filterBy="#{asAnmag0fController.getNomiTuttiArticoliDaMcomp(grupart.mcomp)}" filterMatchMode="contains" style="width: 50%;" -->
 					<!-- p:column filterBy="#{grupart.mcomp}" filterFunction="#{asAnmag0fController.filterMcompDaArticolo}" style="width: 50%;"-->
-					<p:column style="width: 50%;">
+					<p:column style="width: 65%;">
 						<f:facet name="header">
 							<h:outputText value="Articoli del raggruppamento" />
 						</f:facet>
@@ -106,13 +106,13 @@
 									<f:param name="codArt" value="#{artdigrp.mcoda}" />
 								</p:link>									
 							</p:column>
-							<p:column style="width: 25%;">
+							<p:column style="width: 9%;">
 								<f:facet name="header">
 									<h:outputText value="Descrizione" />
 								</f:facet>
 								<h:outputText value="#{artdigrp.mdesc}" />
 							</p:column>
-							<p:column style="width: 15%;">
+							<p:column style="width: 8%;">
 								<f:facet name="header">
 									<h:outputText value="Marca" />
 								</f:facet>
@@ -133,20 +133,20 @@
 									</p:outputPanel>
 								</h:panelGrid>
 							</p:column>
-							<p:column style="width: 8%;">
+							<p:column style="width: 4%;">
 								<f:facet name="header">
 									<h:outputText value="Ingrosso" />
 								</f:facet>
 								<p:graphicImage value="#{((artdigrp.mdepi == 1) || (artdigrp.mdepi == 3)) ? './resources/gfx/foto/varie/catalogo.png' : null}" height="60px"/>
 								<h:outputText value="dep: #{artdigrp.mdepi}" />
 							</p:column>
-							<p:column style="width: 7%;">
+							<p:column style="width: 3%;">
 								<f:facet name="header">
 									<h:outputText value="Attivo/Annullato" />
 								</f:facet>
 								<h:outputText value="#{(artdigrp.atama == ' ') ? 'ok' : 'ANNULLATO'}" />
 							</p:column>
-							<p:column style="width: 35%;">
+							<p:column style="width: 28%;">
 								<f:facet name="header">
 									<h:outputText value="Albero Merceologico" />
 								</f:facet>
@@ -178,6 +178,51 @@
 									</p:outputPanel>
 								</h:panelGrid>
 							</p:column>
+							
+							<p:column style="width: 38%;">
+								<f:facet name="header">
+									<h:outputText value="Caratteristiche" />
+								</f:facet>
+								<p:dataTable id="tblCar" var="carart" value="#{asCaratController.getArticoliDaMcomp(artdigrp.mcoda)}" emptyMessage="">							
+									<p:column style="width: 40%;">
+										<f:facet name="header">
+											<h:outputText value="Caratteristica" />
+										</f:facet>
+										<h:outputText value="#{carart[8]}" />								
+									</p:column>
+									<p:column style="width: 10%;">
+										<f:facet name="header">
+											<h:outputText value="Un. Mis." />
+										</f:facet>
+										<p:outputPanel style="font-size: 80%;">
+											<p:column >
+												<h:outputText value="#{carart[9]}" />
+											</p:column>
+										</p:outputPanel>	
+									</p:column>
+									<p:column style="width: 40%;">
+										<f:facet name="header">
+											<h:outputText value="Valore" />
+										</f:facet>
+										<p:outputPanel style="color: green; font-size: 160%;">
+											<p:column >
+												<h:outputText value="#{carart[7]}" />
+											</p:column>
+										</p:outputPanel>
+									</p:column>
+									<p:column style="width: 10%;">
+										<f:facet name="header">
+											<h:outputText value="id car" />
+										</f:facet>
+										<p:outputPanel style="font-size: 70%;">
+											<p:column >
+												<h:outputText value="#{carart[5]}.#{carart[6]}" />
+											</p:column>
+										</p:outputPanel>
+									</p:column>
+								</p:dataTable>
+							</p:column>							
+							
 						</p:dataTable>
 					</p:column>
 
@@ -210,6 +255,7 @@
 			<p:dialog modal="true" widgetVar="statusDialog" header="Status" draggable="false" closable="false" resizable="false">
 				<p:graphicImage name="/gfx/foto/varie/loader.gif" />
 			</p:dialog>
+			
 		</ui:define>
 	</ui:composition>
 </h:body>
